@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import 'antd/dist/antd.min.css';
-import './app.css';
+import './App.css';
 import { Footer } from 'antd/lib/layout/layout';
 
 const { Header, Sider, Content } = Layout;
