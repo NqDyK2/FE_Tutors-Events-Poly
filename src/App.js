@@ -1,56 +1,83 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useState } from 'react';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
+import { Breadcrumb, Layout, Menu } from 'antd';
+import 'antd/dist/antd.min.css';
+import './app.css';
+import { Footer } from 'antd/lib/layout/layout';
+
+const { Header, Sider, Content } = Layout;
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div>
+      <Layout className='tw-min-h-screen' hasSider>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-top-0 tw-bottom-0'
+        >
+          <div className='logo tw-h-6 tw-m-4 tw-bg-slate-300'></div>
+          <Menu
+            theme='dark'
+            mode='inline'
+            defaultSelectedKeys={['1']}
+            items={[
+              {
+                key: '1',
+                icon: <UserOutlined />,
+                label: 'nav 1',
+              },
+              {
+                key: '2',
+                icon: <VideoCameraOutlined />,
+                label: 'nav 2',
+              },
+              {
+                key: '3',
+                icon: <UploadOutlined />,
+                label: 'nav 3',
+              },
+            ]}
+          />
+        </Sider>
+        <Layout className='site-layout'>
+          <Header className='tw-bg-white' style={{ padding: 0 }}>
+            {React.createElement(
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              {
+                className: 'tw-p-5 hover:tw-text-red-900',
+                onClick: () => setCollapsed(!collapsed),
+              }
+            )}
+          </Header>
+          <Content
+            style={{
+              margin: '0 16px',
+              overflow: 'initial',
+            }}
           >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+            <Breadcrumb className='tw-mx-0 tw-my-4'>
+              <Breadcrumb.Item>User</Breadcrumb.Item>
+              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            </Breadcrumb>
+            <div className='tw-bg-white tw-p-6 tw-min-h-full'>
+              Bill is a cat.
+            </div>
+          </Content>
+          <Footer className='tw-text-center'>
+            Footer
+          </Footer>
+        </Layout>
+      </Layout>
     </div>
   );
 }
