@@ -2,7 +2,6 @@ import { Button, Menu } from 'antd';
 import Sider from 'antd/lib/layout/Sider';
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
