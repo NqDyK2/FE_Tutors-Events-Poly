@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import AppHeader from '../components/Header';
 import AppAside from '../components/Aside';
 import AppBreadcrumb from '../components/AppBreadcrumb';
