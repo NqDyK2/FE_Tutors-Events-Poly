@@ -1,16 +1,12 @@
 import { Header } from 'antd/lib/layout/layout';
 import React from 'react';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
-const AppHeader = ({ collapsed, setCollapsed }) => {
+const AppHeader = () => {
   return (
     <Header className='tw-bg-white' style={{ padding: 0 }}>
-      {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-        className: 'tw-p-5 hover:tw-text-red-900',
-        onClick: () => {
-          setCollapsed(!collapsed);
-        },
-      })}
+      <div className='tw-flex tw-items-center tw-content-center'>
+        This is the header
+      </div>
     </Header>
   );
 };

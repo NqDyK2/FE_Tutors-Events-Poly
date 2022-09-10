@@ -8,8 +8,6 @@ import AppBreadcrumb from '../components/AppBreadcrumb';
 import AppFooter from '../components/Footer';
 
 const AppLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
   // const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // const navigate = useNavigate();
@@ -23,10 +21,10 @@ const AppLayout = () => {
   return (
     <div>
       <Layout className='tw-min-h-screen' hasSider>
-        <AppAside collapsed={collapsed} setCollapsed={setCollapsed} />
+        <AppAside />
 
         <Layout className='site-layout'>
-          <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+          <AppHeader />
 
           <Content
             style={{
