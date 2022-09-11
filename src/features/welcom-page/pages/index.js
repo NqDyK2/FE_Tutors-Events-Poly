@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import WelcomHeader from '../components/Header';
 
 const WelcomePage = () => {
   return (
@@ -7,7 +8,7 @@ const WelcomePage = () => {
       <Helmet>
         <title>Chào mừng đến với - FPOLY</title>
       </Helmet>
-      <div>WelcomePage</div>
+      <WelcomHeader />
     </>
   );
 };
