@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import AddClass from '../features/add-class/pages/index.js';
 import AuthPage from '../features/auth/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
 import WelcomePage from '../features/welcom-page/pages/index.js';
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       <Route path='/' element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path='/' element={<HomePage />} />
+        <Route path='/crclass' element={<AddClass />} />
       </Route>
     </Routes>
   );
