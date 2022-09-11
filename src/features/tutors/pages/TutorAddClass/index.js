@@ -18,7 +18,7 @@ import {
 } from 'antd';
 
 const { RangePicker } = DatePicker;
-const AddClass = () => {
+const AddClassPage = () => {
     return (
         <>
             <Helmet>
@@ -128,8 +128,8 @@ const AddClass = () => {
                             </div>
                         </Upload>
                     </Form.Item>
-                    <Form.Item label="">
-                        <Button className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2'>Tạo</Button>
+                    <Form.Item label="" className='tw-flex tw-items-center  tw-justify-center'>
+                        <Button className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '>Tạo</Button>
                     </Form.Item>
                 </Form>
             </div >
@@ -137,4 +137,4 @@ const AddClass = () => {
     )
 }
 
-export default AddClass
+export default AddClassPage
