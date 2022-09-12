@@ -17,8 +17,8 @@ const WelcomHeader = () => {
             </div>
             <div>
                 <Link
-                    className='tw-text-black tw-pr-[15px]'
-                    to='/login'
+                    className='tw-text-black tw-pr-[15px] tw-font-medium'
+                    to='/auth'
                 >
                     ĐĂNG NHẬP
                 </Link>
