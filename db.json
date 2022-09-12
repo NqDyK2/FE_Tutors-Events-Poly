@@ -1,0 +1,84 @@
+{
+    "bomon": [
+        {
+            "id": 1,
+            "name": "Công nghệ thông tin"
+        },
+        {
+            "id": 2,
+            "name": "Quản trị kinh doanh"
+        }
+    ],
+    "chuyennganh": [
+        {
+            "id": 51,
+            "name": "Lập trình web",
+            "bomon": {
+                "id": 1,
+                "name": "Công nghệ thông tin"
+            }
+        },
+        {
+            "id": 52,
+            "name": "Phát triển phần mềm",
+            "bomon": {
+                "id": 1,
+                "name": "Công nghệ thông tin"
+            }
+        },
+        {
+            "id": 53,
+            "name": "Lập trình mobile",
+            "bomon": {
+                "id": 1,
+                "name": "Công nghệ thông tin"
+            }
+        },
+        {
+            "id": 54,
+            "name": "Xử lý dữ liệu",
+            "bomon": {
+                "id": 1,
+                "name": "Công nghệ thông tin"
+            }
+        }
+    ],
+    "monhoc": [
+        {
+            "id": 100,
+            "name": "Xây dựng trang Web - WEB1013",
+            "chuyennganh": {
+                "id": 51,
+                "name": "Lập trình web",
+                "bomon": {
+                    "id": 1,
+                    "name": "Công nghệ thông tin"
+                }
+            }
+        },
+        {
+            "id": 101,
+            "name": "Lập trình Javascript",
+            "chuyennganh": {
+                "id": 51,
+                "name": "Lập trình web",
+                "bomon": {
+                    "id": 1,
+                    "name": "Công nghệ thông tin"
+                }
+            }
+        },
+        {
+            "id": 102,
+            "name": "Thiết kế website với HTML5 & CSS3",
+            "chuyennganh": {
+                "id": 51,
+                "name": "Lập trình web",
+                "bomon": {
+                    "id": 1,
+                    "name": "Công nghệ thông tin"
+                }
+            }
+        }
+    ]
+}

@@ -16,8 +16,24 @@ import {
     Checkbox,
     Upload,
 } from 'antd';
+import { writeXLSX } from 'xlsx';
 
 const { RangePicker } = DatePicker;
+const readUploadFile = (e) => {
+    e.preventDefault()
+    if(e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workBook = writeXLSX.read(data, {type : "array"});
+            const sheetName = workBook.SheetNames[0];
+            const worksheet = workBook.Sheets[sheetName];
+            const json = writeXLSX.untils.sheet_to_json(worksheet);
+            console.log(json);
+        }
+        reader.readAsArrayBuffer(e.target.files[0])
+    }
+}
 const AddClassPage = () => {
     return (
         <>
@@ -120,8 +136,8 @@ const AddClassPage = () => {
                             <Radio value="pear"> Offline </Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item label="Thêm sinh viên:" valuePropName="fileList">
-                        <Upload action="/upload.do" listType="picture-card">
+                    <Form.Item label="Thêm sinh viên:" valuePropName="fileList" >
+                        <Upload action="/upload.do" listType="picture-card" onChange={readUploadFile}>
                             <div>
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Upload</div>
