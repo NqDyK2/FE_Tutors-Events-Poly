@@ -1,0 +1,16 @@
+select:focus-visible{
+    border: none;
+    outline: none
+}
+
+.login-page{
+    background-image: url(../../../assets/images/bg_login_page.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: unset
+}
+
+button:hover {
+    background-color: #fd1361 !important;
+    transition: all 200ms;
+}
