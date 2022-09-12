@@ -1,0 +1,13 @@
+.app-sidebar .ant-menu-item a, .app-sidebar .ant-menu-submenu-title a , app-sidebar .ant-menu-item div, .app-sidebar .ant-menu-submenu-title div, .app-sidebar .ant-menu     {
+  @apply tw-text-black ;
+}
+
+.app-sidebar .ant-menu-item a  span, .app-sidebar .ant-menu-submenu .ant-menu-submenu-title div  span  {
+  @apply tw-align-text-top;
+}
+
+
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  @apply !tw-bg-white;
+}
