@@ -1,15 +1,24 @@
-import React from "react";
-import './login_page.css'
+import React, { useState } from "react";
 
 import Logo from './../../../assets/images/Logo.png';
 import ReCAPTCHA from "react-google-recaptcha";
 import { Helmet } from "react-helmet-async";
-
-function onChange(value) {
-  console.log("Captcha value:", value);
-}
+import './login_page.css'
 
 const AuthPage = () => {
+  const [isVerified, setIsVerified] = useState(false);
+  function onChange() {
+    setIsVerified(true);
+  }
+  
+  function checkVerifiedReCAPTCHA(){
+    if (!isVerified) {
+      alert("Vui lòng xác nhận bạn không phải người máy.")
+    } else {
+      alert("ok")
+    }
+  }
+  
   return (
     <>
       <Helmet>
@@ -24,7 +33,7 @@ const AuthPage = () => {
               </div>
               <div className="login-content tw-block tw-w-full tw-text-[13px] tw-font-normal">
                 <form className="login-form">
-                  <div className="tw-flex">
+                  {/* <div className="tw-flex">
                     <select 
                       className="tw-border-none tw-px-6 tw-mt-6 tw-focus-visible:border-none
                       tw-mb-[15px] tw-h-[46px] tw-flex-1 tw-text-[#495057] tw-rounded
@@ -34,8 +43,8 @@ const AuthPage = () => {
                       <option>FPT Polytechnic Hà Nội</option>
                       <option>FPT Polytechnic Hà Nội</option>
                     </select>
-                  </div>
-                  <div>
+                  </div> */}
+                  <div className="tw-flex tw-justify-center">
                     <ReCAPTCHA
                       sitekey="6Lcq_PAhAAAAAAmAKhrwkVqAThx7eNe-US3edfdD"
                       onChange={onChange}
@@ -43,6 +52,8 @@ const AuthPage = () => {
                   </div>
                   <div className="tw-flex tw-mt-[15px]">
                     <button 
+                      type="button"
+                      onClick={checkVerifiedReCAPTCHA}
                       className="tw-bg-[#fd397a] tw-w-full tw-flex tw-justify-center tw-items-center
                                 tw-text-[#fff] tw-py-2 tw-px-4 tw-rounded"
                     >
