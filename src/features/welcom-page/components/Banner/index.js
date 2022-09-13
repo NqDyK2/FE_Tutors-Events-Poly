@@ -35,7 +35,7 @@ const WelcomeBanner = () => {
       prevArrow: <BannerArrow onClick={() => {}}/>
     };
   return (
-    <div className="tw-relative tw-max-h-[600px]">
+    <div className="tw-relative tw-max-h-[600px] tw-mt-16">
         <Slider {...settings}>
         {listBanner.map((item, index) => (
             <a href='#' key={index}>
