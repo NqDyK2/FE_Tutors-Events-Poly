@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const DropdownOverlay = () => {
   return (
     <>
-      <div className='tw-w-[400px] tw-bg-white tw-shadow-md tw-rounded-sm'>
+      <div className='lg:tw-w-[400px] md:tw-w-[150px] tw-max-w-md tw-bg-white tw-shadow-md tw-rounded-sm'>
         <div className='tw-bg-[#2E47AE] tw-h-[75px] tw-flex tw-items-center tw-rounded-t-sm'>
           <h4 className='tw-ml-6  tw-text-gray-200 tw-text-base'>User</h4>
         </div>
