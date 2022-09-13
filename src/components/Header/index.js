@@ -3,7 +3,7 @@ import React from 'react';
 
 const AppHeader = () => {
   return (
-    <Header className='tw-bg-white' style={{ padding: 0 }}>
+    <Header className='tw-bg-white tw-border-b' style={{ padding: 0 }}>
       <div className='tw-flex tw-items-center tw-content-center'>
         This is the header
       </div>

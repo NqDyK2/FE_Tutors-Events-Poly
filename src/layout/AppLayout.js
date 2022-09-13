@@ -26,15 +26,15 @@ const AppLayout = () => {
         <Layout className='site-layout'>
           <AppHeader />
 
+          {/* Breadcrumb */}
+          <AppBreadcrumb />
           <Content
             style={{
               margin: '0 16px',
               overflow: 'initial',
             }}
+            className="tw-mt-4"
           >
-            {/* Breadcrumb */}
-            <AppBreadcrumb />
-
             <div className='tw-bg-white tw-p-6 tw-min-h-full tw-shadow-md tw-mb-4'>
               {/* This is the content */}
               <Outlet />

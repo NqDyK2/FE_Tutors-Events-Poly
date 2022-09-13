@@ -5,6 +5,8 @@ import {
   PieChartOutlined,
   DoubleLeftOutlined,
   DoubleRightOutlined,
+  RightOutlined,
+  UpOutlined ,
   BellOutlined,
 } from '@ant-design/icons';
 import { BsFillCircleFill } from 'react-icons/bs';
@@ -89,7 +91,7 @@ const AppAside = () => {
       width={256}
       collapsedWidth={62.5}
       collapsed={collapsed}
-      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0'
+      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50'
     >
       <div className='tw-flex tw-items-center tw-gap-x-2 tw-justify-center tw-px-2'>
         {!collapsed && (
@@ -121,6 +123,8 @@ const AppAside = () => {
         inlineCollapsed={collapsed}
         selectedKeys={[location.pathname]}
         items={items}
+        expandIcon={({isOpen}) => 
+          isOpen ? <UpOutlined className='tw-text-[11px] !tw-text[#313752]'  /> : <RightOutlined className='tw-text-[11px] !tw-text[#313752]' />}
       />
     </Sider>
   );
