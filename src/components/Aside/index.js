@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { BsFillCircleFill } from 'react-icons/bs';
 import Logo from './../../assets/images/Logo.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
 
 function getItem(label, key, icon, children) {
@@ -24,7 +24,7 @@ function getItem(label, key, icon, children) {
 const AppAside = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const onClickHandler = (data) => {
     navigate(data.key);
   };
@@ -62,7 +62,7 @@ const AppAside = () => {
         ),
         getItem(
           <div className='tw-text-[#313752]'>Sự kiện</div>,
-          '/test',
+          '/auth',
           !collapsed && (
             <BsFillCircleFill className='tw-text-[4px]   tw-text-[#C4CFF9]' />
           )
@@ -115,11 +115,11 @@ const AppAside = () => {
       </div>
       <Menu
         // theme='dark'
-        className='app-sidebar'
+        className='app-sidebar '
         onClick={(e) => onClickHandler(e)}
         mode='inline'
         inlineCollapsed={collapsed}
-        selectedKeys={[window.location.pathname]}
+        selectedKeys={[location.pathname]}
         items={items}
       />
     </Sider>

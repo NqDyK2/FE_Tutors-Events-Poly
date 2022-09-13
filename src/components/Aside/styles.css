@@ -1,13 +1,33 @@
-.app-sidebar .ant-menu-item a, .app-sidebar .ant-menu-submenu-title a , app-sidebar .ant-menu-item div, .app-sidebar .ant-menu-submenu-title div, .app-sidebar .ant-menu     {
-  @apply tw-text-black ;
+.app-sidebar .ant-menu-item a,
+.app-sidebar .ant-menu-submenu-title a,
+app-sidebar .ant-menu-item div,
+.app-sidebar .ant-menu-submenu-title div,
+.app-sidebar .ant-menu, .ant-menu-sub {
+  @apply !tw-text-[#313752];
 }
 
-.app-sidebar .ant-menu-item a  span, .app-sidebar .ant-menu-submenu .ant-menu-submenu-title div  span  {
+.app-sidebar .ant-menu-item a span,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title div span {
   @apply tw-align-text-top;
 }
 
+.app-sidebar .ant-menu-item-selected,
+.app-sidebar .ant-menu-item:hover,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover {
+  @apply !tw-border-none !tw-bg-[#F6F7FD];
+}
 
+.ant-menu-inline .ant-menu-item-selected:after {
+  @apply !tw-border-r-0;
+}
 
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+.ant-menu-inline .ant-menu-item-selected *,
+.ant-menu-inline .ant-menu-item:hover *,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover *,
+.ant-menu-inline .ant-menu-submenu .ant-menu-sub .ant-menu-item:hover * {
+  @apply !tw-text-[#5d78ff];
+}
+
+.ant-menu:not(.ant-menu-horizontal) {
   @apply !tw-bg-white;
 }
