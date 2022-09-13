@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import RequireAuth from '../features/auth/components/RequireAuth.js';
 import AuthPage from '../features/auth/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
 import AddClassPage from '../features/tutors/pages/TutorAddClass/index.js';
@@ -12,10 +13,12 @@ const AppRoutes = () => {
     <Routes location={location} key={location.pathname}>
       <Route path='/auth' element={<AuthPage />} />
       <Route path='/welcome' element={<WelcomePage />} />
-      <Route path='/' element={<AppLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path='/' element={<HomePage />} />
-        <Route path='/crclass' element={<AddClassPage />} />
+      <Route element={<RequireAuth />}>
+        <Route path='/' element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path='/' element={<HomePage />} />
+          <Route path='/crclass' element={<AddClassPage />} />
+        </Route>
       </Route>
     </Routes>
   );

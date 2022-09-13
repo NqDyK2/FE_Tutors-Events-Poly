@@ -4,18 +4,31 @@ import Logo from './../../../assets/images/Logo.png';
 import ReCAPTCHA from "react-google-recaptcha";
 import { Helmet } from "react-helmet-async";
 import './login_page.css'
+import { useLoginMutation } from "../../../app/api/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../authSlice";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const [isVerified, setIsVerified] = useState(false);
   function onChange() {
     setIsVerified(true);
   }
-  
-  function checkVerifiedReCAPTCHA(){
+  const [login, {isLoading,data}] = useLoginMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  async function checkVerifiedReCAPTCHA(){
     if (!isVerified) {
       alert("Vui lòng xác nhận bạn không phải người máy.")
     } else {
-      alert("ok")
+      try {
+        const userData = await login({email: "admin@gmail.com", password: "123456"});
+        console.log(userData);
+        dispatch(setCredentials({user: userData.data.user, token: userData.data.accessToken}));
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   

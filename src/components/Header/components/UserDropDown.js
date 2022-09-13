@@ -1,8 +1,26 @@
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { BiUserPin } from 'react-icons/bi';
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../../features/auth/authSlice';
+
+const LogoutButton = () => {
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    dispatch(logOut());
+  };
+  return (
+    <Button
+      type='text'
+      className='tw-text-[13px] tw-text-blue-600 tw-font-medium hover:tw-bg-blue-600 hover:tw-text-white tw-bg-blue-100'
+      onClick={handleLogOut}
+    >
+      Đăng xuất
+    </Button>
+  );
+};
 
 const DropdownOverlay = () => {
   return (
@@ -19,19 +37,19 @@ const DropdownOverlay = () => {
             <BiUserPin className='tw-w-6 tw-h-6 tw-mr-4 tw-text-emerald-600' />
           </div>
           <div className='tw-flex-1 '>
-              <p className='tw-text-[13px] hover:tw-text-blue-500 tw-mb-0 '>
-                Hồ sơ cá nhân
-              </p>
-              <p className='tw-text-[13px] tw-text-gray-400 tw-mb-0 '>
-                Thông tin cá nhân
-              </p>
+            <p className='tw-text-[13px] hover:tw-text-blue-500 tw-mb-0 '>
+              Hồ sơ cá nhân
+            </p>
+            <p className='tw-text-[13px] tw-text-gray-400 tw-mb-0 '>
+              Thông tin cá nhân
+            </p>
           </div>
-          <div >
+          <div>
             <AiOutlineCaretRight className='tw-w-3 tw-h-3 tw-text-blue-300 tw-ml-auto' />
           </div>
         </Link>
         <div className='tw-border-t tw-border-gray-100 tw-mx-4 tw-py-4'>
-          <Button type='text' className='tw-text-[13px] tw-text-blue-600 tw-font-medium hover:tw-bg-blue-600 hover:tw-text-white tw-bg-blue-100' >Đăng xuất</Button>
+          <LogoutButton />
         </div>
       </div>
     </>
