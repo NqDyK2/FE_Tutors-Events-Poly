@@ -39,13 +39,13 @@ const AppFooter = () => {
             <RiMailFill size={16} />
             <span className='tw-text-[12px] tw-pl-[4px]'>
               Địa chỉ email các phòng ban:
-              <ul className='tw-pl-6'>
+              <ul className='tw-pl-6 tw-list-disc'>
                 <li>Phòng dịch vụ sinh viên:
                   <Link to='#' className='tw-font-bold tw-text-black tw-pl-[4px]' >dvsvpoly.hn@poly.edu.vn</Link>
                 </li>
                 <li>
                   Phòng tổ chức và quản lý đào tạo:
-                  <ul className='tw-pl-6 tw-font-bold tw-text-[10px]'>
+                  <ul className='tw-pl-6 tw-font-bold tw-text-[10px] '>
                     <li>Đào tạo: daotaopoly.hn@fe.edu.vn -  02462979544</li>
                     <li>Khảo thí: khaothipolyhn@fe.edu.vn - 02462594013</li>
                   </ul>
