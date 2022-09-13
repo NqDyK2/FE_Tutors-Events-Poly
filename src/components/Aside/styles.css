@@ -2,8 +2,14 @@
 .app-sidebar .ant-menu-submenu-title a,
 app-sidebar .ant-menu-item div,
 .app-sidebar .ant-menu-submenu-title div,
-.app-sidebar .ant-menu, .ant-menu-sub {
+.app-sidebar .ant-menu,
+.ant-menu-sub {
   @apply !tw-text-[#313752];
+}
+
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title .anticon-right svg,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title .anticon-up svg {
+  @apply !tw-text-[#C4CFF0];
 }
 
 .app-sidebar .ant-menu-item a span,
