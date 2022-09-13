@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import WelcomHeader from '../components/Header';
 import WelcomeFooter from '../components/Footer';
+import WelcomeBanner from '../components/Banner';
 const WelcomePage = () => {
   return (
     <>
@@ -13,9 +14,7 @@ const WelcomePage = () => {
       <WelcomHeader />
 
       {/* slide */}
-      <div>
-        slide
-      </div>
+      <WelcomeBanner/>
 
       {/* footer component */}
       <WelcomeFooter />
