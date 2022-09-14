@@ -86,7 +86,7 @@ const AppAside = () => {
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
         Điểm danh
       </div>,
-      '',
+      '/attendance',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
