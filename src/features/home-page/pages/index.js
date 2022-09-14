@@ -18,7 +18,7 @@ const HomePage = () => {
           <h1>{user.email}</h1>
         )
        : (
-        <h1>Chưa</h1>
+        <h1>Chưa đăng nhập </h1>
       )}
     </div>
     </>

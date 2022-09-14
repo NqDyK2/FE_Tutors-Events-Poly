@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 
 const AuthPage = () => {
   const [isVerified, setIsVerified] = useState(false);
+  const [isNotVerified, setIsNotVerified] = useState(false);
   function onChange() {
     setIsVerified(true);
   }
@@ -20,7 +21,7 @@ const AuthPage = () => {
   console.log(isLoading);
   async function checkVerifiedReCAPTCHA() {
     if (!isVerified) {
-      alert('Vui lòng xác nhận bạn không phải người máy.');
+      setIsNotVerified(true);
     } else {
       window.location.href = data.url;
     }
@@ -56,6 +57,13 @@ const AuthPage = () => {
                       sitekey='6Lcq_PAhAAAAAAmAKhrwkVqAThx7eNe-US3edfdD'
                       onChange={onChange}
                     />
+                  </div>
+                  <div>
+                    {isNotVerified && !isVerified && (
+                      <p className='tw-text-red-500 tw-text-center'>
+                        Vui lòng xác nhận bạn không phải là robot
+                      </p>
+                    )}
                   </div>
                   <div className='tw-flex tw-mt-[15px]'>
                     <button

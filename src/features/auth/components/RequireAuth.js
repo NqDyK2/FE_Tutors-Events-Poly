@@ -7,7 +7,7 @@ const RequireAuth = () => {
   const isAuth = useSelector(selectIsAuthenticated)
   const location = useLocation();
   return (
-    isAuth ? <Outlet/> : <Navigate to='/auth' state={{from:location}} replace />
+    isAuth ? <Outlet/> : <Navigate to='/welcome' state={{from:location}} replace />
   )
 }
 
