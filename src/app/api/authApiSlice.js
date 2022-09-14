@@ -1,15 +1,19 @@
-import { apiSlice } from "./apiSlice";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const authApiSlice = apiSlice.injectEndpoints({
+export const authApiSlice = createApi({
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://quizee.ga/api/',
+  }),
   endpoints: (builder) => ({
-    login: builder.mutation({
-      query: credentials => ({
-        url: 'login',
-        method: 'POST',
-        body: {...credentials}
-      })
-    })
-  })
-})
+    getGoogleAuthUrl: builder.query({
+      query: () => 'auth/get-url',
+      method: 'GET',
+    }),
+    login: builder.query({
+      query: (checkpoint) => `http://quizee.ga/api/auth/checkpoint${checkpoint}`,
+      method: 'GET',
+    }),
+  }),
+});
 
-export const {useLoginMutation} = authApiSlice
+export const { useGetGoogleAuthUrlQuery, useLoginQuery } = authApiSlice;

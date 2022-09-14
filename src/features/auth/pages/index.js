@@ -1,51 +1,45 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import Logo from './../../../assets/images/Logo.png';
-import ReCAPTCHA from "react-google-recaptcha";
-import { Helmet } from "react-helmet-async";
-import './login_page.css'
-import { useLoginMutation } from "../../../app/api/authApiSlice";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../authSlice";
-import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from 'react-google-recaptcha';
+import { Helmet } from 'react-helmet-async';
+import './login_page.css';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../authSlice';
+import { useNavigate } from 'react-router-dom';
+import { useGetGoogleAuthUrlQuery } from '../../../app/api/authApiSlice';
+import { useEffect } from 'react';
 
 const AuthPage = () => {
   const [isVerified, setIsVerified] = useState(false);
   function onChange() {
     setIsVerified(true);
   }
-  const [login, {isLoading,data}] = useLoginMutation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch()
-  async function checkVerifiedReCAPTCHA(){
+  const { data, isLoading } = useGetGoogleAuthUrlQuery();
+  console.log(data);
+  console.log(isLoading);
+  async function checkVerifiedReCAPTCHA() {
     if (!isVerified) {
-      alert("Vui lòng xác nhận bạn không phải người máy.")
+      alert('Vui lòng xác nhận bạn không phải người máy.');
     } else {
-      try {
-        const userData = await login({email: "admin@gmail.com", password: "123456"});
-        console.log(userData);
-        dispatch(setCredentials({user: userData.data.user, token: userData.data.accessToken}));
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-      }
+      window.location.href = data.url;
     }
   }
-  
+
   return (
     <>
       <Helmet>
         <title>Đăng nhập - FPOLY</title>
       </Helmet>
       <div>
-        <div className="tw-container tw-mx-auto tw-flex login-page tw-h-screen">
-          <div className="login-container tw-pt-[6%] tw-px-8 tw-pb-4 tw-mx-auto">
-            <div className="tw-flex tw-flex-col tw-w-[430px] tw-items-center tw-justify-center">
-              <div className="logo">
-                <img src={Logo} alt="logo" width={200}/>
+        <div className='tw-container tw-mx-auto tw-flex login-page tw-h-screen'>
+          <div className='login-container tw-pt-[6%] tw-px-8 tw-pb-4 tw-mx-auto'>
+            <div className='tw-flex tw-flex-col tw-w-[430px] tw-items-center tw-justify-center'>
+              <div className='logo'>
+                <img src={Logo} alt='logo' width={200} />
               </div>
-              <div className="login-content tw-block tw-w-full tw-text-[13px] tw-font-normal">
-                <form className="login-form">
+              <div className='login-content tw-block tw-w-full tw-text-[13px] tw-font-normal'>
+                <form className='login-form'>
                   {/* <div className="tw-flex">
                     <select 
                       className="tw-border-none tw-px-6 tw-mt-6 tw-focus-visible:border-none
@@ -57,23 +51,32 @@ const AuthPage = () => {
                       <option>FPT Polytechnic Hà Nội</option>
                     </select>
                   </div> */}
-                  <div className="tw-flex tw-justify-center">
+                  <div className='tw-flex tw-justify-center'>
                     <ReCAPTCHA
-                      sitekey="6Lcq_PAhAAAAAAmAKhrwkVqAThx7eNe-US3edfdD"
+                      sitekey='6Lcq_PAhAAAAAAmAKhrwkVqAThx7eNe-US3edfdD'
                       onChange={onChange}
                     />
                   </div>
-                  <div className="tw-flex tw-mt-[15px]">
-                    <button 
-                      type="button"
+                  <div className='tw-flex tw-mt-[15px]'>
+                    <button
+                      type='button'
                       onClick={checkVerifiedReCAPTCHA}
-                      className="tw-bg-[#fd397a] tw-w-full tw-flex tw-justify-center tw-items-center
-                                tw-text-[#fff] tw-py-2 tw-px-4 tw-rounded"
+                      disabled={isLoading}
+                      className={` ${
+                        isLoading ? 'tw-bg-gray-600' : 'tw-bg-[#fd397a]'
+                      } tw-w-full tw-flex tw-justify-center tw-items-center
+                      tw-text-[#fff] tw-py-2 tw-px-4 tw-rounded`}
                     >
-                        <svg  className="tw-mr-1" fill="#fff" viewBox="0 0 30 30" width="20px" height="20px">
-                          <path d="M 15.003906 3 C 8.3749062 3 3 8.373 3 15 C 3 21.627 8.3749062 27 15.003906 27 C 25.013906 27 27.269078 17.707 26.330078 13 L 25 13 L 22.732422 13 L 15 13 L 15 17 L 22.738281 17 C 21.848702 20.448251 18.725955 23 15 23 C 10.582 23 7 19.418 7 15 C 7 10.582 10.582 7 15 7 C 17.009 7 18.839141 7.74575 20.244141 8.96875 L 23.085938 6.1289062 C 20.951937 4.1849063 18.116906 3 15.003906 3 z"/>
-                        </svg>
-                        Google
+                      <svg
+                        className='tw-mr-1'
+                        fill='#fff'
+                        viewBox='0 0 30 30'
+                        width='20px'
+                        height='20px'
+                      >
+                        <path d='M 15.003906 3 C 8.3749062 3 3 8.373 3 15 C 3 21.627 8.3749062 27 15.003906 27 C 25.013906 27 27.269078 17.707 26.330078 13 L 25 13 L 22.732422 13 L 15 13 L 15 17 L 22.738281 17 C 21.848702 20.448251 18.725955 23 15 23 C 10.582 23 7 19.418 7 15 C 7 10.582 10.582 7 15 7 C 17.009 7 18.839141 7.74575 20.244141 8.96875 L 23.085938 6.1289062 C 20.951937 4.1849063 18.116906 3 15.003906 3 z' />
+                      </svg>
+                      Google
                     </button>
                   </div>
                 </form>
