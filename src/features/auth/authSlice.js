@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+//  nếu api die thì set isAuthenticated = true để vào được các route các khác
+
 const initialState = {
   isAuthenticated: false,
   user: null,
