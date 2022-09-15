@@ -8,3 +8,23 @@
   font-family: 'Roboto', sans-serif;
 }
 
+
+html::-webkit-scrollbar-track
+{
+  @apply tw-rounded-lg
+}
+
+html::-webkit-scrollbar
+{
+  @apply !tw-w-2
+}
+
+html::-webkit-scrollbar-thumb
+{
+  @apply tw-bg-gray-500 tw-rounded-md
+}
+
+html::-webkit-scrollbar-thumb:hover
+{
+  @apply tw-bg-gray-600
+}

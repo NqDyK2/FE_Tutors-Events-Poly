@@ -1,0 +1,23 @@
+.fc-toolbar-title {
+  @apply first-letter:tw-uppercase
+}
+
+.fc-button-group {
+  @apply tw-gap-x-1
+}
+
+.fc-button {
+  @apply !tw-rounded-sm !tw-border-0 !tw-bg-orange-400
+}
+
+.fc-button:hover {
+  @apply !tw-bg-orange-500 !tw-border-none
+}
+
+.fc-button:disabled {
+  @apply !tw-cursor-not-allowed !tw-bg-orange-300
+}
+
+.fc-button-active {
+  @apply !tw-bg-orange-600
+}
