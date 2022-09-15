@@ -7,7 +7,10 @@ import './login_page.css';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../authSlice';
 import { useNavigate } from 'react-router-dom';
-import { useGetGoogleAuthUrlQuery } from '../../../app/api/authApiSlice';
+import {
+  useGetGoogleAuthUrlQuery,
+  useLoginQuery,
+} from '../../../app/api/authApiSlice';
 import { useEffect } from 'react';
 
 const AuthPage = () => {
@@ -16,14 +19,12 @@ const AuthPage = () => {
   function onChange() {
     setIsVerified(true);
   }
-  const { data, isLoading } = useGetGoogleAuthUrlQuery();
-  console.log(data);
-  console.log(isLoading);
+
   async function checkVerifiedReCAPTCHA() {
     if (!isVerified) {
       setIsNotVerified(true);
     } else {
-      window.location.href = data.url;
+      window.location.href = 'https://pink-shirts-go-118-70-80-24.loca.lt/api/auth/get-url';
     }
   }
 
@@ -69,10 +70,7 @@ const AuthPage = () => {
                     <button
                       type='button'
                       onClick={checkVerifiedReCAPTCHA}
-                      disabled={isLoading}
-                      className={` ${
-                        isLoading ? 'tw-bg-gray-600' : 'tw-bg-[#fd397a]'
-                      } tw-w-full tw-flex tw-justify-center tw-items-center
+                      className={` ${'tw-bg-[#fd397a]'} tw-w-full tw-flex tw-justify-center tw-items-center
                       tw-text-[#fff] tw-py-2 tw-px-4 tw-rounded`}
                     >
                       <svg

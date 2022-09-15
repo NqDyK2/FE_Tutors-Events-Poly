@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { selectCurrentToken, selectIsAuthenticated } from '../authSlice'
+import { selectIsAuthenticated } from '../authSlice'
 
 const RequireAuth = () => {
   const isAuth = useSelector(selectIsAuthenticated)
