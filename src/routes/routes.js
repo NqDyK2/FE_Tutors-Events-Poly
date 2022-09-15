@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import CheckPoint from '../features/auth/components/CheckPoint.js';
 import RequireAuth from '../features/auth/components/RequireAuth.js';
+import AttendanceList from '../features/attendance/pages/attendanceList/index.js';
 import AuthPage from '../features/auth/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
 import AddClassPage from '../features/tutors/pages/TutorAddClass/index.js';
@@ -20,6 +21,7 @@ const AppRoutes = () => {
           <Route index element={<HomePage />} />
           <Route path='/' element={<HomePage />} />
           <Route path='/crclass' element={<AddClassPage />} />
+          <Route path='/attendance' element={<AttendanceList />} />
         </Route>
       </Route>
     </Routes>

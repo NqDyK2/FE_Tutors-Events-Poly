@@ -43,7 +43,7 @@ const AppLayout = () => {
             </div>
           </Content>
 
-          <div className='tw-p-8'></div>
+          <div className='tw-p-2'></div>
           {/* Footer */}
           <AppFooter />
         </Layout>

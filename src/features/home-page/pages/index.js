@@ -13,6 +13,7 @@ const HomePage = () => {
     <Helmet>
       <title>Trang chủ | FPOLY</title>
     </Helmet>
+
       <div>
         <FullCalendar
           plugins={[dayGridPlugin, listPlugin, timeGridPlugin]}

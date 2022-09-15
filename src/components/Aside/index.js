@@ -8,8 +8,12 @@ import {
   RightOutlined,
   UpOutlined ,
   BellOutlined,
+  CarryOutOutlined ,
 } from '@ant-design/icons';
-import { BsFillCircleFill } from 'react-icons/bs';
+import { BsFillCircleFill,BsFillCalendarDayFill } from 'react-icons/bs';
+import {BiCalendarStar} from 'react-icons/bi'
+import { SiGoogleclassroom } from 'react-icons/si';
+import {IoMdHelpCircle} from 'react-icons/io'
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -73,10 +77,45 @@ const AppAside = () => {
     ),
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
-        Sự kiện
+        Tạo lớp tutors
       </div>,
       '/crclass',
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Điểm danh
+      </div>,
+      '/attendance',
+      <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Lịch học
+      </div>,
+      '',
+      <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Danh sách lớp
+      </div>,
+      '',
+      <SiGoogleclassroom className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Sự kiện
+      </div>,
+      '',
+      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Hỗ trợ
+      </div>,
+      '',
+      <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
   ];
 
