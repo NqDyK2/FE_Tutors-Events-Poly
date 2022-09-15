@@ -7,14 +7,15 @@ const HomePage = () => {
   const eventsData = [
     {
       title: 'Sự kiện đấm nhau ',
-      start: '2022-09-15T12:30:00-05:00',
-      end: '2022-09-16T12:30:00-05:00',
+      start: '2022-09-15T12:30:00',
+      end: '2022-09-15T15:30:00',
       color: '#000',
       description: 'Đấm bỏ mẹ thằng Đàm Minh Hiếu',
     },
     {
       title: 'Sự kiện 1',
-      date: '2022-09-15T12:30:00-05:00',
+      start: '2022-09-15T12:30:00',
+      end: '2022-09-15T13:30:00',
       color: '#ff0000',
       description: 'Đấm bỏ mẹ thằng Đàm Minh Hiếu',
     },
