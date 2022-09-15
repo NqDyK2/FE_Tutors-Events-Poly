@@ -21,20 +21,12 @@ import { apiSlice } from './apiSlice';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getGoogleAuthUrl: builder.query({
-      query: () => 'https://plenty-lies-double-113-22-61-144.loca.lt/api/auth/get-url',
-    }),
-    login: builder.query({
-      query: (endpoint) => ({
-        url: `https://plenty-lies-double-113-22-61-144.loca.lt/api/auth/checkpoint${endpoint}`,
-      }),
-    }),
-    getUser: builder.mutation({
+    getAuthUser: builder.mutation({
       query: () => ({
-        url: `https://pink-shirts-go-118-70-80-24.loca.lt/api/user`,
+        url: process.env.REACT_APP_API_URL + 'auth/user',
       }),
     }),
   })
 })
 
-export const { useGetGoogleAuthUrlQuery, useLoginQuery, useGetUserMutation } = authApiSlice;
+export const { useGetAuthUserMutation } = authApiSlice;
