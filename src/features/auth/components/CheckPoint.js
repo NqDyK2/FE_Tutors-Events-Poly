@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Logo from './../../../assets/images/Logo.png';
-import { useGetUserMutation } from '../../../app/api/authApiSlice';
+import { useGetAuthUserMutation } from '../../../app/api/authApiSlice';
 import { selectIsAuthenticated, setCredentials } from '../authSlice';
 import { Helmet } from 'react-helmet-async';
 
@@ -16,24 +16,13 @@ const CheckPoint = () => {
   const isAuth = useSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const [getUserInfo, { isLoading, error }] =
-    useGetUserMutation();
+    useGetAuthUserMutation();
   const handleSignIn = async () => {
     const {data} = await getUserInfo();
     if (data) {
       dispatch(setCredentials({ user: data.data, token}));
       navigate('/');
     }
-    // dispatch(
-    //   setCredentials({
-    //     user: {
-    //       id: 1,
-    //       name: 'admin',
-    //       email: 'admin@admin.com',
-    //     },
-    //     token: 'asdasdoaidjasoidjsa',
-    //   })
-    // );
-    // navigate('/');
   };
   useEffect(() => {
     if (isAuth) {

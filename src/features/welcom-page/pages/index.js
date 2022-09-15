@@ -3,8 +3,15 @@ import { Helmet } from 'react-helmet-async';
 import WelcomHeader from '../components/Header';
 import WelcomeFooter from '../components/Footer';
 import WelcomeBanner from '../components/Banner';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../../auth/authSlice';
+import { Navigate } from 'react-router-dom';
 const WelcomePage = () => {
-  return (
+  const isAuth = useSelector(selectIsAuthenticated);
+
+  return isAuth ? (
+    <Navigate to='/' />
+  ) : (
     <>
       <Helmet>
         <title>Chào mừng đến với - FPOLY</title>
@@ -14,7 +21,7 @@ const WelcomePage = () => {
       <WelcomHeader />
 
       {/* slide */}
-      <WelcomeBanner/>
+      <WelcomeBanner />
 
       {/* footer component */}
       <WelcomeFooter />

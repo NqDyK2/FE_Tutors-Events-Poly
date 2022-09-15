@@ -4,18 +4,15 @@ import Logo from './../../../assets/images/Logo.png';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Helmet } from 'react-helmet-async';
 import './login_page.css';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../authSlice';
-import { useNavigate } from 'react-router-dom';
-import {
-  useGetGoogleAuthUrlQuery,
-  useLoginQuery,
-} from '../../../app/api/authApiSlice';
+import { selectIsAuthenticated } from '../authSlice';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const AuthPage = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [isNotVerified, setIsNotVerified] = useState(false);
+  const isAuth = useSelector(selectIsAuthenticated);
   function onChange() {
     setIsVerified(true);
   }
@@ -24,11 +21,15 @@ const AuthPage = () => {
     if (!isVerified) {
       setIsNotVerified(true);
     } else {
-      window.location.href = 'https://pink-shirts-go-118-70-80-24.loca.lt/api/auth/get-url';
+      window.location.href = process.env.REACT_APP_API_URL + '/auth/get-url';
     }
   }
 
-  return (
+  useEffect(() => {}, [isAuth]);
+
+  return isAuth ? (
+    <Navigate to='/' />
+  ) : (
     <>
       <Helmet>
         <title>Đăng nhập - FPOLY</title>
