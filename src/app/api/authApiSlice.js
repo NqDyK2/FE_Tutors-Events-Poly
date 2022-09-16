@@ -22,11 +22,8 @@ import { apiSlice } from './apiSlice';
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAuthUser: builder.mutation({
-      query: (token) => ({
+      query: () => ({
         url: process.env.REACT_APP_API_URL + 'auth/user',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
       }),
     }),
   })

@@ -13,6 +13,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
+      if (action.payload.user === null) {
+        state.isAuthenticated = false;
+        state.token = action.payload.token;
+      }
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.token = action.payload.token;

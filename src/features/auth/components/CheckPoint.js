@@ -16,8 +16,9 @@ const CheckPoint = () => {
   const isAuth = useSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const [getUserInfo, { isLoading, error }] = useGetAuthUserMutation();
+  dispatch(setCredentials({ token }));
   const handleSignIn = async () => {
-    const { data } = await getUserInfo(token);
+    const { data } = await getUserInfo();
     if (data) {
       dispatch(setCredentials({ user: data.data, token }));
       navigate('/');
