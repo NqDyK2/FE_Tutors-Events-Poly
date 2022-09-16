@@ -21,7 +21,7 @@ const AuthPage = () => {
     if (!isVerified) {
       setIsNotVerified(true);
     } else {
-      window.location.href = process.env.REACT_APP_API_URL + '/auth/get-url';
+      window.location.href = process.env.REACT_APP_API_URL + 'auth/get-url';
     }
   }
 

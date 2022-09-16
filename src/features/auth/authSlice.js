@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 //  nếu api die thì set isAuthenticated = true để vào được các route các khác
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   user: null,
   token: null,
 };
@@ -13,6 +13,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
+      if (action.payload.user === null) {
+        state.isAuthenticated = false;
+        state.token = action.payload.token;
+      }
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
