@@ -16,19 +16,14 @@ const CheckPoint = () => {
   const isAuth = useSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const [getUserInfo, { isLoading, error }] = useGetAuthUserMutation();
-  dispatch(setCredentials({ token }));
   const handleSignIn = async () => {
-    const { data } = await getUserInfo();
+    const { data } = await getUserInfo(token);
     if (data) {
       dispatch(setCredentials({ user: data.data, token }));
       navigate('/');
     }
   };
-  useEffect(() => {
-    if (isAuth) {
-      navigate('/');
-    }
-  }, [isAuth, navigate]);
+
   useEffect(() => {
     if (token) {
       handleSignIn();
@@ -36,6 +31,11 @@ const CheckPoint = () => {
       navigate('/welcome');
     }
   }, [token, navigate]);
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isAuth, navigate]);
 
   return (
     <>
