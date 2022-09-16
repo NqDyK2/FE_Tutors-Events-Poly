@@ -5,11 +5,13 @@ import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../../features/auth/authSlice';
+import { toast } from 'react-toastify';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
   const handleLogOut = () => {
     dispatch(logOut());
+    toast.info('Đăng xuất thành công');
   };
   return (
     <Button

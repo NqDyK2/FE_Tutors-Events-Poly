@@ -15,20 +15,15 @@ const CheckPoint = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuthenticated);
   const navigate = useNavigate();
-  const [getUserInfo, { isLoading, error }] =
-    useGetAuthUserMutation();
+  const [getUserInfo, { isLoading, error }] = useGetAuthUserMutation();
   const handleSignIn = async () => {
-    const {data} = await getUserInfo();
+    const { data } = await getUserInfo(token);
     if (data) {
-      dispatch(setCredentials({ user: data.data, token}));
+      dispatch(setCredentials({ user: data.data, token }));
       navigate('/');
     }
   };
-  useEffect(() => {
-    if (isAuth) {
-      navigate('/');
-    }
-  }, [isAuth, navigate]);
+
   useEffect(() => {
     if (token) {
       handleSignIn();
@@ -36,6 +31,11 @@ const CheckPoint = () => {
       navigate('/welcome');
     }
   }, [token, navigate]);
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isAuth, navigate]);
 
   return (
     <>
@@ -61,7 +61,9 @@ const CheckPoint = () => {
                       Lỗi đăng nhập
                     </div>
                     <div className='tw-mt-2'>
-                      <a href='https://pink-shirts-go-118-70-80-24.loca.lt/api/auth/get-url'>Thử lại</a>
+                      <a href={process.env.REACT_APP_API_URL + 'auth/get-url'}>
+                        Thử lại
+                      </a>
                     </div>
                   </>
                 )}

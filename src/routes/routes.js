@@ -4,11 +4,13 @@ import CheckPoint from '../features/auth/components/CheckPoint.js';
 import RequireAuth from '../features/auth/components/RequireAuth.js';
 import AttendanceList from '../features/attendance/pages/attendanceList/index.js';
 import AuthPage from '../features/auth/pages/index.js';
+import EventsPage from '../features/events/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
 import AddClassPage from '../features/tutors/pages/TutorAddClass/index.js';
 import WelcomePage from '../features/welcom-page/pages/index.js';
 import AppLayout from '../layout/AppLayout.js';
 import ListStudent from '../features/list-students/pages/index.js';
+import PageNotFound from '../features/404page/pages/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -22,10 +24,12 @@ const AppRoutes = () => {
           <Route index element={<HomePage />} />
           <Route path='/' element={<HomePage />} />
           <Route path='/crclass' element={<AddClassPage />} />
+          <Route path='/events' element={<EventsPage />} />
           <Route path='/attendance' element={<AttendanceList />} />
           <Route path='/liststudent' element={<ListStudent />} />
         </Route>
       </Route>
+      <Route path='*' element={<PageNotFound />} />
     </Routes>
   );
 };

@@ -23,7 +23,9 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-toastify": "^9.0.8",
     "slick-carousel": "^1.8.1",
+    "tippy.js": "^6.3.7",
     "web-vitals": "^2.1.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.11/xlsx-0.18.11.tgz"
   },
