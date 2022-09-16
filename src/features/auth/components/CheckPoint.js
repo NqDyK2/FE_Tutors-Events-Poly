@@ -61,7 +61,7 @@ const CheckPoint = () => {
                       Lỗi đăng nhập
                     </div>
                     <div className='tw-mt-2'>
-                      <a href='https://pink-shirts-go-118-70-80-24.loca.lt/api/auth/get-url'>
+                      <a href={process.env.REACT_APP_API_URL + 'auth/get-url'}>
                         Thử lại
                       </a>
                     </div>
