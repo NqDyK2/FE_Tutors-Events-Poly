@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { Button, Table } from 'antd';
 
 const columns = [
@@ -48,7 +49,9 @@ const columns = [
     title: 'Điểm danh',
     key: 'action',
     render: (_, record) => (
-      <Button className='tw-w-[100px] tw-bg-[#0DB27F] tw-rounded-[4px] tw-text-white' >Điểm danh</Button>
+      <Button className='tw-w-[100px] tw-bg-[#0DB27F] tw-rounded-[4px] tw-text-white' >
+        <Link to='/attendance-student'>Điểm danh</Link>
+      </Button>
     ),
   },
 ];

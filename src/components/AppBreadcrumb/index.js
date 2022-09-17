@@ -21,6 +21,10 @@ const AppBreadcrumb = () => {
       path: '/attendance',
       breadcrumbName: 'Điểm danh',
     },
+    {
+      path: '/attendance-student',
+      breadcrumbName: 'Điểm danh',
+    },
   ];
 
   function getBreadcrumb() {
