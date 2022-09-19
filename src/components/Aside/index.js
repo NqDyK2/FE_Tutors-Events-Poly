@@ -117,6 +117,13 @@ const AppAside = () => {
       '',
       <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Test import của cháu linh
+      </div>,
+      '/import-students',
+      <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
   ];
 
   return (
