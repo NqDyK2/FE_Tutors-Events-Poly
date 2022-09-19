@@ -12,6 +12,7 @@ import AppLayout from '../layout/AppLayout.js';
 import ListStudent from '../features/list-students/pages/index.js';
 import PageNotFound from '../features/404page/pages/index.js';
 import AttendanceStudent from '../features/attendance/pages/attendanceStudent/index.js';
+import TutorImportStudents from '../features/tutors/pages/TutorImportStudents/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const AppRoutes = () => {
           <Route path='/events' element={<EventsPage />} />
           <Route path='/attendance' element={<AttendanceList />} />
           <Route path='/attendance-student' element={<AttendanceStudent />} />
+          <Route path='/import-students' element={<TutorImportStudents />} />
           <Route path='/liststudent' element={<ListStudent />} />
         </Route>
       </Route>
