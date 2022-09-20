@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, Button, DatePicker } from 'antd';
 import XLSX from 'xlsx';
-import { transform, mapKeys } from 'lodash';
+import { transform, mapKeys, startsWith } from 'lodash';
 import { useEffect } from 'react';
 
 const { RangePicker } = DatePicker;
@@ -27,8 +27,16 @@ const TutorImportStudents = () => {
     const BMDLNHKS = wb.SheetNames[12];
     const BMCB = wb.SheetNames[13];
 
-    // const allSheet = [ BMUDPM,BMCNTT,  BMKT, BMDCK, BMTKDH, BMTMDT, BMDLNHKS, BMCB];
-    const allSheet = [ BMCNTT];
+    const allSheet = [
+      BMUDPM,
+      BMCNTT,
+      BMKT,
+      BMDCK,
+      BMTKDH,
+      BMTMDT,
+      BMDLNHKS,
+      BMCB,
+    ];
 
     const rowData = allSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
@@ -36,8 +44,7 @@ const TutorImportStudents = () => {
     });
 
     const rowDataBySheetName = allSheet.map((sheet) => {
-      const json = XLSX.utils
-        .sheet_to_json(wb.Sheets[sheet])
+      const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       const rowDataBySheetName = json
         .flat()
         .filter((item, idx) => idx !== 0 && item.STT !== undefined);
@@ -103,52 +110,50 @@ const TutorImportStudents = () => {
     const json = rowData
       .flat()
       .filter((item, idx) => idx !== 0 && item.STT !== undefined);
-
+    console.log(json);
     const importData = json.map((item, idx) => {
       const newItem = transform(item, (result, value, key) => {
         result[key.toLowerCase()] = value;
       });
       newItem.stt = idx + 1;
+      newItem['sđt'] = newItem['sđt'] ? String(newItem['sđt']) : '';
+      if (startsWith( newItem['sđt'], "'0")) {
+        newItem['sđt'] = `0${newItem['sđt'].slice(2)}`;
+      }
+      delete newItem['bm/gv'];
+      delete newItem['gv'];
+      delete newItem['lớp môn'];
+      delete newItem['môn nợ'];
+      delete newItem['ngành'];
+      delete newItem['tổng môn nợ'];
+      delete newItem['điểm đánh giá'];
+      delete newItem['kỳ'];
+      delete newItem['__empty'];
+
       const returnItem = mapKeys(newItem, (value, key) => {
         switch (key) {
-          case 'bm/gv':
-            return 'boMonVaGiaoVienDanhGia';
           case 'bộ môn':
-            return 'boMon';
+            return 'major';
           case 'emai':
-            return 'email';
+            return 'user_email';
           case 'giảng viên':
-            return 'giangVien';
-          case 'gv':
-            return 'giangVienId';
+            return 'school_teacher_name';
           case 'họ tên sinh viên':
-            return 'hoTenSinhVien';
-          case 'kỳ':
-            return 'kyHoc';
+            return 'user_name';
           case 'lớp':
-            return 'lop';
-          case 'lớp môn':
-            return 'lopMon';
+            return 'school_classroom';
           case 'mssv':
-            return 'mssv';
+            return 'user_code';
           case 'môn':
-            return 'maMon';
-          case 'môn nợ':
-            return 'monNo';
+            return 'subject';
           case 'ngành':
             return 'nganhHoc';
           case 'stt':
-            return 'sinhVienId';
+            return 'id';
           case 'sđt':
-            return 'sdtSinhVien';
-          case 'tổng môn nợ':
-            return 'tongMonNo';
+            return 'user_phone';
           case 'vấn đề gặp phải chi tiết':
-            return 'vanDeGapPhai';
-          case 'điểm đánh giá':
-            return 'diemDanhGiaDuLieuGoc';
-          case '__empty':
-            return 'diemDanhGiaDuLieuFix';
+            return 'reason';
           default:
         }
       });
@@ -159,11 +164,11 @@ const TutorImportStudents = () => {
 
     const filterStudentSame = importData.filter((item) => {
       const student = importData.filter(
-        (student) => student.mssv === item.mssv
+        (student) => student.user_code === item.user_code
       );
       return student.length > 1;
-    })
-     console.log('filterStudentSame', filterStudentSame);
+    });
+    console.log('filterStudentSame', filterStudentSame);
     setTotalStudents(importData.length);
     setLoading(false);
     console.log('all', importData);
