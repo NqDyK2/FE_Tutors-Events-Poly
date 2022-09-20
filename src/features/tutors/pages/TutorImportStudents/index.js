@@ -27,7 +27,8 @@ const TutorImportStudents = () => {
     const BMDLNHKS = wb.SheetNames[12];
     const BMCB = wb.SheetNames[13];
 
-    const allSheet = [ BMUDPM,BMCNTT,  BMKT, BMDCK, BMTKDH, BMTMDT, BMDLNHKS, BMCB];
+    // const allSheet = [ BMUDPM,BMCNTT,  BMKT, BMDCK, BMTKDH, BMTMDT, BMDLNHKS, BMCB];
+    const allSheet = [ BMCNTT];
 
     const rowData = allSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
@@ -155,6 +156,14 @@ const TutorImportStudents = () => {
 
       return returnItem;
     });
+
+    const filterStudentSame = importData.filter((item) => {
+      const student = importData.filter(
+        (student) => student.mssv === item.mssv
+      );
+      return student.length > 1;
+    })
+     console.log('filterStudentSame', filterStudentSame);
     setTotalStudents(importData.length);
     setLoading(false);
     console.log('all', importData);
