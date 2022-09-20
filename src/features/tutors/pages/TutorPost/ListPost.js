@@ -10,7 +10,7 @@ const ListPost = () => {
                 <Col span={8}>
                     <div className="tw-max-w-sm tw-bg-white tw-rounded-lg tw-border tw-border-gray-200 tw-shadow-md tw-dark:bg-gray-800 tw-dark:border-gray-700">
                         <a href="#">
-                            <img className="tw-rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt width="100%" />
+                            <img className="tw-rounded-t-lg" src="https://tamnguyen.vn/wp-content/uploads/2021/09/html-la-gi.png" alt width="100%" />
                         </a>
                         <div className="tw-p-5">
                             <a href="#">
@@ -18,7 +18,7 @@ const ListPost = () => {
                             </a>
                             <p className="tw-mb-3 tw-font-normal tw-text-gray-700 tw-dark:text-gray-400">
                                 Trong buổi học này chúng ta sẽ cùng nhau ôn tập lại các phím tắt hỗ trợ code. Ôn tập lại các cặp thẻ HTML mà chúng ta sẽ thường gặp trong khi học và đi thi.
-                                Quan trọng nhất là chúng ta cùng ôn tập và thực hành lại việc chia layouts để lấy trước 4 điểm. Cuối cùng sẽ là một chút với nội dung buổi tiếp theo là về CSS. 
+                                Quan trọng nhất là chúng ta cùng ôn tập và thực hành lại việc chia layouts để lấy trước 4 điểm. Cuối cùng sẽ là một chút với nội dung buổi tiếp theo là về CSS.
                             </p>
                             {/* <a href="#" className="tw-inline-flex tw-items-center tw-py-2 tw-px-3 tw-text-sm tw-font-medium tw-text-center tw-text-white tw-bg-blue-700 tw-rounded-lg tw-hover:bg-blue-800 tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-blue-300 tw-dark:bg-blue-600 tw-dark:hover:bg-blue-700 tw-dark:focus:ring-blue-800">
                                 Read more
