@@ -173,9 +173,6 @@ const TutorImportStudents = () => {
     setLoading(false);
     console.log('all', importData);
   };
-  useEffect(() => {
-    console.log(studentByNganh);
-  }, [studentByNganh]);
   return (
     <>
       <Helmet>
