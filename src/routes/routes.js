@@ -13,7 +13,8 @@ import ListStudent from '../features/list-students/pages/index.js';
 import PageNotFound from '../features/404page/pages/index.js';
 import AttendanceStudent from '../features/attendance/pages/attendanceStudent/index.js';
 import TutorImportStudents from '../features/tutors/pages/TutorImportStudents/index.js';
-import AddPost from '../features/tutors/pages/TutorAddPost/index.js';
+import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
+import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const AppRoutes = () => {
           <Route path='/import-students' element={<TutorImportStudents />} />
           <Route path='/liststudent' element={<ListStudent />} />
           <Route path='/add-post' element={<AddPost />} />
+          <Route path='/list-post' element={<ListPost />} />
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />
