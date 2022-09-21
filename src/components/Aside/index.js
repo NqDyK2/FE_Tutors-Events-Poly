@@ -112,6 +112,13 @@ const AppAside = () => {
     ),
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+        Semesters
+      </div>,
+      '/semesters',
+      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
         Thêm nội dung học
       </div>,
       '/add-post',

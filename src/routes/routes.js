@@ -16,6 +16,8 @@ import TutorImportStudents from '../features/tutors/pages/TutorImportStudents/in
 import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 import CanlendarTutors from '../features/tutors/pages/Calendar/index.js';
+import SemesterPage from '../features/semester/pages/index.js';
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -37,6 +39,7 @@ const AppRoutes = () => {
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/calendar-tutor' element={<CanlendarTutors />} />
+          <Route path='/semesters' element={<SemesterPage />} />
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />
