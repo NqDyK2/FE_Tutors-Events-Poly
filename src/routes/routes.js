@@ -17,6 +17,7 @@ import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 import CanlendarTutors from '../features/tutors/pages/Calendar/index.js';
 import SemesterPage from '../features/semester/pages/index.js';
+import AddSem from '../features/semester/pages/AddSem.js';
 
 
 const AppRoutes = () => {
@@ -40,6 +41,7 @@ const AppRoutes = () => {
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/calendar-tutor' element={<CanlendarTutors />} />
           <Route path='/semesters' element={<SemesterPage />} />
+          <Route  path='/add-sem' element={<AddSem />}/>
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />
