@@ -8,7 +8,7 @@ const SemesterPage = () => {
   console.log(data);
   return (
     <>
-      {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
+    {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
       <List
         header={<div>Semesters</div>}
         dataSource={data?.semester?.data}
