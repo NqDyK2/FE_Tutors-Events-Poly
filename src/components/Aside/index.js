@@ -6,14 +6,14 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
   RightOutlined,
-  UpOutlined ,
+  UpOutlined,
   BellOutlined,
-  CarryOutOutlined ,
+  CarryOutOutlined,
 } from '@ant-design/icons';
-import { BsFillCircleFill,BsFillCalendarDayFill, BsFilePost, } from 'react-icons/bs';
-import {BiCalendarStar} from 'react-icons/bi'
+import { BsFillCircleFill, BsFillCalendarDayFill, BsFilePost, } from 'react-icons/bs';
+import { BiCalendarStar } from 'react-icons/bi'
 import { SiGoogleclassroom } from 'react-icons/si';
-import {IoMdHelpCircle} from 'react-icons/io'
+import { IoMdHelpCircle } from 'react-icons/io'
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -91,9 +91,9 @@ const AppAside = () => {
     ),
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
-        Lịch học
+        Lịch tutor
       </div>,
-      '',
+      '/calendar-tutor',
       <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
@@ -183,8 +183,8 @@ const AppAside = () => {
         inlineCollapsed={collapsed}
         selectedKeys={[location.pathname]}
         items={items}
-        expandIcon={({isOpen}) => 
-          isOpen ? <UpOutlined className='tw-text-[11px] !tw-text[#313752]'  /> : <RightOutlined className='tw-text-[11px] !tw-text[#313752]' />}
+        expandIcon={({ isOpen }) =>
+          isOpen ? <UpOutlined className='tw-text-[11px] !tw-text[#313752]' /> : <RightOutlined className='tw-text-[11px] !tw-text[#313752]' />}
       />
     </Sider>
   );
