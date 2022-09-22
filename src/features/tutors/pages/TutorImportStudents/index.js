@@ -145,20 +145,6 @@ const TutorImportStudents = () => {
               </div>
             </>
           )}
-          {studentByNganh && (
-            <>
-              {studentByNganh.map((item) => {
-                const key = Object.keys(item)[0];
-                return (
-                  <div>
-                    <p>
-                      {key}: {item[key].length}
-                    </p>
-                  </div>
-                );
-              })}
-            </>
-          )}
         </div>
         <Form.Item
           label=''
