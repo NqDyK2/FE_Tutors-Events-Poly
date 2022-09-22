@@ -4,14 +4,21 @@ import { Helmet } from 'react-helmet-async';
 import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, Button, DatePicker } from 'antd';
 import XLSX from 'xlsx';
-import { transform, mapKeys, startsWith, unionBy } from 'lodash';
+import { transform, mapKeys, startsWith, unionBy , chunk } from 'lodash';
 import { useEffect } from 'react';
+import { useImportStudentsSemesterMutation } from '../../../../app/api/semesterApiSlice';
+import { toast } from 'react-toastify';
 
 const { RangePicker } = DatePicker;
 const TutorImportStudents = () => {
-  const [totalStudents, setTotalStudents] = React.useState(null);
-  const [studentByNganh, setStudentByNganh] = React.useState(null);
+  const [students, setStudents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+
+  const [
+    importStudentsSemester,
+    { isLoading: isImporting, isSuccess: isImported, error: importError },
+  ] = useImportStudentsSemesterMutation();
+
   const handleFile = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
@@ -84,15 +91,15 @@ const TutorImportStudents = () => {
           case 'bộ môn':
             return 'major';
           case 'emai':
-            return 'user_email';
+            return 'student_email';
           case 'giảng viên':
             return 'school_teacher_name';
           case 'họ tên sinh viên':
-            return 'user_name';
+            return 'student_name';
           case 'lớp':
             return 'school_classroom';
           case 'mssv':
-            return 'user_code';
+            return 'student_code';
           case 'môn':
             return 'subject';
           case 'ngành':
@@ -100,7 +107,7 @@ const TutorImportStudents = () => {
           case 'stt':
             return 'id';
           case 'sđt':
-            return 'user_phone';
+            return 'student_phone';
           case 'vấn đề gặp phải chi tiết':
             return 'reason';
           default:
@@ -115,16 +122,35 @@ const TutorImportStudents = () => {
       return returnItem;
     });
 
-    // const filterStudentSame = importData.filter((item) => {
-    //   const student = importData.filter(
-    //     (student) => student.user_code === item.user_code
-    //   );
-    //   return student.length > 1;
-    // });
-    setTotalStudents(importData.length);
+    setStudents(importData);
     setLoading(false);
-    console.log('all', importData);
   };
+
+  const onFinish = async (values) => {
+    console.log(values);
+    const chunkData  = chunk(values.data, 10);
+    console.log(chunkData);
+    console.log(chunkData[0]);
+    try {
+      await Promise.all(chunkData.map((data) => importStudentsSemester({
+        data: {
+          data: data,
+        },
+        semesterId: 1,
+       }))).then(
+        (res) => {
+          console.log(res);
+          toast.success('Import thành công');
+        }
+
+        );
+    } catch (error) {
+      console.log(error);
+      toast.error('Import thất bại');
+    }
+
+  };
+
   return (
     <>
       <Helmet>
@@ -135,20 +161,18 @@ const TutorImportStudents = () => {
           <Input type='file' onChange={handleFile} />
         </Form.Item>
         <div>
-          {totalStudents && (
-            <>
-              <div>
-                <p>Tổng số sinh viên: {totalStudents}</p>
-              </div>
-            </>
-          )}
+          {isImported && <p>Import thành công</p>}
+        </div>
+        <div>
+          {importError && <p>Import thất bại</p>}
         </div>
         <Form.Item
           label=''
           className='tw-flex tw-items-center  tw-justify-center'
         >
           <Button
-            loading={loading}
+            loading={isImporting}
+            onClick={() => onFinish({ data: students })}
             className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '
           >
             Import
