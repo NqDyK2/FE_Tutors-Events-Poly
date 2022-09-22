@@ -41,36 +41,32 @@ const TutorImportStudents = () => {
       BMCB,
     ];
 
-
-    const listGiangVien = unionBy (XLSX.utils.sheet_to_json(wb.Sheets[lopCanDanhGia]).map((item) => {
-      const giangVien = {
-        'school_teacher_code': item['GIẢNG VIÊN'],
-        'school_teacher_name': item['__EMPTY'],
-      }
-      return giangVien;
-    }), (item) => item.school_teacher_code);
-
-
-
+    const listGiangVien = unionBy(
+      XLSX.utils.sheet_to_json(wb.Sheets[lopCanDanhGia]).map((item) => {
+        const giangVien = {
+          school_teacher_code: item['GIẢNG VIÊN'],
+          school_teacher_name: item['__EMPTY'],
+        };
+        return giangVien;
+      }),
+      (item) => item.school_teacher_code
+    );
 
     const rowData = allSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
     });
 
-
-
     const json = rowData
       .flat()
       .filter((item, idx) => idx !== 0 && item.STT !== undefined);
-    console.log(json);
     const importData = json.map((item, idx) => {
       const newItem = transform(item, (result, value, key) => {
         result[key.toLowerCase()] = value;
       });
       newItem.stt = idx + 1;
       newItem['sđt'] = newItem['sđt'] ? String(newItem['sđt']) : '';
-      if (startsWith( newItem['sđt'], "'0")) {
+      if (startsWith(newItem['sđt'], "'0")) {
         newItem['sđt'] = `0${newItem['sđt'].slice(2)}`;
       }
       delete newItem['bm/gv'];
@@ -112,18 +108,19 @@ const TutorImportStudents = () => {
       });
       // renameKeys
 
-      returnItem.school_teacher_code = listGiangVien.find((gv) => gv.school_teacher_name === returnItem.school_teacher_name).school_teacher_code;
+      returnItem.school_teacher_code = listGiangVien.find(
+        (gv) => gv.school_teacher_name === returnItem.school_teacher_name
+      ).school_teacher_code;
 
       return returnItem;
     });
 
-    const filterStudentSame = importData.filter((item) => {
-      const student = importData.filter(
-        (student) => student.user_code === item.user_code
-      );
-      return student.length > 1;
-    });
-    console.log('filterStudentSame', filterStudentSame);
+    // const filterStudentSame = importData.filter((item) => {
+    //   const student = importData.filter(
+    //     (student) => student.user_code === item.user_code
+    //   );
+    //   return student.length > 1;
+    // });
     setTotalStudents(importData.length);
     setLoading(false);
     console.log('all', importData);
