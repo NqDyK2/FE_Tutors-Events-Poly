@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, Button, DatePicker } from 'antd';
 import XLSX from 'xlsx';
-import { transform, mapKeys, startsWith } from 'lodash';
+import { transform, mapKeys, startsWith, unionBy } from 'lodash';
 import { useEffect } from 'react';
 
 const { RangePicker } = DatePicker;
@@ -18,6 +18,9 @@ const TutorImportStudents = () => {
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
     console.log(wb);
+
+    const lopCanDanhGia = wb.SheetNames[0];
+
     const BMUDPM = wb.SheetNames[6];
     const BMCNTT = wb.SheetNames[7];
     const BMKT = wb.SheetNames[8];
@@ -38,75 +41,25 @@ const TutorImportStudents = () => {
       BMCB,
     ];
 
+
+    const listGiangVien = unionBy (XLSX.utils.sheet_to_json(wb.Sheets[lopCanDanhGia]).map((item) => {
+      const giangVien = {
+        'school_teacher_code': item['GIẢNG VIÊN'],
+        'school_teacher_name': item['__EMPTY'],
+      }
+      return giangVien;
+    }), (item) => item.school_teacher_code);
+
+
+
+
     const rowData = allSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
     });
 
-    const rowDataBySheetName = allSheet.map((sheet) => {
-      const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
-      const rowDataBySheetName = json
-        .flat()
-        .filter((item, idx) => idx !== 0 && item.STT !== undefined);
-      let data = rowDataBySheetName.map((item, idx) => {
-        const newItem = transform(item, (result, value, key) => {
-          result[key.toLowerCase()] = value;
-        });
-        newItem.stt = idx + 1;
-        const returnItem = mapKeys(newItem, (value, key) => {
-          switch (key) {
-            case 'bm/gv':
-              return 'boMonVaGiaoVienDanhGia';
-            case 'bộ môn':
-              return 'boMon';
-            case 'emai':
-              return 'email';
-            case 'giảng viên':
-              return 'giangVien';
-            case 'gv':
-              return 'giangVienId';
-            case 'họ tên sinh viên':
-              return 'hoTenSinhVien';
-            case 'kỳ':
-              return 'kyHoc';
-            case 'lớp':
-              return 'lop';
-            case 'lớp môn':
-              return 'lopMon';
-            case 'mssv':
-              return 'mssv';
-            case 'môn':
-              return 'maMon';
-            case 'môn nợ':
-              return 'monNo';
-            case 'ngành':
-              return 'nganhHoc';
-            case 'stt':
-              return 'sinhVienId';
-            case 'sđt':
-              return 'sdtSinhVien';
-            case 'tổng môn nợ':
-              return 'tongMonNo';
-            case 'vấn đề gặp phải chi tiết':
-              return 'vanDeGapPhai';
-            case 'điểm đánh giá':
-              return 'diemDanhGiaDuLieuGoc';
-            case '__empty':
-              return 'diemDanhGiaDuLieuFix';
-            default:
-          }
-        });
-        // renameKeys
 
-        return returnItem;
-      });
-      return { [sheet]: data };
-    });
 
-    setStudentByNganh(rowDataBySheetName);
-
-    console.log('by sheet', rowDataBySheetName);
-    console.log(studentByNganh);
     const json = rowData
       .flat()
       .filter((item, idx) => idx !== 0 && item.STT !== undefined);
@@ -158,6 +111,8 @@ const TutorImportStudents = () => {
         }
       });
       // renameKeys
+
+      returnItem.school_teacher_code = listGiangVien.find((gv) => gv.school_teacher_name === returnItem.school_teacher_name).school_teacher_code;
 
       return returnItem;
     });
