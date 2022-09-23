@@ -2,6 +2,8 @@
 import { Form, Input, DatePicker, Button } from 'antd';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAddSemesterMutation } from '../../../app/api/semesterApiSlice';
 
 const { RangePicker } = DatePicker;
@@ -9,9 +11,10 @@ const AddSem = () => {
     const [addSemester] = useAddSemesterMutation();
     const [time, setTime] = React.useState(null);
     const [form] = Form.useForm();
-
+    const navigate = useNavigate()
     const onFinish = async (values) => {
         // console.log(values);
+        toast.success("Đã thêm kì học thành công")
         await addSemester({
             name: values.name,
             time: {
@@ -19,6 +22,7 @@ const AddSem = () => {
                 end_time: values.time[1].format('DD-MM-YYYY'),
             }
         })
+        navigate("/semesters")
     };
 
 

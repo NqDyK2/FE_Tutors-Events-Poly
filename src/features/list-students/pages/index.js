@@ -9,7 +9,7 @@ const columns = [
     title: '#',
     key: 'index',
     render: (_, record) => (
-        <span className='tw-font-bold'>{record.index + 1}</span>
+      <span className='tw-font-bold'>{record.index + 1}</span>
     ),
     width: "5%"
   },
@@ -33,7 +33,7 @@ const columns = [
     key: 'image',
     dataIndex: 'image',
     render: (_, record) => (
-        <Image width={70} src= {record.image} alt="IMG"/>
+      <Image width={70} src={record.image} alt="IMG" />
     ),
   },
   {
@@ -41,14 +41,14 @@ const columns = [
     dataIndex: 'comment',
     key: 'comment',
     render: (_, record) => (
-        <Input className='tw-rounded' value={record.comment}/>
+      <Input className='tw-rounded' value={record.comment} />
     ),
     width: '25%'
   }
 ];
 
 const ListStudent = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const { data: listStudent, error, isLoading } = useGetListStudentInCLassQuery(id);
 
   let list = listStudent?.data.map((item, index) => ({
@@ -56,7 +56,7 @@ const ListStudent = () => {
     index,
     className: item.school_classroom,
     studentCode: item.school_classroom,
-    image: 'https://ss-images.saostar.vn/wp700/pc/1617160792140/saostar-ad0lx1k2h7n0blgh.jpg',
+    image: 'https://demoda.vn/wp-content/uploads/2022/02/anh-kaomoji-de-thuong-danh-nhau.jpg',
     comment: item.reason,
     studentName: item.user_email
   }))
@@ -68,9 +68,9 @@ const ListStudent = () => {
       </div>
       {isLoading && <p>Loading...</p>}
       {error && <p>Error</p>}
-      {list && (      
+      {list && (
         <div className='tw-mt-6'>
-          <Table scroll={{ y: 380 }} key={list.key} columns={columns} dataSource={list} pagination={false}  />
+          <Table scroll={{ y: 380 }} key={list.key} columns={columns} dataSource={list} pagination={false} />
           <TextArea placeholder="Ghi chú lớp" rows={4} className="tw-mt-5 tw-rounded-md" maxLength={6} />
         </div>
       )}
