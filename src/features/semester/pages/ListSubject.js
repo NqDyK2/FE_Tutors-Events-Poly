@@ -2,12 +2,12 @@ import { Image, Input, Select, Table } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetSemesterQuery } from '../../../app/api/semesterApiSlice';
+import { useGetSubjectQuery } from '../../../app/api/semesterApiSlice';
 
 const SubjectPage = () => {
   const {id} = useParams();
   const { Option } = Select;
-  const { data, error, isLoading } = useGetSemesterQuery(id);
+  const { data, error, isLoading } = useGetSubjectQuery(id);
   console.log(data);
 
   

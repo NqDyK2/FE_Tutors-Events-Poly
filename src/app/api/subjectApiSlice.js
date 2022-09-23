@@ -17,4 +17,4 @@ export const subjectApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllSubjectQuery } = subjectApiSlice;
+export const { useGetAllSubjectQuery, useGetSubjectQuery } = subjectApiSlice;
