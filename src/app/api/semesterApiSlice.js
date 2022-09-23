@@ -28,7 +28,22 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Semester"],
     }),
+    addSemester: builder.mutation({
+      query: (semester) => ({
+        url: 'semester/store',
+        method: 'POST',
+        body: semester,
+      }),
+      invalidatesTags: ["Semester"]
+    })
   }),
 });
 
-export const { useGetAllSemesterQuery, useGetListClassInSemesterQuery, useGetListStudentInCLassQuery, useImportStudentsSemesterMutation } = semesterApiSlice;
+export const {
+  useGetAllSemesterQuery,
+  useGetListStudentInCLassQuery,
+  useAddSemesterMutation,
+  useGetSemesterQuery,
+  useImportStudentsSemesterMutation
+} = semesterApiSlice;
+ 
