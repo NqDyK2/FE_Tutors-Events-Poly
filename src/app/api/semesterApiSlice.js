@@ -14,6 +14,9 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
         url: `semester/import/${body.semesterId}`,
         body: body.data,
         method: "POST",
+        headers: {
+          'Accept': 'application/json',
+        }
       }),
       invalidatesTags: ["Semester"],
     }),

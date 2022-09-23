@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 const { RangePicker } = DatePicker;
 const TutorImportStudents = () => {
   const [students, setStudents] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
 
   const [
     importStudentsSemester,
@@ -20,7 +19,6 @@ const TutorImportStudents = () => {
   ] = useImportStudentsSemesterMutation();
 
   const handleFile = async (e) => {
-    setLoading(true);
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
@@ -38,14 +36,7 @@ const TutorImportStudents = () => {
     const BMCB = wb.SheetNames[13];
 
     const allSheet = [
-      BMUDPM,
       BMCNTT,
-      BMKT,
-      BMDCK,
-      BMTKDH,
-      BMTMDT,
-      BMDLNHKS,
-      BMCB,
     ];
 
     const listGiangVien = unionBy(
@@ -121,21 +112,22 @@ const TutorImportStudents = () => {
 
       return returnItem;
     });
-
     setStudents(importData);
-    setLoading(false);
   };
 
   const onFinish = async (values) => {
-    console.log(values);
-    // const chunkData  = chunk(values.data, 10);
+    const chunkData  = chunk(values.data, 100);
     // console.log(chunkData);
     // console.log(chunkData[0]);
     try {
-      await importStudentsSemester({
-        data:  values,
+      await Promise.all(chunkData.map((data) => importStudentsSemester({
+        data : {
+          data,
+        },
         semesterId: 1,
-      })
+      }))).then((res) => {
+        toast.success('Import thành công');
+      });
     } catch (error) {
       console.log(error);
       toast.error('Import thất bại');
