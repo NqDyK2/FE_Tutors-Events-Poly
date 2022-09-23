@@ -1,9 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { Form, Input, DatePicker, Button } from 'antd'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form';
+import { useAddSemesterMutation } from '../../../app/api/semesterApiSlice';
+
 
 const { RangePicker } = DatePicker;
 const AddSem = () => {
+    const [addSemester] = useAddSemesterMutation();
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const onSubmit = data => {
+        addSemester(data)
+        console.log("data", data);
+    }
     return (
         <>
             <Helmet>
@@ -15,12 +25,27 @@ const AddSem = () => {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 14 }}
                     layout='horizontal'
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <Form.Item label="Tên kì:">
-                        <Input />
+                        <Input  {...register('name', { required: true, minLength: 5, maxLength: 100 })} />
+                        {/* {...register('name', { required: true, minLength: 5, maxLength: 100 })} */}
+                        {/* <p className='tw-text-red-500'>
+                            {errors.name?.type === 'required' && "Không bỏ trống trường"}
+                            {errors.name?.type === 'minLength' && "Nhập đủ ít nhất 5 ký tự"}
+                            {errors.name?.type === 'minLength' && "Chỉ có thể nhập ít hơn 100 ký tự"}
+                        </p> */}
                     </Form.Item>
                     <Form.Item label='Thời gian:'>
                         <RangePicker />
+                    </Form.Item>
+                    <Form.Item label="Thời gian bắt đầu:">
+                        <DatePicker  {...register('start_time')} />
+                        {/* {...register('start_time')} */}
+                    </Form.Item>
+                    <Form.Item label="Thời gian kết thúc:">
+                        <DatePicker {...register('end_time')} />
+                        {/* {...register('end_time')} */}
                     </Form.Item>
                     <Form.Item
                         label=''
