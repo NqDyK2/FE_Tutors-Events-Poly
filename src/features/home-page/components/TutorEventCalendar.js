@@ -13,9 +13,9 @@ const TutorEventCalendar = (props) => {
       schedulerLicenseKey='CC-Attribution-NonCommercial-NoDerivatives'
       plugins={[dayGridPlugin, listPlugin, timeGridPlugin]}
       headerToolbar={{
-        left: 'prev,next,today',
+        left: '',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,listDay',
+        right: 'dayGridMonth,timeGridWeek,listDay,today,prev,next',
       }}
       locales={['vi', 'en']}
       locale={['vi']}
