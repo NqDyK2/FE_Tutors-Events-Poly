@@ -1,18 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, Button, DatePicker } from 'antd';
 import XLSX from 'xlsx';
-import { transform, mapKeys, startsWith, unionBy , chunk } from 'lodash';
+import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
 import { useEffect } from 'react';
 import { useImportStudentsSemesterMutation } from '../../../../app/api/semesterApiSlice';
 import { toast } from 'react-toastify';
 
-const { RangePicker } = DatePicker;
 const TutorImportStudents = () => {
   const [students, setStudents] = React.useState([]);
-
   const [
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
@@ -35,9 +32,7 @@ const TutorImportStudents = () => {
     const BMDLNHKS = wb.SheetNames[12];
     const BMCB = wb.SheetNames[13];
 
-    const allSheet = [
-      BMCNTT,
-    ];
+    const allSheet = [BMCNTT];
 
     const listGiangVien = unionBy(
       XLSX.utils.sheet_to_json(wb.Sheets[lopCanDanhGia]).map((item) => {
@@ -116,24 +111,29 @@ const TutorImportStudents = () => {
   };
 
   const onFinish = async (values) => {
-    const chunkData  = chunk(values.data, 100);
+    const chunkData = chunk(values.data, 100);
     // console.log(chunkData);
     // console.log(chunkData[0]);
-    try {
-      await Promise.all(chunkData.map((data) => importStudentsSemester({
-        data : {
-          data,
-        },
-        semesterId: 1,
-      }))).then((res) => {
-        toast.success('Import thành công');
-      });
-    } catch (error) {
-      console.log(error);
+    await Promise.all(
+      chunkData.map((data) =>
+        importStudentsSemester({
+          data: {
+            data,
+          },
+          semesterId: 1,
+        })
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (isImported) {
+      toast.success('Import thành công');
+    }
+    if (importError) {
       toast.error('Import thất bại');
     }
-
-  };
+  }, [isImported, importError]);
 
   return (
     <>
@@ -141,27 +141,38 @@ const TutorImportStudents = () => {
         <title>FPoly</title>
       </Helmet>
       <div>
-        <Form.Item label='Import sinh viên:' valuePropName='fileList'>
-          <Input type='file' onChange={handleFile} />
-        </Form.Item>
-        <div>
-          {isImported && <p>Import thành công</p>}
-        </div>
-        <div>
-          {importError && <p>Import thất bại</p>}
-        </div>
-        <Form.Item
-          label=''
-          className='tw-flex tw-items-center  tw-justify-center'
+        <Form
+          name="basic"
+          onFinish={() => {
+            onFinish({ data: students });
+          }}
         >
-          <Button
-            loading={isImporting}
-            onClick={() => onFinish({ data: students })}
-            className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '
+          <Form.Item
+            name="file"
+            label='Import sinh viên:'
+            valuePropName='fileList'
+            rules={[{ required: true, message: 'Không được trống' },
+          ]}
           >
-            Import
-          </Button>
-        </Form.Item>
+            <Input type='file' onChange={handleFile} 
+             accept='.xlsx, .xls, .csv'
+            />
+          </Form.Item>
+          <div>{isImported && <p>Import thành công</p>}</div>
+          <div>{importError && <p>Import thất bại</p>}</div>
+          <Form.Item
+            label=''
+            className='tw-flex tw-items-center  tw-justify-center'
+          >
+            <Button
+              loading={isImporting}
+              htmlType='submit'
+              className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '
+            >
+              Import
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </>
   );
