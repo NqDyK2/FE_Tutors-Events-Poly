@@ -4,11 +4,11 @@ import { Avatar, List} from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { useGetSemesterQuery } from '../../../app/api/semesterApiSlice';
+import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlice';
 
 const SubjectPage = () => {
   const {id} = useParams();
-  const { data, error, isLoading } = useGetSemesterQuery(id);
+  const { data, error, isLoading } = useGetListClassInSemesterQuery(id);
   
   console.log(data);
   return (
