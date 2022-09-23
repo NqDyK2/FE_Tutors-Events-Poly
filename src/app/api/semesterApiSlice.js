@@ -9,7 +9,10 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Semester"],
     }),
-<<<<<<< HEAD
+    getSemester: builder.query({
+      query: (id) => `semester/show/${id}`,
+      providesTags: ['Semester'],
+    }),
     importStudentsSemester: builder.mutation({
       query: (body) => ({
         url: `semester/import/${body.semesterId}`,
@@ -20,17 +23,8 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
         }
       }),
       invalidatesTags: ["Semester"],
-=======
-    getSemester: builder.query({
-      query: (id) => `semester/show/${id}`,
-      providesTags: ['Semester'],
->>>>>>> dddf2c4 (Create UI List subjects)
     }),
   }),
 });
 
-<<<<<<< HEAD
-export const { useGetAllSemesterQuery, useImportStudentsSemesterMutation } = semesterApiSlice;
-=======
-export const { useGetAllSemesterQuery, useGetSemesterQuery } = semesterApiSlice;
->>>>>>> dddf2c4 (Create UI List subjects)
+export const { useGetAllSemesterQuery, useGetSemesterQuery, useImportStudentsSemesterMutation } = semesterApiSlice;
