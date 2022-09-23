@@ -10,7 +10,7 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Semester"],
     }),
     getSemester: builder.query({
-      query: (id) => `semester/show/${id}`,
+      query: (id) => `classroom/in-semester/${id}`,
       providesTags: ['Semester'],
     }),
     importStudentsSemester: builder.mutation({
