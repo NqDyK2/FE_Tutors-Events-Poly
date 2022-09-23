@@ -9,8 +9,12 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Semester"],
     }),
-    getSemester: builder.query({
+    getListClassInSemester: builder.query({
       query: (id) => `classroom/in-semester/${id}`,
+      providesTags: ['Semester'],
+    }),
+    getListStudentInCLass: builder.query({
+      query: (id) => `classroom/get-student/${id}`,
       providesTags: ['Semester'],
     }),
     importStudentsSemester: builder.mutation({
@@ -27,4 +31,4 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllSemesterQuery, useGetSemesterQuery, useImportStudentsSemesterMutation } = semesterApiSlice;
+export const { useGetAllSemesterQuery, useGetListClassInSemesterQuery, useGetListStudentInCLassQuery, useImportStudentsSemesterMutation } = semesterApiSlice;
