@@ -15,8 +15,8 @@ const AddSem = () => {
         await addSemester({
             name: values.name,
             time: {
-                startTime: values.time[0].format('DD-MM-YYYY'),
-                endTime: values.time[1].format('DD-MM-YYYY'),
+                start_time: values.time[0].format('DD-MM-YYYY'),
+                end_time: values.time[1].format('DD-MM-YYYY'),
             }
         })
     };
@@ -48,12 +48,12 @@ const AddSem = () => {
                     <Form.Item
                         name='name'
                         labelCol={{ span: 24 }}
-                        label='Name'
+                        label='Tên kì:'
                         rules={[
                             { required: true, message: 'Name không được trống' },
                         ]}
                     >
-                        <Input size='large' />
+                        <Input />
                     </Form.Item>
 
                     {/* <Form.Item label='Thời gian:'>
