@@ -1,23 +1,44 @@
 .fc-toolbar-title {
-  @apply first-letter:tw-uppercase
+  @apply first-letter:tw-uppercase tw-text-white !tw-text-lg
 }
 
 .fc-button-group {
-  @apply tw-gap-x-1
 }
 
 .fc-button {
-  @apply !tw-rounded-sm !tw-border-0 !tw-bg-orange-400
+  @apply !tw-bg-slate-100 !tw-text-black !tw-border-0 !tw-rounded-none !tw-text-base
 }
 
+.fc-today-button  {
+  @apply !tw-ml-3
+}
+
+
+.fc-col-header-cell-cushion  {
+  @apply !tw-text-gray-900
+}
 .fc-button:hover {
-  @apply !tw-bg-orange-500 !tw-border-none
+  @apply !tw-bg-slate-200 !tw-text-black
+}
+.fc-button:focus {
+  @apply !tw-shadow-none
 }
 
 .fc-button:disabled {
-  @apply !tw-cursor-not-allowed !tw-bg-orange-300
+  @apply !tw-bg-transparent !tw-text-gray-200
+}
+
+.fc-today-button, .fc-prev-button, .fc-next-button {
+  @apply !tw-bg-transparent !tw-text-white
+}
+.fc-today-button:hover,  .fc-prev-button:hover, .fc-next-button:hover {
+  @apply !tw-bg-transparent !tw-text-white
 }
 
 .fc-button-active {
-  @apply !tw-bg-orange-600
+  @apply !tw-bg-gray-300 !tw-text-black
+}
+
+.fc-header-toolbar {
+  @apply !tw-bg-cyan-500 !tw-mb-0
 }

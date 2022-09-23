@@ -128,22 +128,14 @@ const TutorImportStudents = () => {
 
   const onFinish = async (values) => {
     console.log(values);
-    const chunkData  = chunk(values.data, 10);
-    console.log(chunkData);
-    console.log(chunkData[0]);
+    // const chunkData  = chunk(values.data, 10);
+    // console.log(chunkData);
+    // console.log(chunkData[0]);
     try {
-      await Promise.all(chunkData.map((data) => importStudentsSemester({
-        data: {
-          data: data,
-        },
+      await importStudentsSemester({
+        data:  values,
         semesterId: 1,
-       }))).then(
-        (res) => {
-          console.log(res);
-          toast.success('Import thành công');
-        }
-
-        );
+      })
     } catch (error) {
       console.log(error);
       toast.error('Import thất bại');
