@@ -43,7 +43,7 @@ export const {
   useGetAllSemesterQuery,
   useGetListStudentInCLassQuery,
   useAddSemesterMutation,
-  useGetSemesterQuery,
+  useGetListClassInSemesterQuery,
   useImportStudentsSemesterMutation
 } = semesterApiSlice;
  
