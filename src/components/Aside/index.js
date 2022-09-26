@@ -39,35 +39,35 @@ const AppAside = () => {
   // navigate by key value of menu item
   const items = [
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Thông báo và tin tức
       </div>,
       '/',
       <BellOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Sự kiện
       </div>,
       'sub1',
-      <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />,
+      <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] '  />,
       [
         getItem(
-          <div className='tw-text-[#313752]'>Sự kiện</div>,
+          <div className='tw-text-[#313752] dark:!tw-text-white '>Sự kiện</div>,
           '3',
           !collapsed && (
             <BsFillCircleFill className='tw-text-[4px]  tw-text-[#C4CFF9]' />
           )
         ),
         getItem(
-          <div className='tw-text-[#313752]'>Sự kiện</div>,
+          <div className='tw-text-[#313752] dark:!tw-text-white '>Sự kiện</div>,
           '4',
           !collapsed && (
             <BsFillCircleFill className='tw-text-[4px]   tw-text-[#C4CFF9]' />
           )
         ),
         getItem(
-          <div className='tw-text-[#313752]'>Sự kiện</div>,
+          <div className='tw-text-[#313752] dark:!tw-text-white '>Sự kiện</div>,
           '/auth',
           !collapsed && (
             <BsFillCircleFill className='tw-text-[4px]   tw-text-[#C4CFF9]' />
@@ -76,63 +76,63 @@ const AppAside = () => {
       ]
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Tạo lớp tutors
       </div>,
       '/crclass',
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Điểm danh
       </div>,
       '/attendance',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Lịch tutor
       </div>,
       '/calendar-tutor',
       <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Danh sách lớp
       </div>,
       '',
       <SiGoogleclassroom className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Sự kiện
       </div>,
       '/events',
       <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Semesters
       </div>,
       '/semesters',
       <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Thêm nội dung học
       </div>,
       '/add-post',
       <BsFilePost className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Hỗ trợ
       </div>,
       '',
       <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752]'}`}>
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Test import của cháu linh
       </div>,
       '/import-students',
