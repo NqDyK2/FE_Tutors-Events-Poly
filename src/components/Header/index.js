@@ -6,7 +6,7 @@ import UserDropDown from './components/UserDropDown';
 const AppHeader = () => {
   return (
     <Header
-      className='tw-bg-white tw-border-b tw-pr-4 tw-gap-x-2 tw-flex tw-items-center tw-justify-end'
+      className='tw-bg-white dark:tw-bg-[#1E2139] tw-border-b tw-pr-4 tw-gap-x-2 tw-flex tw-items-center tw-justify-end'
       style={{ padding: 0 }}
     >
         <ThemeToogle />
