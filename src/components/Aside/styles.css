@@ -4,7 +4,7 @@ app-sidebar .ant-menu-item div,
 .app-sidebar .ant-menu-submenu-title div,
 .app-sidebar .ant-menu,
 .ant-menu-sub {
-  @apply !tw-text-[#313752];
+  @apply !tw-text-[#313752] dark:!tw-text-white;
 }
 
 .app-sidebar .ant-menu-submenu .ant-menu-submenu-title .anticon-right svg,
@@ -20,7 +20,7 @@ app-sidebar .ant-menu-item div,
 .app-sidebar .ant-menu-item-selected,
 .app-sidebar .ant-menu-item:hover,
 .app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover {
-  @apply !tw-border-none !tw-bg-[#F6F7FD];
+  @apply !tw-border-none !tw-bg-[#F6F7FD] dark:!tw-bg-slate-600;
 }
 
 .ant-menu-inline .ant-menu-item-selected:after {
@@ -34,8 +34,8 @@ app-sidebar .ant-menu-item div,
   @apply !tw-text-[#5d78ff];
 }
 
-.ant-menu:not(.ant-menu-horizontal) {
-  @apply !tw-bg-white;
+.ant-menu:not(.ant-menu-horizontal) { 
+  @apply !tw-bg-white dark:!tw-bg-[#1E2139] ;
 }
 
 .app-sidebar  {
