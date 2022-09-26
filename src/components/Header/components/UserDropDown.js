@@ -3,8 +3,8 @@ import React from 'react';
 import { BiUserPin } from 'react-icons/bi';
 import { AiOutlineCaretRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logOut } from '../../../features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut, selectCurrentUser } from '../../../features/auth/authSlice';
 import { toast } from 'react-toastify';
 
 const LogoutButton = () => {
@@ -24,12 +24,13 @@ const LogoutButton = () => {
   );
 };
 
-const DropdownOverlay = () => {
+const DropdownOverlay = ({currentUser}) => {
+  
   return (
     <>
       <div className='lg:tw-w-[400px] md:tw-w-[150px] tw-max-w-md tw-bg-white tw-shadow-md tw-rounded-sm'>
         <div className='tw-bg-[#2E47AE] tw-h-[75px] tw-flex tw-items-center tw-rounded-t-sm'>
-          <h4 className='tw-ml-6  tw-text-gray-200 tw-text-base'>User</h4>
+          <h4 className='tw-ml-6  tw-text-gray-200 tw-text-base'>{currentUser?.name}</h4>
         </div>
         <Link
           to='/profile'
@@ -59,18 +60,19 @@ const DropdownOverlay = () => {
 };
 
 const UserDropDown = () => {
+  const currentUser = useSelector(selectCurrentUser);
   return (
     <>
       <Dropdown
         trigger={['click']}
-        overlay={DropdownOverlay}
+        overlay={<DropdownOverlay currentUser={currentUser} />}
         placement='topLeft'
       >
         <Button
           type='text'
           className='tw-text-[12px] tw-text-neutral-600 tw-px-2 hover:tw-bg-blue-100 '
         >
-          <span className='tw-text-blue-300'>Xin chào</span>, User
+          <span className='tw-text-blue-300'>Xin chào</span>, {currentUser?.name.split(' ')[0]}
         </Button>
       </Dropdown>
     </>
