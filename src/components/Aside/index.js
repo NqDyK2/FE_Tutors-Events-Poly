@@ -151,7 +151,7 @@ const AppAside = () => {
       width={256}
       collapsedWidth={62.5}
       collapsed={collapsed}
-      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50'
+      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50 dark:tw-bg-[#1E2139]'
     >
       <div className='tw-flex tw-items-center tw-gap-x-2 tw-justify-center tw-px-2'>
         {!collapsed && (
@@ -177,7 +177,7 @@ const AppAside = () => {
       </div>
       <Menu
         // theme='dark'
-        className='app-sidebar '
+        className='app-sidebar dark:tw-bg-[#1E2139] '
         onClick={(e) => onClickHandler(e)}
         mode='inline'
         inlineCollapsed={collapsed}

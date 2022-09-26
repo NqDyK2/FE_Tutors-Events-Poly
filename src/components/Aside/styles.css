@@ -37,3 +37,4 @@ app-sidebar .ant-menu-item div,
 .ant-menu:not(.ant-menu-horizontal) {
   @apply !tw-bg-white;
 }
+

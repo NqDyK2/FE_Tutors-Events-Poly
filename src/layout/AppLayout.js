@@ -24,7 +24,7 @@ const AppLayout = () => {
       <Layout className='tw-min-h-screen' hasSider>
         <AppAside />
 
-        <Layout className='site-layout'>
+        <Layout className='site-layout tw-dark:tw-bg-black'>
           <AppHeader />
 
           {/* Breadcrumb */}
