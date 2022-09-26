@@ -10,7 +10,7 @@ const SemesterPage = () => {
   console.log(data);
   return (
     <>
-      {/* {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
+      {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
       <List
         header={<div>Semesters</div>}
         dataSource={data?.semester?.data}
@@ -18,10 +18,10 @@ const SemesterPage = () => {
         loading={isLoading}
         renderItem={(item) => (
           <List.Item>
-            <Link to={`/sem/${item.id}`}> {item.name} </Link>
+            <Link to={`/semesters/${item.id}`}> {item.name} </Link>
           </List.Item>
         )}
-      ></List> */}
+      ></List>
       {/* Tạm thời comment lại nhé các cụ */}
       <div className='tw-flex tw-flex-wrap'>
         <div className='tw-w-[240px] tw-border bg-neutral-400 tw-rounded-[3px] tw-shadow-transparent hover:tw-opacity-[90%] tw-mx-6 tw-my-6 tw-drop-shadow-xl hover:tw-border-gray-400'>
