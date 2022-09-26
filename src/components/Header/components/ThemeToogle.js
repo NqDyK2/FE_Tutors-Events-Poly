@@ -5,11 +5,11 @@ import { BsSunFill, BsFillMoonFill } from 'react-icons/bs';
 
 const ThemeToogle = () => {
   const [toggle, setToggle] = React.useState(
-    localStorage.getItem('theme') === 'dark' ? true : false
+    sessionStorage.getItem('theme') === 'dark' ? true : false
   );
   useEffect(() => {
     const root = window.document.documentElement;
-    const currentTheme = localStorage.getItem('theme');
+    const currentTheme = sessionStorage.getItem('theme');
     if (currentTheme === 'dark') {
       root.classList.add('tw-dark');
     }
@@ -24,18 +24,18 @@ const ThemeToogle = () => {
 
           setToggle(!toggle);
           if (toggle) {
-            localStorage.setItem('theme', 'light');
+            sessionStorage.setItem('theme', 'light');
             root.classList.remove('tw-dark');
           } else {
-            localStorage.setItem('theme', 'dark');
+            sessionStorage.setItem('theme', 'dark');
             root.classList.add('tw-dark');
           }
         }}
       >
         {toggle ? (
-          <BsSunFill className=' tw-w-5 tw-h-5 tw-text-orange-600' />
-        ) : (
           <BsFillMoonFill className=' tw-w-5 tw-h-5 tw-text-gray-600' />
+        ) : (
+          <BsSunFill className=' tw-w-5 tw-h-5 tw-text-orange-600' />
         )}
       </Button>
     </>
