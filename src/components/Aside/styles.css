@@ -38,3 +38,7 @@ app-sidebar .ant-menu-item div,
   @apply !tw-bg-white;
 }
 
+.app-sidebar  {
+  @apply !tw-border-r-0 !tw-overflow-x-hidden;
+}
+

@@ -151,7 +151,7 @@ const AppAside = () => {
       width={256}
       collapsedWidth={62.5}
       collapsed={collapsed}
-      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50 dark:tw-bg-[#1E2139]'
+      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50 dark:tw-shadow-md dark:tw-bg-[#1E2139] dark:tw-shadow-slate-400 dark:tw-drop-shadow-2xl  '
     >
       <div className='tw-flex tw-items-center tw-gap-x-2 tw-justify-center tw-px-2'>
         {!collapsed && (
