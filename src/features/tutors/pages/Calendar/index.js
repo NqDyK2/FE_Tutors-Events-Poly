@@ -10,62 +10,52 @@ const columns = [
         title: 'STT',
         dataIndex: 'stt',
         key: 'stt',
-        width: 45,
         render: (text) => <a>{text}</a>,
     },
     {
         title: 'Ngày',
         dataIndex: 'ngay',
-        width: 80,
         key: 'ngay',
     },
     {
         title: 'Phòng',
         dataIndex: 'phong',
-        width: 80,
         key: 'phong',
     },
     {
         title: 'Giảng đường',
         dataIndex: 'giangduong',
-        width: 80,
         key: 'giangduong',
     },
     {
         title: 'Mã môn',
         dataIndex: 'mamon',
-        width: 80,
         key: 'mamon',
     },
     {
         title: 'Lớp',
         dataIndex: 'lop',
-        width: 80,
         key: 'lop',
     },
     {
         title: 'Giảng viên',
         dataIndex: 'giangvien',
-        width: 80,
         key: 'giangvien',
     },
     {
         title: 'Ca',
         dataIndex: 'ca',
-        width: 45,
         key: 'ca',
     },
     {
         title: 'Thời gian',
         dataIndex: 'thoigian',
-        width: 120,
         key: 'thoigian',
     },
     {
         title: 'Link học trực tuyến',
         dataIndex: 'link',
         key: 'link',
-        width: 300,
         render: (_, record) => (
             <a href={record.link}>
                 {record.link}
@@ -82,7 +72,8 @@ const columns = [
                     Chi tiết
                 </p>
             </Tooltip>
-        )
+        ),
+        width: 100
     },
 ];
 const data = [
@@ -173,9 +164,7 @@ const CanlendarTutors = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{
-                    pageSize: 10,
-                }}
+                pagination={false}
             />
         </div>
     )
