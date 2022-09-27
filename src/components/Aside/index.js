@@ -100,7 +100,7 @@ const AppAside = () => {
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Danh sách lớp
       </div>,
-      '',
+      '/list-class',
       <SiGoogleclassroom className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     getItem(
