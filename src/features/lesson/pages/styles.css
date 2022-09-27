@@ -1,0 +1,3 @@
+.ant-form-item-required {
+  @apply dark:tw-text-slate-100;
+}

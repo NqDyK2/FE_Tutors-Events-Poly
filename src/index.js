@@ -8,6 +8,8 @@ import 'antd/dist/antd.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ConfigProvider } from 'antd';
+import locale from 'antd/es/locale/vi_VN';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -17,7 +19,9 @@ root.render(
     <BrowserRouter>
       <PersistGate loading={null} persistor={persistor}>
         <HelmetProvider>
-          <App />
+          <ConfigProvider locale={locale}>
+            <App />
+          </ConfigProvider>
         </HelmetProvider>
       </PersistGate>
     </BrowserRouter>
