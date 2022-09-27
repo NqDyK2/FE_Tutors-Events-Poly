@@ -65,6 +65,7 @@ const AddLesson = () => {
             <RangePicker
               placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
               showTime
+              format={'DD/MM/YYYY HH:mm'}
               disabledDate={(current) => {
                 return current && current   <= Date.now().valueOf();
               }}
