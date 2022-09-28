@@ -1,6 +1,8 @@
-import React from 'react'
+import React from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Button, Table } from 'antd';
+import { Button, Result, Table } from 'antd';
+import { useGetAttendanceListClassQuery } from '../../../../app/api/attendanceApiSlice';
 
 const columns = [
   {
@@ -29,114 +31,45 @@ const columns = [
     key: 'room',
   },
   {
-    title: 'Khu giảng đường',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Ca học',
+    title: 'Thời gian',
     dataIndex: 'cahoc',
     key: 'cahoc',
   },
   {
     title: 'Link trực tuyến',
     key: 'onLink',
-    render: (_, record) => (
-      <a href={record.onLink}>{record.onLink}</a>
-    )
+    render: (_, record) => <a href={record.onLink}>{record.onLink}</a>,
   },
   {
     title: 'Điểm danh',
     key: 'action',
     render: (_, record) => (
-      <Button className='tw-w-[100px] tw-bg-[#0DB27F] tw-rounded-[4px] tw-text-white' >
-        <Link to='/attendance-student'>Điểm danh</Link>
+      <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white'>
+        <Link to={`/attendance-student/${record.class}`}>Điểm danh</Link>
       </Button>
     ),
   },
 ];
-const data = [
-  {
-    key: '1',
-    day: 'Thứ Bảy 07/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Chủ Nhật 08/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Thứ Hai 09/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Thứ Hai 09/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Thứ Hai 09/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Thứ Hai 09/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-  {
-    key: '1',
-    day: 'Thứ Hai 09/01/2023',
-    class: 32,
-    subName: 'Lập trình Front-End Framework 2',
-    subCode: 'WEB209',
-    room: 'Google Meet 2',
-    address: 'Google Meet',
-    cahoc: 6,
-    onLink: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-  },
-
-];
 
 const AttendanceList = () => {
+  const {
+    data: listData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetAttendanceListClassQuery();
+  const dataSource = listData?.data.map((item, index) => ({
+    key: index + 1,
+    day: moment(item.day).format('DD/MM/YYYY'),
+    class: item.id,
+    subName:item.classroom.name,
+    subCode: item.classroom.name,
+    room: item.class_location,
+    cahoc: `${
+      moment(item.start_time).format('HH:mm') 
+    } - ${moment(item.end_time).format('HH:mm') }`,
+    onLink: 'Đoán xem ?',
+  }));
   return (
     <div className='tw-w-full'>
       <div className='tw-border-b-2'>
@@ -144,10 +77,22 @@ const AttendanceList = () => {
       </div>
       {/* table antd */}
       <div className='tw-mt-6'>
-        <Table scroll={{ y: 380 }} columns={columns} dataSource={data} />
+        {isError && (
+          <div>
+            <Result status={'error'} 
+            title='Đã có lỗi xảy ra'
+            />
+          </div>
+        )}
+          <Table
+            loading={isLoading}
+            scroll={{ y: 380 }}
+            columns={columns}
+            dataSource={dataSource}
+          />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AttendanceList
+export default AttendanceList;
