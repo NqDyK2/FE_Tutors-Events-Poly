@@ -59,13 +59,14 @@ const AttendanceStudent = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      render: (_, record) => (
+      render: (status, record) => (
         <Switch
           key={record.student_code}
           className='tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[80px]'
           checkedChildren='Có mặt'
           unCheckedChildren='Vắng'
-          defaultChecked={record.status}
+          defaultChecked={status}
+          loading={isUpdateLoading}
           onChange={(value) => handleSwitch(value, record)}
         />
       ),
