@@ -42,11 +42,13 @@ const AttendanceStudent = () => {
       title: 'Mã sinh viên',
       dataIndex: 'student_code',
       key: 'student_code',
+
     },
     {
       title: 'Tên sinh viên',
       dataIndex: 'student_name',
       key: 'student_name',
+
     },
     // {
     //     title: 'Ảnh',
@@ -60,7 +62,7 @@ const AttendanceStudent = () => {
       render: (_, record) => (
         <Switch
           key={record.student_code}
-          className='tw-w-[80px]'
+          className='tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[80px]'
           checkedChildren='Có mặt'
           unCheckedChildren='Vắng'
           defaultChecked={record.status}
@@ -71,12 +73,13 @@ const AttendanceStudent = () => {
     {
       title: 'Chú thích',
       dataIndex: 'desc',
+      responsive: ['md'],
       key: 'desc',
       render: (_, record) => (
         <input
           key={record.student_code}
           type='text'
-          className='tw-w-[250px] tw-h-[30px] tw-border tw-border-[#DEE2E6] tw-rounded-[2px]'
+          className=' tw-max-h-[30px] tw-px-1 tw-w-2/3 tw-border tw-border-[#DEE2E6] tw-rounded-[2px]'
         />
       ),
     },
@@ -150,6 +153,7 @@ const AttendanceStudent = () => {
           dataSource={data}
           rowKey='student_code'
           className='attendance-table'
+          
         />
         <textarea
           className='tw-border tw-rounded-[5px] tw-w-full tw-mt-[15px] tw-pt-[5px] '
