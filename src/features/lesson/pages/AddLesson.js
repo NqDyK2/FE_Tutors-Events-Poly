@@ -9,6 +9,7 @@ import {
 import { useAddLessonMutation } from '../../../app/api/lessonApiSlice';
 import { useEffect } from 'react';
 import { find } from 'lodash';
+import { toast } from 'react-toastify';
 
 const { RangePicker } = DatePicker;
 
@@ -23,16 +24,14 @@ const AddLesson = () => {
     error: classError,
     isLoading: classLoading,
   } = useGetListClassInSemesterQuery(semesterId);
-  const [addLesson, { isLoading: addLoading }] = useAddLessonMutation();
-  const onFinish =  (values) => {
-     addLesson({
+  const [addLesson, { isLoading: addLoading, error, isSuccess }] = useAddLessonMutation();
+  const onFinish = (values) => {
+    addLesson({
       classroom_id: values.ID,
       class_location: values.position,
       type: values.type,
-      date: {
-        start_time: values.date[0].format(),
-        end_time: values.date[1].format(),
-      },
+      start_time: values.date[0].format('YYYY-MM-DD HH:mm:ss'),
+      end_time: values.date[1].format('YYYY-MM-DD HH:mm:ss'),
     });
   };
 
@@ -41,6 +40,13 @@ const AddLesson = () => {
       setRecentClass(find(classList?.data, (item) => item.id === parseInt(id)));
     }
   }, [classList, id]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      form.resetFields();
+      toast.success('Thêm buổi học thành công');
+    }
+  }, [error, isSuccess]);
 
   return (
     <div>
@@ -149,6 +155,15 @@ const AddLesson = () => {
               <Select.Option value='offline'>Offline</Select.Option>
             </Select>
           </Form.Item> */}
+          {
+            <div>
+              {error && (
+                <div className='tw-text-red-500 tw-text-sm tw-mt-2 tw-text-center'>
+                  {error?.data?.message}
+                </div>
+              )}
+            </div>
+          }
               <Form.Item className='tw-flex tw-items-center  tw-justify-center'>
                 <Button
                   loading={addLoading}
