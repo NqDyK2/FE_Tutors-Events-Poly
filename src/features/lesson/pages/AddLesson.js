@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, DatePicker, Form, Input, Radio, Select, Spin } from 'antd';
+import { Button, DatePicker, Form, Input, Radio, Spin } from 'antd';
 import './styles.css';
 import { useLocation } from 'react-router-dom';
 import {
@@ -17,11 +17,12 @@ const AddLesson = () => {
   const [recentClass, setRecentClass] = React.useState(null);
   const location = useLocation();
   const id = location.state?.id;
+  const semesterId = location.state?.semester_id;
   const {
     data: classList,
     error: classError,
     isLoading: classLoading,
-  } = useGetListClassInSemesterQuery(id);
+  } = useGetListClassInSemesterQuery(semesterId);
   const [addLesson, { isLoading: addLoading }] = useAddLessonMutation();
   const onFinish =  (values) => {
      addLesson({

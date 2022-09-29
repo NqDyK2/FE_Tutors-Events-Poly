@@ -40,6 +40,10 @@ const AppBreadcrumb = () => {
     {
       path: '/import-students',
       breadcrumbName: 'Import danh sách sinh viên',
+    },
+    {
+      path: '/add-lesson',
+      breadcrumbName: 'Thêm buổi học',
     }
   ];
 
