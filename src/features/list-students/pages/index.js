@@ -1,7 +1,9 @@
 import React from 'react'
-import { Image, Input, Table } from 'antd';
+import { Image, Input, Spin, Table } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { useParams } from 'react-router-dom';
+import './style.css'
+import {FaReply} from 'react-icons/fa'
+import { Link, useParams } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 
 const columns = [
@@ -17,24 +19,34 @@ const columns = [
     title: 'Tên lớp',
     dataIndex: 'className',
     key: 'className',
+    width: '10%'
+  },
+  {
+    title: 'Họ tên',
+    dataIndex: 'studentName',
+    key: 'studentName',
+    width: "15%"
   },
   {
     title: 'Mã sinh viên',
     dataIndex: 'studentCode',
     key: 'studentCode',
+    width: '10%'
   },
   {
     title: 'Email',
-    dataIndex: 'studentName',
-    key: 'studentName',
+    dataIndex: 'studentMail',
+    key: 'studentMail',
+    width: '20%'
   },
   {
     title: 'Ảnh',
     key: 'image',
     dataIndex: 'image',
     render: (_, record) => (
-      <Image width={70} src={record.image} alt="IMG" />
+      <Image preview={false} width={70} src={record.image} alt="IMG" />
     ),
+    width: '10%'
   },
   {
     title: 'Chú thích',
@@ -43,35 +55,41 @@ const columns = [
     render: (_, record) => (
       <Input className='tw-rounded' value={record.comment} />
     ),
-    width: '25%'
   }
 ];
 
 const ListStudent = () => {
-  const { id } = useParams();
+  const { id, semester_id } = useParams();
   const { data: listStudent, error, isLoading } = useGetListStudentInCLassQuery(id);
 
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
     className: item.school_classroom,
-    studentCode: item.school_classroom,
-    image: 'https://demoda.vn/wp-content/uploads/2022/02/anh-kaomoji-de-thuong-danh-nhau.jpg',
+    studentCode: item.user_code,
+    image: item.avatar,
     comment: item.reason,
-    studentName: item.user_email
+    studentMail: item.email,
+    studentName: item.name
   }))
 
   return (
     <div className='tw-w-full'>
-      <div className='tw-border-b-2'>
+      <div className='tw-border-b-2 tw-pb-1 tw-flex tw-justify-between'>
         <span className='tw-text-[15px]'>Danh sách sinh viên</span>
+        <Link to={`/semesters/${semester_id}`} className='tw-flex tw-items-center hover:tw-text-blue-600'> 
+          <FaReply className='tw-mr-1'/> Trở lại 
+        </Link>
       </div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error</p>}
-      {list && (
+
+      {isLoading && <p className='tw-flex tw-justify-center tw-mt-[110px]'><Spin tip="Loading..."/></p>}
+
+      {error && (<p>Có lỗi xảy ra!</p>)}
+
+      {listStudent && (
         <div className='tw-mt-6'>
-          <Table scroll={{ y: 380 }} key={list.key} columns={columns} dataSource={list} pagination={false} />
-          <TextArea placeholder="Ghi chú lớp" rows={4} className="tw-mt-5 tw-rounded-md" maxLength={6} />
+          <Table scroll={{ y: 400 }} key={list.key} columns={columns} dataSource={list} pagination={false} />
+          {/* <TextArea placeholder="Ghi chú lớp" rows={4} className="tw-mt-5 tw-rounded-md" maxLength={6} /> */}
         </div>
       )}
     </div>

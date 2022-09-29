@@ -139,7 +139,7 @@ const data = [
 const AttendanceList = () => {
   return (
     <div className='tw-w-full'>
-      <div className='tw-border-b-2'>
+      <div className='tw-border-b-2 tw-pb-1'>
         <span className='tw-text-[15px]'>Điểm danh</span>
       </div>
       {/* table antd */}

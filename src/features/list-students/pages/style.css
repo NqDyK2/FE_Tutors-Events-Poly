@@ -1,0 +1,13 @@
+*::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 10px;
+    background-color: whitesmoke;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #736f6f;
+}
+*::-webkit-resizer{
+    width: 4px;
+    width: 800px;
+}
