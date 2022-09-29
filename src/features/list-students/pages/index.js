@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Input, Spin, Table } from 'antd';
+import { Button, Image, Input, Table, Spin,} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import './style.css'
 import {FaReply} from 'react-icons/fa'
@@ -61,7 +61,7 @@ const columns = [
 const ListStudent = () => {
   const { id, semester_id } = useParams();
   const { data: listStudent, error, isLoading } = useGetListStudentInCLassQuery(id);
-
+  console.log(listStudent);
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
@@ -77,6 +77,7 @@ const ListStudent = () => {
     <div className='tw-w-full'>
       <div className='tw-border-b-2 tw-pb-1 tw-flex tw-justify-between'>
         <span className='tw-text-[15px]'>Danh sách sinh viên</span>
+        <Link to="/add-lesson" state={{ semester_id, id }}><span><Button className='tw-justify-end'> Thêm buổi học </Button></span></Link>
         <Link to={`/semesters/${semester_id}`} className='tw-flex tw-items-center hover:tw-text-blue-600'> 
           <FaReply className='tw-mr-1'/> Trở lại 
         </Link>
