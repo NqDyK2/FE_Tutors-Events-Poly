@@ -32,6 +32,14 @@ const AppBreadcrumb = () => {
     {
       path: '/list-class',
       breadcrumbName: 'Danh sách lớp học',
+    },
+    {
+      path: `/attendance-student/${pathname.split('/')[2]}`,
+      breadcrumbName: 'Điểm danh',
+    },
+    {
+      path: '/import-students',
+      breadcrumbName: 'Import danh sách sinh viên',
     }
   ];
 
