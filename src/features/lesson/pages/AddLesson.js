@@ -1,22 +1,35 @@
 import React from 'react';
-import { Button, DatePicker, Form, Input, Select } from 'antd';
+import { Button, DatePicker, Form, Input, Radio, Select } from 'antd';
 import './styles.css';
+import { useLocation } from 'react-router-dom';
+import { useGetListClassInSemesterQuery, useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
+import { useAddLessonMutation } from '../../../app/api/lessonApiSlice';
 const { RangePicker } = DatePicker;
 
 const AddLesson = () => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    const postData = {
-        name: values.position,
-        type: values.type,
-        date: {
-            start_time: values.date[0].format(),
-            end_time: values.date[1].format(),
-        },
 
-    }
-    console.log(postData);
+  const location = useLocation();
+  console.log(location);
+  const id = location.state?.id;
+  console.log(id);
+  const { data1,error1,isLoading1} = useGetListClassInSemesterQuery(location.state?.id);
+  const { data2,error2,isLoading2 } = useGetListStudentInCLassQuery(location.state?.id);
+  console.log(data1);
+  console.log(data2);
+  const [addLesson] = useAddLessonMutation()
+  const onFinish = async (values) => {
+    console.log('Received values of form: ', values);
+    await  addLesson({
+      classroom_id: values.ID,
+      class_location: values.position,
+      type: values.type,
+      date: {
+        start_time: values.date[0].format('DD-MM-YY HH:mm'),
+        end_time: values.date[1].format('DD-MM-YY HH:mm'),
+      },
+
+    })
   };
 
   return (
@@ -38,6 +51,19 @@ const AddLesson = () => {
           }}
           layout='horizontal'
         >
+          <Form.Item label="Lớp học"
+            rules={
+              [
+                {
+                  required: true,
+                  message: 'Vui lòng nhập lớp học',
+                },
+              ]
+            }
+            name='ID'
+          >
+            <Input  value={id} />
+          </Form.Item>
           <Form.Item
             label='Vị trí lớp học'
             rules={[
@@ -50,6 +76,8 @@ const AddLesson = () => {
           >
             <Input placeholder={'Nhập vị trí lớp học'} />
           </Form.Item>
+
+
 
           <Form.Item
             label='Ngày'
@@ -67,13 +95,26 @@ const AddLesson = () => {
               showTime
               format={'DD/MM/YYYY HH:mm'}
               disabledDate={(current) => {
-                return current && current   <= Date.now().valueOf();
+                return current && current <= Date.now().valueOf();
               }}
               showSecond={false}
               order={true}
             />
           </Form.Item>
-          <Form.Item
+          <Form.Item label="Hình thức:"
+            name={'type'}
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập hình thức học',
+              },
+            ]}>
+            <Radio.Group>
+              <Radio value="0"> Online </Radio>
+              <Radio value="1"> Offline </Radio>
+            </Radio.Group>
+          </Form.Item>
+          {/* <Form.Item
             label='Hình thức'
             name={'type'}
             rules={[
@@ -83,11 +124,13 @@ const AddLesson = () => {
               },
             ]}
           >
+
+
             <Select placeholder='Chọn hình thức buổi học'>
               <Select.Option value='online'>Online</Select.Option>
               <Select.Option value='offline'>Offline</Select.Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item className='tw-flex tw-items-center  tw-justify-center'>
             <Button
               className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl 

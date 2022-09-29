@@ -1,6 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import React, { useEffect, useState } from 'react';
-import { Avatar, List} from 'antd';
+import { Avatar, Button, List} from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ const SubjectPage = () => {
       </Helmet>
       <div className='tw-border-b-2'>
           <span className='tw-text-[15px]'>Danh sách môn.</span>
+          <Button> Thêm buổi học </Button>
       </div>
       <div className='tw-mt-6'>
         {isLoading && <p>Loading...</p>}

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Image, Input, Table } from 'antd';
+import { Button, Image, Input, Table } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 
 const columns = [
@@ -50,7 +50,7 @@ const columns = [
 const ListStudent = () => {
   const { id } = useParams();
   const { data: listStudent, error, isLoading } = useGetListStudentInCLassQuery(id);
-
+  console.log(listStudent);
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
@@ -65,6 +65,7 @@ const ListStudent = () => {
     <div className='tw-w-full'>
       <div className='tw-border-b-2'>
         <span className='tw-text-[15px]'>Danh sách sinh viên</span>
+        <Link to="/add-lesson" state={{ id }}><span><Button className='tw-justify-end'> Thêm buổi học </Button></span></Link>
       </div>
       {isLoading && <p>Loading...</p>}
       {error && <p>Error</p>}
