@@ -8,14 +8,15 @@ const { RangePicker } = DatePicker;
 
 const AddLesson = () => {
   const [form] = Form.useForm();
-
   const location = useLocation();
-  console.log(location);
   const id = location.state?.id;
   console.log(id);
-  const { data1,error1,isLoading1} = useGetListClassInSemesterQuery(location.state?.id);
-  const { data2,error2,isLoading2 } = useGetListStudentInCLassQuery(location.state?.id);
-  console.log(data1);
+  // const { data1,error1,isLoading1} = useGetListClassInSemesterQuery(id);
+  const { data: classList,error: classError,isLoading: classLoading} = useGetListClassInSemesterQuery(id);
+  
+  const { data2,error2,isLoading2 } = useGetListStudentInCLassQuery(id);
+  console.log(classList);
+  console.log(classError);
   console.log(data2);
   const [addLesson] = useAddLessonMutation()
   const onFinish = async (values) => {
@@ -38,7 +39,7 @@ const AddLesson = () => {
         Thêm nội dung học - Lớp <span>We16305</span> - Kỳ{' '}
         <span>Summer 2022</span>
       </h5>
-
+      {id}
       <div>
         <Form
           form={form}
