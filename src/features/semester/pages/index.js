@@ -7,7 +7,6 @@ import Img1 from './../../../assets/images/CNDT1.png';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
-  console.log(data?.semester?.data);
   return (
     <>
       {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
