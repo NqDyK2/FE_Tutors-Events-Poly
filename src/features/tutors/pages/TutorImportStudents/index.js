@@ -1,12 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Form, Input, Button, DatePicker } from 'antd';
+import { Form, Input, Button, DatePicker, Select, Upload, Progress } from 'antd';
 import XLSX from 'xlsx';
 import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
 import { useEffect } from 'react';
-import { useImportStudentsSemesterMutation } from '../../../../app/api/semesterApiSlice';
+import {
+  useGetAllSemesterQuery,
+  useImportStudentsSemesterMutation,
+} from '../../../../app/api/semesterApiSlice';
 import { toast } from 'react-toastify';
+
+const { Option } = Select;
 
 const TutorImportStudents = () => {
   const [students, setStudents] = React.useState([]);
@@ -14,12 +19,16 @@ const TutorImportStudents = () => {
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
   ] = useImportStudentsSemesterMutation();
+  const {
+    data: semesters,
+    isLoading: isSemeLoading,
+    error: semeError,
+  } = useGetAllSemesterQuery();
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
-    console.log(wb);
 
     const lopCanDanhGia = wb.SheetNames[0];
 
@@ -109,21 +118,26 @@ const TutorImportStudents = () => {
     });
     setStudents(importData);
   };
-
   const onFinish = async (values) => {
-    const chunkData = chunk(values.data, 100);
+    // const chunkData = chunk(values.data, 100);
     // console.log(chunkData);
     // console.log(chunkData[0]);
-    await Promise.all(
-      chunkData.map((data) =>
-        importStudentsSemester({
-          data: {
-            data,
-          },
-          semesterId: 1,
-        })
-      )
-    );
+    // await Promise.all(
+    //   chunkData.map((data) =>
+    //     importStudentsSemester({
+    //       data: {
+    //         data,
+    //       },
+    //       semesterId: 1,
+    //     })
+    //   )
+    // );
+    await importStudentsSemester({
+      data: {
+        data: students,
+      },
+      semesterId: values.semesterId,
+    });
   };
 
   useEffect(() => {
@@ -140,26 +154,55 @@ const TutorImportStudents = () => {
       <Helmet>
         <title>FPoly</title>
       </Helmet>
-      <div>
-        <Form
-          name="basic"
-          onFinish={() => {
-            onFinish({ data: students });
-          }}
-        >
+      <div className='sm:tw-w-1/2 tw-mx-auto'>
+        <Form name='basic' layout='vertical' onFinish={onFinish}>
           <Form.Item
-            name="file"
+            name='file'
             label='Import sinh viên:'
-            valuePropName='fileList'
-            rules={[{ required: true, message: 'Không được trống' },
-          ]}
+            valuePropName='filelist'
+            rules={[
+              { required: true, message: 'Không được trống' },
+              () => ({
+                validator(_, value) {
+                  if (
+                    value &&
+                    !value.target.files[0].name.endsWith('.xlsx') &&
+                    !value.target.files[0].name.endsWith('.xls') &&
+                    !value.target.files[0].name.endsWith('.csv')
+                  ) {
+                    return Promise.reject('Chỉ được chọn file excel');
+                  }
+                  return Promise.resolve();
+                },
+              }),
+            ]}
           >
-            <Input type='file' onChange={handleFile} 
-             accept='.xlsx, .xls, .csv'
+            <Input
+              type='file'
+              onChange={handleFile}
+              accept='.xlsx, .xls, .csv'
+              className=' file:tw-bg-orange-500 file:tw-border-none file:tw-rounded-xl file:tw-px-2 file:tw-py-1 file:tw-text-white active:tw-border-none tw-outline-none'
             />
           </Form.Item>
-          <div>{isImported && <p>Import thành công</p>}</div>
-          <div>{importError && <p>Import thất bại</p>}</div>
+          <Form.Item
+            name='semesterId'
+            label='Chọn kỳ:'
+            rules={[{ required: true, message: 'Không được trống' }]}
+          >
+            <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
+              {semesters?.semester?.data?.map((semester) => (
+                <Option key={semester.id} value={semester.id}>
+                  {semester.name.toUpperCase()}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <div className='dark:tw-text-slate-100 tw-text-green-500'>
+            {isImported && <p>Import thành công</p>}
+          </div>
+          <div className='dark:tw-text-slate-100'>
+            {importError && <p>Import thất bại</p>}
+          </div>
           <Form.Item
             label=''
             className='tw-flex tw-items-center  tw-justify-center'

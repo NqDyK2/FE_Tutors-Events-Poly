@@ -9,6 +9,7 @@ import {
   UpOutlined,
   BellOutlined,
   CarryOutOutlined,
+  FileAddOutlined,
 } from '@ant-design/icons';
 import { BsFillCircleFill, BsFillCalendarDayFill, BsFilePost, } from 'react-icons/bs';
 import { BiCalendarStar } from 'react-icons/bi'
@@ -77,6 +78,13 @@ const AppAside = () => {
     ),
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+        Import
+      </div>,
+      '/import-students',
+      <FileAddOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Tạo lớp tutors
       </div>,
       '/crclass',
@@ -131,13 +139,7 @@ const AppAside = () => {
       '',
       <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-        Test import của cháu linh
-      </div>,
-      '/import-students',
-      <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
+    
   ];
 
   return (
