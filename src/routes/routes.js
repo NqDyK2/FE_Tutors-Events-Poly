@@ -39,7 +39,7 @@ const AppRoutes = () => {
           <Route path='/attendance' element={<AttendanceList />} />
           <Route path='/attendance-student/:classId' element={<AttendanceStudent />} />
           <Route path='/import-students' element={<TutorImportStudents />} />
-          <Route path='/semesters/:semester_id/liststudent/:id' element={<ListStudent />} />
+          <Route path='/semesters/liststudent/:id' element={<ListStudent />} />
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/calendar-tutor' element={<CanlendarTutors />} />
