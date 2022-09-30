@@ -18,13 +18,7 @@ const SemesterPage = () => {
       {error && (
         <Typography.Text type='danger'>{error.message}</Typography.Text>
       )}
-      <Spinner
-        loading={isLoading}
-        size='large'
-        className={
-          'tw-flex tw-h-full tw-min-h-[50vh] tw-w-full tw-items-center tw-justify-center'
-        }
-      />
+
       <div>
         <div className='tw-absolute tw-right-[2%] -tw-mt-4'>
           <Button
@@ -37,6 +31,11 @@ const SemesterPage = () => {
           </Button>
         </div>
       </div>
+      <Spinner
+        loading={isLoading}
+        size='large'
+        className={'tw-my-auto tw-h-full tw-mt-10 tw-flex tw-items-center tw-justify-center'}
+      />
       {data && (
         <div className='tw-flex tw-flex-wrap tw-justify-between'>
           {data?.semester?.data.map((item, index) => (
