@@ -2,7 +2,7 @@
   @apply !tw-bg-gray-800 ;
 }
 .ant-modal-header .ant-modal-title {
-  @apply  !tw-text-white;
+  @apply  !tw-text-white !tw-text-lg;
 }
 
 .ant-modal-close {
@@ -11,11 +11,4 @@
 
 .ant-modal-close-x {
   @apply !tw-text-white;
-}
-
-.ant-modal-footer button {
-  @apply hover:!tw-bg-transparent
-}
-.ant-modal-footer .ant-btn.ant-btn-primary {
-  @apply hover:!tw-bg-blue-500
 }
