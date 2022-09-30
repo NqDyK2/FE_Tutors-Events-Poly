@@ -3,13 +3,13 @@ import { apiSlice } from "./apiSlice";
 export const lessonApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllLesson: builder.query({
-            query: () => ({
-                url: "lesson/get-all"
+            query: (classId) => ({
+                url: `lesson/${classId}/get-all`
             }),
             providesTags: ["Lesson"],
         }),
         getOneLesson: builder.query({
-            query:(id) => `lesson/`,
+            query:(id) => `lesson/${id}/get-all`,
             providesTags:["Lesson"],
         }),
         addLesson: builder.mutation({
@@ -22,7 +22,7 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
         }),
         updateLesson: builder.mutation({
             query: ({id, ...lesson}) => ({
-                url: 'lesson/update'+id,
+                url: 'lesson/update' + id,
                 method: 'PUT',
                 body:lesson,
             }),

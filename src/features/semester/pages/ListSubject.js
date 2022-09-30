@@ -57,6 +57,13 @@ const SubjectPage = () => {
                   >
                     Danh sách sinh viên
                   </Link>
+                  <Link 
+                    to={`/manage/class/lesson/${item.id}`} 
+                    state={{semesterId: id, subjectId: item.id}} 
+                    className="tw-mr-4"
+                  >
+                    Lịch học
+                  </Link>
                 </div>
               </List.Item>
             )}
