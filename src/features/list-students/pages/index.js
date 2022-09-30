@@ -3,7 +3,7 @@ import { Button, Image, Input, Table, Spin,} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import './style.css'
 import {FaReply} from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 
 const columns = [
@@ -59,9 +59,12 @@ const columns = [
 ];
 
 const ListStudent = () => {
-  const { id, semester_id } = useParams();
+  const location = useLocation();
+  
+  const { subjectId: id, semesterId: semester_id } = location.state || [] ;
+  
   const { data: listStudent, error, isLoading } = useGetListStudentInCLassQuery(id);
-  console.log(listStudent);
+
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
@@ -77,7 +80,7 @@ const ListStudent = () => {
     <div className='tw-w-full'>
       <div className='tw-border-b-2 tw-pb-1 tw-flex tw-justify-between'>
         <span className='tw-text-[15px]'>Danh sách sinh viên</span>
-        <Link to="/add-lesson" state={{ semester_id, id }}><span><Button className='tw-justify-end'> Thêm buổi học </Button></span></Link>
+        <Link to="/add-lesson" state={{ semester_id, id }}><span><Button className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'> Thêm buổi học </Button></span></Link>
         <Link to={`/semesters/${semester_id}`} className='tw-flex tw-items-center hover:tw-text-blue-600'> 
           <FaReply className='tw-mr-1'/> Trở lại 
         </Link>
@@ -85,7 +88,12 @@ const ListStudent = () => {
 
       {isLoading && <p className='tw-flex tw-justify-center tw-mt-[110px]'><Spin tip="Loading..."/></p>}
 
-      {error && (<p>Có lỗi xảy ra!</p>)}
+      {error && (
+        <>
+          <p className='tw-pt-4'>Có lỗi xảy ra!</p>
+          <Link to='/semesters'>Trở lại</Link>
+        </>
+      )}
 
       {listStudent && (
         <div className='tw-mt-6'>
