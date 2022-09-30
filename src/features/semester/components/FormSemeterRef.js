@@ -7,19 +7,29 @@ import './styles.css';
 
 const FormSemeterRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
-
+  const [title, setTitle] = React.useState('');
   const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
 
   useImperativeHandle(ref, () => ({
-    show: () => {
+    show: (caseForm, data) => {
       setVisible(true);
+      if (caseForm === 'add') {
+        setTitle('Thêm kì học');
+      } else {
+        setTitle('Sửa kì học');
+        form.setFieldsValue(data);
+      }
     },
 
     hide: () => {
       setVisible(false);
     },
+
   }));
-  const [loading, setLoading] = React.useState(false);
+
+
+
   const onFinished = (values) => {
     console.log(values);
     setLoading(true);
@@ -33,16 +43,19 @@ const FormSemeterRef = (props, ref) => {
 
   return (
     <Modal
-      title={'Tạo mới học kỳ'}
+      title={title}
       open={visible}
       onOk={() => {
         form.submit();
       }}
+      destroyOnClose={true}
       onCancel={() => {
         setVisible(false);
+        form.resetFields();
       }}
       okText='Lưu'
       confirmLoading={loading}
+      getContainer={false}
     >
       <div>
         <Form form={form} layout='vertical' onFinish={onFinished}>
