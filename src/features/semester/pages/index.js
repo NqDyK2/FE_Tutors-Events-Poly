@@ -16,7 +16,7 @@ const SemesterPage = () => {
         <div className='tw-flex tw-flex-wrap'>
           {data?.semester?.data.map((item, index) => (
             <div key={index} className='tw-w-[240px] tw-border bg-neutral-400 tw-rounded-[3px] tw-shadow-transparent hover:tw-opacity-[90%] tw-mx-6 tw-my-6 tw-drop-shadow-xl hover:tw-border-gray-400'>
-              <Link to={`/semesters/${item.id}`}>
+              <Link to={`/manage/sem/${item.id}`}>
                 <div>
                   <img className='tw-w-[240px] tw-rounded-t-[3px]' src={Img1} alt='' />
                 </div>

@@ -18,11 +18,11 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Thêm lớp học',
     },
     {
-      path: '/attendance',
+      path: '/diem-danh',
       breadcrumbName: 'Điểm danh',
     },
     {
-      path: '/attendance-student',
+      path: '/diem-danh',
       breadcrumbName: 'Điểm danh',
     },
     {
@@ -34,12 +34,24 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Danh sách lớp học',
     },
     {
-      path: `/attendance-student/${pathname.split('/')[2]}`,
+      path: `/diem-danh/${pathname.split('/')[2]}`,
       breadcrumbName: 'Điểm danh',
     },
     {
       path: '/import-students',
       breadcrumbName: 'Import danh sách sinh viên',
+    },
+    {
+      path: '/manage',
+      breadcrumbName: 'Danh sách kỳ học',
+    },
+    {
+      path: `/manage/sem/${pathname.split('/')[2]}`,
+      breadcrumbName: 'Danh sách lớp học',
+    },
+    {
+      path: `/manage/class/${pathname.split('/')[2]}`,
+      breadcrumbName: 'Danh sách buổi học',
     },
     {
       path: '/add-lesson',
@@ -63,6 +75,7 @@ const AppBreadcrumb = () => {
 
   return (
     <Breadcrumb
+      key={pathname}
       separator='|'
       className='app-breadcrumb tw-px-4 tw-py-4 tw-flex tw-items-center tw-bg-white dark:tw-bg-[#1E2139]  tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-opacity-90 dark:tw-shadow-none'
     >
