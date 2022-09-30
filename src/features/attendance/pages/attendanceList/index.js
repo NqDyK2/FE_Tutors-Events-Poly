@@ -45,7 +45,7 @@ const columns = [
     key: 'action',
     render: (_, record) => (
       <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white'>
-        <Link to={`/attendance-student/${record.class}`}>Điểm danh</Link>
+        <Link to={`/diem-danh/${record.class}`}>Điểm danh</Link>
       </Button>
     ),
   },

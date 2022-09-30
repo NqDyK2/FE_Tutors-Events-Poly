@@ -28,18 +28,20 @@ const SubjectPage = () => {
         {isLoading && <p>Loading...</p>}
         {error && <p>Error</p>}
         {data && (
-          <List>
+          <List
+          >
           <VirtualList
             data={data?.data}
+            key={data?.data.id}
             height={400}
             itemHeight={47}
           >
-            {(item) => (
-              <List.Item key={item.email}>
-                <List.Item.Meta
+            {(item, idx) => (
+              <List.Item key={idx + 1}>
+                <List.Item.Meta key={item.id}
                   title={
                     <Link 
-                      to={`/semesters/liststudent/${item.id}`} 
+                      to={`/manage/class/${item.id}`} 
                       state={{semesterId: id, subjectId: item.id}} 
                       className="tw-uppercase"
                     >
@@ -49,7 +51,7 @@ const SubjectPage = () => {
                 />
                 <div>
                   <Link 
-                    to={`/semesters/liststudent/${item.id}`} 
+                    to={`/manage/class/${item.id}`} 
                     state={{semesterId: id, subjectId: item.id}} 
                     className="tw-mr-4"
                   >

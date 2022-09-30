@@ -22,7 +22,6 @@ import SubjectPage from '../features/semester/pages/ListSubject.js';
 import AddLesson from '../features/lesson/pages/AddLesson.js';
 import ListClass from '../features/lesson/pages/ListClass.js';
 
-
 const AppRoutes = () => {
   const location = useLocation();
   return (
@@ -36,15 +35,15 @@ const AppRoutes = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/crclass' element={<AddClassPage />} />
           <Route path='/events' element={<EventsPage />} />
-          <Route path='/attendance' element={<AttendanceList />} />
-          <Route path='/attendance-student/:classId' element={<AttendanceStudent />} />
+          <Route path='/diem-danh' element={<AttendanceList />} />
+          <Route path='/diem-danh/:classId' element={<AttendanceStudent />} />
           <Route path='/import-students' element={<TutorImportStudents />} />
-          <Route path='/semesters/liststudent/:id' element={<ListStudent />} />
+          <Route path='/manage/class/:id' element={<ListStudent />} />
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/calendar-tutor' element={<CanlendarTutors />} />
-          <Route path='/semesters' element={<SemesterPage />} />
-          <Route path='/semesters/:id' element={<SubjectPage />} />
+          <Route path='/manage' element={<SemesterPage />} />
+          <Route path='/manage/sem/:id' element={<SubjectPage />} />
           <Route path='/add-sem' element={<AddSem />} />
           <Route path='/add-lesson' element={<AddLesson />} />
           <Route path='/list-class' element={<ListClass />} />
