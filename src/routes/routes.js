@@ -21,6 +21,7 @@ import AddSem from '../features/semester/pages/AddSem.js';
 import SubjectPage from '../features/semester/pages/ListSubject.js';
 import AddLesson from '../features/lesson/pages/AddLesson.js';
 import ListClass from '../features/lesson/pages/ListClass.js';
+import ListLesson from '../features/lesson/pages/ListLesson.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const AppRoutes = () => {
           <Route path='/manage/class/:id' element={<ListStudent />} />
           <Route path='/add-sem' element={<AddSem />} />
           <Route path='/add-lesson' element={<AddLesson />} />
+          <Route path='/manage/class/lesson/:id' element={<ListLesson />} />
           <Route path='/list-class' element={<ListClass />} />
         </Route>
       </Route>
