@@ -165,6 +165,7 @@ const AttendanceStudent = () => {
         <Button
           type='primary'
           loading={isUpdateLoading}
+          disabled={listStudent?.data?.length === 0}
           className='tw-w-full tw-h-[40px] tw-mt-[10px] tw-rounded-[5px] tw-bg-[#0DB27F]'
           onClick={() => handleUpdateStatus(studentsStatus, classId)}
         >

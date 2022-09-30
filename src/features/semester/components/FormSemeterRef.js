@@ -25,10 +25,7 @@ const FormSemeterRef = (props, ref) => {
     hide: () => {
       setVisible(false);
     },
-
   }));
-
-
 
   const onFinished = (values) => {
     console.log(values);
@@ -36,31 +33,32 @@ const FormSemeterRef = (props, ref) => {
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
+      toast.error('Có cái nịt :))');
     }, 2000);
-
-    toast.error('Có cái nịt :))');
   };
 
   return (
     <Modal
       title={title}
       open={visible}
+      okType='default'
       onOk={() => {
         form.submit();
       }}
-      destroyOnClose={true}
       onCancel={() => {
         setVisible(false);
         form.resetFields();
       }}
       okText='Lưu'
       confirmLoading={loading}
-      getContainer={false}
+      destroyOnClose
+      okButtonProps={{className: 'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none'}}
+      cancelButtonProps={{className: 'hover:tw-bg-transparent'}}
     >
       <div>
-        <Form form={form} layout='vertical' onFinish={onFinished}>
+        <Form form={form} layout='vertical' onFinish={onFinished} preserve={false}>
           <Form.Item
-            label='Tên học kỳ'
+            label={<span className='dark:!tw-text-black'>Tên kì học</span>}
             name='name'
             rules={[{ required: true, message: 'Không được để trống' }]}
           >
