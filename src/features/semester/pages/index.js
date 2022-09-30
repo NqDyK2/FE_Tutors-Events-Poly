@@ -18,13 +18,18 @@ const SemesterPage = () => {
         <Typography.Text type='danger'>{error.message}</Typography.Text>
       )}
       {isLoading && <Spin />}
-        <div>
-          <div className='tw-flex tw-justify-end tw-items-center -tw-mb-4'>
-             <Button  icon={<PlusCircleOutlined />} className="tw-items-center tw-flex tw-bg-white tw-text-gray-900 tw-border-slate-900 hover:tw-bg-orange-400 hover:tw-text-slate-200" type='primary' onClick={() => modalRef.current.show()}>
-              Thêm học kỳ
-             </Button>
-          </div>
+      <div>
+        <div className='tw-flex tw-justify-end tw-items-center -tw-mb-4'>
+          <Button
+            icon={<PlusCircleOutlined />}
+            className='tw-items-center tw-flex tw-bg-white tw-text-gray-900 tw-border-slate-900 hover:tw-bg-orange-400 hover:tw-text-slate-200'
+            type='primary'
+            onClick={() => modalRef.current.show('add')}
+          >
+            Thêm học kỳ
+          </Button>
         </div>
+      </div>
       {data && (
         <div className='tw-flex tw-flex-wrap'>
           {data?.semester?.data.map((item, index) => (
@@ -51,7 +56,7 @@ const SemesterPage = () => {
                 <div className='tw-mr-[10px]'>
                   <Button
                     shape='circle'
-                    onClick={() => modalRef.current.show()}
+                    onClick={() => modalRef.current.show('edit', item)}
                     icon={<EditOutlined className='tw-text-[20px]' />}
                     className='tw-bg-transparent tw-border-none hover:tw-bg-transparent'
                   />
@@ -59,7 +64,7 @@ const SemesterPage = () => {
               </div>
             </div>
           ))}
-          <FormSemeterRef ref={modalRef}/>
+          <FormSemeterRef ref={modalRef} />
         </div>
       )}
     </>
