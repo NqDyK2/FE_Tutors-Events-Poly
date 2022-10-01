@@ -116,9 +116,6 @@ const FormSemeterRef = (props, ref) => {
               placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
               label='test'
               format={'DD/MM/YYYY'}
-              disabledDate={(current) => {
-                return current && current <= Date.now();
-              }}
             />
           </Form.Item>
         </Form>
