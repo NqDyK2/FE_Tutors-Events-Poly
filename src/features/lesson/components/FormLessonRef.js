@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Modal, Radio } from 'antd';
+import { Alert, Button, DatePicker, Form, Input, Modal, Radio } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
@@ -13,8 +13,8 @@ const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
   const [title, setTitle] = React.useState('');
   const [form] = Form.useForm();
-  const [loading, setLoading] = React.useState(false)
   const [typeOfLesson, setTypeOfLesson] = React.useState(1)
+  const [error, setError] = React.useState(null);
   
   const [addLesson, { isLoading: addLoading, addError, addSuccess }] = useAddLessonMutation();
   const [updateLesson, { isLoading: updateLoading, updateError, updateSuccess }] = useUpdateLessonMutation();
@@ -30,7 +30,7 @@ const FormLessonRef = (props, ref) => {
               classroomId: data.classroom_id,
               position_offline: data.class_location_offline, 
               position_online: data.class_location_online,
-              type: data.type.toString(),
+              type: data.type,
               tutor_email: data.tutor,
               date: [moment(data.start_time), moment(data.end_time)],
               teacher: data.teacher,
@@ -64,11 +64,12 @@ const FormLessonRef = (props, ref) => {
       updateLesson({...dataLesson, id: values.lessonId})
         .unwrap()
         .then(res => {
-          setLoading(false);
           setVisible(false);
           toast.success('Sửa thành công');
         })
-        .catch(error => toast.error(error.data.message))
+        .catch(error => {
+          setError(error);
+        })
     }
   };
 
@@ -88,10 +89,11 @@ const FormLessonRef = (props, ref) => {
       }}
       onCancel={() => {
         setVisible(false);
+        setError(null);
         form.resetFields();
       }}
       okText='Lưu'
-      confirmLoading={loading}
+      confirmLoading={addLoading || updateLoading}
       destroyOnClose
       okButtonProps={{className: 'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none'}}
       cancelButtonProps={{className: 'hover:tw-bg-transparent'}}
@@ -104,6 +106,11 @@ const FormLessonRef = (props, ref) => {
             onFinish={onFinished}
             preserve={false}
             layout='horizontal'
+            initialValues={
+              {
+                type: 1,
+              }
+            }
         >
           <Form.Item
             className='tw-hidden'
@@ -150,9 +157,9 @@ const FormLessonRef = (props, ref) => {
                   },
               ]}
           >
-              <Radio.Group defaultValue={1} onChange={onChangeType}>
-                  <Radio value='1'> Offline </Radio>
-                  <Radio value='0'> Online </Radio>
+              <Radio.Group onChange={onChangeType}>
+                  <Radio value={1}> Offline </Radio>
+                  <Radio value={0}> Online </Radio>
               </Radio.Group>
           </Form.Item>
 
@@ -240,6 +247,14 @@ const FormLessonRef = (props, ref) => {
           )}
 
         </Form>
+
+        <div>
+          {error && (
+            <div className='tw-text-red-500'>
+              {error?.message || error?.data?.message}
+            </div>
+          )}
+        </div>
       </div>
     </Modal>
   );
