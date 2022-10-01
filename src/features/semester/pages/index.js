@@ -25,7 +25,7 @@ const SemesterPage = () => {
             icon={<PlusCircleOutlined />}
             className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-300 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-400'
             type='primary'
-            onClick={() => modalRef.current.show('add')}
+            onClick={() => modalRef.current.show('ADD')}
           >
             Thêm kỳ học
           </Button>
@@ -37,7 +37,7 @@ const SemesterPage = () => {
         className={'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'}
       />
       {data && (
-        <div className='tw-flex tw-flex-wrap tw-justify-between'>
+        <div className='tw-flex tw-flex-wrap tw-justify-start'>
           {data?.semester?.data.map((item, index) => (
             <div
               key={index}
@@ -62,7 +62,7 @@ const SemesterPage = () => {
                 <div className='tw-mr-[10px]'>
                   <Button
                     shape='circle'
-                    onClick={() => modalRef.current.show('edit', item)}
+                    onClick={() => modalRef.current.show('EDIT',item)}
                     icon={<EditOutlined className='tw-text-[20px]' />}
                     className='tw-border-none tw-bg-transparent hover:tw-bg-transparent'
                   />

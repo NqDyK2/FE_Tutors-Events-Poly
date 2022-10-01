@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Modal } from 'antd';
+import { Button, DatePicker, Form, Input, Modal, Radio } from 'antd';
 import moment from 'moment';
 import React, { useImperativeHandle } from 'react';
 import { useEffect } from 'react';
@@ -10,21 +10,32 @@ import './styles.css';
 const { RangePicker } = DatePicker;
 
 const FormSemeterRef = (props, ref) => {
-  const [addSemester] = useAddSemesterMutation();
+  const [addSemester, { isLoading: addLoading }] = useAddSemesterMutation();
   const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const [title, setTitle] = React.useState('');
   const [form] = Form.useForm();
-  const [loading, setLoading] = React.useState(false);
-  console.log('props', props);
+  const MODE = {
+    ADD: 'ADD',
+    EDIT: 'EDIT',
+  };
+  const [mode, setMode] = React.useState(MODE.ADD);
   useImperativeHandle(ref, () => ({
     show: (caseForm, data) => {
       setVisible(true);
-      if (caseForm === 'add') {
+      if (caseForm === MODE.ADD) {
         setTitle('Thêm kì học');
+        setMode(MODE.ADD);
       } else {
         setTitle('Sửa kì học');
-        form.setFieldsValue(data);
-        console.log('data', data);
+        setMode(MODE.EDIT);
+        form.setFieldsValue({
+          name: data.name,
+          time: [
+            moment(data.start_time, 'YYYY-MM-DD HH:mm:ss'),
+            moment(data.end_time, 'YYYY-MM-DD HH:mm:ss'),
+          ],
+        });
       }
     },
 
@@ -34,17 +45,32 @@ const FormSemeterRef = (props, ref) => {
   }));
 
   const onFinish = (values) => {
-    console.log(values);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-      toast.success('Nịt');
-    }, 2000);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log(errorInfo);
+    const data = {
+      name: values.name,
+      start_time: values.time[0].format('YYYY-MM-DD'),
+      end_time: values.time[1].format('YYYY-MM-DD'),
+    };
+    switch (mode) {
+      case MODE.ADD:
+        addSemester(data)
+          .unwrap()
+          .then((res) => {
+            setVisible(false);
+            toast.success('Thêm thành công');
+            console.log(res);
+          })
+          .catch((err) => {
+            setError(err);
+          });
+        break;
+      case MODE.EDIT:
+        setTimeout(() => {
+          setVisible(false);
+          toast.success('Sửa thành công cái nịt');
+        }, 1000);
+        break;
+      default:
+    }
   };
 
   return (
@@ -57,16 +83,18 @@ const FormSemeterRef = (props, ref) => {
       }}
       onCancel={() => {
         setVisible(false);
+        setError(null);
         form.resetFields();
       }}
       okText='Lưu'
-      confirmLoading={loading}
+      confirmLoading={addLoading}
       destroyOnClose
       okButtonProps={{
         className:
           'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
       }}
       cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
+      getContainer={false}
     >
       <div>
         <Form
@@ -79,12 +107,20 @@ const FormSemeterRef = (props, ref) => {
           }}
           layout='vertical'
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          onChange={() => {
+            setError(null);
+          }}
         >
           <Form.Item
             name='name'
             label='Tên kì:'
-            rules={[{ required: true, message: 'Tên kỳ không được trống' }]}
+            rules={[
+              { required: true, message: 'Tên kỳ không được trống' },
+              {
+                min: 5,
+                message: 'Tên kỳ phải có ít nhất 5 ký tự',
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -99,14 +135,7 @@ const FormSemeterRef = (props, ref) => {
                   if (!value || value.length === 0) {
                     return Promise.reject('Thời gian không được trống');
                   }
-                  if (
-                    moment(value[1]).diff(moment(value[0]), 'months') > 5 ||
-                    moment(value[1]).diff(moment(value[0]), 'months') < 4
-                  ) {
-                    return Promise.reject(
-                      'Thời gian không hợp lệ, kỳ học phải từ 4-5 tháng'
-                    );
-                  }
+                  return Promise.resolve();
                 },
               }),
             ]}
@@ -119,6 +148,14 @@ const FormSemeterRef = (props, ref) => {
             />
           </Form.Item>
         </Form>
+
+        <div>
+          {error && (
+            <div className='tw-text-red-500'>
+              {error.message || error?.data?.message}
+            </div>
+          )}
+        </div>
       </div>
     </Modal>
   );
