@@ -22,7 +22,7 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
         }),
         updateLesson: builder.mutation({
             query: ({id, ...lesson}) => ({
-                url: 'lesson/update' + id,
+                url: 'lesson/update/' + id,
                 method: 'PUT',
                 body:lesson,
             }),

@@ -59,7 +59,7 @@ const SubjectPage = () => {
                     </Link>
                     <Link 
                       to={`/manage/class/lesson/${item.id}`} 
-                      state={{semesterId: id, subjectId: item.id}} 
+                      state={{semesterId: id, subjectId: item.id, subjectName: item.name}} 
                       className="tw-mr-4"
                     >
                       Lịch học

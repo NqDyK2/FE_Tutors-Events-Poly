@@ -1,8 +1,9 @@
 import { Button, DatePicker, Form, Input, Modal, Radio } from 'antd';
-import React, { useImperativeHandle } from 'react';
+import moment from 'moment';
+import React, { useEffect, useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
-import { useAddLessonMutation } from '../../../app/api/lessonApiSlice';
+import { useAddLessonMutation, useUpdateLessonMutation } from '../../../app/api/lessonApiSlice';
 import './styles.css';
 
 
@@ -11,19 +12,33 @@ const { RangePicker } = DatePicker
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
   const [title, setTitle] = React.useState('');
-  const [formLesson] = Form.useForm();
-  const [loading, setLoading] = React.useState(false);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false)
+  const [typeOfLesson, setTypeOfLesson] = React.useState(1)
   
   const [addLesson, { isLoading: addLoading, addError, addSuccess }] = useAddLessonMutation();
+  const [updateLesson, { isLoading: updateLoading, updateError, updateSuccess }] = useUpdateLessonMutation();
 
   useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
           setVisible(true);
           if (caseForm === 'add') {
+            form.setFieldsValue(data);
             setTitle('Thêm buổi học');
           } else {
+            let newData =  {
+              classroomId: data.classroom_id,
+              position_offline: data.class_location_offline, 
+              position_online: data.class_location_online,
+              type: data.type.toString(),
+              tutor_email: data.tutor,
+              date: [moment(data.start_time), moment(data.end_time)],
+              teacher: data.teacher,
+              lessonId: data.id
+            }
+            form.setFieldsValue(newData);
+            setTypeOfLesson(data.type)
             setTitle('Sửa buổi học');
-            formLesson.setFieldsValue(data);
           }
       },
 
@@ -33,35 +48,47 @@ const FormLessonRef = (props, ref) => {
   }));
 
   const onFinished = (values) => {
-    if (title === 'Thêm buổi học') {
-      addLesson({
-        classroom_id: values.ID,
-        class_location: values.position,
-        type: values.type,
-        start_time: values.date[0].format('YYYY-MM-DD HH:mm:ss'),
-        end_time: values.date[1].format('YYYY-MM-DD HH:mm:ss'),
-      });
+    
+    let dataLesson = {
+      classroom_id: values.classroomId,
+      type: +values.type,
+      class_location_offline: values.position_offline,
+      class_location_online: values.position_online,
+      tutor_email: values.tutor_email,
+      start_time: values.date[0].format('YYYY-MM-DD HH:mm:ss'),
+      end_time: values.date[1].format('YYYY-MM-DD HH:mm:ss'),
     }
-    console.log(values);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-      toast.error('Có cái nịt :))');
-    }, 2000);
+
+    if (title === 'Thêm buổi học') {
+    } else {
+      updateLesson({...dataLesson, id: values.lessonId})
+        .unwrap()
+        .then(res => {
+          setLoading(false);
+          setVisible(false);
+          toast.success('Sửa thành công');
+        })
+        .catch(error => toast.error(error.data.message))
+    }
   };
 
+  
+  const onChangeType = (e) => {
+    setTypeOfLesson(e.target.value);
+  }
+  
   return (
     <Modal
+      getContainer={false}
       title={title}
       open={visible}
       okType='default'
       onOk={() => {
-        formLesson.submit();
+        form.submit();
       }}
       onCancel={() => {
         setVisible(false);
-        formLesson.resetFields();
+        form.resetFields();
       }}
       okText='Lưu'
       confirmLoading={loading}
@@ -71,63 +98,74 @@ const FormLessonRef = (props, ref) => {
     >
       <div>
         <Form
-            getContainer={false}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 20 }}
-            form={formLesson}
+            form={form}
             onFinish={onFinished}
             preserve={false}
             layout='horizontal'
         >
-            <Form.Item
-              label='Lớp học'
-              rules={[
-                  {
-                  required: true,
-                  message: 'Vui lòng nhập lớp học',
-                  },
-              ]}
-              name='ID'
-            >
-                <Input/>
-            </Form.Item>
-            
-            <Form.Item
-              label='Giảng viên'
-              rules={[
-                  {
-                  required: true,
-                  message: 'Vui lòng nhập giảng viên',
-                  },
-              ]}
-              name='teacher'
-            >
-                <Input/>
-            </Form.Item>
+          <Form.Item
+            className='tw-hidden'
+            name='lessonId'
+          >
+              <Input hidden/>
+          </Form.Item>
 
-            <Form.Item
-              label='Vị trí lớp học'
-              rules={[
-                  {
-                  required: true,
-                  message: 'Vui lòng nhập vị trí lớp học',
-                  },
-              ]}
-              name='position'
-            >
-            <Input placeholder={'Nhập vị trí lớp học'} />
-            </Form.Item>
+          <Form.Item
+          className='tw-hidden'
+          label='Lớp học'
+          rules={[
+              {
+              required: true,
+              message: 'Vui lòng nhập lớp học',
+              },
+          ]}
+            name='classroomId'
+          >
+              <Input disabled/>
+          </Form.Item>
 
-            <Form.Item
-              label='Ngày'
-              name={'date'}
+          <Form.Item
+            className='tw-hidden'
+            label='Giảng viên'
+            rules={[
+                {
+                required: true,
+                message: 'Vui lòng nhập giảng viên',
+                },
+            ]}
+            name='teacher'
+          >
+            <Input disabled/>
+          </Form.Item>
+          
+          <Form.Item
+              label='Hình thức:'
+              name={'type'}
               rules={[
                   {
                   required: true,
-                  message: 'Vui lòng nhập thời gian',
+                  message: 'Vui lòng nhập hình thức học',
                   },
               ]}
-            >
+          >
+              <Radio.Group defaultValue={1} onChange={onChangeType}>
+                  <Radio value='1'> Offline </Radio>
+                  <Radio value='0'> Online </Radio>
+              </Radio.Group>
+          </Form.Item>
+
+          <Form.Item
+            label='Ngày'
+            name={'date'}
+            rules={[
+                {
+                required: true,
+                message: 'Vui lòng nhập thời gian',
+                },
+            ]}
+          >
             <RangePicker
                 placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                 showTime
@@ -140,36 +178,66 @@ const FormLessonRef = (props, ref) => {
                 showSecond={false}
                 order={true}
             />
-            </Form.Item>
+          </Form.Item>
 
-            <Form.Item
-                label='Hình thức:'
-                name={'type'}
-                rules={[
-                    {
-                    required: true,
-                    message: 'Vui lòng nhập hình thức học',
-                    },
-                ]}
-            >
-                <Radio.Group>
-                    <Radio value='0'> Online </Radio>
-                    <Radio value='1'> Offline </Radio>
-                </Radio.Group>
-            </Form.Item>
+          <Form.Item
+            label='Sinh viên hỗ trợ'
+            name='tutor_email'
+            rules={[
+                {
+                required: true,
+                message: 'Vui lòng nhập sinh viên hỗ trợ',
+                },
+            ]}
+          >
+              <Input placeholder='chọn sinh viên hỗ trợ'/>
+          </Form.Item>
 
-            <Form.Item
-              label='Sinh viên hỗ trợ'
+          {+typeOfLesson === 0 ? (
+            <>
+              <Form.Item
+                  label='Vị trí lớp học'
+                  name='position_offline'
+                >
+                <Input disabled />
+              </Form.Item>
+
+              <Form.Item
+              label='Link học online'
               rules={[
                   {
                   required: true,
-                  message: 'Vui lòng nhập sinh viên hỗ trợ',
+                  message: 'Vui lòng nhập link học',
                   },
               ]}
-              name='student_support'
-            >
-                <Input placeholder='chọn sinh viên hỗ trợ'/>
-            </Form.Item>
+              name='position_online'
+              >
+                <Input placeholder={'Nhập link học online'} />
+              </Form.Item>
+            </>
+          ) : (
+            <>
+              <Form.Item
+                  label='Vị trí lớp học'
+                  rules={[
+                      {
+                      required: true,
+                      message: 'Vui lòng nhập vị trí lớp học',
+                      },
+                  ]}
+                  name='position_offline'
+                >
+                <Input placeholder={'Nhập vị trí lớp học'} />
+              </Form.Item>
+              
+              <Form.Item
+                label='Link học online'
+                name='position_online'
+              >
+                <Input placeholder={'Nhập link học online'} />
+              </Form.Item>
+            </>
+          )}
 
         </Form>
       </div>
