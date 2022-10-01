@@ -1,9 +1,11 @@
 import React from 'react';
 import './styles.css';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useGetAllLessonQuery } from '../../../app/api/lessonApiSlice';
 import { Button, Spin, Table, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import FormLessonRef from '../components/FormLessonRef';
+import { FaReply } from 'react-icons/fa';
 
 const text = <span>
     HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU
@@ -78,12 +80,15 @@ const columns = [
   },
   {
     title: '',
+    dataIndex: 'action',
+    key: 'action',
     render: (_, record) => (
         <div className='tw-flex'>
             <Button 
-                onClick={() => alert('Sửa')}
+                onClick={() => {record.action.modalRef.current.show('edit', record.item)}}
                 className='tw-bg-transparent tw-border-none hover:tw-bg-transparent'
             >
+                
                 <EditOutlined />
             </Button>
             <Button 
@@ -103,6 +108,8 @@ const ListLesson = () => {
   const { id: classId } = useParams()
   const semesterId = location.state?.semester_id;
 
+  const modalRef = React.useRef();
+
   let data = []
    
   const {
@@ -112,14 +119,16 @@ const ListLesson = () => {
   } = useGetAllLessonQuery(classId)
 
   if (lessonList) {
-    data = lessonList['Detail lesson'].map((item, index) => {
+    data = lessonList['List lesson'].map((item, index) => {
       return {
+        key: index,
         stt: index + 1,
         ngay: item.start_time.split(' ')[0],
         phong: item.type ? item.class_location : "Google Meet 2",
         giangduong: item.type ? 'TVB' : 'Google Meet',
         thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]}`,
-        link: item.type ? "" : item.class_location
+        link: item.type ? "" : item.class_location,
+        action: {modalRef, item}
       }
     })
   }
@@ -127,14 +136,33 @@ const ListLesson = () => {
   return (
     <div>
         {lessonLoading && <Spin/>}
-      <div>
+        
+        <div className='tw-border-b-2 tw-pb-1 tw-flex tw-justify-between'>
+            <span className='tw-text-[15px]'>Lịch học</span>
+            <span>
+                <Button 
+                    onClick={() => modalRef.current.show('add')}
+                    className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
+                > 
+                    Thêm buổi học 
+                </Button>
+            </span>
+            <Link to={`/manage/sem/${semesterId}`} className='tw-flex tw-items-center hover:tw-text-blue-600'> 
+            <FaReply className='tw-mr-1'/> Trở lại 
+            </Link>
+        </div>
+        <div className='tw-mt-6'>
             <Table
+                key={data.key}
                 columns={columns}
                 dataSource={data}
                 pagination={false}
             />
         </div>
+        
+      <FormLessonRef ref={modalRef} />
     </div>
+    
   );
 };
 
