@@ -34,7 +34,7 @@ const SemesterPage = () => {
       <Spinner
         loading={isLoading}
         size='large'
-        className={'tw-my-auto tw-h-full tw-mt-10 tw-flex tw-items-center tw-justify-center'}
+        className={'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'}
       />
       {data && (
         <div className='tw-flex tw-flex-wrap tw-justify-between'>
