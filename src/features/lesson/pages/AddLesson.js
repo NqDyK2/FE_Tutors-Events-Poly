@@ -74,6 +74,7 @@ const AddLesson = () => {
                 span: 14,
               }}
               layout='horizontal'
+              className='add-lesson-form'
             >
               <Form.Item
                 label='Lớp học'
