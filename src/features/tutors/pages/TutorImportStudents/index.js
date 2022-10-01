@@ -15,6 +15,7 @@ const { Option } = Select;
 
 const TutorImportStudents = () => {
   const [students, setStudents] = React.useState([]);
+  const  [form] = Form.useForm();
   const [
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
@@ -119,6 +120,10 @@ const TutorImportStudents = () => {
     setStudents(importData);
   };
   const onFinish = async (values) => {
+    if (students.length === 0) {
+      toast.error('Vui lòng chọn file excel hợp lệ');
+      return;
+    }
     // const chunkData = chunk(values.data, 100);
     // console.log(chunkData);
     // console.log(chunkData[0]);
@@ -137,16 +142,19 @@ const TutorImportStudents = () => {
         data: students,
       },
       semesterId: values.semesterId,
-    });
+    })
   };
 
   useEffect(() => {
     if (isImported) {
       toast.success('Import thành công');
+      form.resetFields();
+      setStudents([]);
     }
     if (importError) {
       toast.error('Import thất bại');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isImported, importError]);
 
   return (
