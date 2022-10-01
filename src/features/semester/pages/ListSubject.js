@@ -49,22 +49,22 @@ const SubjectPage = () => {
                     </Link>
                   }
                 />
-                <div>
-                  <Link 
-                    to={`/manage/class/${item.id}`} 
-                    state={{semesterId: id, subjectId: item.id}} 
-                    className="tw-mr-4"
-                  >
-                    Danh sách sinh viên
-                  </Link>
-                  <Link 
-                    to={`/manage/class/lesson/${item.id}`} 
-                    state={{semesterId: id, subjectId: item.id}} 
-                    className="tw-mr-4"
-                  >
-                    Lịch học
-                  </Link>
-                </div>
+                  <div>
+                    <Link 
+                      to={`/manage/class/${item.id}`} 
+                      state={{semesterId: id, subjectId: item.id}} 
+                      className="tw-mr-4"
+                    >
+                      Danh sách sinh viên
+                    </Link>
+                    <Link 
+                      to={`/manage/class/lesson/${item.id}`} 
+                      state={{semesterId: id, subjectId: item.id, subjectName: item.name}} 
+                      className="tw-mr-4"
+                    >
+                      Lịch học
+                    </Link>
+                  </div>
               </List.Item>
             )}
           </VirtualList>

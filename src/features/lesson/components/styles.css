@@ -1,0 +1,14 @@
+.ant-modal-header {
+  @apply !tw-bg-gray-800 ;
+}
+.ant-modal-header .ant-modal-title {
+  @apply  !tw-text-white !tw-text-lg;
+}
+
+.ant-modal-close {
+  @apply hover:!tw-bg-transparent
+}
+
+.ant-modal-close-x {
+  @apply !tw-text-white;
+}
