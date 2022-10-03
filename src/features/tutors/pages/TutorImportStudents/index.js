@@ -164,6 +164,18 @@ const TutorImportStudents = () => {
       </Helmet>
       <div className='sm:tw-w-1/2 tw-mx-auto'>
         <Form name='basic' layout='vertical' onFinish={onFinish}>
+        <Form.Item
+            name='semesterId'
+            label='Chọn kỳ:'
+            rules={[{ required: true, message: 'Không được trống' }]}
+          >
+            <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
+              {semesters?.semester?.data?.map((semester) => (
+                <Option key={semester.id} value={semester.id}>
+                  {semester.name.toUpperCase()}
+                </Option>
+              ))}
+            </Select>
           <Form.Item
             name='file'
             label='Import sinh viên:'
@@ -189,21 +201,9 @@ const TutorImportStudents = () => {
               type='file'
               onChange={handleFile}
               accept='.xlsx, .xls, .csv'
-              className=' file:tw-bg-orange-500 file:tw-border-none file:tw-rounded-xl file:tw-px-2 file:tw-py-1 file:tw-text-white active:tw-border-none tw-outline-none'
+              className=' file:tw-bg-pink-500 hover:file:tw-bg-pink-600 tw-cursor-pointer file:tw-cursor-pointer file:tw-border-none file:tw-rounded-xl file:tw-px-2 file:tw-py-1 file:tw-text-white active:tw-border-none tw-outline-none'
             />
           </Form.Item>
-          <Form.Item
-            name='semesterId'
-            label='Chọn kỳ:'
-            rules={[{ required: true, message: 'Không được trống' }]}
-          >
-            <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
-              {semesters?.semester?.data?.map((semester) => (
-                <Option key={semester.id} value={semester.id}>
-                  {semester.name.toUpperCase()}
-                </Option>
-              ))}
-            </Select>
           </Form.Item>
           <div className='dark:tw-text-slate-100 tw-text-green-500'>
             {isImported && <p>Import thành công</p>}
