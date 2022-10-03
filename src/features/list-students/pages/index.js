@@ -95,7 +95,7 @@ const ListStudent = () => {
       {error && (
         <>
           <p className='tw-pt-4'>Có lỗi xảy ra!</p>
-          <Link to='/semesters'>Trở lại</Link>
+          <Link to={`/manage/sem/${semester_id}`}>Trở lại</Link>
         </>
       )}
 

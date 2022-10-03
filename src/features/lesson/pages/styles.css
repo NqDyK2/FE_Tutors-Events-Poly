@@ -1,3 +1,14 @@
 .add-lesson-form .ant-form-item-required {
   @apply dark:tw-text-slate-100;
 }
+
+.ant-table-content{
+  font-size: 13px !important;
+}
+
+.ant-table-tbody>tr>td, 
+.ant-table-thead>tr>th, 
+.ant-table tfoot>tr>td, 
+.ant-table tfoot>tr>th{
+  padding: 10px !important;
+}
