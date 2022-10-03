@@ -30,9 +30,9 @@ const FormLessonRef = (props, ref) => {
   useImperativeHandle(ref, () => ({
     show: (caseForm, data) => {
       setVisible(true);
-      console.log(caseForm);
       if (caseForm === MODE.ADD) {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
+        formLesson.setFieldsValue({classroomId: data.subjectId})
         setMode(MODE.ADD);
       } else {
         let newData = {
@@ -59,7 +59,7 @@ const FormLessonRef = (props, ref) => {
 
 
   const onFinished = (values) => {
-    console.log(values);
+
     let dataLesson = {
       classroom_id: +values.classroomId,
       type: +values.type,
@@ -88,16 +88,15 @@ const FormLessonRef = (props, ref) => {
 
     switch (mode) {
       case MODE.ADD:
-        console.log('add', dataLesson);
-        // addLesson(dataLesson)
-        //   .unwrap()
-        //   .then(res => {
-        //     setVisible(false);
-        //     toast.success('Thêm buổi học thành công');
-        //   })
-        //   .catch(error => {
-        //     setError(error);
-        //   })
+        addLesson(dataLesson)
+          .unwrap()
+          .then(res => {
+            setVisible(false);
+            toast.success('Thêm buổi học thành công');
+          })
+          .catch(error => {
+            setError(error);
+          })
         break;
       case MODE.EDIT:
         updateLesson({ ...dataLesson, id: values.lessonId })
@@ -123,10 +122,6 @@ const FormLessonRef = (props, ref) => {
       formLesson.validateFields(['position_online']);
     }
   }, [formLesson, typeOfLesson]);
-
- const  onFinishedFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
 
   return (
     <Modal
@@ -158,13 +153,13 @@ const FormLessonRef = (props, ref) => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 20 }}
           onFinish={onFinished}
-          onFinishFailed={onFinishedFailed}
           onChange={() => {
             setError(null);
           }}
           layout='horizontal'
           initialValues={{
             type: 1,
+            teacher: 'hieudmph69'
           }}
         >
           <Form.Item className='tw-hidden' name='lessonId'>
