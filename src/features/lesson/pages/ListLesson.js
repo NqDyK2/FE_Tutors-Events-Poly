@@ -6,6 +6,7 @@ import { Button, Spin, Table, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import FormLessonRef from '../components/FormLessonRef';
 import { FaReply } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const text = <span>
     HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU
@@ -86,14 +87,14 @@ const columns = [
         render: (_, record) => (
             <div className='tw-flex'>
                 <Button
-                    onClick={() => { record.action.modalRef.current.show('edit', record.action.item) }}
+                    onClick={() => { record.action.modalRef.current.show('EDIT', record.action.item) }}
                     className='tw-bg-transparent tw-border-none hover:tw-bg-transparent'
                 >
 
                     <EditOutlined />
                 </Button>
                 <Button
-                     onClick={() => {record.action.removeLesson(record.id)} }
+                     onClick={() => {record.action.handleRemoveLesson(record.id)} }
                     className='tw-bg-transparent tw-border-none hover:tw-bg-transparent'
                 >
                     <DeleteOutlined />
@@ -112,6 +113,14 @@ const ListLesson = () => {
     let data = []
 
     const [removeLesson] = useDelLessonMutation()
+
+    const handleRemoveLesson = (id) => {
+        const confirm = window.confirm("Bạn có chắc chắn muốn xóa?")
+        if (confirm) {
+            removeLesson(id)
+            toast.success("Xóa buổi học thành công.")
+        }
+    }
 
 
     const {
@@ -133,7 +142,7 @@ const ListLesson = () => {
                 link: item.class_location_online,
                 trogiang: item.teacher,
                 mamon: item.name,
-                action: { modalRef, item, removeLesson }
+                action: { modalRef, item, handleRemoveLesson }
             }
         })
     }
@@ -145,7 +154,7 @@ const ListLesson = () => {
                 <span className='tw-text-[15px]'>Lịch học {subjectName}</span>
                 <span>
                     <Button
-                        onClick={() => modalRef.current.show('add')}
+                        onClick={() => modalRef.current.show('ADD', {subjectName})}
                         className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
                     >
                         Thêm buổi học

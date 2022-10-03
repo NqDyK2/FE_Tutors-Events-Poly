@@ -1,6 +1,6 @@
 import {  DatePicker, Form, Input, Modal, Radio } from 'antd';
 import moment from 'moment';
-import React, { useImperativeHandle } from 'react';
+import React, { useEffect, useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import { useAddLessonMutation, useUpdateLessonMutation } from '../../../app/api/lessonApiSlice';
@@ -12,19 +12,24 @@ const { RangePicker } = DatePicker
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
   const [title, setTitle] = React.useState('');
-  const [form] = Form.useForm();
+  const [formLesson] = Form.useForm();
   const [typeOfLesson, setTypeOfLesson] = React.useState(1)
   const [error, setError] = React.useState(null);
+  const MODE = {
+    ADD: 'ADD',
+    EDIT: 'EDIT',
+  };
+  const [mode, setMode] = React.useState(MODE.ADD);
   
-  const [addLesson, { isLoading: addLoading, addError, addSuccess }] = useAddLessonMutation();
-  const [updateLesson, { isLoading: updateLoading, updateError, updateSuccess }] = useUpdateLessonMutation();
+  const [addLesson, { isLoading: addLoading }] = useAddLessonMutation();
+  const [updateLesson, { isLoading: updateLoading }] = useUpdateLessonMutation();
 
   useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
           setVisible(true);
-          if (caseForm === 'add') {
-            form.setFieldsValue(data);
-            setTitle('Thêm buổi học');
+          if (caseForm === MODE.ADD) {
+            setTitle('Thêm buổi học - Môn ' + data.subjectName);
+            setMode(MODE.ADD);
           } else {
             let newData =  {
               classroomId: data.classroom_id,
@@ -36,9 +41,10 @@ const FormLessonRef = (props, ref) => {
               teacher: data.teacher,
               lessonId: data.id
             }
-            form.setFieldsValue(newData);
-            setTypeOfLesson(data.type)
+            formLesson.setFieldsValue(newData);
+            setTypeOfLesson(data.type);
             setTitle('Sửa buổi học');
+            setMode(MODE.EDIT);
           }
       },
 
@@ -48,62 +54,92 @@ const FormLessonRef = (props, ref) => {
   }));
 
   const onFinished = (values) => {
-    
+
     let dataLesson = {
-      classroom_id: values.classroomId,
+      classroom_id: +values.classroomId,
       type: +values.type,
-      class_location_offline: values.position_offline,
-      class_location_online: values.position_online,
       tutor_email: values.tutor_email,
       start_time: values.date[0].format('YYYY-MM-DD HH:mm:ss'),
       end_time: values.date[1].format('YYYY-MM-DD HH:mm:ss'),
     }
 
-    if (title === 'Thêm buổi học') {
+    if(typeOfLesson){
+      dataLesson = {...dataLesson, class_location_offline: values.position_offline}
+      if (values.position_online) {
+        dataLesson = {...dataLesson, class_location_online: values.position_online}
+      }
     } else {
-      updateLesson({...dataLesson, id: values.lessonId})
-        .unwrap()
-        .then(res => {
-          setVisible(false);
-          toast.success('Sửa thành công');
-        })
-        .catch(error => {
-          setError(error);
-        })
+      dataLesson = {...dataLesson, class_location_online: values.position_online}
     }
+
+    switch(mode){
+      case MODE.ADD:
+        addLesson(dataLesson)
+          .unwrap()
+          .then(res => {
+            setVisible(false);
+            toast.success('Thêm buổi học thành công');
+          })
+          .catch(error => {
+            setError(error);
+          })
+        break;
+      case MODE.EDIT:
+        updateLesson({...dataLesson, id: values.lessonId})
+          .unwrap()
+          .then(res => {
+            setVisible(false);
+            toast.success('Sửa học thành công');
+          })
+          .catch(error => {
+            setError(error);
+          })
+        break;
+      default:
+    }
+
   };
 
   
   const onChangeType = (e) => {
     setTypeOfLesson(e.target.value);
   }
+
+  useEffect(() => {
+    if (typeOfLesson) {
+      formLesson.validateFields(['position_online']);
+    }
+  },[formLesson, typeOfLesson])
   
   return (
     <Modal
-      getContainer={false}
       title={title}
       open={visible}
       okType='default'
       onOk={() => {
-        form.submit();
+        formLesson.submit();
       }}
       onCancel={() => {
         setVisible(false);
         setError(null);
-        form.resetFields();
+        formLesson.resetFields();
       }}
       okText='Lưu'
       confirmLoading={addLoading || updateLoading}
       destroyOnClose
       okButtonProps={{className: 'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none'}}
       cancelButtonProps={{className: 'hover:tw-bg-transparent'}}
+      getContainer={false}
     >
       <div>
         <Form
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 20 }}
-            form={form}
+            form={formLesson}
             onFinish={onFinished}
+            onChange={() => {
+              setError(null);
+            }}
             preserve={false}
             layout='horizontal'
             initialValues={
@@ -121,7 +157,7 @@ const FormLessonRef = (props, ref) => {
 
           <Form.Item
           className='tw-hidden'
-          label='Lớp học'
+          label='Lớp học:'
           rules={[
               {
               required: true,
@@ -164,7 +200,7 @@ const FormLessonRef = (props, ref) => {
           </Form.Item>
 
           <Form.Item
-            label='Ngày'
+            label='Ngày:'
             name={'date'}
             rules={[
                 {
@@ -188,7 +224,7 @@ const FormLessonRef = (props, ref) => {
           </Form.Item>
 
           <Form.Item
-            label='Sinh viên hỗ trợ'
+            label='Sinh viên hỗ trợ:'
             name='tutor_email'
             rules={[
                 {
@@ -200,17 +236,16 @@ const FormLessonRef = (props, ref) => {
               <Input placeholder='chọn sinh viên hỗ trợ'/>
           </Form.Item>
 
-          {+typeOfLesson === 0 ? (
+          {!typeOfLesson ? (
             <>
               <Form.Item
-                  label='Vị trí lớp học'
-                  name='position_offline'
+                  label='Vị trí lớp học:'
                 >
                 <Input disabled />
               </Form.Item>
 
               <Form.Item
-              label='Link học online'
+              label='Link học online:'
               rules={[
                   {
                   required: true,
@@ -239,6 +274,11 @@ const FormLessonRef = (props, ref) => {
               
               <Form.Item
                 label='Link học online'
+                rules={[
+                    {
+                    required: false
+                    },
+                ]}
                 name='position_online'
               >
                 <Input placeholder={'Nhập link học online'} />
