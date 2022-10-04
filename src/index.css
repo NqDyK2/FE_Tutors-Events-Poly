@@ -9,6 +9,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+ .ant-modal-wrap {
+  overflow-x: hidden !important;
+}
+
 
 html::-webkit-scrollbar-track
 {

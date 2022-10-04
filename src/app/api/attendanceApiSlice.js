@@ -7,8 +7,11 @@ export const attendanceApiSlice = apiSlice.injectEndpoints({
       providesTags: ['AttendanceListClass'],
     }),
     getAttendanceListStudent: builder.query({
-      query: (classId) => `attendance/list-student/${classId}`,
+      query: (classId) => `attendance/get/${classId}`,
       providesTags: ['AttendanceListStudent'],
+      transformResponse: (response) => {
+        return response.data;
+      },
     }),
     updateAttendanceStudentStatus: builder.mutation({
       query: (data) => ({

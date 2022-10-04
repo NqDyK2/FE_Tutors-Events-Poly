@@ -154,7 +154,7 @@ const ListLesson = () => {
                 giangduong: item.type ? 'TVB' : 'Google Meet',
                 thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]}`,
                 link: item.class_location_online,
-                trogiang: item.tutor.split('@')[0],
+                trogiang: '',
                 giangvien: item.teacher,
                 mamon: item.name,
                 mon: 'Dự án tốt nghiệp (TKTW-Single page Application)',
