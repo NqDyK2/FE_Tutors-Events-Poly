@@ -134,6 +134,7 @@ const FormLessonRef = (props, ref) => {
       onCancel={() => {
         setVisible(false);
         setError(null);
+        setTypeOfLesson(1);
         formLesson.resetFields();
       }}
       okText='Lưu'

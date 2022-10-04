@@ -14,14 +14,6 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Trang chủ',
     },
     {
-      path: '/crclass',
-      breadcrumbName: 'Thêm lớp học',
-    },
-    {
-      path: '/diem-danh',
-      breadcrumbName: 'Điểm danh',
-    },
-    {
       path: '/diem-danh',
       breadcrumbName: 'Điểm danh',
     },
@@ -53,10 +45,6 @@ const AppBreadcrumb = () => {
       path: `/manage/class/${pathname.split('/')[2]}`,
       breadcrumbName: 'Danh sách buổi học',
     },
-    {
-      path: '/add-lesson',
-      breadcrumbName: 'Thêm buổi học',
-    }
   ];
 
   function getBreadcrumb() {

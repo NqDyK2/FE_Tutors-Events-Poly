@@ -1,9 +1,9 @@
 import React from 'react';
-import { Result, Table } from 'antd';
+import { Table } from 'antd';
 import { Button } from 'antd';
 
 import { Switch } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   useGetAttendanceListStudentQuery,
   useUpdateAttendanceStudentStatusMutation,
@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './styles.css';
 const AttendanceStudent = () => {
+  const location = useLocation();
+  const {subjectCode} = location.state;
   const { classId } = useParams();
   const [studentsStatus, setStudentsStatus] = React.useState([]);
   const {
@@ -33,28 +35,16 @@ const AttendanceStudent = () => {
       dataIndex: 'stt',
       key: 'stt',
     },
-    // {
-    //     title: 'Tên lớp',
-    //     dataIndex: 'tenlop',// VIẾT BỪA THÔI BAO GIỜ ĐỔ DỮ LIỆU NHỚ SỬA NHÁ CÁC BẠN IU
-    //     key: 'tenlop',
-    // },
     {
       title: 'Mã sinh viên',
       dataIndex: 'student_code',
       key: 'student_code',
-
     },
     {
       title: 'Tên sinh viên',
       dataIndex: 'student_name',
       key: 'student_name',
-
     },
-    // {
-    //     title: 'Ảnh',
-    //     dataIndex: 'image',
-    //     key: 'image',
-    // },
     {
       title: 'Trạng thái',
       dataIndex: 'status',
@@ -73,26 +63,26 @@ const AttendanceStudent = () => {
     },
     {
       title: 'Chú thích',
-      dataIndex: 'desc',
+      dataIndex: 'note',
       responsive: ['md'],
-      key: 'desc',
+      key: 'note',
       render: (_, record) => (
         <input
           key={record.student_code}
           type='text'
-          className=' tw-max-h-[30px] tw-px-1 tw-w-2/3 tw-border tw-border-[#DEE2E6] tw-rounded-[2px]'
+          className=' tw-max-h-[30px] tw-w-2/3 tw-rounded-[2px] tw-border tw-border-[#DEE2E6] tw-px-1'
         />
       ),
     },
   ];
-  const data = listStudent?.data?.map((item, index) => {
+  const data = listStudent?.map((item, index) => {
     return {
       stt: index + 1,
-      id: item.user_id,
-      student_code: item.user.user_code,
-      student_name: item.user.name,
+      id: item.id,
+      student_code: item.user_code,
+      student_name: item.user_name,
       status: item.status,
-      desc: '',
+      note: '',
     };
   });
 
@@ -132,46 +122,63 @@ const AttendanceStudent = () => {
 
   useEffect(() => {
     setStudentsStatus(
-      listStudent?.data?.map((item, index) => {
+      listStudent?.map((item, index) => {
         return {
-          id: item.user.id,
+          id: item.id,
           status: item.status,
         };
       })
     );
-  }, [listStudent?.data]);
+  }, [listStudent]);
+
+
   return (
     <div className='tw-w-full'>
       <div className='tw-border-b-2'>
-        <span className='tw-text-[15px] dark:tw-text-slate-100 '>Điểm danh</span>
+        <span className='tw-text-[15px] dark:tw-text-slate-100 '>
+          Điểm danh
+        </span>
       </div>
-      <div className='tw-mt-6'>
-        {error && <Result status={'error'} />}
-        <Table
-          loading={isLoading}
-          pagination={false}
-          columns={columns}
-          dataSource={data}
-          rowKey='student_code'
-          className='attendance-table'
-          
-        />
-        <textarea
-          className='tw-border tw-rounded-[5px] tw-w-full tw-mt-[15px] tw-pt-[5px] '
-          placeholder='Ghi chú về buổi tutors'
-          name=''
-          rows='3'
-        />
-        <Button
-          type='primary'
-          loading={isUpdateLoading}
-          disabled={listStudent?.data?.length === 0}
-          className='tw-w-full tw-h-[40px] tw-mt-[10px] tw-rounded-[5px] tw-bg-[#0DB27F]'
-          onClick={() => handleUpdateStatus(studentsStatus, classId)}
-        >
-          Lưu điểm danh
-        </Button>
-      </div>
+      {error && (
+        <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
+          <p className='tw-text-lg tw-text-red-500'>
+            {error?.message || error?.data?.message || 'Đã có lỗi xảy ra'}
+          </p>
+        </div>
+      )}
+      {!error && (
+        <>
+          <h2 className='tw-mt-2'>
+            Môn học: {subjectCode}
+          </h2>
+        <div className='tw-mt-6'>
+          <Table
+            loading={isLoading}
+            pagination={false}
+            columns={columns}
+            dataSource={data}
+            rowKey='student_code'
+            className='attendance-table'
+            scroll={{ y: 500 }}
+          />
+          <textarea
+            className='tw-mt-[15px] tw-w-full tw-rounded-[5px] tw-border tw-pt-[5px] '
+            placeholder='Ghi chú về buổi tutors'
+            name=''
+            rows='3'
+          />
+          <Button
+            type='primary'
+            loading={isUpdateLoading}
+            disabled={listStudent?.data?.length === 0}
+            className='tw-mt-[10px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-bg-[#0DB27F]'
+            onClick={() => handleUpdateStatus(studentsStatus, classId)}
+          >
+            Lưu điểm danh
+          </Button>
+        </div>
+        </>
+      )}
     </div>
   );
 };
