@@ -1,5 +1,5 @@
 import React from 'react';
-import { Result, Table } from 'antd';
+import { Table } from 'antd';
 import { Button } from 'antd';
 
 import { Switch } from 'antd';
