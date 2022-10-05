@@ -145,6 +145,9 @@ const FormSemeterRef = (props, ref) => {
               placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
               label='test'
               format={'DD/MM/YYYY'}
+              onChange={() => {
+                setError(null);
+              }}
             />
           </Form.Item>
         </Form>
