@@ -11,10 +11,14 @@ import {
   CarryOutOutlined,
   FileAddOutlined,
 } from '@ant-design/icons';
-import { BsFillCircleFill, BsFillCalendarDayFill, BsFilePost, } from 'react-icons/bs';
-import { BiCalendarStar } from 'react-icons/bi'
+import {
+  BsFillCircleFill,
+  BsFillCalendarDayFill,
+  BsFilePost,
+} from 'react-icons/bs';
+import { BiCalendarStar } from 'react-icons/bi';
 import { SiGoogleclassroom } from 'react-icons/si';
-import { IoMdHelpCircle } from 'react-icons/io'
+import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -36,11 +40,14 @@ const AppAside = () => {
     navigate(data.key);
   };
 
-
   // navigate by key value of menu item
   const items = [
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${
+          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}
+      >
         Thông báo và tin tức
       </div>,
       '/',
@@ -77,7 +84,11 @@ const AppAside = () => {
     //   ]
     // ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${
+          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}
+      >
         Import
       </div>,
       '/import-students',
@@ -91,7 +102,11 @@ const AppAside = () => {
     //   <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     // ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${
+          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}
+      >
         Điểm danh
       </div>,
       '/diem-danh',
@@ -119,7 +134,11 @@ const AppAside = () => {
     //   <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     // ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${
+          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}
+      >
         Quản lý kỳ học
       </div>,
       '/manage',
@@ -133,13 +152,16 @@ const AppAside = () => {
     //   <BsFilePost className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     // ),
     getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${
+          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}
+      >
         Hỗ trợ
       </div>,
       '',
       <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    
   ];
 
   return (
@@ -153,18 +175,18 @@ const AppAside = () => {
       width={256}
       collapsedWidth={62.5}
       collapsed={collapsed}
-      className='tw-overflow-auto tw-h-screen tw-sticky tw-left-0 tw-bg-white tw-shadow-xl tw-drop-shadow-xl tw-top-0 tw-bottom-0 tw-z-50 dark:tw-shadow-md dark:tw-bg-[#1E2139] dark:tw-shadow-slate-400 dark:tw-drop-shadow-2xl tw-hidden md:tw-block  '
+      className='tw-sticky tw-left-0 tw-top-0 tw-bottom-0 tw-z-50 tw-hidden tw-h-screen tw-overflow-auto tw-bg-white tw-shadow-xl tw-drop-shadow-xl dark:tw-bg-[#1E2139] dark:tw-shadow-md dark:tw-shadow-slate-400 dark:tw-drop-shadow-2xl md:tw-block  '
     >
-      <div className='tw-flex tw-items-center tw-gap-x-2 tw-justify-center tw-px-2'>
+      <div className='tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-px-2'>
         {!collapsed && (
-          <div className='logo tw-ml-4 tw-flex-1 tw-mb-5 tw-mt-2'>
+          <div className='logo tw-ml-4 tw-mb-5 tw-mt-2 tw-flex-1'>
             <Link to='/'>
               <img src={Logo} alt='logo' width={'80%'} />
             </Link>
           </div>
         )}
         <Button
-          className='tw-my-2  hover:tw-bg-transparent hover:text-blue-500 tw-bg-transparent tw-border-none tw-text-blue-400'
+          className='hover:text-blue-500  tw-my-2 tw-border-none tw-bg-transparent tw-text-blue-400 hover:tw-bg-transparent'
           shape='none'
           type='text'
           onClick={() => setCollapsed(!collapsed)}
@@ -186,7 +208,12 @@ const AppAside = () => {
         selectedKeys={[location.pathname]}
         items={items}
         expandIcon={({ isOpen }) =>
-          isOpen ? <UpOutlined className='tw-text-[11px] !tw-text[#313752]' /> : <RightOutlined className='tw-text-[11px] !tw-text[#313752]' />}
+          isOpen ? (
+            <UpOutlined className='!tw-text[#313752] tw-text-[11px]' />
+          ) : (
+            <RightOutlined className='!tw-text[#313752] tw-text-[11px]' />
+          )
+        }
       />
     </Sider>
   );

@@ -32,7 +32,7 @@ const FormLessonRef = (props, ref) => {
       setVisible(true);
       if (caseForm === MODE.ADD) {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
-        formLesson.setFieldsValue({classroomId: data.subjectId})
+        formLesson.setFieldsValue({ classroomId: data.subjectId });
         setMode(MODE.ADD);
       } else {
         let newData = {
@@ -57,9 +57,7 @@ const FormLessonRef = (props, ref) => {
     },
   }));
 
-
   const onFinished = (values) => {
-
     let dataLesson = {
       classroom_id: +values.classroomId,
       type: +values.type,
@@ -90,13 +88,13 @@ const FormLessonRef = (props, ref) => {
       case MODE.ADD:
         addLesson(dataLesson)
           .unwrap()
-          .then(res => {
+          .then((res) => {
             setVisible(false);
             toast.success('Thêm buổi học thành công');
           })
-          .catch(error => {
+          .catch((error) => {
             setError(error);
-          })
+          });
         break;
       case MODE.EDIT:
         updateLesson({ ...dataLesson, id: values.lessonId })
@@ -160,7 +158,7 @@ const FormLessonRef = (props, ref) => {
           layout='horizontal'
           initialValues={{
             type: 1,
-            teacher: 'hieudmph69'
+            teacher: 'hieudmph69',
           }}
         >
           <Form.Item className='tw-hidden' name='lessonId'>

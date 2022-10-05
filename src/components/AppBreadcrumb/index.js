@@ -65,14 +65,17 @@ const AppBreadcrumb = () => {
     <Breadcrumb
       key={pathname}
       separator='|'
-      className='app-breadcrumb tw-px-4 tw-py-4 tw-flex tw-items-center tw-bg-white dark:tw-bg-[#1E2139]  tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-opacity-90 dark:tw-shadow-none'
+      className='app-breadcrumb tw-flex tw-items-center tw-bg-white tw-px-4 tw-py-4 tw-shadow-sm  tw-shadow-white tw-drop-shadow-sm dark:tw-bg-[#1E2139] dark:tw-opacity-90 dark:tw-shadow-none'
     >
-      <Breadcrumb.Item className='tw-text-black dark:tw-text-white tw-opacity-80 dark:tw-opacity-100 tw-text-base'>
+      <Breadcrumb.Item className='tw-text-base tw-text-black tw-opacity-80 dark:tw-text-white dark:tw-opacity-100'>
         {breadcrumb ?? 'Trang chủ'}
       </Breadcrumb.Item>
 
-      <Breadcrumb.Item className='tw-h-full tw-flex tw-items-center'>
-        <Link to='/' className='tw-text-[#C4CFF0] dark:tw-text-slate-100 hover:tw-text-blue-300'>
+      <Breadcrumb.Item className='tw-flex tw-h-full tw-items-center'>
+        <Link
+          to='/'
+          className='tw-text-[#C4CFF0] hover:tw-text-blue-300 dark:tw-text-slate-100'
+        >
           <RiHome6Line className='tw-align-text-bottom' size={18} />
         </Link>
       </Breadcrumb.Item>

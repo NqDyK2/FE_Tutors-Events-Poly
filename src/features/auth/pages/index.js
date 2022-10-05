@@ -35,9 +35,9 @@ const AuthPage = () => {
         <title>Đăng nhập - FPOLY</title>
       </Helmet>
       <div>
-        <div className='tw-container tw-mx-auto tw-flex login-page tw-h-screen'>
-          <div className='login-container tw-pt-[6%] tw-px-8 tw-pb-4 tw-mx-auto'>
-            <div className='tw-flex tw-flex-col tw-w-[430px] tw-items-center tw-justify-center'>
+        <div className='login-page tw-container tw-mx-auto tw-flex tw-h-screen'>
+          <div className='login-container tw-mx-auto tw-px-8 tw-pt-[6%] tw-pb-4'>
+            <div className='tw-flex tw-w-[430px] tw-flex-col tw-items-center tw-justify-center'>
               <div className='logo'>
                 <img src={Logo} alt='logo' width={200} />
               </div>
@@ -62,17 +62,17 @@ const AuthPage = () => {
                   </div>
                   <div>
                     {isNotVerified && !isVerified && (
-                      <p className='tw-text-red-500 tw-text-center'>
+                      <p className='tw-text-center tw-text-red-500'>
                         Vui lòng xác nhận bạn không phải là robot
                       </p>
                     )}
                   </div>
-                  <div className='tw-flex tw-mt-[15px]'>
+                  <div className='tw-mt-[15px] tw-flex'>
                     <button
                       type='button'
                       onClick={checkVerifiedReCAPTCHA}
-                      className={` ${'tw-bg-[#fd397a]'} tw-w-full tw-flex tw-justify-center tw-items-center
-                      tw-text-[#fff] tw-py-2 tw-px-4 tw-rounded`}
+                      className={` ${'tw-bg-[#fd397a]'} tw-flex tw-w-full tw-items-center tw-justify-center
+                      tw-rounded tw-py-2 tw-px-4 tw-text-[#fff]`}
                     >
                       <svg
                         className='tw-mr-1'

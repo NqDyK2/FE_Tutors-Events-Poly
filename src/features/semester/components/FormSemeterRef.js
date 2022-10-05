@@ -1,4 +1,4 @@
-import {  DatePicker, Form, Input, Modal } from 'antd';
+import { DatePicker, Form, Input, Modal } from 'antd';
 import moment from 'moment';
 import React, { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';

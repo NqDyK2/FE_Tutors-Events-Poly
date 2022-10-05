@@ -34,7 +34,9 @@ const SemesterPage = () => {
       <Spinner
         loading={isLoading}
         size='large'
-        className={'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'}
+        className={
+          'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'
+        }
       />
       {data && (
         <div className='tw-flex tw-flex-wrap tw-justify-start'>
@@ -62,7 +64,7 @@ const SemesterPage = () => {
                 <div className='tw-mr-[10px]'>
                   <Button
                     shape='circle'
-                    onClick={() => modalRef.current.show('EDIT',item)}
+                    onClick={() => modalRef.current.show('EDIT', item)}
                     icon={<EditOutlined className='tw-text-[20px]' />}
                     className='tw-border-none tw-bg-transparent hover:tw-bg-transparent'
                   />
