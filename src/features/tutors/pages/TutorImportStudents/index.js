@@ -170,7 +170,7 @@ const TutorImportStudents = () => {
             rules={[{ required: true, message: 'Không được trống' }]}
           >
             <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
-              {semesters?.semester?.data?.map((semester) => (
+              {semesters?.data?.map((semester) => (
                 <Option key={semester.id} value={semester.id}>
                   {semester.name.toUpperCase()}
                 </Option>
