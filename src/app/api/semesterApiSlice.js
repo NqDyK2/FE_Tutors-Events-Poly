@@ -8,6 +8,9 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
         url: "semester/get-all",
       }),
       providesTags: ["Semester"],
+      transformResponse: (response) => {
+        return response.data;
+      },
     }),
     getListClassInSemester: builder.query({
       query: (id) => `classroom/in-semester/${id}`,
