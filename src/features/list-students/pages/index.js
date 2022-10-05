@@ -73,7 +73,7 @@ const ListStudent = () => {
     key: index,
     index,
     className: item.school_classroom,
-    studentCode: item.user_code,
+    studentCode: item.code,
     image: item.avatar,
     comment: item.reason,
     studentMail: item.email,
