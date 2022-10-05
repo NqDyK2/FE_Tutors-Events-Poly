@@ -33,14 +33,14 @@ const TutorImportStudents = () => {
 
     const lopCanDanhGia = wb.SheetNames[0];
 
-    const BMUDPM = wb.SheetNames[6];
+    // const BMUDPM = wb.SheetNames[6];
     const BMCNTT = wb.SheetNames[7];
-    const BMKT = wb.SheetNames[8];
-    const BMDCK = wb.SheetNames[9];
-    const BMTKDH = wb.SheetNames[10];
-    const BMTMDT = wb.SheetNames[11];
-    const BMDLNHKS = wb.SheetNames[12];
-    const BMCB = wb.SheetNames[13];
+    // const BMKT = wb.SheetNames[8];
+    // const BMDCK = wb.SheetNames[9];
+    // const BMTKDH = wb.SheetNames[10];
+    // const BMTMDT = wb.SheetNames[11];
+    // const BMDLNHKS = wb.SheetNames[12];
+    // const BMCB = wb.SheetNames[13];
 
     const allSheet = [BMCNTT];
 
