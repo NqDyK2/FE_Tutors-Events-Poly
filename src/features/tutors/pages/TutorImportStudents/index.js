@@ -1,7 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Form, Input, Button, DatePicker, Select, Upload, Progress } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  Select,
+  Upload,
+  Progress,
+} from 'antd';
 import XLSX from 'xlsx';
 import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
 import { useEffect } from 'react';
@@ -15,7 +23,7 @@ const { Option } = Select;
 
 const TutorImportStudents = () => {
   const [students, setStudents] = React.useState([]);
-  const  [form] = Form.useForm();
+  const [form] = Form.useForm();
   const [
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
@@ -33,14 +41,14 @@ const TutorImportStudents = () => {
 
     const lopCanDanhGia = wb.SheetNames[0];
 
-    const BMUDPM = wb.SheetNames[6];
+    // const BMUDPM = wb.SheetNames[6];
     const BMCNTT = wb.SheetNames[7];
-    const BMKT = wb.SheetNames[8];
-    const BMDCK = wb.SheetNames[9];
-    const BMTKDH = wb.SheetNames[10];
-    const BMTMDT = wb.SheetNames[11];
-    const BMDLNHKS = wb.SheetNames[12];
-    const BMCB = wb.SheetNames[13];
+    // const BMKT = wb.SheetNames[8];
+    // const BMDCK = wb.SheetNames[9];
+    // const BMTKDH = wb.SheetNames[10];
+    // const BMTMDT = wb.SheetNames[11];
+    // const BMDLNHKS = wb.SheetNames[12];
+    // const BMCB = wb.SheetNames[13];
 
     const allSheet = [BMCNTT];
 
@@ -142,7 +150,7 @@ const TutorImportStudents = () => {
         data: students,
       },
       semesterId: values.semesterId,
-    })
+    });
   };
 
   useEffect(() => {
@@ -154,7 +162,7 @@ const TutorImportStudents = () => {
     if (importError) {
       toast.error('Import thất bại');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isImported, importError]);
 
   return (
@@ -162,50 +170,50 @@ const TutorImportStudents = () => {
       <Helmet>
         <title>FPoly</title>
       </Helmet>
-      <div className='sm:tw-w-1/2 tw-mx-auto'>
+      <div className='tw-mx-auto sm:tw-w-1/2'>
         <Form name='basic' layout='vertical' onFinish={onFinish}>
-        <Form.Item
+          <Form.Item
             name='semesterId'
             label='Chọn kỳ:'
             rules={[{ required: true, message: 'Không được trống' }]}
           >
             <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
-              {semesters?.semester?.data?.map((semester) => (
+              {semesters?.data?.map((semester) => (
                 <Option key={semester.id} value={semester.id}>
                   {semester.name.toUpperCase()}
                 </Option>
               ))}
             </Select>
-          <Form.Item
-            name='file'
-            label='Import sinh viên:'
-            valuePropName='filelist'
-            rules={[
-              { required: true, message: 'Không được trống' },
-              () => ({
-                validator(_, value) {
-                  if (
-                    value &&
-                    !value.target.files[0].name.endsWith('.xlsx') &&
-                    !value.target.files[0].name.endsWith('.xls') &&
-                    !value.target.files[0].name.endsWith('.csv')
-                  ) {
-                    return Promise.reject('Chỉ được chọn file excel');
-                  }
-                  return Promise.resolve();
-                },
-              }),
-            ]}
-          >
-            <Input
-              type='file'
-              onChange={handleFile}
-              accept='.xlsx, .xls, .csv'
-              className=' file:tw-bg-pink-500 hover:file:tw-bg-pink-600 tw-cursor-pointer file:tw-cursor-pointer file:tw-border-none file:tw-rounded-xl file:tw-px-2 file:tw-py-1 file:tw-text-white active:tw-border-none tw-outline-none'
-            />
+            <Form.Item
+              name='file'
+              label='Import sinh viên:'
+              valuePropName='filelist'
+              rules={[
+                { required: true, message: 'Không được trống' },
+                () => ({
+                  validator(_, value) {
+                    if (
+                      value &&
+                      !value.target.files[0].name.endsWith('.xlsx') &&
+                      !value.target.files[0].name.endsWith('.xls') &&
+                      !value.target.files[0].name.endsWith('.csv')
+                    ) {
+                      return Promise.reject('Chỉ được chọn file excel');
+                    }
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input
+                type='file'
+                onChange={handleFile}
+                accept='.xlsx, .xls, .csv'
+                className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
+              />
+            </Form.Item>
           </Form.Item>
-          </Form.Item>
-          <div className='dark:tw-text-slate-100 tw-text-green-500'>
+          <div className='tw-text-green-500 dark:tw-text-slate-100'>
             {isImported && <p>Import thành công</p>}
           </div>
           <div className='dark:tw-text-slate-100'>
@@ -218,7 +226,7 @@ const TutorImportStudents = () => {
             <Button
               loading={isImporting}
               htmlType='submit'
-              className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '
+              className='tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-96 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white '
             >
               Import
             </Button>

@@ -147,7 +147,10 @@ const AddClassPage = () => {
             label=''
             className='tw-flex tw-items-center  tw-justify-center'
           >
-            <Button loading={loading} className='tw-w-96 tw-text-white tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-font-medium tw-rounded-lg tw-text-sm  tw-text-center tw-mr-2 tw-mb-2 '>
+            <Button
+              loading={loading}
+              className='tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-96 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white '
+            >
               Tạo
             </Button>
           </Form.Item>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { Button, Table } from 'antd';
@@ -27,15 +27,13 @@ const columns = [
   {
     title: 'Link trực tuyến',
     key: 'onLink',
-    render: (_, record) => (
-      <a href={record.onLink}>{record.onLink}</a>
-    ),
+    render: (_, record) => <a href={record.onLink}>{record.onLink}</a>,
   },
   {
     title: 'Buổi học',
     key: 'action',
     render: (_, record) => (
-      <Button className=' tw-bg-[#0DB27F] tw-rounded-[4px] tw-text-white' >
+      <Button className=' tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white'>
         <Link to='/add-lesson'>Thêm buổi học</Link>
       </Button>
     ),
@@ -73,7 +71,7 @@ const ListClass = () => {
         <Table columns={columns} dataSource={data} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ListClass
+export default ListClass;

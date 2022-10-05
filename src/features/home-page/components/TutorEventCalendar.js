@@ -7,7 +7,6 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 
 const TutorEventCalendar = (props) => {
-  
   return (
     <FullCalendar
       schedulerLicenseKey='CC-Attribution-NonCommercial-NoDerivatives'
@@ -47,7 +46,6 @@ const TutorEventCalendar = (props) => {
       //  }}
       eventClick={(info) => {
         info.jsEvent.preventDefault();
-       
       }}
       eventMouseEnter={(info) => {
         tippy(info.el, {

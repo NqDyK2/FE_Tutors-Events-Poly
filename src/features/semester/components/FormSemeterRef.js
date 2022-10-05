@@ -1,10 +1,10 @@
-import { Button, DatePicker, Form, Input, Modal, Radio } from 'antd';
+import { DatePicker, Form, Input, Modal } from 'antd';
 import moment from 'moment';
 import React, { useImperativeHandle } from 'react';
-import { useEffect } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import { useAddSemesterMutation } from '../../../app/api/semesterApiSlice';
+// import { split } from 'lodash';
 import './styles.css';
 
 const { RangePicker } = DatePicker;
@@ -57,10 +57,9 @@ const FormSemeterRef = (props, ref) => {
           .then((res) => {
             setVisible(false);
             toast.success('Thêm thành công');
-            console.log(res);
           })
           .catch((err) => {
-            setError(err);
+            setError(err.data);
           });
         break;
       case MODE.EDIT:
@@ -145,6 +144,9 @@ const FormSemeterRef = (props, ref) => {
               placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
               label='test'
               format={'DD/MM/YYYY'}
+              onChange={() => {
+                setError(null);
+              }}
             />
           </Form.Item>
         </Form>
@@ -152,7 +154,12 @@ const FormSemeterRef = (props, ref) => {
         <div>
           {error && (
             <div className='tw-text-red-500'>
-              {error.message || error?.data?.message}
+              {/* {split(error?.message, '(')[0]} */}
+              {error?.errors?.name && <div>{error?.errors?.name}</div>}
+              {error?.errors?.start_time && (
+                <div>{error?.errors?.start_time}</div>
+              )}
+              {error?.errors?.end_time && <div>{error?.errors?.end_time}</div>}
             </div>
           )}
         </div>

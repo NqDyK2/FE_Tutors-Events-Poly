@@ -34,11 +34,13 @@ const SemesterPage = () => {
       <Spinner
         loading={isLoading}
         size='large'
-        className={'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'}
+        className={
+          'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'
+        }
       />
       {data && (
         <div className='tw-flex tw-flex-wrap tw-justify-start'>
-          {data?.semester?.data.map((item, index) => (
+          {data?.data.map((item, index) => (
             <div
               key={index}
               className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 hover:tw-opacity-[90%]'
@@ -62,7 +64,7 @@ const SemesterPage = () => {
                 <div className='tw-mr-[10px]'>
                   <Button
                     shape='circle'
-                    onClick={() => modalRef.current.show('EDIT',item)}
+                    onClick={() => modalRef.current.show('EDIT', item)}
                     icon={<EditOutlined className='tw-text-[20px]' />}
                     className='tw-border-none tw-bg-transparent hover:tw-bg-transparent'
                   />
