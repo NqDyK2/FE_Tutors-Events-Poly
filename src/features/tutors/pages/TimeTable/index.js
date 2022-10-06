@@ -75,6 +75,17 @@ const columns = [
         ),
         width: 100
     },
+    {
+        title: '',
+        dataIndex: 'phanhoi',
+        key: 'phanhoi',
+        render: (_, record) => (
+                <p className='tw-cursor-pointer tw-text-blue-500'>
+                    Phản hồi về  buổi học.
+                </p>
+        ),
+        width: 150
+    },
 ];
 const data = [
     {
@@ -158,7 +169,7 @@ const data = [
 
 ];
 
-const CanlendarTutors = () => {
+const TimeTable = () => {
     return (
         <div>
             <Table
@@ -170,4 +181,4 @@ const CanlendarTutors = () => {
     )
 }
 
-export default CanlendarTutors
+export default TimeTable

@@ -112,13 +112,13 @@ const AppAside = () => {
       '/diem-danh',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    // getItem(
-    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-    //     Lịch tutor
-    //   </div>,
-    //   '/calendar-tutor',
-    //   <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+        Lịch học tutor
+      </div>,
+      '/lich-hoc',
+      <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Danh sách lớp

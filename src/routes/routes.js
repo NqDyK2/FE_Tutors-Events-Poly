@@ -15,11 +15,11 @@ import AttendanceStudent from '../features/attendance/pages/attendanceStudent/in
 import TutorImportStudents from '../features/tutors/pages/TutorImportStudents/index.js';
 import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
-import CanlendarTutors from '../features/tutors/pages/Calendar/index.js';
 import SemesterPage from '../features/semester/pages/index.js';
 import SubjectPage from '../features/semester/pages/ListSubject.js';
 import ListClass from '../features/lesson/pages/ListClass.js';
 import ListLesson from '../features/lesson/pages/ListLesson.js';
+import TimeTable from '../features/tutors/pages/TimeTable/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -39,7 +39,7 @@ const AppRoutes = () => {
           <Route path='/import-students' element={<TutorImportStudents />} />
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
-          <Route path='/calendar-tutor' element={<CanlendarTutors />} />
+          <Route path='/lich-hoc' element={<TimeTable />} />
           <Route path='/manage' element={<SemesterPage />} />
           <Route path='/manage/sem/:id' element={<SubjectPage />} />
           <Route path='/manage/class/:id' element={<ListStudent />} />
