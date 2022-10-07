@@ -35,6 +35,7 @@ const SubjectPage = () => {
               data={data?.data}
               key={data?.data.id}
               height={400}
+              itemKey='id'
               itemHeight={47}
             >
               {(item, idx) => (
