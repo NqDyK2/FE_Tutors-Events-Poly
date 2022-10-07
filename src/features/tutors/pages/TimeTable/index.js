@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Space, Table, Tag, Button, Modal, Tooltip, Form, Input } from 'antd';
+import { Space, Table, Tag, Button, Modal, Tooltip, Form, Input, Select, Checkbox } from 'antd';
+const { Option } = Select;
 
 const text = <span>
     HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU
@@ -23,6 +24,15 @@ const TimeTable = () => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+    // check box
+    const plainOptions = ['Tốt', 'Trung bình', 'Chưa tốt'];
+    const onChange = (checkedValues) => {
+        console.log('checked = ', checkedValues);
+    };
+    // table antd
     const columns = [
         {
             title: 'STT',
@@ -211,7 +221,8 @@ const TimeTable = () => {
                             phanhoigv: '',
                             phanhoitutor: '',
                             chatluongbuoihoc: '',
-                            muondamDamMinhHieuKhong: ''
+                            muondamDamMinhHieuKhong: '',
+                            ykiendonggop: ''
                         }}
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
@@ -224,7 +235,13 @@ const TimeTable = () => {
                                 required: true,
                             }]}
                         >
-                            <Input />
+                            <Select
+                                onChange={handleChange}
+                            >
+                                <Option value="gioi">Giỏi</Option>
+                                <Option value="trungbinh">Trung bình</Option>
+                                <Option value="yeu">Yếu</Option>
+                            </Select>
                         </Form.Item>
                         <Form.Item
                             label='Phản hồi tutor'
@@ -233,7 +250,7 @@ const TimeTable = () => {
                                 required: true
                             }]}
                         >
-                            <Input />
+                            <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
                         </Form.Item>
                         <Form.Item
                             label='Chất lượng buổi học'
@@ -247,6 +264,22 @@ const TimeTable = () => {
                         <Form.Item
                             label='Bạn có muốn đấm Đàm Minh Hiếu'
                             name='muondamDamMinhHieuKhong'
+                            rules={[{
+                                required: true
+                            }]}
+                        >
+                            <Select
+                                onChange={handleChange}
+                                allowClear
+                            >
+                                <Option value="gioi">Phải đấm</Option>
+                                <Option value="trungbinh">Chắc chắn đấm</Option>
+                                <Option value="yeu">Đấm bỏ mẹ thằng Đàm Minh Hiếu</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item
+                            label='Ý kiến đóng góp'
+                            name='ykiendonggop'
                             rules={[{
                                 required: true
                             }]}
