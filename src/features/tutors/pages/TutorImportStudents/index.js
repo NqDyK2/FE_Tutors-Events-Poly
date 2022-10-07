@@ -171,7 +171,14 @@ const TutorImportStudents = () => {
         <title>FPoly</title>
       </Helmet>
       <div className='tw-mx-auto sm:tw-w-1/2'>
-        <Form name='basic' layout='vertical' onFinish={onFinish}>
+        <Form
+          name='basic'
+          layout='vertical'
+          onFinish={onFinish}
+          onFinishFailed={(errorInfo) => {
+            console.log('Failed:', errorInfo);
+          }}
+        >
           <Form.Item
             name='semesterId'
             label='Chọn kỳ:'
@@ -184,34 +191,34 @@ const TutorImportStudents = () => {
                 </Option>
               ))}
             </Select>
-            <Form.Item
-              name='file'
-              label='Import sinh viên:'
-              valuePropName='filelist'
-              rules={[
-                { required: true, message: 'Không được trống' },
-                () => ({
-                  validator(_, value) {
-                    if (
-                      value &&
-                      !value.target.files[0].name.endsWith('.xlsx') &&
-                      !value.target.files[0].name.endsWith('.xls') &&
-                      !value.target.files[0].name.endsWith('.csv')
-                    ) {
-                      return Promise.reject('Chỉ được chọn file excel');
-                    }
-                    return Promise.resolve();
-                  },
-                }),
-              ]}
-            >
-              <Input
-                type='file'
-                onChange={handleFile}
-                accept='.xlsx, .xls, .csv'
-                className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
-              />
-            </Form.Item>
+          </Form.Item>
+          <Form.Item
+            name='file'
+            label='Import sinh viên:'
+            valuePropName='filelist'
+            rules={[
+              { required: true, message: 'Không được trống' },
+              () => ({
+                validator(_, value) {
+                  if (
+                    value &&
+                    !value.target.files[0].name.endsWith('.xlsx') &&
+                    !value.target.files[0].name.endsWith('.xls') &&
+                    !value.target.files[0].name.endsWith('.csv')
+                  ) {
+                    return Promise.reject('Chỉ được chọn file excel');
+                  }
+                  return Promise.resolve();
+                },
+              }),
+            ]}
+          >
+            <Input
+              type='file'
+              onChange={handleFile}
+              accept='.xlsx, .xls, .csv'
+              className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
+            />
           </Form.Item>
           <div className='tw-text-green-500 dark:tw-text-slate-100'>
             {isImported && <p>Import thành công</p>}
