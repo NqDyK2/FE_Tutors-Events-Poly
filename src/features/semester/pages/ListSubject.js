@@ -43,13 +43,7 @@ const SubjectPage = () => {
                   <List.Item.Meta
                     key={item.id}
                     title={
-                      <Link
-                        to={`/manage/class/${item.id}`}
-                        state={{ semesterId: id, subjectId: item.id }}
-                        className='tw-uppercase'
-                      >
-                        {item.name}
-                      </Link>
+                      <span className='tw-uppercase'>{item.name}</span>
                     }
                   />
                   <div>
@@ -66,6 +60,9 @@ const SubjectPage = () => {
                         semesterId: id,
                         subjectId: item.id,
                         subjectName: item.name,
+                        default_offline_class_location: item.default_offline_class_location,
+                        default_online_class_location: item.default_online_class_location,
+                        default_tutor_email: item.default_tutor_email
                       }}
                       className='tw-mr-4'
                     >

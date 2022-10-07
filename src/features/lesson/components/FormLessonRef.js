@@ -8,6 +8,10 @@ import {
   useUpdateLessonMutation,
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
+const MODE = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+};
 
 const { RangePicker } = DatePicker;
 
@@ -17,10 +21,6 @@ const FormLessonRef = (props, ref) => {
   const [formLesson] = Form.useForm();
   const [typeOfLesson, setTypeOfLesson] = React.useState(1);
   const [error, setError] = React.useState(null);
-  const MODE = {
-    ADD: 'ADD',
-    EDIT: 'EDIT',
-  };
   const [mode, setMode] = React.useState(MODE.ADD);
 
   const [addLesson, { isLoading: addLoading }] = useAddLessonMutation();
@@ -32,7 +32,12 @@ const FormLessonRef = (props, ref) => {
       setVisible(true);
       if (caseForm === MODE.ADD) {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
-        formLesson.setFieldsValue({ classroomId: data.subjectId });
+        formLesson.setFieldsValue({ 
+          classroomId: data.subjectId,
+          position_offline: data.default_offline_class_location || 'Chưa có data',
+          position_online: data.default_online_class_location || 'Chưa có data',
+          tutor_email: data.default_tutor_email || 'hiemdm@nu.de'
+        });
         setMode(MODE.ADD);
       } else {
         let newData = {
@@ -123,6 +128,7 @@ const FormLessonRef = (props, ref) => {
 
   return (
     <Modal
+      forceRender
       title={title}
       open={visible}
       okType='default'
