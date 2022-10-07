@@ -84,14 +84,7 @@ const ListStudent = () => {
     <div className='tw-w-full'>
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
         <span className='tw-text-[15px]'>Danh sách sinh viên</span>
-        <Link to='/add-lesson' state={{ semester_id, id }}>
-          <span>
-            <Button className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'>
-              {' '}
-              Thêm buổi học{' '}
-            </Button>
-          </span>
-        </Link>
+        
         <Link
           to={`/manage/sem/${semester_id}`}
           className='tw-flex tw-items-center hover:tw-text-blue-600'
