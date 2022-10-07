@@ -171,7 +171,7 @@ const ListLesson = () => {
         <span>
           <Button
             onClick={() =>
-              modalRef.current.show('ADD', { subjectName, subjectId })
+              modalRef.current.show('ADD', location.state)
             }
             className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
           >
