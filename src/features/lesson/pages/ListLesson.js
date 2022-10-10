@@ -155,7 +155,7 @@ const ListLesson = () => {
           item.end_time.split(' ')[1]
         }`,
         link: item.class_location_online,
-        trogiang: '',
+        trogiang: item.tutor.split("@")[0],
         giangvien: item.teacher,
         mamon: item.name,
         mon: 'Dự án tốt nghiệp (TKTW-Single page Application)',
