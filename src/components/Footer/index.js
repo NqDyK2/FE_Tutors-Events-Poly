@@ -8,8 +8,8 @@ import Logo from './../../assets/images/Logo.png';
 
 const AppFooter = () => {
   return (
-    <Footer className='tw-bg-white dark:tw-bg-[#1E2139]'>
-      <div className='tw-flex tw-bg-white dark:tw-bg-[#1E2139] dark:tw-text-slate-300'>
+    <Footer className='tw-bg-white dark:tw-bg-[#202124]'>
+      <div className='tw-flex tw-bg-white dark:tw-bg-[#202124] dark:tw-text-slate-300'>
         <div className='tw-w-[35%] tw-py-[30px]'>
           <div>
             <img
