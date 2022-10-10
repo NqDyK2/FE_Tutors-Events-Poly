@@ -11,6 +11,7 @@ import FormLessonRef from '../components/FormLessonRef';
 import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import { timeFormat } from '../../../utils/TimeFormat';
 
 const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
 
@@ -148,7 +149,7 @@ const ListLesson = () => {
         key: index,
         stt: index + 1,
         id: item.id,
-        ngay: moment(item.start_time.split(' ')[0]).format('L'),
+        ngay: timeFormat(item.start_time.split(' ')[0]),
         phong: item.type ? item.class_location_offline : 'Google Meet 2',
         giangduong: item.type ? 'TVB' : 'Google Meet',
         thoigian: `${item.start_time.split(' ')[1]} - ${
