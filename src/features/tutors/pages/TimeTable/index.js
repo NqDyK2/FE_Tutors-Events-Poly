@@ -38,7 +38,7 @@ const TimeTable = () => {
             title: 'STT',
             dataIndex: 'stt',
             key: 'stt',
-            render: (text) => <a>{text}</a>,
+            render: (text) => <strong>{text}</strong>,
         },
         {
             title: 'Ngày',
@@ -96,9 +96,9 @@ const TimeTable = () => {
             key: 'chitiet',
             render: (_, record) => (
                 <Tooltip placement="left" title={text} color={'orange'} >
-                    <p className='tw-cursor-pointer tw-text-blue-500'>
+                    <span className='tw-cursor-pointer tw-text-blue-500'>
                         Chi tiết
-                    </p>
+                    </span>
                 </Tooltip>
             ),
             width: 100
@@ -108,11 +108,11 @@ const TimeTable = () => {
             dataIndex: 'phanhoi',
             key: 'phanhoi',
             render: (_, record) => (
-                <p className='tw-cursor-pointer tw-text-blue-500'>
-                    <p className='tw-cursor-pointer tw-text-blue-500' onClick={() => showModal()}>
+                <span className='tw-cursor-pointer tw-text-blue-500'>
+                    <span className='tw-cursor-pointer tw-text-blue-500' onClick={() => showModal()}>
                         Phản hồi về  buổi học.
-                    </p>
-                </p>
+                    </span>
+                </span>
             ),
             width: 150
         },
@@ -120,6 +120,7 @@ const TimeTable = () => {
     const data = [
         {
             stt: '1',
+            key: 1,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -132,7 +133,8 @@ const TimeTable = () => {
             link: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
         },
         {
-            stt: '1',
+            stt: '2',
+            key: 2,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -145,7 +147,8 @@ const TimeTable = () => {
             link: '',
         },
         {
-            stt: '1',
+            stt: '3',
+            key: 3,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -158,7 +161,8 @@ const TimeTable = () => {
             link: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
         },
         {
-            stt: '1',
+            stt: '4',
+            key: 4,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -171,7 +175,8 @@ const TimeTable = () => {
             link: '',
         },
         {
-            stt: '1',
+            stt: '5',
+            key: 5,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -184,7 +189,8 @@ const TimeTable = () => {
             link: '',
         },
         {
-            stt: '1',
+            stt: '6',
+            key: 6,
             ngay: 'Thứ Ba 09/08/2022',
             phong: 'Google Meet 2',
             giangduong: 'Google Meet',
@@ -202,6 +208,7 @@ const TimeTable = () => {
     return (
         <div>
             <Table
+                key={data.key}
                 columns={columns}
                 dataSource={data}
                 pagination={false}
@@ -250,7 +257,7 @@ const TimeTable = () => {
                                 required: true
                             }]}
                         >
-                            <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
+                            <Checkbox.Group options={plainOptions} onChange={onChange} />
                         </Form.Item>
                         <Form.Item
                             label='Chất lượng buổi học'
@@ -272,9 +279,9 @@ const TimeTable = () => {
                                 onChange={handleChange}
                                 allowClear
                             >
-                                <Option value="gioi">Phải đấm</Option>
-                                <Option value="trungbinh">Chắc chắn đấm</Option>
-                                <Option value="yeu">Đấm bỏ mẹ thằng Đàm Minh Hiếu</Option>
+                                <Option value="1">Phải đấm</Option>
+                                <Option value="2">Chắc chắn đấm</Option>
+                                <Option value="3">Đấm bỏ mẹ thằng Đàm Minh Hiếu</Option>
                             </Select>
                         </Form.Item>
                         <Form.Item
