@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Space, Table, Tag, Button, Modal, Tooltip, Form, Input, Select, Checkbox } from 'antd';
+import { Space, Table, Tag, Button, Modal, Tooltip, Form, Input, Select, Checkbox, Radio } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
 const { Option } = Select;
 
 const text = <span>
@@ -228,7 +229,53 @@ const TimeTable = () => {
                         onFinishFailed={onFinishFailed}
                         layout="vertical"
                     >
-                        <Form.Item
+                        <Form.Item required name='qualitylesson' label="Bạn thấy chất lượng buổi học như thế nào?">
+                            <Radio.Group>
+                                <Radio value="good"> Tốt  </Radio>
+                                <Radio value="medium"> Trung bình </Radio>
+                                <Radio value="bad"> Yếu </Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item required name='qualityteacher' label="Giảng viên hỗ trợ môn tốt không?">
+                            <Radio.Group>
+                                <Radio value="lgood"> Tốt  </Radio>
+                                <Radio value="lmedium"> Trung bình </Radio>
+                                <Radio value="lbad"> Yếu </Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item required name='qualitytutor' label="Người hỗ trợ buổi học có nhiệt tình không">
+                            <Radio.Group>
+                                <Radio value="tugood"> Tốt  </Radio>
+                                <Radio value="tumedium"> Trung bình </Radio>
+                                <Radio value="tubad"> Yếu </Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item required name='knowledgeDễ' label="Mức độ hiểu bài của bạn.">
+                            <Radio.Group>
+                                <Radio value="kgood"> 100%  </Radio>
+                                <Radio value="kgood_medium"> 75% </Radio>
+                                <Radio value="kmedium"> 50% </Radio>
+                                <Radio value="kmedium_bad"> 25% </Radio>
+                                <Radio value="kbad"> 0% </Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item name='question' label="Bạn có câu hỏi gì giành cho buổi học sau không?">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name='note' label="Bạn muốn nhắn nhủ thêm điều gì không?">
+                            <TextArea rows={4} />
+                        </Form.Item>
+                    </Form>
+                </div>
+            </Modal >
+        </div >
+    )
+}
+
+export default TimeTable
+
+
+{/* <Form.Item
                             label='Phản hồi giáo viên'
                             name='phanhoigv'
                             rules={[{
@@ -285,12 +332,4 @@ const TimeTable = () => {
                             }]}
                         >
                             <Input />
-                        </Form.Item>
-                    </Form>
-                </div>
-            </Modal >
-        </div >
-    )
-}
-
-export default TimeTable
+                        </Form.Item> */}
