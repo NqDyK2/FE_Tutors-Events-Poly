@@ -34,8 +34,8 @@ const FormLessonRef = (props, ref) => {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
         formLesson.setFieldsValue({ 
           classroomId: data.subjectId,
-          position_offline: data.default_offline_class_location || 'Chưa có data',
-          position_online: data.default_online_class_location || 'Chưa có data',
+          position_offline: data.default_offline_class_location || 'No data',
+          position_online: data.default_online_class_location || 'No data',
           tutor_email: data.default_tutor_email || 'hiemdm@nu.de'
         });
         setMode(MODE.ADD);
@@ -95,6 +95,8 @@ const FormLessonRef = (props, ref) => {
           .unwrap()
           .then((res) => {
             setVisible(false);
+            formLesson.resetFields()
+            setTypeOfLesson(1)
             toast.success('Thêm buổi học thành công');
           })
           .catch((error) => {
@@ -106,6 +108,8 @@ const FormLessonRef = (props, ref) => {
           .unwrap()
           .then((res) => {
             setVisible(false);
+            formLesson.resetFields()
+            setTypeOfLesson(1)
             toast.success('Sửa học thành công');
           })
           .catch((error) => {
@@ -246,7 +250,10 @@ const FormLessonRef = (props, ref) => {
               {
                 required: true,
                 message: 'Vui lòng nhập sinh viên hỗ trợ',
-              },
+              }, {
+                type: 'email',
+                message: "Địa chỉ email không đúng định dạng"
+              }
             ]}
           >
             <Input placeholder='chọn sinh viên hỗ trợ' />
@@ -265,6 +272,10 @@ const FormLessonRef = (props, ref) => {
                     required: true,
                     message: 'Vui lòng nhập link học',
                   },
+                  {
+                    type: 'url',
+                    message: "Link học online chưa đúng định dạng"
+                  }
                 ]}
                 name='position_online'
               >
@@ -292,6 +303,10 @@ const FormLessonRef = (props, ref) => {
                   {
                     required: false,
                   },
+                  {
+                    type: 'url',
+                    message: "Link học online chưa đúng định dạng"
+                  }
                 ]}
                 name='position_online'
               >
