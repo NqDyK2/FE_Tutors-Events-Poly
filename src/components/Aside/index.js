@@ -139,7 +139,7 @@ const AppAside = () => {
           collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
         }`}
       >
-        Quản lý kỳ học
+        Quản lý lịch học
       </div>,
       '/manage',
       <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
@@ -175,7 +175,7 @@ const AppAside = () => {
       width={256}
       collapsedWidth={62.5}
       collapsed={collapsed}
-      className='tw-sticky tw-left-0 tw-top-0 tw-bottom-0 tw-z-50 tw-hidden tw-h-screen tw-overflow-auto tw-bg-white tw-shadow-xl tw-drop-shadow-xl dark:tw-bg-[#1E2139] dark:tw-shadow-md dark:tw-shadow-slate-400 dark:tw-drop-shadow-2xl md:tw-block  '
+      className='tw-sticky tw-left-0 tw-top-0 tw-bottom-0 tw-z-50 tw-hidden tw-h-screen tw-overflow-auto tw-bg-white tw-shadow-xl tw-drop-shadow-xl dark:tw-bg-[#202124] dark:tw-shadow-md dark:tw-shadow-gray-900 dark:tw-drop-shadow-2xl md:tw-block  '
     >
       <div className='tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-px-2'>
         {!collapsed && (
@@ -201,7 +201,7 @@ const AppAside = () => {
       </div>
       <Menu
         // theme='dark'
-        className='app-sidebar dark:tw-bg-[#1E2139] '
+        className='app-sidebar dark:tw-bg-[#202124] '
         onClick={(e) => onClickHandler(e)}
         mode='inline'
         inlineCollapsed={collapsed}

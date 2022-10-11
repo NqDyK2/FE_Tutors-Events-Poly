@@ -35,7 +35,7 @@ app-sidebar .ant-menu-item div,
 }
 
 .ant-menu:not(.ant-menu-horizontal) { 
-  @apply !tw-bg-white dark:!tw-bg-[#1E2139] ;
+  @apply !tw-bg-white dark:!tw-bg-[#202124] ;
 }
 
 .app-sidebar  {

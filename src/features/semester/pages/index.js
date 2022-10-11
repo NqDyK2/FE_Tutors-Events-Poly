@@ -23,7 +23,7 @@ const SemesterPage = () => {
         <div className='tw-absolute tw-right-[2%] -tw-mt-4'>
           <Button
             icon={<PlusCircleOutlined />}
-            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-300 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-400'
+            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-400 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-500'
             type='primary'
             onClick={() => modalRef.current.show('ADD')}
           >
@@ -43,7 +43,7 @@ const SemesterPage = () => {
           {data?.data.map((item, index) => (
             <div
               key={index}
-              className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 hover:tw-opacity-[90%]'
+              className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 dark:hover:tw-border-white hover:tw-opacity-[90%]'
             >
               <div>
                 <Link to={`/manage/sem/${item.id}`}>
@@ -56,7 +56,7 @@ const SemesterPage = () => {
               </div>
               <div className='tw-flex tw-w-full tw-items-center tw-justify-between'>
                 <Link
-                  className='tw-pl-[10px] tw-text-[16px] tw-font-medium tw-leading-[50px] tw-text-black hover:tw-text-amber-400'
+                  className='tw-pl-[10px] tw-text-[16px] tw-font-medium tw-leading-[50px] tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]'
                   to={`/manage/sem/${item.id}`}
                 >
                   {item.name}
@@ -66,7 +66,7 @@ const SemesterPage = () => {
                     shape='circle'
                     onClick={() => modalRef.current.show('EDIT', item)}
                     icon={<EditOutlined className='tw-text-[20px]' />}
-                    className='tw-border-none tw-bg-transparent hover:tw-bg-transparent'
+                    className='tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500'
                   />
                 </div>
               </div>
