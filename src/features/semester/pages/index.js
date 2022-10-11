@@ -40,7 +40,7 @@ const SemesterPage = () => {
       />
       {data && (
         <div className='tw-flex tw-flex-wrap tw-justify-start'>
-          {data?.data?.map((item, index) => (
+          {data?.map((item, index) => (
             <div
               key={index}
               className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 dark:tw-border-gray-500 dark:hover:tw-border-white hover:tw-opacity-[90%]'
