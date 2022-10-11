@@ -23,7 +23,7 @@ const SemesterPage = () => {
         <div className='tw-absolute tw-right-[2%] -tw-mt-4'>
           <Button
             icon={<PlusCircleOutlined />}
-            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-400 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-500'
+            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-400 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-00'
             type='primary'
             onClick={() => modalRef.current.show('ADD')}
           >
@@ -43,7 +43,7 @@ const SemesterPage = () => {
           {data?.data.map((item, index) => (
             <div
               key={index}
-              className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 dark:hover:tw-border-white hover:tw-opacity-[90%]'
+              className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 dark:tw-border-gray-500 dark:hover:tw-border-white hover:tw-opacity-[90%]'
             >
               <div>
                 <Link to={`/manage/sem/${item.id}`}>

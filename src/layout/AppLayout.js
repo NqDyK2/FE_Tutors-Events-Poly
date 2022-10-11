@@ -36,7 +36,7 @@ const AppLayout = () => {
             }}
             className="tw-mt-4"
           >
-            <div className='tw-bg-white dark:tw-bg-[#202124] tw-p-6 tw-min-h-full tw-shadow-md tw-mb-4'>
+            <div className='tw-bg-white dark:tw-bg-[#202125] tw-p-6 tw-min-h-full tw-shadow-md tw-mb-4'>
               {/* This is the content */}
               <Outlet />
               {/* This is the content */}
