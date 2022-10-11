@@ -9,15 +9,11 @@ import {
   UpOutlined,
   BellOutlined,
   CarryOutOutlined,
-  FileAddOutlined,
 } from '@ant-design/icons';
 import {
-  BsFillCircleFill,
   BsFillCalendarDayFill,
-  BsFilePost,
 } from 'react-icons/bs';
 import { BiCalendarStar } from 'react-icons/bi';
-import { SiGoogleclassroom } from 'react-icons/si';
 import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -83,17 +79,6 @@ const AppAside = () => {
     //     ),
     //   ]
     // ),
-    getItem(
-      <div
-        className={`${
-          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
-        }`}
-      >
-        Import
-      </div>,
-      '/import-students',
-      <FileAddOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Tạo lớp tutors

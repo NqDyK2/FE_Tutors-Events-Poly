@@ -5,7 +5,11 @@ module.exports = {
     "./public/index.html",
   ],
   theme: {
-    extend: {},
+    extend: { 
+      colors : {
+        'dark-mode-primary': '#202125',
+      }
+    },
   },
   plugins: [],
   darkMode: 'class',

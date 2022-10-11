@@ -12,7 +12,6 @@ import AppLayout from '../layout/AppLayout.js';
 import ListStudent from '../features/list-students/pages/index.js';
 import PageNotFound from '../features/404page/pages/index.js';
 import AttendanceStudent from '../features/attendance/pages/attendanceStudent/index.js';
-import TutorImportStudents from '../features/tutors/pages/TutorImportStudents/index.js';
 import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 import SemesterPage from '../features/semester/pages/index.js';
@@ -36,7 +35,6 @@ const AppRoutes = () => {
           <Route path='/events' element={<EventsPage />} />
           <Route path='/diem-danh' element={<AttendanceList />} />
           <Route path='/diem-danh/:classId' element={<AttendanceStudent />} />
-          <Route path='/import-students' element={<TutorImportStudents />} />
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/lich-hoc' element={<TimeTable />} />
