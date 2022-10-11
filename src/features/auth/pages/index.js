@@ -56,7 +56,7 @@ const AuthPage = () => {
                   </div> */}
                   <div className='tw-flex tw-justify-center'>
                     <ReCAPTCHA
-                      sitekey='6Lcq_PAhAAAAAAmAKhrwkVqAThx7eNe-US3edfdD'
+                      sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                       onChange={onChange}
                     />
                   </div>
