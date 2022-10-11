@@ -1,30 +1,21 @@
-import { DatePicker, Form, Input, Modal, Select } from 'antd';
-import moment from 'moment';
+import { Form, Input, Modal, Select } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import XLSX from 'xlsx';
-import {
-  useAddSemesterMutation,
-  useGetAllSemesterQuery,
-  useImportStudentsSemesterMutation,
-} from '../../../app/api/semesterApiSlice';
-import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
+import { useImportStudentsSemesterMutation } from '../../../app/api/semesterApiSlice';
+import { transform } from 'lodash';
 import './styles.css';
-
-const { Option } = Select;
+import { useParams } from 'react-router-dom';
 
 const FormImportExcelRef = (props, ref) => {
   const [students, setStudents] = React.useState([]);
+  const { id: semesterId } = useParams();
   const [
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
   ] = useImportStudentsSemesterMutation();
-  const {
-    data: semesters,
-    isLoading: isSemeLoading,
-    error: semeError,
-  } = useGetAllSemesterQuery();
+
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [form] = Form.useForm();
@@ -43,9 +34,6 @@ const FormImportExcelRef = (props, ref) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
-
-    const lopCanDanhGia = wb.SheetNames[0];
-
     // const BMUDPM = wb.SheetNames[6];
     const BMCNTT = wb.SheetNames[7];
     // const BMKT = wb.SheetNames[8];
@@ -107,14 +95,13 @@ const FormImportExcelRef = (props, ref) => {
       data: {
         data: students,
       },
-      semesterId: values.semesterId,
+      semesterId,
     })
       .unwrap()
       .then((res) => {
-        setTimeout(() => {
-          setVisible(false);
-          form.resetFields();
-        }, 1000);
+        toast.success('Import thành công');
+        setVisible(false);
+        form.resetFields();
       });
   };
 
@@ -145,11 +132,7 @@ const FormImportExcelRef = (props, ref) => {
         <Form
           form={form}
           preserve={false}
-          name='semeterForm'
-          initialValues={{
-            name: '',
-            time: '',
-          }}
+          name='importForm'
           layout='vertical'
           onFinish={onFinish}
           onChange={() => {
@@ -157,21 +140,8 @@ const FormImportExcelRef = (props, ref) => {
           }}
         >
           <Form.Item
-            name='semesterId'
-            label='Chọn kỳ:'
-            rules={[{ required: true, message: 'Không được trống' }]}
-          >
-            <Select placeholder='Chọn học kỳ' loading={isSemeLoading}>
-              {semesters?.map((semester) => (
-                <Option key={semester.id} value={semester.id}>
-                  {semester.name.toUpperCase()}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
             name='file'
-            label='Import sinh viên:'
+            label='Chọn file excel'
             valuePropName='filelist'
             rules={[
               { required: true, message: 'Không được trống' },
@@ -203,12 +173,6 @@ const FormImportExcelRef = (props, ref) => {
           {error && (
             <div className='tw-text-red-500'>
               {error?.response?.data?.message || error?.message}
-            </div>
-          )}
-
-          {isImported && (
-            <div className='tw-text-center tw-text-green-500'>
-              Import hoàn tất
             </div>
           )}
         </div>
