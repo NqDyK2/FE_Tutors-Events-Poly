@@ -1,29 +1,21 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import {
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  Select,
-  Upload,
-  Progress,
-} from 'antd';
+import { DatePicker, Form, Input, Modal, Select } from 'antd';
+import moment from 'moment';
+import React, { useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
+import { toast } from 'react-toastify';
 import XLSX from 'xlsx';
-import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
-import { useEffect } from 'react';
 import {
+  useAddSemesterMutation,
   useGetAllSemesterQuery,
   useImportStudentsSemesterMutation,
-} from '../../../../app/api/semesterApiSlice';
-import { toast } from 'react-toastify';
+} from '../../../app/api/semesterApiSlice';
+import { transform, mapKeys, startsWith, unionBy, chunk } from 'lodash';
+import './styles.css';
 
 const { Option } = Select;
 
-const TutorImportStudents = () => {
+const FormImportExcelRef = (props, ref) => {
   const [students, setStudents] = React.useState([]);
-  const [form] = Form.useForm();
   const [
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
@@ -33,6 +25,19 @@ const TutorImportStudents = () => {
     isLoading: isSemeLoading,
     error: semeError,
   } = useGetAllSemesterQuery();
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [form] = Form.useForm();
+
+  useImperativeHandle(ref, () => ({
+    show: () => {
+      setVisible(true);
+    },
+
+    hide: () => {
+      setVisible(false);
+    },
+  }));
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
@@ -52,17 +57,6 @@ const TutorImportStudents = () => {
 
     const allSheet = [BMCNTT];
 
-    const listGiangVien = unionBy(
-      XLSX.utils.sheet_to_json(wb.Sheets[lopCanDanhGia]).map((item) => {
-        const giangVien = {
-          school_teacher_code: item['GIẢNG VIÊN'],
-          school_teacher_name: item['__EMPTY'],
-        };
-        return giangVien;
-      }),
-      (item) => item.school_teacher_code
-    );
-
     const rowData = allSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
@@ -75,58 +69,22 @@ const TutorImportStudents = () => {
       const newItem = transform(item, (result, value, key) => {
         result[key.toLowerCase()] = value;
       });
-      newItem.stt = idx + 1;
-      newItem['sđt'] = newItem['sđt'] ? String(newItem['sđt']) : '';
-      if (startsWith(newItem['sđt'], "'0")) {
-        newItem['sđt'] = `0${newItem['sđt'].slice(2)}`;
-      }
-      delete newItem['bm/gv'];
-      delete newItem['gv'];
-      delete newItem['lớp môn'];
-      delete newItem['môn nợ'];
-      delete newItem['ngành'];
-      delete newItem['tổng môn nợ'];
-      delete newItem['điểm đánh giá'];
-      delete newItem['kỳ'];
-      delete newItem['__empty'];
+      let student = {
+        id: idx + 1,
+        student_code: newItem['mssv'],
+        student_name: newItem['họ tên sinh viên'],
+        student_email: newItem['email'],
+        student_phone: newItem['sđt'],
+        major: newItem['bộ môn'],
+        subject: newItem['môn'],
+        reason: newItem['vấn đề gặp phải chi tiết'],
+      };
 
-      const returnItem = mapKeys(newItem, (value, key) => {
-        switch (key) {
-          case 'bộ môn':
-            return 'major';
-          case 'emai':
-            return 'student_email';
-          case 'giảng viên':
-            return 'school_teacher_name';
-          case 'họ tên sinh viên':
-            return 'student_name';
-          case 'lớp':
-            return 'school_classroom';
-          case 'mssv':
-            return 'student_code';
-          case 'môn':
-            return 'subject';
-          case 'ngành':
-            return 'nganhHoc';
-          case 'stt':
-            return 'id';
-          case 'sđt':
-            return 'student_phone';
-          case 'vấn đề gặp phải chi tiết':
-            return 'reason';
-          default:
-        }
-      });
-      // renameKeys
-
-      returnItem.school_teacher_code = listGiangVien.find(
-        (gv) => gv.school_teacher_name === returnItem.school_teacher_name
-      ).school_teacher_code;
-
-      return returnItem;
+      return student;
     });
     setStudents(importData);
   };
+
   const onFinish = async (values) => {
     if (students.length === 0) {
       toast.error('Vui lòng chọn file excel hợp lệ');
@@ -150,33 +108,52 @@ const TutorImportStudents = () => {
         data: students,
       },
       semesterId: values.semesterId,
-    });
+    })
+      .unwrap()
+      .then((res) => {
+        setTimeout(() => {
+          setVisible(false);
+          form.resetFields();
+        }, 1000);
+      });
   };
 
-  useEffect(() => {
-    if (isImported) {
-      toast.success('Import thành công');
-      form.resetFields();
-      setStudents([]);
-    }
-    if (importError) {
-      toast.error('Import thất bại');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isImported, importError]);
-
   return (
-    <>
-      <Helmet>
-        <title>FPoly</title>
-      </Helmet>
-      <div className='tw-mx-auto sm:tw-w-1/2'>
+    <Modal
+      title={'Import danh sách sinh viên'}
+      open={visible}
+      okType='default'
+      onOk={() => {
+        form.submit();
+      }}
+      onCancel={() => {
+        setVisible(false);
+        setError(null);
+        form.resetFields();
+      }}
+      okText='Lưu'
+      confirmLoading={isImporting}
+      destroyOnClose
+      okButtonProps={{
+        className:
+          'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
+      }}
+      cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
+      getContainer={false}
+    >
+      <div>
         <Form
-          name='basic'
+          form={form}
+          preserve={false}
+          name='semeterForm'
+          initialValues={{
+            name: '',
+            time: '',
+          }}
           layout='vertical'
           onFinish={onFinish}
-          onFinishFailed={(errorInfo) => {
-            console.log('Failed:', errorInfo);
+          onChange={() => {
+            setError(null);
           }}
         >
           <Form.Item
@@ -220,28 +197,24 @@ const TutorImportStudents = () => {
               className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
             />
           </Form.Item>
-          <div className='tw-text-green-500 dark:tw-text-slate-100'>
-            {isImported && <p>Import thành công</p>}
-          </div>
-          <div className='dark:tw-text-slate-100'>
-            {importError && <p>Import thất bại</p>}
-          </div>
-          <Form.Item
-            label=''
-            className='tw-flex tw-items-center  tw-justify-center'
-          >
-            <Button
-              loading={isImporting}
-              htmlType='submit'
-              className='tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-96 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white '
-            >
-              Import
-            </Button>
-          </Form.Item>
         </Form>
+
+        <div>
+          {error && (
+            <div className='tw-text-red-500'>
+              {error?.response?.data?.message || error?.message}
+            </div>
+          )}
+
+          {isImported && (
+            <div className='tw-text-center tw-text-green-500'>
+              Import hoàn tất
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </Modal>
   );
 };
 
-export default TutorImportStudents;
+export default forwardRef(FormImportExcelRef);
