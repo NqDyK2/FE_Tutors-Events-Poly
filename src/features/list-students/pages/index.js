@@ -16,12 +16,6 @@ const columns = [
     width: '5%',
   },
   {
-    title: 'Tên lớp',
-    dataIndex: 'className',
-    key: 'className',
-    width: '10%',
-  },
-  {
     title: 'Họ tên',
     dataIndex: 'studentName',
     key: 'studentName',
@@ -38,6 +32,12 @@ const columns = [
     dataIndex: 'studentMail',
     key: 'studentMail',
     width: '20%',
+  },
+  {
+    title: 'Số điện thoại',
+    dataIndex: 'phone',
+    key: 'phone',
+    width: '15%',
   },
   {
     title: 'Ảnh',
@@ -72,11 +72,11 @@ const ListStudent = () => {
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
-    className: item.school_classroom,
+    phone: item.phone_number,
     studentCode: item.code,
     image: item.avatar,
     comment: item.reason,
-    studentMail: item.email,
+    studentMail: item.student_email,
     studentName: item.name,
   }));
 
