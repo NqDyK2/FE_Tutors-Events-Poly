@@ -19,7 +19,7 @@ const SubjectPage = () => {
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
         <span className='tw-text-[15px]'>Danh sách môn</span>
         <Link
-          to={`/semesters`}
+          to={`/manage`}
           className='tw-flex tw-items-center hover:tw-text-blue-600'
         >
           <FaReply className='tw-mr-1' /> Trở lại
