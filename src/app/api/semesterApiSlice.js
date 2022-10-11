@@ -13,16 +13,16 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getListClassInSemester: builder.query({
-      query: (id) => `classroom/in-semester/${id}`,
+      query: (id) => `semester/${id}/classrooms`,
       providesTags: ['Semester'],
     }),
     getListStudentInCLass: builder.query({
-      query: (id) => `classroom/get-student/${id}`,
+      query: (id) => `classroom/${id}/students`,
       providesTags: ['Semester'],
     }),
     importStudentsSemester: builder.mutation({
       query: (body) => ({
-        url: `semester/import/${body.semesterId}`,
+        url: `semester/${body.semesterId}/import`,
         body: body.data,
         method: "POST",
         headers: {
