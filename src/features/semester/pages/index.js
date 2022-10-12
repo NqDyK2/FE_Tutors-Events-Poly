@@ -20,14 +20,15 @@ const SemesterPage = () => {
       )}
 
       <div>
-        <div className='tw-absolute tw-right-[2%] -tw-mt-4'>
+        <div className='tw-absolute tw-right-[5%] -tw-mt-4 md:tw-right-[2%] '>
           <Button
-            icon={<PlusCircleOutlined />}
-            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-border-none tw-bg-orange-400 tw-px-2  tw-text-slate-100 hover:tw-bg-orange-00'
+            className='hover:tw-bg-orange-00 tw-flex tw-items-center tw-rounded-md tw-border tw-border-transparent tw-bg-orange-400  tw-px-2 tw-text-slate-100 dark:tw-border dark:tw-border-white  dark:tw-bg-transparent  '
             type='primary'
             onClick={() => modalRef.current.show('ADD')}
           >
-            Thêm kỳ học
+            <div className='tw-flex tw-items-center '>
+              <PlusCircleOutlined className='tw-mr-1' /> Thêm kỳ học
+            </div>
           </Button>
         </div>
       </div>
@@ -39,11 +40,11 @@ const SemesterPage = () => {
         }
       />
       {data && (
-        <div className='tw-flex tw-flex-wrap tw-justify-start'>
+        <div className='tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-4'>
           {data?.map((item, index) => (
             <div
               key={index}
-              className='bg-neutral-400 tw-mx-6 tw-my-6 tw-w-1/5 tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 dark:tw-border-gray-500 dark:hover:tw-border-white hover:tw-opacity-[90%]'
+              className='bg-neutral-400 tw-mx-6 tw-my-6  tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 hover:tw-opacity-[90%] dark:tw-border-gray-500 dark:hover:tw-border-white'
             >
               <div>
                 <Link to={`/manage/sem/${item.id}`}>
