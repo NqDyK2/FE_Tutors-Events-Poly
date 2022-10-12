@@ -156,8 +156,8 @@ const ListLesson = () => {
           item.end_time.split(' ')[1]
         }`,
         link: item.class_location_online,
-        trogiang: item.tutor.split("@")[0],
-        giangvien: item.teacher,
+        trogiang: item.tutor_email.split("@")[0],
+        giangvien: item.teacher_email.split("@")[0],
         mamon: item.name,
         mon: 'Dự án tốt nghiệp (TKTW-Single page Application)',
         action: { modalRef, item, handleRemoveLesson },
