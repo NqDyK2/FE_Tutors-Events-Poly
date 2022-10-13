@@ -1,18 +1,75 @@
 import React, { useRef } from 'react';
-import { Button, List } from 'antd';
-import VirtualList from 'rc-virtual-list';
+import { Button, Space, Spin, Table } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { FaReply } from 'react-icons/fa';
 import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlice';
-import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
+import ModalListSubject from './ModalListSubject';
 
 const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetListClassInSemesterQuery(id);
-
   const modalRef = useRef();
+
+  // table antd
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'key',
+      key: 'key',
+      width: '5%',
+    },
+    {
+      title: 'Lớp',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record) => (
+        <Link to={`/manage/class/${record.id}`}>
+          <div className='tw-capitalize'>{record.name}</div>
+        </Link>
+      )
+    },
+    {
+      title: 'Mã môn',
+      dataIndex: 'subject_code',
+      key: 'subject_code',
+    },
+    {
+      title: 'Giảng viên',
+      dataIndex: 'default_teacher_email',
+      key: 'default_teacher_email',
+    },
+    {
+      title: 'Buổi học',
+      dataIndex: 'lessons_count',
+      key: 'lessons_count',
+    },
+    {
+      title: 'Sinh viên',
+      dataIndex: 'class_students_count',
+      key: 'class_students_count',
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <ModalListSubject />
+        </Space>
+      ),
+    },
+  ];
+  const dataSource = data?.data?.map((item, index) => ({
+    key: index + 1,
+    id: item.id,
+    name: item.name,
+    subject_code: item.subject_code,
+    default_teacher_email: item.default_teacher_email,
+    lessons_count: item.lessons_count,
+    class_students_count: item.class_students_count
+  }))
 
   return (
     <>
@@ -41,52 +98,15 @@ const SubjectPage = () => {
       </div>
 
       <div className='tw-mt-4'>
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Spin />}
         {error && <p>Error</p>}
         {data && (
-          <List>
-            <VirtualList
-              data={data?.data}
-              key={data?.data.id}
-              height={400}
-              itemKey='id'
-              itemHeight={47}
-            >
-              {(item, idx) => (
-                <List.Item key={idx + 1}>
-                  <List.Item.Meta
-                    key={item.id}
-                    title={<span className='tw-uppercase'>{item.name}</span>}
-                  />
-                  <div>
-                    <Link
-                      to={`/manage/class/${item.id}`}
-                      state={{ semesterId: id, subjectId: item.id }}
-                      className='tw-mr-4'
-                    >
-                      Danh sách sinh viên
-                    </Link>
-                    <Link
-                      to={`/manage/class/lesson/${item.id}`}
-                      state={{
-                        semesterId: id,
-                        subjectId: item.id,
-                        subjectName: item.name,
-                        default_offline_class_location:
-                          item.default_offline_class_location,
-                        default_online_class_location:
-                          item.default_online_class_location,
-                        default_tutor_email: item.default_tutor_email,
-                      }}
-                      className='tw-mr-4'
-                    >
-                      Lịch học
-                    </Link>
-                  </div>
-                </List.Item>
-              )}
-            </VirtualList>
-          </List>
+          <Table
+            size="small"
+            scroll={{ y: 380 }}
+            dataSource={dataSource}
+            columns={columns}
+          />
         )}
         <FormImportExcelRef ref={modalRef} />
       </div>
