@@ -1,30 +1,18 @@
-import React, { useRef, useState } from 'react';
-import { Button, Checkbox, Form, Input, List, Modal, Radio, Space, Spin, Table } from 'antd';
-import VirtualList from 'rc-virtual-list';
+import React, { useRef } from 'react';
+import { Button, Space, Spin, Table } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { FaEdit, FaReply } from 'react-icons/fa';
+import { FaReply } from 'react-icons/fa';
 import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlice';
-import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
+import ModalListSubject from './ModalListSubject';
 
 const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetListClassInSemesterQuery(id);
-  const [form] = Form.useForm();
-
   const modalRef = useRef();
-  // modal antd
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+
   // table antd
   const columns = [
     {
@@ -35,7 +23,7 @@ const SubjectPage = () => {
     },
     {
       title: 'Lớp',
-      // dataIndex: 'name',
+      dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
         <Link to={`/manage/class/${record.id}`}>
@@ -45,50 +33,44 @@ const SubjectPage = () => {
     },
     {
       title: 'Mã môn',
-      dataIndex: 'mamon',
-      key: 'mamon',
+      dataIndex: 'subject_code',
+      key: 'subject_code',
     },
     {
       title: 'Giảng viên',
-      dataIndex: 'giangvien',
-      key: 'giangvien',
+      dataIndex: 'default_teacher_email',
+      key: 'default_teacher_email',
     },
     {
       title: 'Buổi học',
-      dataIndex: 'buoihoc',
-      key: 'buoihoc',
+      dataIndex: 'lessons_count',
+      key: 'lessons_count',
     },
     {
       title: 'Sinh viên',
-      dataIndex: 'sinhvien',
-      key: 'sinhvien',
+      dataIndex: 'class_students_count',
+      key: 'class_students_count',
     },
     {
       title: 'Thao tác',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <FaEdit size={'18px'} className='tw-cursor-pointer' onClick={showModal} />
+          <ModalListSubject />
         </Space>
       ),
     },
   ];
   const dataSource = data?.data?.map((item, index) => ({
     key: index + 1,
+    id: item.id,
     name: item.name,
-    mamon: item.subject_code,
-    giangvien: item.default_teacher_email,
-    buoihoc: item.lessons_count,
-    sinhvien: item.class_students_count
+    subject_code: item.subject_code,
+    default_teacher_email: item.default_teacher_email,
+    lessons_count: item.lessons_count,
+    class_students_count: item.class_students_count
   }))
-  // form antd
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <>
       <Helmet>
@@ -119,58 +101,12 @@ const SubjectPage = () => {
         {isLoading && <Spin />}
         {error && <p>Error</p>}
         {data && (
-          <>
-            <Table
-              size="small"
-              scroll={{ y: 380 }}
-              dataSource={dataSource}
-              columns={columns}
-            />
-            <Modal
-              title="Chỉnh sửa lớp học"
-              open={isModalOpen}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              width={700}
-            >
-              <div>
-                <Form
-                  form={form}
-                  initialValues={{
-                    lophoc: '',
-                    kyhoc: '',
-                    phonghoc: '',
-                    linkonline: '',
-                    gianvien: '',
-                    sinhvienhotro: ''
-                  }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  layout="vertical"
-                >
-                  <Form.Item required name='lophoc' label="Lớp học">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item required name='kyhoc' label="Kỳ học">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item required name='phonghoc' label="Phòng học">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item required name='linkonline' label="Link học online">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name='gianvien' label="Giảng viên">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name='sinhvienhotro' label="Sinh viên hỗ trợ">
-                    <Input />
-                  </Form.Item>
-
-                </Form>
-              </div>
-            </Modal>
-          </>
+          <Table
+            size="small"
+            scroll={{ y: 380 }}
+            dataSource={dataSource}
+            columns={columns}
+          />
         )}
         <FormImportExcelRef ref={modalRef} />
       </div>
