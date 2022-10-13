@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Image, Input, Table, Spin } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import {Input, Table } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
+import Spinner from '../../../components/Spinner';
 
 const columns = [
   {
@@ -40,15 +40,6 @@ const columns = [
     width: '15%',
   },
   {
-    title: 'Ảnh',
-    key: 'image',
-    dataIndex: 'image',
-    render: (_, record) => (
-      <Image preview={false} width={70} src={record.image} alt='IMG' />
-    ),
-    width: '10%',
-  },
-  {
     title: 'Chú thích',
     dataIndex: 'comment',
     key: 'comment',
@@ -74,16 +65,15 @@ const ListStudent = () => {
     index,
     phone: item.phone_number,
     studentCode: item.code,
-    image: item.avatar,
     comment: item.reason,
-    studentMail: item.student_email,
+    studentMail: item.email,
     studentName: item.name,
   }));
 
   return (
     <div className='tw-w-full'>
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px]'>Danh sách sinh viên</span>
+        <span className='tw-text-[15px] dark:tw-text-white'>Danh sách sinh viên</span>
         
         <Link
           to={`/manage/sem/${semester_id}`}
@@ -95,7 +85,7 @@ const ListStudent = () => {
 
       {isLoading && (
         <div className='tw-mt-[110px] tw-flex tw-justify-center'>
-          <Spin tip='Loading...' />
+          <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>}/>
         </div>
       )}
 
