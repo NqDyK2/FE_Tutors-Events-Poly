@@ -94,17 +94,17 @@ const FormLessonRef = (props, ref) => {
 
     switch (mode) {
       case MODE.ADD:
-        // addLesson(dataLesson)
-        //   .unwrap()
-        //   .then((res) => {
-        //     setVisible(false);
-        //     formLesson.resetFields()
-        //     setTypeOfLesson(1)
-        //     toast.success('Thêm buổi học thành công');
-        //   })
-        //   .catch((error) => {
-        //     setError(error);
-        //   });
+        addLesson(dataLesson)
+          .unwrap()
+          .then((res) => {
+            setVisible(false);
+            formLesson.resetFields()
+            setTypeOfLesson(1)
+            toast.success('Thêm buổi học thành công');
+          })
+          .catch((error) => {
+            setError(error);
+          });
         break;
       case MODE.EDIT:
         updateLesson({ ...dataLesson, id: values.lessonId })
