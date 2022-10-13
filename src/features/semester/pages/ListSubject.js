@@ -75,6 +75,7 @@ const SubjectPage = () => {
   ];
   const dataSource = data?.data?.map((item, index) => ({
     key: index + 1,
+    id: item.id,
     name: item.name,
     mamon: item.subject_code,
     giangvien: item.default_teacher_email,
@@ -130,6 +131,7 @@ const SubjectPage = () => {
               title="Chỉnh sửa lớp học"
               open={isModalOpen}
               onOk={handleOk}
+              style={{ top: 20 }}
               onCancel={handleCancel}
               width={700}
             >
