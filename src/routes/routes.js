@@ -16,7 +16,6 @@ import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 import SemesterPage from '../features/semester/pages/index.js';
 import SubjectPage from '../features/semester/pages/ListSubject.js';
-import ListClass from '../features/lesson/pages/ListClass.js';
 import ListLesson from '../features/lesson/pages/ListLesson.js';
 import TimeTable from '../features/tutors/pages/TimeTable/index.js';
 
@@ -42,7 +41,6 @@ const AppRoutes = () => {
           <Route path='/manage/sem/:id' element={<SubjectPage />} />
           <Route path='/manage/class/:id' element={<ListStudent />} />
           <Route path='/manage/class/lesson/:id' element={<ListLesson />} />
-          <Route path='/list-class' element={<ListClass />} />
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />

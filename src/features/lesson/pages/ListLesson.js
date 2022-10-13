@@ -1,17 +1,17 @@
 import React from 'react';
 import './styles.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   useDelLessonMutation,
   useGetAllLessonQuery,
 } from '../../../app/api/lessonApiSlice';
-import { Button, Spin, Table, Tooltip } from 'antd';
+import { Button, Table, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import FormLessonRef from '../components/FormLessonRef';
 import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import { timeFormat } from '../../../utils/TimeFormat';
+import Spinner from '../../../components/Spinner';
 
 const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
 
@@ -121,13 +121,16 @@ const columns = [
 
 const ListLesson = () => {
   const location = useLocation();
-  const { subjectId, semesterId, subjectName } = location.state;
+
+  const { id: subjectId } = useParams();
+
+  const { semesterId, subjectName } = location.state || {};
 
   const modalRef = React.useRef();
 
   let data = [];
 
-  const [removeLesson] = useDelLessonMutation();
+  const [removeLesson, { isLoading: isRemove }] = useDelLessonMutation();
 
   const handleRemoveLesson = (id) => {
     const confirm = window.confirm('Bạn có chắc chắn muốn xóa?');
@@ -156,8 +159,8 @@ const ListLesson = () => {
           item.end_time.split(' ')[1]
         }`,
         link: item.class_location_online,
-        trogiang: item.tutor_email.split("@")[0],
-        giangvien: item.teacher_email.split("@")[0],
+        trogiang: item.tutor_email.split('@')[0],
+        giangvien: item.teacher_email.split('@')[0],
         mamon: item.name,
         mon: 'Dự án tốt nghiệp (TKTW-Single page Application)',
         action: { modalRef, item, handleRemoveLesson },
@@ -168,36 +171,47 @@ const ListLesson = () => {
   return (
     <div>
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px]'>Lịch học {subjectName}</span>
-        <span>
-          <Button
-            onClick={() =>
-              modalRef.current.show('ADD', location.state)
-            }
-            className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
-          >
-            Thêm buổi học
-          </Button>
+        <span className='tw-text-[15px] dark:tw-text-white'>
+          Lịch học {subjectName?.toUpperCase()}
         </span>
-        <Link
-          to={`/manage/sem/${semesterId}`}
-          className='tw-flex tw-items-center hover:tw-text-blue-600'
-        >
-          <FaReply className='tw-mr-1' /> Trở lại
-        </Link>
+        <div className='tw-flex tw-items-center tw-gap-x-3'>
+          <span>
+            <Button
+              onClick={() => modalRef.current.show('ADD', location.state)}
+              className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
+            >
+              Thêm buổi học
+            </Button>
+          </span>
+          <Link
+            to={`/manage/sem/${semesterId}`}
+            className='tw-flex tw-items-center hover:tw-text-blue-600'
+          >
+            <FaReply className='tw-mr-1' /> Trở lại
+          </Link>
+        </div>
       </div>
 
-      {lessonLoading && <Spin className='tw-mt-3' />}
-      {lessonList && (
-        <div className='tw-mt-6'>
-          <Table
-            key={data.key}
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-          />
-        </div>
-      )}
+      <div className='tw-mt-6'>
+        {lessonError && (
+          <p className='tw-font-medium tw-text-red-500'>
+            {lessonError?.response?.data?.message ||
+              lessonError?.data?.message ||
+              'Đã có lỗi xảy ra!'}
+          </p>
+        )}
+
+        <Table
+          key={data.key}
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          loading={{
+            indicator: <Spinner />,
+            spinning: lessonLoading || isRemove,
+          }}
+        />
+      </div>
 
       <FormLessonRef ref={modalRef} />
     </div>

@@ -7,6 +7,7 @@ import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlic
 import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import ModalListSubject from './ModalListSubject';
+import Spinner from '../../../components/Spinner';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -136,17 +137,19 @@ const SubjectPage = () => {
       </div>
 
       <div className='tw-mt-4'>
-        {isLoading && <Spin />}
-        {error && <p>Error</p>}
-        {data && (
-          <Table
-            size='small'
-            scroll={{ y: 380 }}
-            dataSource={dataSource}
-            columns={columns}
-            pagination={false}
-          />
+        {error && (
+          <p className='tw-font-medium tw-text-red-500'>
+            {error?.response?.data?.message || error?.data?.message}
+          </p>
         )}
+        <Table
+          size='small'
+          scroll={{ y: 380 }}
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          loading={{ indicator: <Spinner />, spinning: isLoading }}
+        />
         <FormImportExcelRef ref={modalRef} />
       </div>
     </>

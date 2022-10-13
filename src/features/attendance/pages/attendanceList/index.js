@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Button, Result, Table } from 'antd';
 import { useGetAttendanceListClassQuery } from '../../../../app/api/attendanceApiSlice';
-
+import Spinner from '../../../../components/Spinner';
 
 const columns = [
   {
@@ -30,13 +30,12 @@ const columns = [
     title: 'Thời gian',
     dataIndex: 'cahoc',
     key: 'cahoc',
-    
   },
   {
     title: 'Điểm danh',
     key: 'action',
     render: (_, record) => (
-      <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-bg-[#202125] dark:tw-border-white dark:hover:tw-bg-blue-400'>
+      <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
         <Link
           to={`/diem-danh/${record.class}`}
           state={{
@@ -54,7 +53,7 @@ const AttendanceList = () => {
   const {
     data: listData,
     isLoading,
-    isError,
+    error,
     isSuccess,
   } = useGetAttendanceListClassQuery();
   const dataSource = listData?.data.map((item, index) => ({
@@ -65,8 +64,8 @@ const AttendanceList = () => {
     subCode: item.subject_code,
     cahoc: item.start_time
       ? `${moment(item.start_time).format('HH:mm')} - ${moment(
-        item.end_time
-      ).format('HH:mm')}`
+          item.end_time
+        ).format('HH:mm')}`
       : '',
   }));
   return (
@@ -76,16 +75,24 @@ const AttendanceList = () => {
       </div>
       {/* table antd */}
       <div className='tw-mt-6'>
-        {isError && (
+        {error && (
           <div>
-            <Result status={'error'} title='Đã có lỗi xảy ra' />
+            <p className='tw-font-medium tw-text-red-500'>
+              {error?.response?.data?.message ||
+                error?.data?.message ||
+                error?.message ||
+                'Đã có lỗi xảy ra!'}
+            </p>
           </div>
         )}
         <Table
-          loading={isLoading}
           scroll={{ y: 380 }}
           columns={columns}
           dataSource={dataSource}
+          loading={{
+            indicator: <Spinner />,
+            spinning: isLoading,
+          }}
         />
       </div>
     </div>
