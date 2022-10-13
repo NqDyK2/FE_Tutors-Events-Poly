@@ -36,7 +36,7 @@ const SemesterPage = () => {
         loading={isLoading}
         size='large'
         className={
-          'tw-my-auto tw-mt-10 tw-flex tw-items-center tw-justify-center'
+          'tw-my-auto tw-mt-10 tw-min-h-[200px] tw-flex tw-items-center tw-justify-center'
         }
       />
       {data && (

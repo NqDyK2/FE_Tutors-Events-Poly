@@ -11,6 +11,7 @@ import {
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './styles.css';
+import Spinner from '../../../../components/Spinner';
 const AttendanceStudent = () => {
   const location = useLocation();
   const { subjectCode } = location.state;
@@ -150,7 +151,10 @@ const AttendanceStudent = () => {
           <h2 className='tw-mt-2'>Môn học: {subjectCode}</h2>
           <div className='tw-mt-6'>
             <Table
-              loading={isLoading}
+              loading={{
+                indicator: <Spinner />,
+                spinning: isLoading,
+              }}
               pagination={false}
               columns={columns}
               dataSource={data}
