@@ -1,0 +1,34 @@
+.ant-table-thead > tr > th {
+  @apply dark:!tw-bg-dark-mode-primary dark:tw-text-white;
+}
+
+.ant-table-tbody {
+  @apply dark:tw-bg-dark-mode-primary;
+}
+
+.ant-table-container table>thead>tr:first-child th:last-child {
+  /* @apply dark:tw-border-t */
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.ant-table-cell-scrollbar:not([rowspan]) {
+  @apply dark:tw-shadow-none dark:tw-border-none
+}
+
+.ant-table-container, .ant-table-container table>thead>tr:first-child th:first-child {
+  @apply dark:tw-rounded-t-none
+}
+
+
+.ant-table-row {
+  @apply dark:tw-text-white
+}
+
+.ant-table-cell-row-hover {
+  @apply dark:!tw-bg-dark-mode-primary;
+}
+
+.ant-table-tbody>tr.ant-table-placeholder:hover>td {
+  @apply dark:!tw-bg-dark-table-primary;
+}
