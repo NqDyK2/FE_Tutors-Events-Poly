@@ -28,7 +28,7 @@ const ModalListSubject = () => {
             <FaEdit size={'18px'} className='tw-cursor-pointer' onClick={showModal} />
             {/* Modal edit lớp học */}
             <Modal
-                title="Chỉnh sửa lớp học"
+                title="Thêm giảng viên - sinh viên phụ trách"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -38,10 +38,6 @@ const ModalListSubject = () => {
                     <Form
                         form={form}
                         initialValues={{
-                            lophoc: '',
-                            kyhoc: '',
-                            phonghoc: '',
-                            linkonline: '',
                             gianvien: '',
                             sinhvienhotro: ''
                         }}
@@ -51,23 +47,11 @@ const ModalListSubject = () => {
                     >
                         <div className='tw-flex tw-justify-between'>
                             <div className='tw-w-[49%]'>
-                                <Form.Item required name='lophoc' label="Lớp học">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item required name='kyhoc' label="Kỳ học">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item required name='phonghoc' label="Phòng học">
+                            <Form.Item name='gianvien' label="Giảng viên">
                                     <Input />
                                 </Form.Item>
                             </div>
                             <div className='tw-w-[49%]'>
-                                <Form.Item required name='linkonline' label="Link học online">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item name='gianvien' label="Giảng viên">
-                                    <Input />
-                                </Form.Item>
                                 <Form.Item name='sinhvienhotro' label="Sinh viên hỗ trợ">
                                     <Input />
                                 </Form.Item>
