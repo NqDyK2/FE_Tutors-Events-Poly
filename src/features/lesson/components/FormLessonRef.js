@@ -32,12 +32,12 @@ const FormLessonRef = (props, ref) => {
       setVisible(true);
       if (caseForm === MODE.ADD) {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
-        formLesson.setFieldsValue({ 
+        formLesson.setFieldsValue({
           classroomId: data.subjectId,
           position_offline: data.default_offline_class_location || 'No data',
           position_online: data.default_online_class_location || 'No data',
           tutor_email: data.default_tutor_email || 'hiemdm@nu.de',
-          teacher_email: 'hieudmph69@fe.vn'
+          teacher_email: 'hieudmph69@fe.vn',
         });
         setMode(MODE.ADD);
       } else {
@@ -73,7 +73,7 @@ const FormLessonRef = (props, ref) => {
       start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
       end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
     };
-    
+
     if (typeOfLesson) {
       dataLesson = {
         ...dataLesson,
@@ -98,8 +98,8 @@ const FormLessonRef = (props, ref) => {
           .unwrap()
           .then((res) => {
             setVisible(false);
-            formLesson.resetFields()
-            setTypeOfLesson(1)
+            formLesson.resetFields();
+            setTypeOfLesson(1);
             toast.success('Thêm buổi học thành công');
           })
           .catch((error) => {
@@ -111,8 +111,8 @@ const FormLessonRef = (props, ref) => {
           .unwrap()
           .then((res) => {
             setVisible(false);
-            formLesson.resetFields()
-            setTypeOfLesson(1)
+            formLesson.resetFields();
+            setTypeOfLesson(1);
             toast.success('Sửa học thành công');
           })
           .catch((error) => {
@@ -125,7 +125,6 @@ const FormLessonRef = (props, ref) => {
 
   const onChangeType = (e) => {
     setTypeOfLesson(e.target.value);
-
   };
 
   useEffect(() => {
@@ -171,7 +170,7 @@ const FormLessonRef = (props, ref) => {
           }}
           layout='horizontal'
           initialValues={{
-            type: 1
+            type: 1,
           }}
         >
           <Form.Item className='tw-hidden' name='lessonId'>
@@ -253,10 +252,11 @@ const FormLessonRef = (props, ref) => {
               {
                 required: true,
                 message: 'Vui lòng nhập sinh viên hỗ trợ',
-              }, {
+              },
+              {
                 type: 'email',
-                message: "Địa chỉ email không đúng định dạng"
-              }
+                message: 'Địa chỉ email không đúng định dạng',
+              },
             ]}
           >
             <Input placeholder='chọn sinh viên hỗ trợ' />
@@ -272,11 +272,25 @@ const FormLessonRef = (props, ref) => {
                     message: 'Vui lòng nhập link học',
                   },
                   {
-                    type: 'url',
-                    message: "Link học online chưa đúng định dạng"
-                  }
+                    pattern:
+                      // google meet regex pattern
+                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
+                      // zoom
+                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
+                      // skype
+                      /(skype:[a-z]+.*?|skype:.*)/g ||
+                      // msteams
+                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
+
+                    message: 'Link học online chưa đúng định dạng',
+                  },
                 ]}
                 name='position_online'
+                tooltip={{
+                  title:
+                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
+                  className: 'tw-text-xs',
+                }}
               >
                 <Input placeholder={'Nhập link học online'} />
               </Form.Item>
@@ -285,7 +299,6 @@ const FormLessonRef = (props, ref) => {
             </>
           ) : (
             <>
-            
               <Form.Item
                 label='Link học online'
                 rules={[
@@ -293,12 +306,25 @@ const FormLessonRef = (props, ref) => {
                     required: false,
                   },
                   {
-                    type: 'url',
-                    message: "Link học online chưa đúng định dạng"
-                  }
+                    pattern:
+                      // google meet regex pattern
+                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
+                      // zoom
+                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
+                      // skype
+                      /(skype:[a-z]+.*?|skype:.*)/g ||
+                      // msteams
+                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
+                    message: 'Link học online chưa đúng định dạng',
+                  },
                 ]}
+                tooltip={{
+                  title:
+                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
+                  className: 'tw-text-xs',
+                }}
                 name='position_online'
-              > 
+              >
                 <Input placeholder={'Nhập link học online'} />
               </Form.Item>
 
@@ -315,7 +341,6 @@ const FormLessonRef = (props, ref) => {
                 <Input placeholder={'Nhập vị trí lớp học'} />
               </Form.Item>
             </>
-
           )}
         </Form>
 
