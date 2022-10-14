@@ -7,6 +7,7 @@ import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import Img1 from './../../../assets/images/CNDT1.png';
 import FormSemeterRef from '../components/FormSemeterRef';
 import Spinner from '../../../components/Spinner';
+import moment from 'moment';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
@@ -57,10 +58,13 @@ const SemesterPage = () => {
               </div>
               <div className='tw-flex tw-w-full tw-items-center tw-justify-between'>
                 <Link
-                  className='tw-pl-[10px] tw-text-[16px] tw-font-medium tw-leading-[50px] tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]'
+                  className='tw-w-full tw-text-center tw-pl-[10px] tw-text-[16px] tw-font-medium tw-leading-[50px] tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]'
                   to={`/manage/sem/${item.id}`}
                 >
                   {item.name}
+                  <div>
+                  {item.start_time ? moment(item.start_time).format('DD/MM/YYYY') : ''} - {item.end_time ? moment(item.end_time).format('DD/MM/YYYY') : ''}
+                  </div>
                 </Link>
                 <div className='tw-mr-[10px]'>
                   <Button

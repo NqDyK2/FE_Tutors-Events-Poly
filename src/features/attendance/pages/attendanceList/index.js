@@ -62,8 +62,7 @@ const AttendanceList = () => {
     class: item.id,
     subName: item.subject_name,
     subCode: item.subject_code,
-    cahoc: item.start_time
-      ? `${moment(item.start_time).format('HH:mm')} - ${moment(
+    cahoc: item.start_time ? `${moment(item.start_time).format('HH:mm')} - ${moment(
           item.end_time
         ).format('HH:mm')}`
       : '',
