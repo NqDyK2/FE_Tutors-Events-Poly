@@ -273,12 +273,12 @@ const FormLessonRef = (props, ref) => {
                   },
                   {
                     pattern:
-                      // ggmeet
-                      /(meet|hangouts)\.google\.com\/[a-z]+.*?\?pli=.*?/g |
+                      // google meet regex pattern
+                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
                       // zoom
-                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g |
+                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
                       // skype
-                      /(skype:[a-z]+.*?|skype:.*)/g |
+                      /(skype:[a-z]+.*?|skype:.*)/g ||
                       // msteams
                       /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
 
@@ -307,15 +307,14 @@ const FormLessonRef = (props, ref) => {
                   },
                   {
                     pattern:
-                      // ggmeet
-                      /(meet|hangouts)\.google\.com\/[a-z]+.*?\?pli=.*?/g |
+                      // google meet regex pattern
+                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
                       // zoom
-                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g |
+                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
                       // skype
-                      /(skype:[a-z]+.*?|skype:.*)/g |
+                      /(skype:[a-z]+.*?|skype:.*)/g ||
                       // msteams
                       /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
-
                     message: 'Link học online chưa đúng định dạng',
                   },
                 ]}
