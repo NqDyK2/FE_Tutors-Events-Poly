@@ -162,7 +162,7 @@ const FormLessonRef = (props, ref) => {
         <Form
           form={formLesson}
           preserve={false}
-          labelCol={{ span: 6 }}
+          labelCol={{ span: 7 }}
           wrapperCol={{ span: 20 }}
           onFinish={onFinished}
           onChange={() => {
@@ -300,7 +300,7 @@ const FormLessonRef = (props, ref) => {
           ) : (
             <>
               <Form.Item
-                label='Link học online'
+                label='Link học online:'
                 rules={[
                   {
                     required: false,
