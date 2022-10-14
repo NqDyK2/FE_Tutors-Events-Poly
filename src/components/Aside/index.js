@@ -18,6 +18,8 @@ import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
+import { useSelector } from 'react-redux';
+import { selectIsAdmin, selectIsStudent, selectIsTeacher, selectIsTutor } from '../../features/auth/authSlice';
 
 function getItem(label, key, icon, children) {
   return {
@@ -30,6 +32,13 @@ function getItem(label, key, icon, children) {
 
 const AppAside = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const isAdmin = useSelector(selectIsAdmin)
+  const isTeacher = useSelector(selectIsTeacher)
+  const isTutor = useSelector(selectIsTutor)
+  const isStudent = useSelector(selectIsStudent)
+  const acceptManager = isAdmin || isTeacher
+  const acceptListLesson = isStudent || isTutor;
+  const acceptAttendance = isAdmin || isTeacher || isTutor
   const navigate = useNavigate();
   const location = useLocation();
   const onClickHandler = (data) => {
@@ -79,14 +88,7 @@ const AppAside = () => {
     //     ),
     //   ]
     // ),
-    // getItem(
-    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-    //     Tạo lớp tutors
-    //   </div>,
-    //   '/crclass',
-    //   <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
-    getItem(
+    acceptAttendance && getItem(
       <div
         className={`${
           collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
@@ -97,20 +99,14 @@ const AppAside = () => {
       '/diem-danh',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    getItem(
+    acceptListLesson && getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Lịch học tutor
       </div>,
       '/lich-hoc',
       <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    // getItem(
-    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-    //     Danh sách lớp
-    //   </div>,
-    //   '/list-class',
-    //   <SiGoogleclassroom className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
+   
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Sự kiện
@@ -118,7 +114,7 @@ const AppAside = () => {
     //   '/events',
     //   <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     // ),
-    getItem(
+   acceptManager && getItem(
       <div
         className={`${
           collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
@@ -129,13 +125,6 @@ const AppAside = () => {
       '/manage',
       <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    // getItem(
-    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-    //     Thêm nội dung học
-    //   </div>,
-    //   '/add-post',
-    //   <BsFilePost className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
     getItem(
       <div
         className={`${
