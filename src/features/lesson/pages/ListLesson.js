@@ -137,8 +137,13 @@ const ListLesson = () => {
   const [removeLesson, { isLoading: isRemove }] = useDelLessonMutation();
 
   const handleRemoveLesson = (id) => {
-    removeLesson(id);
-    toast.success('Xóa buổi học thành công.');
+    removeLesson(id)
+      .unwrap()
+      .then((_) => {
+        toast.success('Xóa buổi học thành công.');
+      }).catch(e => {
+        toast.error(`${e}`);
+      })
   };
 
   const {
