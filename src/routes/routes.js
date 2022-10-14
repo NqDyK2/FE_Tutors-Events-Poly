@@ -18,6 +18,8 @@ import SemesterPage from '../features/semester/pages/index.js';
 import SubjectPage from '../features/semester/pages/ListSubject.js';
 import ListLesson from '../features/lesson/pages/ListLesson.js';
 import TimeTable from '../features/tutors/pages/TimeTable/index.js';
+import ManageGuard from './guard/ManageGuard.js';
+import AttendanceGuard from './guard/AttendanceGuard.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -32,15 +34,22 @@ const AppRoutes = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/crclass' element={<AddClassPage />} />
           <Route path='/events' element={<EventsPage />} />
-          <Route path='/diem-danh' element={<AttendanceList />} />
-          <Route path='/diem-danh/:classId' element={<AttendanceStudent />} />
+
           <Route path='/add-post' element={<AddPost />} />
           <Route path='/list-post' element={<ListPost />} />
           <Route path='/lich-hoc' element={<TimeTable />} />
-          <Route path='/manage' element={<SemesterPage />} />
-          <Route path='/manage/sem/:id' element={<SubjectPage />} />
-          <Route path='/manage/class/:id' element={<ListStudent />} />
-          <Route path='/manage/class/lesson/:id' element={<ListLesson />} />
+
+          <Route element={<ManageGuard />}>
+            <Route path='/manage' element={<SemesterPage />} />
+            <Route path='/manage/sem/:id' element={<SubjectPage />} />
+            <Route path='/manage/class/:id' element={<ListStudent />} />
+            <Route path='/manage/class/lesson/:id' element={<ListLesson />} />
+          </Route>
+
+          <Route element={<AttendanceGuard />}>
+            <Route path='/diem-danh' element={<AttendanceList />} />
+            <Route path='/diem-danh/:classId' element={<AttendanceStudent />} />
+          </Route>
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />

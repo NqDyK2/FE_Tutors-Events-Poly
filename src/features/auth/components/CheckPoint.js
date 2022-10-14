@@ -20,7 +20,9 @@ const CheckPoint = () => {
   const handleSignIn = async () => {
     const { data } = await getUserInfo(token);
     if (data) {
-      dispatch(setCredentials({ user: data.data, token }));
+      dispatch(
+        setCredentials({ user: data.data, token, role: data.data.role_id })
+      );
       navigate('/');
     }
   };
@@ -44,13 +46,13 @@ const CheckPoint = () => {
         <title>Đang đăng nhập - FPOLY</title>
       </Helmet>
       <div>
-        <div className='tw-container tw-mx-auto tw-flex login-page tw-h-screen'>
-          <div className='login-container tw-pt-[6%] tw-px-8 tw-pb-4 tw-mx-auto'>
-            <div className='tw-flex tw-flex-col tw-w-[430px] tw-items-center tw-justify-center'>
+        <div className='login-page tw-container tw-mx-auto tw-flex tw-h-screen'>
+          <div className='login-container tw-mx-auto tw-px-8 tw-pt-[6%] tw-pb-4'>
+            <div className='tw-flex tw-w-[430px] tw-flex-col tw-items-center tw-justify-center'>
               <div className='logo'>
                 <img src={Logo} alt='logo' width={200} />
               </div>
-              <div className='login-content tw-block  tw-my-4 tw-mx-auto tw-text-center'>
+              <div className='login-content tw-my-4  tw-mx-auto tw-block tw-text-center'>
                 <Spin
                   spinning={isLoading}
                   className='tw-text-orange-400'
@@ -58,7 +60,7 @@ const CheckPoint = () => {
                 />
                 {error && (
                   <>
-                    <div className='tw-text-red-500 tw-text-sm tw-mt-2'>
+                    <div className='tw-mt-2 tw-text-sm tw-text-red-500'>
                       Lỗi đăng nhập
                     </div>
                     <div className='tw-mt-2'>
