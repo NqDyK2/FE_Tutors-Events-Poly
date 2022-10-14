@@ -12,8 +12,8 @@ import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
-
-const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
+import { PlusOutlined } from '@ant-design/icons';
+import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 
 const columns = [
   {
@@ -43,14 +43,14 @@ const columns = [
   },
   {
     title: 'Mã môn',
-    dataIndex: 'mamon',
-    key: 'mamon',
+    dataIndex: 'subjects_code',
+    key: 'subjects_code',
     width: '5%',
   },
   {
     title: 'Môn',
-    dataIndex: 'mon',
-    key: 'mon',
+    dataIndex: 'subjects_name',
+    key: 'subjects_name',
     width: '15%',
   },
   {
@@ -72,14 +72,14 @@ const columns = [
   },
   {
     title: 'Giảng viên',
-    dataIndex: 'giangvien',
-    key: 'giangvien',
+    dataIndex: 'teacher_email',
+    key: 'teacher_email',
     width: '5%',
   },
   {
     title: 'Trợ giảng',
-    dataIndex: 'trogiang',
-    key: 'trogiang',
+    dataIndex: 'tutor_email',
+    key: 'tutor_email',
     width: '5%',
   },
   {
@@ -87,7 +87,7 @@ const columns = [
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip placement='left' title={text} color={'orange'}>
+      <Tooltip placement='left' color={'green'}>
         <span className='tw-cursor-pointer tw-text-blue-500'>Nội dung</span>
       </Tooltip>
     ),
@@ -106,14 +106,18 @@ const columns = [
         >
           <EditOutlined />
         </Button>
-        <Button
-          onClick={() => {
-            record.action.handleRemoveLesson(record.id);
+        <ConfirmPopup
+          content={
+            <Button className='tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent'>
+              <DeleteOutlined />
+            </Button>
+          }
+          title={`Xác nhận xóa buổi học này?`}
+          onConfirm={() => {
+            record.action.handleRemoveLesson(record?.id);
           }}
-          className='tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent'
-        >
-          <DeleteOutlined />
-        </Button>
+          placement='topRight'
+        />
       </div>
     ),
   },
@@ -133,11 +137,8 @@ const ListLesson = () => {
   const [removeLesson, { isLoading: isRemove }] = useDelLessonMutation();
 
   const handleRemoveLesson = (id) => {
-    const confirm = window.confirm('Bạn có chắc chắn muốn xóa?');
-    if (confirm) {
-      removeLesson(id);
-      toast.success('Xóa buổi học thành công.');
-    }
+    removeLesson(id);
+    toast.success('Xóa buổi học thành công.');
   };
 
   const {
@@ -147,7 +148,7 @@ const ListLesson = () => {
   } = useGetAllLessonQuery(subjectId);
 
   if (lessonList) {
-    data = lessonList.data.map((item, index) => {
+    data = lessonList.map((item, index) => {
       return {
         key: index,
         stt: index + 1,
@@ -159,10 +160,10 @@ const ListLesson = () => {
           item.end_time.split(' ')[1]
         }`,
         link: item.class_location_online,
-        trogiang: item.tutor_email.split('@')[0],
-        giangvien: item.teacher_email.split('@')[0],
-        mamon: item.name,
-        mon: 'Dự án tốt nghiệp (TKTW-Single page Application)',
+        tutor_email: item.tutor_email.split('@')[0],
+        teacher_email: item.teacher_email.split('@')[0],
+        subjects_code: item.subjects_code?.toUpperCase(),
+        subjects_name: item.subject_name,
         action: { modalRef, item, handleRemoveLesson },
       };
     });
@@ -177,10 +178,11 @@ const ListLesson = () => {
         <div className='tw-flex tw-items-center tw-gap-x-3'>
           <span>
             <Button
+              type='primary'
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className='tw-justify-end hover:tw-bg-blue-500 hover:tw-text-white'
+              className='tw-flex tw-items-center tw-justify-center tw-border-0 tw-bg-green-400 tw-px-2 tw-shadow-sm tw-shadow-green-400 hover:tw-bg-green-500 hover:tw-text-white dark:tw-bg-transparent dark:tw-shadow-none dark:hover:tw-text-green-400'
             >
-              Thêm buổi học
+              <PlusOutlined className='-tw-mr-1' /> Tạo mới
             </Button>
           </span>
           <Link
