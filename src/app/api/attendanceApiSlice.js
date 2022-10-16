@@ -4,11 +4,11 @@ export const attendanceApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAttendanceListClass: builder.query({
       query: () => 'attendance/classrooms',
-      providesTags: ['AttendanceListClass'],
+      providesTags: ['Attendance'],
     }),
     getAttendanceListStudent: builder.query({
       query: (classId) => `attendance/${classId}/students`,
-      providesTags: ['AttendanceListStudent'],
+      providesTags: ['Attendance'],
       transformResponse: (response) => {
         return response.data;
       },
@@ -19,7 +19,7 @@ export const attendanceApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data.data,
       }),
-      invalidatesTags: ['AttendanceListStudent'],
+      invalidatesTags: ['Attendance'],
     }),
   }),
 });

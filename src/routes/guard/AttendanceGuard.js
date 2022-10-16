@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import {
   selectIsAdmin,
   selectIsTeacher,
@@ -13,7 +13,7 @@ const AttendanceGuard = () => {
   const isTutor = useSelector(selectIsTutor);
   const location = useLocation();
   return isAdmin || isTeacher || isTutor ? (
-    location.children
+    <Outlet />
   ) : (
     <Navigate to='/' state={{ from: location }} />
   );
