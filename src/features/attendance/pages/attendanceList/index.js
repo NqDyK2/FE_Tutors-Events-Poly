@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Button, Result, Table } from 'antd';
-import { useGetAttendanceListClassQuery } from '../../../../app/api/attendanceApiSlice';
+import { useGetAttendanceListClassQuery, useGetAttendanceListStudentQuery } from '../../../../app/api/attendanceApiSlice';
 import Spinner from '../../../../components/Spinner';
 
 const columns = [
