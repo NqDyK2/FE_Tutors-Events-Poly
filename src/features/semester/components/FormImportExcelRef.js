@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Input, Modal, Select, Spin } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
@@ -7,6 +7,7 @@ import { useImportStudentsSemesterMutation } from '../../../app/api/semesterApiS
 import { transform } from 'lodash';
 import './styles.css';
 import { useParams } from 'react-router-dom';
+import { CloseCircleFilled } from '@ant-design/icons';
 
 const FormImportExcelRef = (props, ref) => {
   const [students, setStudents] = React.useState([]);
@@ -15,7 +16,8 @@ const FormImportExcelRef = (props, ref) => {
     importStudentsSemester,
     { isLoading: isImporting, isSuccess: isImported, error: importError },
   ] = useImportStudentsSemesterMutation();
-
+  const [file, setFile] = React.useState(null);
+  const [fileLoading, setFileLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [form] = Form.useForm();
@@ -31,6 +33,8 @@ const FormImportExcelRef = (props, ref) => {
   }));
 
   const handleFile = async (e) => {
+    setFile(e);
+    setFileLoading(true);
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
@@ -71,6 +75,13 @@ const FormImportExcelRef = (props, ref) => {
       return student;
     });
     setStudents(importData);
+    setFileLoading(false);
+  };
+
+  const clearForm = () => {
+    form.resetFields();
+    setFile(null);
+    setStudents([]);
   };
 
   const onFinish = async (values) => {
@@ -122,8 +133,10 @@ const FormImportExcelRef = (props, ref) => {
       confirmLoading={isImporting}
       destroyOnClose
       okButtonProps={{
-        className:
-          'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
+        className: `
+        ${fileLoading ? 'tw-bg-gray-400' : 'tw-bg-sky-400'}
+        tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none
+       `,
       }}
       cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
       getContainer={false}
@@ -139,40 +152,58 @@ const FormImportExcelRef = (props, ref) => {
             setError(null);
           }}
         >
-          <Form.Item
-            name='file'
-            label='Chọn file excel'
-            valuePropName='filelist'
-            rules={[
-              { required: true, message: 'Không được trống' },
-              () => ({
-                validator(_, value) {
-                  if (
-                    value &&
-                    !value.target.files[0].name.endsWith('.xlsx') &&
-                    !value.target.files[0].name.endsWith('.xls') &&
-                    !value.target.files[0].name.endsWith('.csv')
-                  ) {
-                    return Promise.reject('Chỉ được chọn file excel');
-                  }
-                  return Promise.resolve();
-                },
-              }),
-            ]}
-          >
-            <Input
-              type='file'
-              onChange={handleFile}
-              accept='.xlsx, .xls, .csv'
-              className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
-            />
-          </Form.Item>
+          <div className='
+           tw-relative
+          '>
+            <Form.Item
+              name='file'
+              label='Chọn file excel'
+              valuePropName='filelist'
+              rules={[
+                { required: true, message: 'Không được trống' },
+                () => ({
+                  validator(_, value) {
+                    if (
+                      value &&
+                      !value.target.files[0].name.endsWith('.xlsx') &&
+                      !value.target.files[0].name.endsWith('.xls') &&
+                      !value.target.files[0].name.endsWith('.csv')
+                    ) {
+                      return Promise.reject('Chỉ được chọn file excel');
+                    }
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input
+                type='file'
+                onChange={handleFile}
+                accept='.xlsx, .xls, .csv'
+                className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
+              />
+            </Form.Item>
+            {file && !fileLoading && (
+              <Button
+                type='text'
+                icon={<CloseCircleFilled />}
+                className='tw-absolute tw-top-[30px] tw-right-0 tw-mt-1 tw-rounded-full tw-border-none  tw-text-slate-500 tw-outline-none hover:tw-bg-transparent hover:tw-text-slate-600 '
+                onClick={clearForm}
+              ></Button>
+            )}
+          </div>
         </Form>
 
         <div>
           {error && (
             <div className='tw-text-red-500'>
               {error?.response?.data?.message || error?.message}
+            </div>
+          )}
+          {fileLoading && (
+            <div className='tw-flex tw-items-center tw-justify-center tw-text-blue-300'>
+              Đang xử lý file...
+              <Spin />
             </div>
           )}
         </div>
