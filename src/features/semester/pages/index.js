@@ -37,7 +37,7 @@ const SemesterPage = () => {
         loading={isLoading}
         size='large'
         className={
-          'tw-my-auto tw-mt-10 tw-min-h-[200px] tw-flex tw-items-center tw-justify-center'
+          'tw-my-auto tw-mt-10 tw-flex tw-min-h-[200px] tw-items-center tw-justify-center'
         }
       />
       {data && (
@@ -45,7 +45,7 @@ const SemesterPage = () => {
           {data?.map((item, index) => (
             <div
               key={index}
-              className='bg-neutral-400 tw-mx-6 tw-my-6  tw-rounded-[3px] tw-border tw-shadow-transparent tw-drop-shadow-xl hover:tw-border-gray-400 hover:tw-opacity-[90%] dark:tw-border-gray-500 dark:hover:tw-border-white'
+              className='bg-neutral-400   tw-mx-6 tw-my-6  tw-rounded-[3px] tw-border tw-transition-all hover:tw-border-gray-400 hover:tw-opacity-[90%] dark:tw-border-gray-500 dark:hover:tw-border-white'
             >
               <div>
                 <Link to={`/manage/sem/${item.id}`}>
@@ -58,15 +58,12 @@ const SemesterPage = () => {
               </div>
               <div className='tw-flex tw-w-full tw-items-center tw-justify-between'>
                 <Link
-                  className='tw-w-full tw-text-center tw-pl-[10px] tw-text-[16px] tw-font-medium tw-leading-[50px] tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]'
+                  className='tw-w-full   tw-pl-2  tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]'
                   to={`/manage/sem/${item.id}`}
                 >
                   {item.name}
-                  <div>
-                  {item.start_time ? moment(item.start_time).format('DD/MM/YYYY') : ''} - {item.end_time ? moment(item.end_time).format('DD/MM/YYYY') : ''}
-                  </div>
                 </Link>
-                <div className='tw-mr-[10px]'>
+                <div >
                   <Button
                     shape='circle'
                     onClick={() => modalRef.current.show('EDIT', item)}
@@ -74,6 +71,17 @@ const SemesterPage = () => {
                     className='tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500'
                   />
                 </div>
+              </div>
+              <div className='tw-px-2'>
+                <p className='tw-text-xs tw-text-gray-600 tw-mb-1 '>
+                  {item.start_time
+                    ? moment(item.start_time).format('DD/MM/YY')
+                    : ''}{' '}
+                  -{' '}
+                  {item.end_time
+                    ? moment(item.end_time).format('DD/MM/YY')
+                    : ''}
+                </p>
               </div>
             </div>
           ))}

@@ -10,6 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConfigProvider } from 'antd';
 import locale from 'antd/es/locale/vi_VN';
+import 'moment/locale/vi';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
