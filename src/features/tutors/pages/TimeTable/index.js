@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Space, Table, Tag, Button, Modal, Tooltip, Form, Input, Select, Checkbox, Radio } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
+import { useGetAllTimeTableQuery } from '../../../../app/api/timetableApiSlice';
 const { Option } = Select;
 
 const text = <span>
@@ -8,6 +9,10 @@ const text = <span>
 </span>;
 
 const TimeTable = () => {
+    const {data:listData ,error,isLoading} = useGetAllTimeTableQuery()
+    const dataTimeTable = listData?.data.map((item,index) => ({
+    }))
+    console.log(listData);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     const showModal = () => {
