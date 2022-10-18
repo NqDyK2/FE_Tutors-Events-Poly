@@ -10,16 +10,19 @@ import {
   BellOutlined,
   CarryOutOutlined,
 } from '@ant-design/icons';
-import {
-  BsFillCalendarDayFill,
-} from 'react-icons/bs';
+import { BsFillCalendarDayFill } from 'react-icons/bs';
 import { BiCalendarStar } from 'react-icons/bi';
 import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';
-import { selectIsAdmin, selectIsStudent, selectIsTeacher, selectIsTutor } from '../../features/auth/authSlice';
+import {
+  selectIsAdmin,
+  selectIsStudent,
+  selectIsTeacher,
+  selectIsTutor,
+} from '../../features/auth/authSlice';
 
 function getItem(label, key, icon, children) {
   return {
@@ -32,13 +35,13 @@ function getItem(label, key, icon, children) {
 
 const AppAside = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const isAdmin = useSelector(selectIsAdmin)
-  const isTeacher = useSelector(selectIsTeacher)
-  const isTutor = useSelector(selectIsTutor)
-  const isStudent = useSelector(selectIsStudent)
-  const acceptManager = isAdmin || isTeacher
+  const isAdmin = useSelector(selectIsAdmin);
+  const isTeacher = useSelector(selectIsTeacher);
+  const isTutor = useSelector(selectIsTutor);
+  const isStudent = useSelector(selectIsStudent);
+  const acceptManager = isAdmin || isTeacher;
   const acceptListLesson = isStudent || isTutor;
-  const acceptAttendance = isAdmin || isTeacher || isTutor
+  const acceptAttendance = isTeacher || isTutor;
   const navigate = useNavigate();
   const location = useLocation();
   const onClickHandler = (data) => {
@@ -88,25 +91,35 @@ const AppAside = () => {
     //     ),
     //   ]
     // ),
-    acceptAttendance && getItem(
-      <div
-        className={`${
-          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
-        }`}
-      >
-        Điểm danh
-      </div>,
-      '/diem-danh',
-      <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
-    acceptListLesson && getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-        Lịch học tutor
-      </div>,
-      '/lich-hoc',
-      <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
-   
+    acceptAttendance &&
+      getItem(
+        <div
+          className={`${
+            collapsed
+              ? 'tw-text-white'
+              : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+        >
+          Điểm danh
+        </div>,
+        '/diem-danh',
+        <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+      ),
+    acceptListLesson &&
+      getItem(
+        <div
+          className={`${
+            collapsed
+              ? 'tw-text-white'
+              : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+        >
+          Lịch học tutor
+        </div>,
+        '/lich-hoc',
+        <BsFillCalendarDayFill className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+      ),
+
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Sự kiện
@@ -114,17 +127,20 @@ const AppAside = () => {
     //   '/events',
     //   <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     // ),
-   acceptManager && getItem(
-      <div
-        className={`${
-          collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
-        }`}
-      >
-        Quản lý lịch học
-      </div>,
-      '/manage',
-      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
+    acceptManager &&
+      getItem(
+        <div
+          className={`${
+            collapsed
+              ? 'tw-text-white'
+              : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+        >
+          Quản lý lịch học
+        </div>,
+        '/manage',
+        <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+      ),
     getItem(
       <div
         className={`${

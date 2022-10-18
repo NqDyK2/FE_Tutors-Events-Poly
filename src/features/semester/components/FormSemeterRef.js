@@ -113,6 +113,7 @@ const FormSemeterRef = (props, ref) => {
           <Form.Item
             name='name'
             label='Tên kì:'
+            tooltip='Đặt tên kì học theo đúng quy tắc Kì xong mới đến Block. Ví dụ: FA22-Block1.'
             rules={[
               { required: true, message: 'Tên kỳ không được trống' },
               {
