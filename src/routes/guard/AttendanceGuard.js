@@ -8,11 +8,10 @@ import {
 } from '../../features/auth/authSlice';
 
 const AttendanceGuard = () => {
-  const isAdmin = useSelector(selectIsAdmin);
   const isTeacher = useSelector(selectIsTeacher);
   const isTutor = useSelector(selectIsTutor);
   const location = useLocation();
-  return isAdmin || isTeacher || isTutor ? (
+  return isTeacher || isTutor ? (
     <Outlet />
   ) : (
     <Navigate to='/' state={{ from: location }} />
