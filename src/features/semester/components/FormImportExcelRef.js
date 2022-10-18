@@ -50,7 +50,7 @@ const FormImportExcelRef = (props, ref) => {
     const allSheet = [BMCNTT];
 
     const rowData = allSheet.map((sheet) => {
-      const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
+      const json =  XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
     });
 
@@ -58,18 +58,15 @@ const FormImportExcelRef = (props, ref) => {
       .flat()
       .filter((item, idx) => idx !== 0 && item.STT !== undefined);
     const importData = json.map((item, idx) => {
-      const newItem = transform(item, (result, value, key) => {
-        result[key.toLowerCase()] = value;
-      });
       let student = {
         id: idx + 1,
-        student_code: newItem['mssv'],
-        student_name: newItem['họ tên sinh viên'],
-        student_email: newItem['email'],
-        student_phone: newItem['sđt'],
-        major: newItem['bộ môn'],
-        subject: newItem['môn'],
-        reason: newItem['vấn đề gặp phải chi tiết'],
+        student_code: item['MSSV'],
+        student_name: item['Họ tên sinh viên'],
+        student_email: item['Email'],
+        student_phone: item['SĐT'],
+        major: item['Bộ môn'],
+        subject: item['Môn'],
+        reason: item['Vấn đề gặp phải chi tiết'],
       };
 
       return student;
