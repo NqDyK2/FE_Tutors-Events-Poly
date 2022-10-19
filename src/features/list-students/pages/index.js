@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Table } from 'antd';
+import {Button, Input, Table } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
@@ -40,13 +40,16 @@ const columns = [
     width: '15%',
   },
   {
-    title: 'Chú thích',
-    dataIndex: 'comment',
-    key: 'comment',
-    render: (_, record) => (
-      <Input className='tw-rounded' value={record.comment} />
-    ),
-  },
+    title: 'Trạng thái',
+    dataIndex:'stt',
+    key:'stt',
+    width:'20%',
+    render:(_,record) => (
+      <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+         Mời lại.
+      </Button>
+    )
+  }
 ];
 
 const ListStudent = () => {
@@ -65,9 +68,9 @@ const ListStudent = () => {
     index,
     phone: item.phone_number,
     studentCode: item.code,
-    comment: item.reason,
     studentMail: item.email,
     studentName: item.name,
+    stt:'Đã tham gia',
   }));
 
   return (
