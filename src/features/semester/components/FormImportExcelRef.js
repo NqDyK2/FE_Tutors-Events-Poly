@@ -44,6 +44,8 @@ const FormImportExcelRef = (props, ref) => {
         value: student.student_code,
       })),
       onFilter: (value, record) => record.student_code.indexOf(value) === 0,
+      sorter: (a, b) => a.student_code.localeCompare(b.student_code),
+      sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Họ và tên',
@@ -198,6 +200,7 @@ const FormImportExcelRef = (props, ref) => {
               name='file'
               label='Chọn file excel'
               valuePropName='filelist'
+              className='tw-mb-2'
               rules={[
                 { required: true, message: 'Không được trống' },
                 () => ({
@@ -249,7 +252,10 @@ const FormImportExcelRef = (props, ref) => {
       </div>
 
       {students.length > 0 && (
-        <Button type='primary' onClick={() => setPreviewOpen(true)}>
+        <Button type='text'
+          className='tw-rounded-sm tw-p-0  hover:tw-bg-transparent hover:tw-text-orange-400 tw-text-orange-300'
+        
+        onClick={() => setPreviewOpen(true)}>
           Xem trước
         </Button>
       )}
@@ -260,14 +266,13 @@ const FormImportExcelRef = (props, ref) => {
         open={previewOpen}
         onOk={() => setPreviewOpen(false)}
         onCancel={() => setPreviewOpen(false)}
-        width={1000}
+        width={1200}
       >
         <Table
           columns={previewColumn}
           dataSource={students}
-          scroll={{ y: 400 }}
+          scroll={{ y: 450,}}
           rowKey='id'
-          
         />
       </Modal>
     </Modal>
