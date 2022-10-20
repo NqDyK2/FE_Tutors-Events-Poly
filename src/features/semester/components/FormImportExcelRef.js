@@ -266,7 +266,7 @@ const FormImportExcelRef = (props, ref) => {
           columns={previewColumn}
           dataSource={students}
           scroll={{ y: 400 }}
-          rowKey='student_name'
+          rowKey='id'
           
         />
       </Modal>
