@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Button, Space, Spin, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { FaReply } from 'react-icons/fa';
 import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlice';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -13,6 +13,8 @@ const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetListClassInSemesterQuery(id);
   const modalRef = useRef();
+  const location = useLocation();
+  const { semesterStartTime, semesterEndTime } = location.state;
 
   // table antd
   const columns = [
@@ -28,8 +30,8 @@ const SubjectPage = () => {
       key: 'name',
       render: (name, record) => (
         <Tooltip
-          title='Xem lịch giảng dạy'
-          placement='topLeft'
+          title="Xem lịch giảng dạy"
+          placement="topLeft"
           color={'#FF6D28'}
           key={record.id}
         >
@@ -39,9 +41,11 @@ const SubjectPage = () => {
               semesterId: id,
               subjectId: record.id,
               subjectName: record.name,
+              semesterStartTime,
+              semesterEndTime,
             }}
           >
-            <div className='tw-uppercase'>{name}</div>
+            <div className="tw-uppercase">{name}</div>
           </Link>
         </Tooltip>
       ),
@@ -51,7 +55,7 @@ const SubjectPage = () => {
       dataIndex: 'subject_code',
       key: 'subject_code',
       render: (subject_code, record) => (
-        <div className='tw-uppercase'>{subject_code}</div>
+        <div className="tw-uppercase">{subject_code}</div>
       ),
     },
     {
@@ -70,8 +74,8 @@ const SubjectPage = () => {
       key: 'class_students_count',
       render: (class_students_count, record) => (
         <Tooltip
-          title='Xem danh sách sinh viên'
-          placement='topLeft'
+          title="Xem danh sách sinh viên"
+          placement="topLeft"
           color={'#FF6D28'}
           key={record.id}
         >
@@ -91,7 +95,7 @@ const SubjectPage = () => {
       title: 'Thao tác',
       key: 'action',
       render: (_, record) => (
-        <Space size='middle'>
+        <Space size="middle">
           <ModalListSubject />
         </Space>
       ),
@@ -114,36 +118,36 @@ const SubjectPage = () => {
         <title>FPoly</title>
       </Helmet>
 
-      <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px] dark:tw-text-white'>
+      <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
+        <span className="tw-text-[15px] dark:tw-text-white">
           Danh sách lớp học
         </span>
-        <div className='tw-flex tw-items-center tw-gap-x-3'>
+        <div className="tw-flex tw-items-center tw-gap-x-3">
           <Button
             icon={<PlusCircleOutlined />}
-            className='tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2   tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100'
-            type='text'
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2   tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
+            type="text"
             onClick={() => modalRef.current.show()}
           >
             Import from excel
           </Button>
           <Link
             to={`/manage`}
-            className='tw-flex tw-items-center hover:tw-text-blue-600'
+            className="tw-flex tw-items-center hover:tw-text-blue-600"
           >
-            <FaReply className='tw-mr-1' /> Trở lại
+            <FaReply className="tw-mr-1" /> Trở lại
           </Link>
         </div>
       </div>
 
-      <div className='tw-mt-4'>
+      <div className="tw-mt-4">
         {error && (
-          <p className='tw-font-medium tw-text-red-500'>
+          <p className="tw-font-medium tw-text-red-500">
             {error?.response?.data?.message || error?.data?.message}
           </p>
         )}
         <Table
-          size='small'
+          size="small"
           scroll={{ y: 380 }}
           dataSource={dataSource}
           columns={columns}
