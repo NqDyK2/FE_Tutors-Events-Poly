@@ -65,7 +65,7 @@ const columns = [
     key: 'link',
     width: '10%',
     render: (text) => (
-      <a target='blank' href={text}>
+      <a target="blank" href={text}>
         {text}
       </a>
     ),
@@ -87,8 +87,8 @@ const columns = [
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip placement='left' color={'green'}>
-        <span className='tw-cursor-pointer tw-text-blue-500'>Nội dung</span>
+      <Tooltip placement="left" color={'green'}>
+        <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
       </Tooltip>
     ),
   },
@@ -97,18 +97,18 @@ const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (_, record) => (
-      <div className='tw-flex'>
+      <div className="tw-flex">
         <Button
           onClick={() => {
             record.action.modalRef.current.show('EDIT', record.action.item);
           }}
-          className='tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent'
+          className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
         >
           <EditOutlined />
         </Button>
         <ConfirmPopup
           content={
-            <Button className='tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent'>
+            <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
               <DeleteOutlined />
             </Button>
           }
@@ -116,7 +116,7 @@ const columns = [
           onConfirm={() => {
             record.action.handleRemoveLesson(record?.id);
           }}
-          placement='topRight'
+          placement="topRight"
         />
       </div>
     ),
@@ -128,7 +128,8 @@ const ListLesson = () => {
 
   const { id: subjectId } = useParams();
 
-  const { semesterId, subjectName } = location.state || {};
+  const { semesterId, subjectName, semesterStartTime, semesterEndTime } =
+    location.state || {};
 
   const modalRef = React.useRef();
 
@@ -141,9 +142,10 @@ const ListLesson = () => {
       .unwrap()
       .then((_) => {
         toast.success('Xóa buổi học thành công.');
-      }).catch(e => {
-        toast.error(`${e}`);
       })
+      .catch((e) => {
+        toast.error(`${e}`);
+      });
   };
 
   const {
@@ -176,32 +178,32 @@ const ListLesson = () => {
 
   return (
     <div>
-      <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px] dark:tw-text-white'>
+      <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
+        <span className="tw-text-[15px] dark:tw-text-white">
           Lịch học {subjectName?.toUpperCase()}
         </span>
-        <div className='tw-flex tw-items-center tw-gap-x-3'>
+        <div className="tw-flex tw-items-center tw-gap-x-3">
           <span>
             <Button
-              type='primary'
+              type="primary"
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className='tw-flex tw-items-center tw-justify-center tw-border-0 tw-bg-green-400 tw-px-2 tw-shadow-sm tw-shadow-green-400 hover:tw-bg-green-500 hover:tw-text-white dark:tw-bg-transparent dark:tw-shadow-none dark:hover:tw-text-green-400'
+              className="tw-flex tw-items-center tw-justify-center tw-border-0 tw-bg-green-400 tw-px-2 tw-shadow-sm tw-shadow-green-400 hover:tw-bg-green-500 hover:tw-text-white dark:tw-bg-transparent dark:tw-shadow-none dark:hover:tw-text-green-400"
             >
-              <PlusOutlined className='-tw-mr-1' /> Tạo mới
+              <PlusOutlined className="-tw-mr-1" /> Tạo mới
             </Button>
           </span>
           <Link
             to={`/manage/sem/${semesterId}`}
-            className='tw-flex tw-items-center hover:tw-text-blue-600'
+            className="tw-flex tw-items-center hover:tw-text-blue-600"
           >
-            <FaReply className='tw-mr-1' /> Trở lại
+            <FaReply className="tw-mr-1" /> Trở lại
           </Link>
         </div>
       </div>
 
-      <div className='tw-mt-6'>
+      <div className="tw-mt-6">
         {lessonError && (
-          <p className='tw-font-medium tw-text-red-500'>
+          <p className="tw-font-medium tw-text-red-500">
             {lessonError?.response?.data?.message ||
               lessonError?.data?.message ||
               'Đã có lỗi xảy ra!'}
@@ -220,7 +222,10 @@ const ListLesson = () => {
         />
       </div>
 
-      <FormLessonRef ref={modalRef} />
+      <FormLessonRef
+        timeSemester={{ semesterStartTime, semesterEndTime }}
+        ref={modalRef}
+      />
     </div>
   );
 };

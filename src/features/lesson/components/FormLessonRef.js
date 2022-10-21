@@ -1,6 +1,6 @@
+import React, { useEffect, useImperativeHandle } from 'react';
 import { DatePicker, Form, Input, Modal, Radio } from 'antd';
 import moment from 'moment';
-import React, { useEffect, useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -26,6 +26,8 @@ const FormLessonRef = (props, ref) => {
   const [addLesson, { isLoading: addLoading }] = useAddLessonMutation();
   const [updateLesson, { isLoading: updateLoading }] =
     useUpdateLessonMutation();
+
+  const { semesterStartTime, semesterEndTime } = props.timeSemester;
 
   useImperativeHandle(ref, () => ({
     show: (caseForm, data) => {
@@ -138,7 +140,7 @@ const FormLessonRef = (props, ref) => {
       forceRender
       title={title}
       open={visible}
-      okType='default'
+      okType="default"
       onOk={() => {
         formLesson.submit();
       }}
@@ -148,7 +150,7 @@ const FormLessonRef = (props, ref) => {
         setTypeOfLesson(1);
         formLesson.resetFields();
       }}
-      okText='Lưu'
+      okText="Lưu"
       confirmLoading={addLoading || updateLoading}
       destroyOnClose
       okButtonProps={{
@@ -168,45 +170,45 @@ const FormLessonRef = (props, ref) => {
           onChange={() => {
             setError(null);
           }}
-          layout='horizontal'
+          layout="horizontal"
           initialValues={{
             type: 1,
           }}
         >
-          <Form.Item className='tw-hidden' name='lessonId'>
+          <Form.Item className="tw-hidden" name="lessonId">
             <Input hidden />
           </Form.Item>
 
           <Form.Item
-            className='tw-hidden'
-            label='Lớp học:'
+            className="tw-hidden"
+            label="Lớp học:"
             rules={[
               {
                 required: true,
                 message: 'Vui lòng nhập lớp học',
               },
             ]}
-            name='classroomId'
+            name="classroomId"
           >
             <Input disabled />
           </Form.Item>
 
           <Form.Item
-            className='tw-hidden'
-            label='Giảng viên'
+            className="tw-hidden"
+            label="Giảng viên"
             rules={[
               {
                 required: true,
                 message: 'Vui lòng nhập giảng viên',
               },
             ]}
-            name='teacher_email'
+            name="teacher_email"
           >
             <Input disabled />
           </Form.Item>
 
           <Form.Item
-            label='Hình thức:'
+            label="Hình thức:"
             name={'type'}
             rules={[
               {
@@ -222,7 +224,7 @@ const FormLessonRef = (props, ref) => {
           </Form.Item>
 
           <Form.Item
-            label='Ngày:'
+            label="Ngày:"
             name={'date'}
             rules={[
               {
@@ -232,13 +234,24 @@ const FormLessonRef = (props, ref) => {
             ]}
           >
             <RangePicker
+              defaultPickerValue={
+                moment(semesterStartTime) >= moment()
+                  ? moment(semesterStartTime)
+                  : moment()
+              }
               placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
               showTime
-              showNow={true}
               allowClear
               format={'DD/MM/YYYY HH:mm'}
               disabledDate={(current) => {
-                return current && current <= Date.now().valueOf();
+                const startDate = moment(semesterStartTime);
+                const endDate = moment(semesterEndTime);
+                return (
+                  current &&
+                  (current < startDate ||
+                    current > endDate ||
+                    current <= Date.now().valueOf())
+                );
               }}
               showSecond={false}
               order={true}
@@ -246,8 +259,8 @@ const FormLessonRef = (props, ref) => {
           </Form.Item>
 
           <Form.Item
-            label='Sinh viên hỗ trợ:'
-            name='tutor_email'
+            label="Sinh viên hỗ trợ:"
+            name="tutor_email"
             rules={[
               {
                 required: true,
@@ -259,13 +272,13 @@ const FormLessonRef = (props, ref) => {
               },
             ]}
           >
-            <Input placeholder='chọn sinh viên hỗ trợ' />
+            <Input placeholder="chọn sinh viên hỗ trợ" />
           </Form.Item>
 
           {!typeOfLesson ? (
             <>
               <Form.Item
-                label='Link học online:'
+                label="Link học online:"
                 rules={[
                   {
                     required: true,
@@ -285,7 +298,7 @@ const FormLessonRef = (props, ref) => {
                     message: 'Link học online chưa đúng định dạng',
                   },
                 ]}
-                name='position_online'
+                name="position_online"
                 tooltip={{
                   title:
                     'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
@@ -295,12 +308,12 @@ const FormLessonRef = (props, ref) => {
                 <Input placeholder={'Nhập link học online'} />
               </Form.Item>
 
-              <Form.Item className='tw-opacity-0'></Form.Item>
+              <Form.Item className="tw-opacity-0"></Form.Item>
             </>
           ) : (
             <>
               <Form.Item
-                label='Link học online:'
+                label="Link học online:"
                 rules={[
                   {
                     required: false,
@@ -323,20 +336,20 @@ const FormLessonRef = (props, ref) => {
                     'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
                   className: 'tw-text-xs',
                 }}
-                name='position_online'
+                name="position_online"
               >
                 <Input placeholder={'Nhập link học online'} />
               </Form.Item>
 
               <Form.Item
-                label='Vị trí lớp học'
+                label="Vị trí lớp học"
                 rules={[
                   {
                     required: true,
                     message: 'Vui lòng nhập vị trí lớp học',
                   },
                 ]}
-                name='position_offline'
+                name="position_offline"
               >
                 <Input placeholder={'Nhập vị trí lớp học'} />
               </Form.Item>
@@ -346,7 +359,7 @@ const FormLessonRef = (props, ref) => {
 
         <div>
           {error && (
-            <div className='tw-text-red-500'>
+            <div className="tw-text-red-500">
               {error?.message || error?.data?.message}
             </div>
           )}
