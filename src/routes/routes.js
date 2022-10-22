@@ -25,34 +25,34 @@ const AppRoutes = () => {
   const location = useLocation();
   return (
     <Routes location={location} key={location.pathname}>
-      <Route path='/auth' element={<AuthPage />} />
-      <Route path='/checkpoint' element={<CheckPoint />} />
-      <Route path='/welcome' element={<WelcomePage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/checkpoint" element={<CheckPoint />} />
+      <Route path="/welcome" element={<WelcomePage />} />
       <Route element={<RequireAuth />}>
-        <Route path='/' element={<AppLayout />}>
+        <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
-          <Route path='/' element={<HomePage />} />
-          <Route path='/crclass' element={<AddClassPage />} />
-          <Route path='/events' element={<EventsPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/crclass" element={<AddClassPage />} />
+          <Route path="/events" element={<EventsPage />} />
 
-          <Route path='/add-post' element={<AddPost />} />
-          <Route path='/list-post' element={<ListPost />} />
-          <Route path='/lich-hoc' element={<TimeTable />} />
+          <Route path="/add-post" element={<AddPost />} />
+          <Route path="/list-post" element={<ListPost />} />
+          <Route path="/lich-hoc" element={<TimeTable />} />
 
           <Route element={<ManageGuard />}>
-            <Route path='/manage' element={<SemesterPage />} />
-            <Route path='/manage/sem/:id' element={<SubjectPage />} />
-            <Route path='/manage/class/:id' element={<ListStudent />} />
-            <Route path='/manage/class/lesson/:id' element={<ListLesson />} />
+            <Route path="/manage" element={<SemesterPage />} />
+            <Route path="/manage/sem/:id" element={<SubjectPage />} />
+            <Route path="/manage/class/:id" element={<ListStudent />} />
+            <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
           </Route>
 
           <Route element={<AttendanceGuard />}>
-            <Route path='/diem-danh' element={<AttendanceList />} />
-            <Route path='/diem-danh/:classId' element={<AttendanceStudent />} />
+            <Route path="/diem-danh" element={<AttendanceList />} />
+            <Route path="/diem-danh/:classId" element={<AttendanceStudent />} />
           </Route>
         </Route>
       </Route>
-      <Route path='*' element={<PageNotFound />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
