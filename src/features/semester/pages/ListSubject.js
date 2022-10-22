@@ -8,6 +8,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import ModalListSubject from './ModalListSubject';
 import Spinner from '../../../components/Spinner';
+import ModalAddClass from './ModalAddClass';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -123,9 +124,10 @@ const SubjectPage = () => {
           Danh sách lớp học
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
+          <ModalAddClass />
           <Button
             icon={<PlusCircleOutlined />}
-            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2   tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
             type="text"
             onClick={() => modalRef.current.show()}
           >
