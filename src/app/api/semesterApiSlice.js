@@ -1,13 +1,12 @@
-import { apiSlice } from "./apiSlice";
-
+import { apiSlice } from './apiSlice';
 
 export const semesterApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllSemester: builder.query({
       query: () => ({
-        url: "semester/get-all",
+        url: 'semester/get-all',
       }),
-      providesTags: ["Semester"],
+      providesTags: ['Semester'],
       transformResponse: (response) => {
         return response.data;
       },
@@ -24,12 +23,12 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       query: (body) => ({
         url: `semester/${body.semesterId}/import`,
         body: body.data,
-        method: "POST",
+        method: 'POST',
         headers: {
-          'Accept': 'application/json',
-        }
+          Accept: 'application/json',
+        },
       }),
-      invalidatesTags: ["Semester"],
+      invalidatesTags: ['Semester'],
     }),
     addSemester: builder.mutation({
       query: (semester) => ({
@@ -37,8 +36,16 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: semester,
       }),
-      invalidatesTags: ["Semester"]
-    })
+      invalidatesTags: ['Semester'],
+    }),
+    updateSemester: builder.mutation({
+      query: ({ id, ...rest }) => ({
+        url: `semsester/${id}/update`,
+        method: 'PUT',
+        body: rest,
+      }),
+      invalidatesTags: ['Semester'],
+    }),
   }),
 });
 
@@ -47,6 +54,6 @@ export const {
   useGetListStudentInCLassQuery,
   useAddSemesterMutation,
   useGetListClassInSemesterQuery,
-  useImportStudentsSemesterMutation
+  useImportStudentsSemesterMutation,
+  useUpdateSemesterMutation,
 } = semesterApiSlice;
- 
