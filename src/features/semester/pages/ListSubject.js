@@ -1,21 +1,23 @@
 import React, { useRef } from 'react';
-import { Button, Space, Spin, Table, Tooltip } from 'antd';
+import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { FaReply } from 'react-icons/fa';
-import { useGetListClassInSemesterQuery } from '../../../app/api/semesterApiSlice';
 import { PlusCircleOutlined } from '@ant-design/icons';
+
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import ModalListSubject from './ModalListSubject';
 import Spinner from '../../../components/Spinner';
-import ModalAddClass from './ModalAddClass';
+import FormClassroomRef from '../components/FormClassroomRef';
+import { useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
-  const { data, error, isLoading } = useGetListClassInSemesterQuery(id);
-  const modalRef = useRef();
+  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
+  const modalImportExcelRef = useRef();
+  const modalClassroomRef = useRef();
   const location = useLocation();
-  const { semesterStartTime, semesterEndTime } = location.state;
+  const { semesterStartTime, semesterEndTime, semesterId } = location.state;
 
   // table antd
   const columns = [
@@ -102,10 +104,11 @@ const SubjectPage = () => {
       ),
     },
   ];
+
   const dataSource = data?.data?.map((item, index) => ({
     key: index + 1,
     id: item.id,
-    name: item.name,
+    name: item.subject_name,
     subject_code: item.subject_code,
     default_teacher_email: item.default_teacher_email,
     default_tutor_email: item.default_tutor_email,
@@ -124,12 +127,19 @@ const SubjectPage = () => {
           Danh sách lớp học
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
-          <ModalAddClass />
+          <Button
+            icon={<PlusCircleOutlined />}
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+            type="link"
+            onClick={() => modalClassroomRef.current.show('ADD')}
+          >
+            Thêm lớp học
+          </Button>
           <Button
             icon={<PlusCircleOutlined />}
             className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
             type="text"
-            onClick={() => modalRef.current.show()}
+            onClick={() => modalImportExcelRef.current.show()}
           >
             Import from excel
           </Button>
@@ -156,7 +166,8 @@ const SubjectPage = () => {
           pagination={false}
           loading={{ indicator: <Spinner />, spinning: isLoading }}
         />
-        <FormImportExcelRef ref={modalRef} />
+        <FormClassroomRef semester_id={semesterId} ref={modalClassroomRef} />
+        <FormImportExcelRef ref={modalImportExcelRef} />
       </div>
     </>
   );

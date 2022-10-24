@@ -52,6 +52,7 @@ const SemesterPage = () => {
                   state={{
                     semesterStartTime: item.start_time,
                     semesterEndTime: item.end_time,
+                    semesterId: item.id,
                   }}
                   to={`/manage/sem/${item.id}`}
                 >
@@ -67,6 +68,7 @@ const SemesterPage = () => {
                   state={{
                     semesterStartTime: item.start_time,
                     semesterEndTime: item.end_time,
+                    semesterId: item.id,
                   }}
                   className="tw-w-full   tw-pl-2  tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
                   to={`/manage/sem/${item.id}`}

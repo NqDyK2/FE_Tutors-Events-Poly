@@ -180,7 +180,7 @@ const ListLesson = () => {
     <div>
       <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
         <span className="tw-text-[15px] dark:tw-text-white">
-          Lịch học {subjectName?.toUpperCase()}
+          Lịch học - {subjectName?.toUpperCase()}
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
           <span>
