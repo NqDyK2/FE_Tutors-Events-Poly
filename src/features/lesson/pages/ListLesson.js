@@ -30,16 +30,10 @@ const columns = [
     width: '10%',
   },
   {
-    title: 'Giảng đường',
-    dataIndex: 'giangduong',
-    key: 'giangduong',
-    width: '5%',
-  },
-  {
-    title: 'Phòng',
-    dataIndex: 'phong',
-    key: 'phong',
-    width: '5%',
+    title: 'Hình thức',
+    dataIndex: 'hinhthuc',
+    key: 'hinhthuc',
+    width: '10%',
   },
   {
     title: 'Mã môn',
@@ -60,15 +54,18 @@ const columns = [
     width: '10%',
   },
   {
-    title: 'Link học trực tuyến',
-    dataIndex: 'link',
-    key: 'link',
+    title: 'Phòng học',
+    dataIndex: 'phonghoc',
+    key: 'phonghoc',
     width: '10%',
-    render: (text) => (
-      <a target="blank" href={text}>
-        {text}
-      </a>
-    ),
+    render: (_, record) =>
+      record.hinhthuc === 'Offline' ? (
+        <span>{record.phonghoc}</span>
+      ) : (
+        <a target="blank" href={record.phonghoc}>
+          {record.phonghoc}
+        </a>
+      ),
   },
   {
     title: 'Giảng viên',
@@ -87,7 +84,7 @@ const columns = [
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip placement="left" color={'green'}>
+      <Tooltip placement="left" title={record.chitiet} color={'green'}>
         <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
       </Tooltip>
     ),
@@ -161,16 +158,16 @@ const ListLesson = () => {
         stt: index + 1,
         id: item.id,
         ngay: timeFormat(item.start_time.split(' ')[0]),
-        phong: item.type ? item.class_location_offline : 'Google Meet 2',
-        giangduong: item.type ? 'TVB' : 'Google Meet',
+        hinhthuc: item.type ? 'Offline' : 'Online',
         thoigian: `${item.start_time.split(' ')[1]} - ${
           item.end_time.split(' ')[1]
         }`,
-        link: item.class_location_online,
+        phonghoc: item.class_location,
         tutor_email: item.tutor_email.split('@')[0],
         teacher_email: item.teacher_email.split('@')[0],
         subjects_code: item.subjects_code?.toUpperCase(),
         subjects_name: item.subject_name,
+        chitiet: item.content,
         action: { modalRef, item, handleRemoveLesson },
       };
     });
