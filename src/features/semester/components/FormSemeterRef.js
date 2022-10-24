@@ -12,6 +12,11 @@ import './styles.css';
 
 const { RangePicker } = DatePicker;
 
+const MODE = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+};
+
 const FormSemeterRef = (props, ref) => {
   const [addSemester, { isLoading: addLoading }] = useAddSemesterMutation();
   const [updateSemester, { isLoading: updateLoading }] =
@@ -20,10 +25,6 @@ const FormSemeterRef = (props, ref) => {
   const [error, setError] = React.useState(null);
   const [title, setTitle] = React.useState('');
   const [form] = Form.useForm();
-  const MODE = {
-    ADD: 'ADD',
-    EDIT: 'EDIT',
-  };
   const [mode, setMode] = React.useState(MODE.ADD);
   useImperativeHandle(ref, () => ({
     show: (caseForm, data) => {

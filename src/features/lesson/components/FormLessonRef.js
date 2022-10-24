@@ -250,7 +250,7 @@ const FormLessonRef = (props, ref) => {
                   current &&
                   (current < startDate ||
                     current > endDate ||
-                    current <= Date.now().valueOf())
+                    current < moment())
                 );
               }}
               showSecond={false}
