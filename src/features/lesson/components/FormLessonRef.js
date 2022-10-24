@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle } from 'react';
-import { DatePicker, Form, Input, Modal, Radio } from 'antd';
+import { DatePicker, Form, Input, Modal, Radio, Select } from 'antd';
 import moment from 'moment';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ const MODE = {
 };
 
 const { RangePicker } = DatePicker;
+const { Option } = Select;
 
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -36,18 +37,14 @@ const FormLessonRef = (props, ref) => {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
         formLesson.setFieldsValue({
           classroomId: data.subjectId,
-          position_offline: data.default_offline_class_location || 'No data',
-          position_online: data.default_online_class_location || 'No data',
-          tutor_email: data.default_tutor_email || 'hiemdm@nu.de',
-          teacher_email: 'hieudmph69@fe.vn',
+          teacher_email: data.teacherEmail || 'No data',
         });
         setMode(MODE.ADD);
       } else {
         let newData = {
           teacher_email: data.teacher_email,
           classroomId: data.classroom_id,
-          position_offline: data.class_location_offline,
-          position_online: data.class_location_online,
+          class_location: data.class_location,
           type: data.type,
           tutor_email: data.tutor_email,
           date: [moment(data.start_time), moment(data.end_time)],
@@ -71,31 +68,16 @@ const FormLessonRef = (props, ref) => {
       teacher_email: values.teacher_email,
       classroom_id: +values.classroomId,
       type: +values.type,
+      class_location: values.class_location,
+      content: values.content,
       tutor_email: values.tutor_email,
       start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
       end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
     };
 
-    if (typeOfLesson) {
-      dataLesson = {
-        ...dataLesson,
-        class_location_offline: values.position_offline,
-      };
-      if (values.position_online) {
-        dataLesson = {
-          ...dataLesson,
-          class_location_online: values.position_online,
-        };
-      }
-    } else {
-      dataLesson = {
-        ...dataLesson,
-        class_location_online: values.position_online,
-      };
-    }
-
     switch (mode) {
       case MODE.ADD:
+        console.log(dataLesson);
         addLesson(dataLesson)
           .unwrap()
           .then((res) => {
@@ -125,8 +107,8 @@ const FormLessonRef = (props, ref) => {
     }
   };
 
-  const onChangeType = (e) => {
-    setTypeOfLesson(e.target.value);
+  const onChangeType = (values) => {
+    setTypeOfLesson(values);
   };
 
   useEffect(() => {
@@ -137,6 +119,7 @@ const FormLessonRef = (props, ref) => {
 
   return (
     <Modal
+      className="tw-w-3/5"
       forceRender
       title={title}
       open={visible}
@@ -164,13 +147,11 @@ const FormLessonRef = (props, ref) => {
         <Form
           form={formLesson}
           preserve={false}
-          labelCol={{ span: 7 }}
-          wrapperCol={{ span: 20 }}
           onFinish={onFinished}
           onChange={() => {
             setError(null);
           }}
-          layout="horizontal"
+          layout="vertical"
           initialValues={{
             type: 1,
           }}
@@ -179,182 +160,156 @@ const FormLessonRef = (props, ref) => {
             <Input hidden />
           </Form.Item>
 
-          <Form.Item
-            className="tw-hidden"
-            label="Lớp học:"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập lớp học',
-              },
-            ]}
-            name="classroomId"
-          >
-            <Input disabled />
+          <Form.Item className="tw-hidden" name="classroomId">
+            <Input />
           </Form.Item>
 
-          <Form.Item
-            className="tw-hidden"
-            label="Giảng viên"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập giảng viên',
-              },
-            ]}
-            name="teacher_email"
-          >
-            <Input disabled />
-          </Form.Item>
-
-          <Form.Item
-            label="Hình thức:"
-            name={'type'}
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập hình thức học',
-              },
-            ]}
-          >
-            <Radio.Group onChange={onChangeType}>
-              <Radio value={1}> Offline </Radio>
-              <Radio value={0}> Online </Radio>
-            </Radio.Group>
-          </Form.Item>
-
-          <Form.Item
-            label="Ngày:"
-            name={'date'}
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập thời gian',
-              },
-            ]}
-          >
-            <RangePicker
-              defaultPickerValue={
-                moment(semesterStartTime) >= moment()
-                  ? moment(semesterStartTime)
-                  : moment()
-              }
-              placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
-              showTime
-              allowClear
-              format={'DD/MM/YYYY HH:mm'}
-              disabledDate={(current) => {
-                const startDate = moment(semesterStartTime);
-                const endDate = moment(semesterEndTime);
-                return (
-                  current &&
-                  (current < startDate ||
-                    current > endDate ||
-                    current < moment())
-                );
-              }}
-              showSecond={false}
-              order={true}
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Sinh viên hỗ trợ:"
-            name="tutor_email"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập sinh viên hỗ trợ',
-              },
-              {
-                type: 'email',
-                message: 'Địa chỉ email không đúng định dạng',
-              },
-            ]}
-          >
-            <Input placeholder="chọn sinh viên hỗ trợ" />
-          </Form.Item>
-
-          {!typeOfLesson ? (
-            <>
-              <Form.Item
-                label="Link học online:"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui lòng nhập link học',
-                  },
-                  {
-                    pattern:
-                      // google meet regex pattern
-                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
-                      // zoom
-                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
-                      // skype
-                      /(skype:[a-z]+.*?|skype:.*)/g ||
-                      // msteams
-                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
-
-                    message: 'Link học online chưa đúng định dạng',
-                  },
-                ]}
-                name="position_online"
-                tooltip={{
-                  title:
-                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
-                  className: 'tw-text-xs',
+          <div className="tw-flex tw-items-center tw-justify-between">
+            <Form.Item
+              className="tw-w-[48%]"
+              label="Thời gian:"
+              name={'date'}
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập thời gian',
+                },
+              ]}
+            >
+              <RangePicker
+                className="tw-w-full"
+                defaultPickerValue={
+                  moment(semesterStartTime) >= moment()
+                    ? moment(semesterStartTime)
+                    : moment()
+                }
+                placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
+                showTime
+                allowClear
+                format={'DD/MM/YYYY HH:mm'}
+                disabledDate={(current) => {
+                  const startDate = moment(semesterStartTime);
+                  const endDate = moment(semesterEndTime);
+                  return (
+                    current &&
+                    (current < startDate ||
+                      current > endDate ||
+                      current < moment())
+                  );
                 }}
-              >
-                <Input placeholder={'Nhập link học online'} />
-              </Form.Item>
+                showSecond={false}
+                order={true}
+              />
+            </Form.Item>
 
-              <Form.Item className="tw-opacity-0"></Form.Item>
-            </>
-          ) : (
-            <>
-              <Form.Item
-                label="Link học online:"
-                rules={[
-                  {
-                    required: false,
-                  },
-                  {
-                    pattern:
-                      // google meet regex pattern
-                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
-                      // zoom
-                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
-                      // skype
-                      /(skype:[a-z]+.*?|skype:.*)/g ||
-                      // msteams
-                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
-                    message: 'Link học online chưa đúng định dạng',
-                  },
-                ]}
-                tooltip={{
-                  title:
-                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
-                  className: 'tw-text-xs',
-                }}
-                name="position_online"
-              >
-                <Input placeholder={'Nhập link học online'} />
-              </Form.Item>
+            <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">
+              <Input placeholder="Nội dung buổi học" />
+            </Form.Item>
+          </div>
 
+          <div className="tw-flex tw-items-center tw-justify-between">
+            <Form.Item
+              className="tw-w-[48%]"
+              label="Giảng viên"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập giảng viên',
+                },
+              ]}
+              name="teacher_email"
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              className="tw-w-[48%]"
+              label="Sinh viên hỗ trợ:"
+              name="tutor_email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập sinh viên hỗ trợ',
+                },
+                {
+                  type: 'email',
+                  message: 'Địa chỉ email không đúng định dạng',
+                },
+              ]}
+            >
+              <Input placeholder="Nhập sinh viên hỗ trợ" />
+            </Form.Item>
+          </div>
+
+          <div className="tw-flex tw-items-center tw-justify-between">
+            <Form.Item
+              className="tw-w-[48%]"
+              placeholder="Chọn hình thức học"
+              label="Hình thức:"
+              name={'type'}
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn hình thức học',
+                },
+              ]}
+            >
+              <Select onChange={onChangeType}>
+                <Option value={1}>Offline</Option>
+                <Option value={0}>Online</Option>
+              </Select>
+            </Form.Item>
+
+            {!typeOfLesson ? (
+              <>
+                <Form.Item
+                  className="tw-w-[48%]"
+                  label="Link học online:"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui lòng nhập link học',
+                    },
+                    {
+                      pattern:
+                        // google meet regex pattern
+                        /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
+                        // zoom
+                        /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
+                        // skype
+                        /(skype:[a-z]+.*?|skype:.*)/g ||
+                        // msteams
+                        /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
+
+                      message: 'Link học online chưa đúng định dạng',
+                    },
+                  ]}
+                  name="class_location"
+                  tooltip={{
+                    title:
+                      'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
+                    className: 'tw-text-xs',
+                  }}
+                >
+                  <Input placeholder={'Nhập link học online'} />
+                </Form.Item>
+              </>
+            ) : (
               <Form.Item
-                label="Vị trí lớp học"
+                className="tw-w-[48%]"
+                label="Vị trí lớp học: "
                 rules={[
                   {
                     required: true,
                     message: 'Vui lòng nhập vị trí lớp học',
                   },
                 ]}
-                name="position_offline"
+                name="class_location"
               >
                 <Input placeholder={'Nhập vị trí lớp học'} />
               </Form.Item>
-            </>
-          )}
+            )}
+          </div>
         </Form>
 
         <div>

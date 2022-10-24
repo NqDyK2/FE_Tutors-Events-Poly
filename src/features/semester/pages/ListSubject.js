@@ -6,7 +6,6 @@ import { FaEdit, FaReply } from 'react-icons/fa';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 import FormImportExcelRef from '../components/FormImportExcelRef';
-import ModalListSubject from './ModalListSubject';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
 import { useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
@@ -17,7 +16,8 @@ const SubjectPage = () => {
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
   const location = useLocation();
-  const { semesterStartTime, semesterEndTime, semesterId } = location.state;
+  const { semesterStartTime, semesterEndTime, semesterId } =
+    location.state || {};
 
   // table antd
   const columns = [
@@ -44,6 +44,7 @@ const SubjectPage = () => {
               semesterId: id,
               subjectId: record.id,
               subjectName: record.name,
+              teacherEmail: record.default_teacher_email,
               semesterStartTime,
               semesterEndTime,
             }}
