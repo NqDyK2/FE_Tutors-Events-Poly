@@ -1,6 +1,9 @@
 import { Cascader, Form, Input, Modal, Select } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { useAddClassroomMutation } from '../../../app/api/classroomApiSlice';
+import {
+  useAddClassroomMutation,
+  useUpdateClassroomMutation,
+} from '../../../app/api/classroomApiSlice';
 import { toast } from 'react-toastify';
 import { useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
 const { Option } = Select;
@@ -12,6 +15,8 @@ const MODE = {
 
 const FormClassroomRef = ({ semester_id }, ref) => {
   const [addClassroom, { isLoading: addLoading }] = useAddClassroomMutation();
+  const [updateClassroom, { isLoading: updateLoading }] =
+    useUpdateClassroomMutation();
   const { data: listSubject } = useGetAllSubjectQuery();
   // console.log(listSubject?.data?.data);
 
@@ -40,7 +45,10 @@ const FormClassroomRef = ({ semester_id }, ref) => {
       } else {
         setTitle('Sửa lớp học');
         setMode(MODE.EDIT);
-        form.setFieldsValue({});
+        form.setFieldsValue({
+          id: data.id,
+          default_teacher_email: data.default_teacher_email,
+        });
       }
     },
 
@@ -53,7 +61,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
   const onFinish = (values) => {
     const dataRequest = {
       ...values,
-      subject_id: values.subject_id.at(-1),
+      subject_id: values.subject_id?.at(-1),
     };
 
     switch (mode) {
@@ -70,9 +78,16 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           });
         break;
       case MODE.EDIT:
-        setTimeout(() => {
-          toast.success('Chưa call APi');
-        }, 1000);
+        updateClassroom(values)
+          .unwrap()
+          .then(() => {
+            setVisible(false);
+            form.resetFields();
+            toast.success('Sửa thành công');
+          })
+          .catch((err) => {
+            setError(err.data);
+          });
         break;
       default:
     }
@@ -86,7 +101,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
       destroyOnClose
       okText="Lưu"
       getContainer={false}
-      confirmLoading={addLoading}
+      confirmLoading={addLoading || updateLoading}
       onOk={() => {
         form.submit();
       }}
@@ -112,23 +127,35 @@ const FormClassroomRef = ({ semester_id }, ref) => {
         <Form.Item name="semester_id" className="tw-hidden">
           <Input />
         </Form.Item>
-        <Form.Item
-          name="subject_id"
-          label="Môn học"
-          rules={[{ required: true, message: 'Không được để trống' }]}
-        >
-          <Cascader placeholder="Chọn môn học" options={dataSubject} />
+
+        <Form.Item name="id" className="tw-hidden">
+          <Input />
         </Form.Item>
+
+        {mode === MODE.ADD && (
+          <Form.Item
+            name="subject_id"
+            label="Môn học"
+            rules={[{ required: true, message: 'Không được để trống' }]}
+          >
+            <Cascader placeholder="Chọn môn học" options={dataSubject} />
+          </Form.Item>
+        )}
         <Form.Item
+          label="Giảng viên:"
           name="default_teacher_email"
-          label="Giảng viên"
-          rules={[{ required: true, message: 'Không được để trống' }]}
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập sinh viên hỗ trợ',
+            },
+            {
+              type: 'email',
+              message: 'Địa chỉ email không đúng định dạng',
+            },
+          ]}
         >
-          <Select placeholder="Chọn giảng viên" allowClear>
-            <Option value="hieuthuongtin@fe.vn">Híu Thường Tín</Option>
-            <Option value="hieuheniken@fe.vn">Híu Heniken</Option>
-            <Option value="hieuiubaxa@fe.vn">Híu iu bà xã</Option>
-          </Select>
+          <Input placeholder="chọn giảng viên" />
         </Form.Item>
       </Form>
       <div>
