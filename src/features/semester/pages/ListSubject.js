@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { FaReply } from 'react-icons/fa';
+import { FaEdit, FaReply } from 'react-icons/fa';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 import FormImportExcelRef from '../components/FormImportExcelRef';
@@ -99,7 +99,11 @@ const SubjectPage = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <ModalListSubject />
+          <FaEdit
+            size={'18px'}
+            className="tw-cursor-pointer"
+            onClick={() => modalClassroomRef.current.show('EDIT', record)}
+          />
         </Space>
       ),
     },
