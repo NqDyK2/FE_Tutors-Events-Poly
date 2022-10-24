@@ -50,6 +50,7 @@ const FormLessonRef = (props, ref) => {
           date: [moment(data.start_time), moment(data.end_time)],
           teacher: data.teacher,
           lessonId: data.id,
+          content: data.content,
         };
         formLesson.setFieldsValue(newData);
         setTypeOfLesson(data.type);
