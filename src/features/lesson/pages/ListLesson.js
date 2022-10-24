@@ -33,7 +33,7 @@ const columns = [
     title: 'Hình thức',
     dataIndex: 'hinhthuc',
     key: 'hinhthuc',
-    width: '10%',
+    width: '8%',
   },
   {
     title: 'Mã môn',
@@ -45,7 +45,7 @@ const columns = [
     title: 'Môn',
     dataIndex: 'subjects_name',
     key: 'subjects_name',
-    width: '15%',
+    width: '10%',
   },
   {
     title: 'Thời gian',
@@ -99,13 +99,13 @@ const columns = [
           onClick={() => {
             record.action.modalRef.current.show('EDIT', record.action.item);
           }}
-          className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
+          className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
         >
           <EditOutlined />
         </Button>
         <ConfirmPopup
           content={
-            <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
+            <Button className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
               <DeleteOutlined />
             </Button>
           }
@@ -140,8 +140,8 @@ const ListLesson = () => {
       .then((_) => {
         toast.success('Xóa buổi học thành công.');
       })
-      .catch((e) => {
-        toast.error(`${e}`);
+      .catch(() => {
+        toast.error(`Xóa không thành công.`);
       });
   };
 
@@ -159,9 +159,8 @@ const ListLesson = () => {
         id: item.id,
         ngay: timeFormat(item.start_time.split(' ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.split(' ')[1]} - ${
-          item.end_time.split(' ')[1]
-        }`,
+        thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]
+          }`,
         phonghoc: item.class_location,
         tutor_email: item.tutor_email.split('@')[0],
         teacher_email: item.teacher_email.split('@')[0],
@@ -186,7 +185,7 @@ const ListLesson = () => {
               onClick={() => modalRef.current.show('ADD', location.state)}
               className="tw-flex tw-items-center tw-justify-center tw-border-0 tw-bg-green-400 tw-px-2 tw-shadow-sm tw-shadow-green-400 hover:tw-bg-green-500 hover:tw-text-white dark:tw-bg-transparent dark:tw-shadow-none dark:hover:tw-text-green-400"
             >
-              <PlusOutlined className="-tw-mr-1" /> Tạo mới
+              <PlusOutlined className="-tw-mr-1" /> Thêm buổi học
             </Button>
           </span>
           <Link
