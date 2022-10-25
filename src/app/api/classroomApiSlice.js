@@ -6,7 +6,7 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
       query: (id) => `semester/${id}/classrooms`,
       providesTags: ['Classroom'],
     }),
-    deleteClassroom: builder.query({
+    deleteClassroom: builder.mutation({
       query: (id) => ({
         url: `classroom/${id}/delete`,
         method: 'DELETE',
@@ -35,6 +35,6 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
 export const {
   useAddClassroomMutation,
   useGetAllClassInSemesterQuery,
-  useDeleteClassroomQuery,
+  useDeleteClassroomMutation,
   useUpdateClassroomMutation,
 } = lessonApiSlice;
