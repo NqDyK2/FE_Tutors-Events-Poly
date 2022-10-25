@@ -8,21 +8,24 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
-import { useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
+import { useDeleteClassroomQuery, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
+import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
+import { AiFillDelete } from 'react-icons/ai';
 
 const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
+  const { removeClassroom } = useDeleteClassroomQuery()
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
+  console.log(modalClassroomRef);
   const location = useLocation();
-  const { semesterStartTime, semesterEndTime, semesterId } =
-    location.state || {};
+  const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
 
   // table antd
   const columns = [
     {
-      title: '#',
+      title: 'STT',
       dataIndex: 'key',
       key: 'key',
       width: '5%',
@@ -58,6 +61,7 @@ const SubjectPage = () => {
       title: 'Mã môn',
       dataIndex: 'subject_code',
       key: 'subject_code',
+      width: '10%',
       render: (subject_code, record) => (
         <div className="tw-uppercase">{subject_code}</div>
       ),
@@ -66,6 +70,7 @@ const SubjectPage = () => {
       title: 'Giảng viên',
       dataIndex: 'default_teacher_email',
       key: 'default_teacher_email',
+      width: '20%'
     },
     {
       title: 'Buổi học',
@@ -99,13 +104,26 @@ const SubjectPage = () => {
       title: 'Thao tác',
       key: 'action',
       render: (_, record) => (
-        <Space size="middle">
-          <FaEdit
-            size={'18px'}
-            className="tw-cursor-pointer"
-            onClick={() => modalClassroomRef.current.show('EDIT', record)}
+        <div className='tw-flex'>
+          <Tooltip title="Thay đổi giảng viên phụ trách" placement='top' color={'#FF6D28'}>
+            <Space size="middle" className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
+              <FaEdit
+                className="tw-cursor-pointer dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent"
+                onClick={() => modalClassroomRef.current.show('EDIT', record)}
+              />
+            </Space>
+          </Tooltip>
+          <ConfirmPopup
+            content={
+              <Button className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
+                <AiFillDelete />
+              </Button>
+            }
+            title={`Xác nhận xóa lớp học này?`}
+            onConfirm={() => { }}
+            placement="topRight"
           />
-        </Space>
+        </div>
       ),
     },
   ];
@@ -146,7 +164,7 @@ const SubjectPage = () => {
             type="text"
             onClick={() => modalImportExcelRef.current.show()}
           >
-            Import from excel
+            Thêm sinh viên 1/3 block
           </Button>
           <Link
             to={`/manage`}

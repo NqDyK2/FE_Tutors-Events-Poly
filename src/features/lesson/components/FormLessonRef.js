@@ -203,26 +203,6 @@ const FormLessonRef = (props, ref) => {
               />
             </Form.Item>
 
-            <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">
-              <Input placeholder="Nội dung buổi học" />
-            </Form.Item>
-          </div>
-
-          <div className="tw-flex tw-items-center tw-justify-between">
-            <Form.Item
-              className="tw-w-[48%]"
-              label="Giảng viên"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng nhập giảng viên',
-                },
-              ]}
-              name="teacher_email"
-            >
-              <Input />
-            </Form.Item>
-
             <Form.Item
               className="tw-w-[48%]"
               label="Sinh viên hỗ trợ:"
@@ -240,9 +220,24 @@ const FormLessonRef = (props, ref) => {
             >
               <Input placeholder="Nhập sinh viên hỗ trợ" />
             </Form.Item>
-          </div>
 
+          </div>
           <div className="tw-flex tw-items-center tw-justify-between">
+            {/* <Form.Item className="tw-w-[48%]"
+              placeholder="Chọn hình thức học"
+              label="Hình thức:"
+              name={'type'}
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn hình thức học',
+                },
+              ]}>
+              <Radio.Group onChange={onChangeType}>
+                <Radio value={1}> Offline </Radio>
+                <Radio value={2}> Online </Radio>
+              </Radio.Group>
+            </Form.Item> */}
             <Form.Item
               className="tw-w-[48%]"
               placeholder="Chọn hình thức học"
@@ -311,6 +306,28 @@ const FormLessonRef = (props, ref) => {
               </Form.Item>
             )}
           </div>
+
+          <div className="tw-flex tw-items-center tw-justify-between">
+            <Form.Item
+              className="tw-w-[48%]"
+              label="Giảng viên"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập giảng viên',
+                },
+              ]}
+              name="teacher_email"
+            >
+              <Input placeholder="Nhập giảng viên phụ trách môn" disabled />
+            </Form.Item>
+
+            <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">
+              <Input placeholder="Nội dung buổi học" />
+            </Form.Item>
+          </div>
+
+
         </Form>
 
         <div>

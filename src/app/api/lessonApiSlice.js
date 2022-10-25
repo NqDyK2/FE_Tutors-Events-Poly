@@ -33,7 +33,7 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
     }),
     delLesson: builder.mutation({
       query: (id) => ({
-        url: `lesson/${id}/destroy`,
+        url: `lesson/${id}/delete`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Lesson'],
