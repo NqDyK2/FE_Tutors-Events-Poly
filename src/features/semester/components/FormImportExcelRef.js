@@ -50,7 +50,7 @@ const FormImportExcelRef = (props, ref) => {
     const allSheet = [BMCNTT];
 
     const rowData = allSheet.map((sheet) => {
-      const json =  XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
+      const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
     });
 
@@ -64,7 +64,6 @@ const FormImportExcelRef = (props, ref) => {
         student_name: item['Họ tên sinh viên'],
         student_email: item['Email'],
         student_phone: item['SĐT'],
-        major: item['Bộ môn'],
         subject: item['Môn'],
         reason: item['Vấn đề gặp phải chi tiết'],
       };
@@ -117,7 +116,7 @@ const FormImportExcelRef = (props, ref) => {
     <Modal
       title={'Import danh sách sinh viên'}
       open={visible}
-      okType='default'
+      okType="default"
       onOk={() => {
         form.submit();
       }}
@@ -126,7 +125,7 @@ const FormImportExcelRef = (props, ref) => {
         setError(null);
         form.resetFields();
       }}
-      okText='Lưu'
+      okText="Lưu"
       confirmLoading={isImporting}
       destroyOnClose
       okButtonProps={{
@@ -142,20 +141,22 @@ const FormImportExcelRef = (props, ref) => {
         <Form
           form={form}
           preserve={false}
-          name='importForm'
-          layout='vertical'
+          name="importForm"
+          layout="vertical"
           onFinish={onFinish}
           onChange={() => {
             setError(null);
           }}
         >
-          <div className='
+          <div
+            className="
            tw-relative
-          '>
+          "
+          >
             <Form.Item
-              name='file'
-              label='Chọn file excel'
-              valuePropName='filelist'
+              name="file"
+              label="Chọn file excel"
+              valuePropName="filelist"
               rules={[
                 { required: true, message: 'Không được trống' },
                 () => ({
@@ -174,17 +175,17 @@ const FormImportExcelRef = (props, ref) => {
               ]}
             >
               <Input
-                type='file'
+                type="file"
                 onChange={handleFile}
-                accept='.xlsx, .xls, .csv'
-                className=' tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none'
+                accept=".xlsx, .xls, .csv"
+                className=" tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none"
               />
             </Form.Item>
             {file && !fileLoading && (
               <Button
-                type='text'
+                type="text"
                 icon={<CloseCircleFilled />}
-                className='tw-absolute tw-top-[30px] tw-right-0 tw-mt-1 tw-rounded-full tw-border-none  tw-text-slate-500 tw-outline-none hover:tw-bg-transparent hover:tw-text-slate-600 '
+                className="tw-absolute tw-top-[30px] tw-right-0 tw-mt-1 tw-rounded-full tw-border-none  tw-text-slate-500 tw-outline-none hover:tw-bg-transparent hover:tw-text-slate-600 "
                 onClick={clearForm}
               ></Button>
             )}
@@ -193,12 +194,12 @@ const FormImportExcelRef = (props, ref) => {
 
         <div>
           {error && (
-            <div className='tw-text-red-500'>
+            <div className="tw-text-red-500">
               {error?.response?.data?.message || error?.message}
             </div>
           )}
           {fileLoading && (
-            <div className='tw-flex tw-items-center tw-justify-center tw-text-blue-300'>
+            <div className="tw-flex tw-items-center tw-justify-center tw-text-blue-300">
               Đang xử lý file...
               <Spin />
             </div>

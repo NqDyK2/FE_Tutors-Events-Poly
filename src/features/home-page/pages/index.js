@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import './styles.css';
 import TutorEventCalendar from '../components/TutorEventCalendar';
+import moment from 'moment/moment';
 
 const HomePage = () => {
   const eventsData = [
@@ -39,7 +40,7 @@ const HomePage = () => {
     },
     {
       title: 'event 1',
-      date: '2022-09-16',
+      date: moment.now(),
       description: 'Đấm bỏ mẹ thằng Đàm Minh Hiếu',
     },
   ];
