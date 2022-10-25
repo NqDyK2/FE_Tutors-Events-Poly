@@ -190,6 +190,11 @@ const ListLesson = () => {
           </span>
           <Link
             to={`/manage/sem/${semesterId}`}
+            state={{
+              semesterStartTime,
+              semesterEndTime,
+              semesterId,
+            }}
             className="tw-flex tw-items-center hover:tw-text-blue-600"
           >
             <FaReply className="tw-mr-1" /> Trở lại

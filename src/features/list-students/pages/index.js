@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input, Table } from 'antd';
+import { Button, Input, Table } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
@@ -41,12 +41,12 @@ const columns = [
   },
   {
     title: 'Trạng thái',
-    dataIndex:'stt',
-    key:'stt',
-    width:'20%',
-    render:(_,record) => (
+    dataIndex: 'stt',
+    key: 'stt',
+    width: '20%',
+    render: (_, record) => (
       <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
-         Mời lại.
+        Mời lại.
       </Button>
     )
   }
@@ -70,14 +70,14 @@ const ListStudent = () => {
     studentCode: item.code,
     studentMail: item.email,
     studentName: item.name,
-    stt:'Đã tham gia',
+    stt: 'Đã tham gia',
   }));
 
   return (
     <div className='tw-w-full'>
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
         <span className='tw-text-[15px] dark:tw-text-white'>Danh sách sinh viên</span>
-        
+
         <Link
           to={`/manage/sem/${semester_id}`}
           className='tw-flex tw-items-center hover:tw-text-blue-600'
@@ -88,7 +88,7 @@ const ListStudent = () => {
 
       {isLoading && (
         <div className='tw-mt-[110px] tw-flex tw-justify-center'>
-          <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>}/>
+          <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
         </div>
       )}
 

@@ -21,6 +21,8 @@ const SubjectPage = () => {
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
 
+  console.log(location.state);
+
   // table antd
   const columns = [
     {
