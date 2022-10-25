@@ -36,7 +36,7 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
     }),
     updateSemester: builder.mutation({
       query: ({ id, ...rest }) => ({
-        url: `semsester/${id}/update`,
+        url: `semester/${id}/update`,
         method: 'PUT',
         body: rest,
       }),

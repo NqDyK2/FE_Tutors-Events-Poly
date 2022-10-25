@@ -15,10 +15,9 @@ import { AiFillDelete } from 'react-icons/ai';
 const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
-  const { removeClassroom } = useDeleteClassroomQuery()
+  // const { removeClassroom } = useDeleteClassroomQuery()
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
-  console.log(modalClassroomRef);
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
 
@@ -104,7 +103,7 @@ const SubjectPage = () => {
       title: 'Thao tác',
       key: 'action',
       render: (_, record) => (
-        <div className='tw-flex'>
+        <div className='tw-flex tw-items-center'>
           <Tooltip title="Thay đổi giảng viên phụ trách" placement='top' color={'#FF6D28'}>
             <Space size="middle" className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
               <FaEdit
@@ -114,8 +113,9 @@ const SubjectPage = () => {
             </Space>
           </Tooltip>
           <ConfirmPopup
+            className="tw-m-0"
             content={
-              <Button className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
+              <Button className="dark:tw-text-white tw-pl-3 tw-border-none tw-bg-transparent hover:tw-bg-transparent">
                 <AiFillDelete />
               </Button>
             }
