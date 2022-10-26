@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   useDelLessonMutation,
   useGetAllLessonQuery,
@@ -122,10 +122,11 @@ const columns = [
 
 const ListLesson = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { id: subjectId } = useParams();
 
-  const { semesterId, subjectName, semesterStartTime, semesterEndTime } =
+  const { subjectName, semesterStartTime, semesterEndTime } =
     location.state || {};
 
   const modalRef = React.useRef();
@@ -188,17 +189,12 @@ const ListLesson = () => {
               <PlusOutlined className="-tw-mr-1" /> Thêm buổi học
             </Button>
           </span>
-          <Link
-            to={`/manage/sem/${semesterId}`}
-            state={{
-              semesterStartTime,
-              semesterEndTime,
-              semesterId,
-            }}
-            className="tw-flex tw-items-center hover:tw-text-blue-600"
+          <button
+            onClick={() => navigate(-1)}
+            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
           >
             <FaReply className="tw-mr-1" /> Trở lại
-          </Link>
+          </button>
         </div>
       </div>
 
