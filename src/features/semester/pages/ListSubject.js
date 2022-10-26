@@ -1,20 +1,21 @@
 import React, { useRef } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FaEdit, FaReply } from 'react-icons/fa';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
-import { useDeleteClassroomMutation, useDeleteClassroomQuery, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
+import { useDeleteClassroomMutation, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { AiFillDelete } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 
 const SubjectPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
   const [removeClassroom] = useDeleteClassroomMutation()
   const modalImportExcelRef = useRef();
@@ -188,12 +189,12 @@ const SubjectPage = () => {
           >
             Thêm sinh viên 1/3 block
           </Button>
-          <Link
-            to={`/manage`}
-            className="tw-flex tw-items-center hover:tw-text-blue-600"
+          <button
+            onClick={() => navigate(-1)}
+            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
           >
             <FaReply className="tw-mr-1" /> Trở lại
-          </Link>
+          </button>
         </div>
       </div>
 

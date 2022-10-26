@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Input, Table } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 import Spinner from '../../../components/Spinner';
 
@@ -54,6 +54,7 @@ const columns = [
 
 const ListStudent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { subjectId: id, semesterId: semester_id } = location.state || [];
 
@@ -78,12 +79,12 @@ const ListStudent = () => {
       <div className='tw-flex tw-justify-between tw-border-b-2 tw-pb-1'>
         <span className='tw-text-[15px] dark:tw-text-white'>Danh sách sinh viên</span>
 
-        <Link
-          to={`/manage/sem/${semester_id}`}
-          className='tw-flex tw-items-center hover:tw-text-blue-600'
+        <button
+          onClick={() => navigate(-1)}
+          className='tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent'
         >
           <FaReply className='tw-mr-1' /> Trở lại
-        </Link>
+        </button>
       </div>
 
       {isLoading && (
