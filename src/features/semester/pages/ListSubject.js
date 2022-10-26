@@ -8,19 +8,27 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
-import { useDeleteClassroomQuery, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
+import { useDeleteClassroomMutation, useDeleteClassroomQuery, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { AiFillDelete } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 
 const SubjectPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
-  // const { removeClassroom } = useDeleteClassroomQuery()
+  const [removeClassroom] = useDeleteClassroomMutation()
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
 
+  const handleRemoveClassroom = (id) => {
+    removeClassroom(id).unwrap().then((_) => {
+      toast.success("Xóa lớp học thành công!!");
+    }).catch(() => {
+      toast.error('Xóa không thành công.')
+    })
+  }
   // table antd
   const columns = [
     {
@@ -75,11 +83,13 @@ const SubjectPage = () => {
       title: 'Buổi học',
       dataIndex: 'lessons_count',
       key: 'lessons_count',
+      width: '10%',
     },
     {
       title: 'Sinh viên',
       dataIndex: 'class_students_count',
       key: 'class_students_count',
+      width: '10%',
       render: (class_students_count, record) => (
         <Tooltip
           title="Xem danh sách sinh viên"
@@ -100,6 +110,17 @@ const SubjectPage = () => {
       ),
     },
     {
+      title: 'Phản hồi/Góp ý',
+      dataIndex: 'feedback',
+      key: 'feedback',
+      width: '15%',
+      render: (_, record) => (
+        <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
+          <div>15</div>
+        </Tooltip>
+      )
+    },
+    {
       title: 'Thao tác',
       key: 'action',
       render: (_, record) => (
@@ -113,6 +134,7 @@ const SubjectPage = () => {
             </Space>
           </Tooltip>
           <ConfirmPopup
+            key={record.id}
             className="tw-m-0"
             content={
               <Button className="dark:tw-text-white tw-pl-3 tw-border-none tw-bg-transparent hover:tw-bg-transparent">
@@ -120,7 +142,7 @@ const SubjectPage = () => {
               </Button>
             }
             title={`Xác nhận xóa lớp học này?`}
-            onConfirm={() => { }}
+            onConfirm={() => handleRemoveClassroom(record.id)}
             placement="topRight"
           />
         </div>
