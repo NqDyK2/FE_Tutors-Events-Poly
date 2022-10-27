@@ -1,18 +1,19 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Tooltip } from 'antd';
 import { Button } from 'antd';
 
 import { Switch } from 'antd';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import {
-  useGetAttendanceListStudentQuery,
+  useGetAttendanceClassLessonQuery,
   useUpdateAttendanceStudentStatusMutation,
 } from '../../../../app/api/attendanceApiSlice';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './styles.css';
 import Spinner from '../../../../components/Spinner';
-const AttendanceStudent = () => {
+import moment from 'moment';
+const AttendanceClassLessons = () => {
   const location = useLocation();
   const { subjectCode } = location.state;
   const { classId } = useParams();
@@ -21,7 +22,7 @@ const AttendanceStudent = () => {
     data: listStudent,
     isLoading,
     error,
-  } = useGetAttendanceListStudentQuery(classId);
+  } = useGetAttendanceClassLessonQuery(classId);
   const [
     updateStudentStatus,
     {
@@ -37,55 +38,134 @@ const AttendanceStudent = () => {
       key: 'stt',
     },
     {
-      title: 'Mã sinh viên',
-      dataIndex: 'student_code',
-      key: 'student_code',
+      title: 'Thời gian',
+      dataIndex: 'lessonTime',
+      key: 'lessonTime',
+      width: '10%',
+      // render: (text) => (
+      //   // <p className='tw-text-center'>
+      //   //   {text}
+      //   // </p>
+      // )
     },
     {
-      title: 'Tên sinh viên',
-      dataIndex: 'student_name',
-      key: 'student_name',
+      title: 'Lớp học',
+      dataIndex: 'classLocation',
+      key: 'classLocation',
     },
     {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status, record) => (
-        <Switch
-          key={record.student_code}
-          className='tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[80px]'
-          checkedChildren='Có mặt'
-          unCheckedChildren='Vắng'
-          defaultChecked={status}
-          loading={isUpdateLoading}
-          onChange={(value) => handleSwitch(value, record)}
-        />
-      ),
+      title: 'Hình thức',
+      dataIndex: 'lessonType',
+      key: 'lessonType',
+      render: (text) => {
+        return text === 0 ? 'Online' : 'Offline';
+      },
     },
     {
-      title: 'Chú thích',
-      dataIndex: 'note',
-      responsive: ['md'],
-      key: 'note',
+      title: 'Điểm danh',
+      dataIndex: 'attendanceStatus',
+      key: 'attendanceStatus',
+      width: '10%',
+    },
+    {
+      title: '',
+      dataIndex: 'content',
+      key: 'content',
       render: (_, record) => (
-        <input
-          key={record.student_code}
-          type='text'
-          className=' tw-max-h-[30px] tw-w-2/3 tw-rounded-[2px] tw-border tw-border-[#DEE2E6] tw-px-1'
-        />
+        <Tooltip title={
+          <div className=''>
+            Nội dung: {record.content}
+          </div>
+
+        }
+          placement="topLeft"
+        >
+          <div className='tw-cursor-pointer tw-text-sky-400 tw-font-medium'>
+            Thông tin
+          </div>
+        </Tooltip>
+      )
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (_, record) => (
+        renderAttendanceStatus(record)
       ),
     },
+
   ];
   const data = listStudent?.map((item, index) => {
     return {
       stt: index + 1,
       id: item.id,
-      student_code: item.user_code,
+      lessonTime: `${moment(item.start_time).format('DD/MM/YYYY')}
+        ${moment(item.start_time).format('HH:mm')} - ${moment(
+        item.end_time
+      ).format('HH:mm')}`,
+      startTime: item.start_time,
+      endTime: item.end_time,
+      subjectCode: item.subjects_code,
+      classLocation: item.class_location,
+      lessonType: item.type,
+      attended: item.attended,
+      attendanceStatus: `${item.attended_count}/${item.total_student}`,
       student_name: item.user_name,
       status: item.status,
-      note: '',
+      note: item.note,
+      content: item.content,
     };
   });
+
+  const renderAttendanceStatus = (record) => {
+    const currentTime = moment().format('YYYY-MM-DD HH:mm');
+    if (currentTime < record?.endTime && record?.attended === 0) {
+      return (
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] hover:tw-bg-emerald-600 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+          <Link
+            to={`/diem-danh/buoi-hoc/${record.id}`}
+            state={{
+              subjectCode: record.subjectCode,
+
+            }}
+          >
+            Điểm danh
+          </Link>
+        </Button>
+      );
+    }
+    else if (currentTime < record?.endTime && record?.attended === 1) {
+      return (
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+          <Link
+            to={`/diem-danh/buoi-hoc/${record.id}`}
+            state={{
+              subjectCode: record.subjectCode,
+
+            }}
+          >
+            Chỉnh sửa
+          </Link>
+        </Button>
+      );
+    }
+    else if (currentTime > record?.endTime) {
+      return (
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-orange-300 hover:tw-bg-orange-400 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+          <Link
+            to={`/diem-danh/buoi-hoc/${record.id}`}
+            state={{
+              subjectCode: record.subjectCode,
+
+            }}
+          >
+            Xem điểm danh
+          </Link>
+        </Button>
+      );
+
+    }
+  };
 
   const handleSwitch = (value, record) => {
     const newStudentsStatus = studentsStatus.map((item) => {
@@ -158,11 +238,12 @@ const AttendanceStudent = () => {
               pagination={false}
               columns={columns}
               dataSource={data}
-              rowKey='student_code'
+              tableLayout='auto'
+              rowKey='id'
               className='attendance-table'
               scroll={{ y: 500 }}
             />
-            <textarea
+            {/* <textarea
               className='tw-mt-[15px] tw-w-full tw-rounded-[5px] tw-border tw-pt-[5px] '
               placeholder='Ghi chú về buổi tutors'
               name=''
@@ -176,7 +257,7 @@ const AttendanceStudent = () => {
               onClick={() => handleUpdateStatus(studentsStatus, classId)}
             >
               Lưu điểm danh
-            </Button>
+            </Button> */}
           </div>
         </>
       )}
@@ -184,4 +265,4 @@ const AttendanceStudent = () => {
   );
 };
 
-export default AttendanceStudent;
+export default AttendanceClassLessons;
