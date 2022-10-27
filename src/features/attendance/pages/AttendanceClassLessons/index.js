@@ -2,14 +2,10 @@ import React from 'react';
 import { Table, Tooltip } from 'antd';
 import { Button } from 'antd';
 
-import { Switch } from 'antd';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   useGetAttendanceClassLessonQuery,
-  useUpdateAttendanceStudentStatusMutation,
 } from '../../../../app/api/attendanceApiSlice';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import './styles.css';
 import Spinner from '../../../../components/Spinner';
 import moment from 'moment';

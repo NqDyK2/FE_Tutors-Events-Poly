@@ -12,12 +12,14 @@ const AttendanceStudentList = () => {
   const { lessonId } = useParams();
   const [studentsStatus, setStudentsStatus] = React.useState([]);
   const currentTime = moment().format('YYYY-MM-DD HH:mm');
+
   const {
     data,
     isLoading,
     error,
   } = useGetAttendanceLessonListStudentQuery(lessonId);
-
+  const isDisabledAttendance = currentTime > moment(data?.lesson?.end_time).format('YYYY-MM-DD HH:mm')
+    && data?.lesson?.attended === 1
   const [updateStatusAtendance,
     {
       isLoading: isUpdateLoading,
@@ -58,6 +60,7 @@ const AttendanceStudentList = () => {
           checkedChildren='Có mặt'
           unCheckedChildren='Vắng mặt'
           defaultChecked={status}
+          disabled={isDisabledAttendance}
           loading={isUpdateLoading}
           onChange={(value) => handleSwitch(value, record)}
         />
