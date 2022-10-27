@@ -30,6 +30,9 @@ const AttendanceClassLessons = () => {
       dataIndex: 'lessonTime',
       key: 'lessonTime',
       width: '10%',
+      render: (text) => {
+        return <span dangerouslySetInnerHTML={{ __html: text }}></span>
+      }
 
     },
     {
@@ -92,7 +95,7 @@ const AttendanceClassLessons = () => {
     return {
       stt: index + 1,
       id: item.id,
-      lessonTime: `${moment(item.start_time).format('DD/MM/YYYY')}
+      lessonTime: `${moment(item.start_time).format('DD/MM/YYYY')}<br>
         ${moment(item.start_time).format('HH:mm')} - ${moment(
         item.end_time
       ).format('HH:mm')}`,
@@ -113,7 +116,7 @@ const AttendanceClassLessons = () => {
 
   const renderAttendanceStatus = (record) => {
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
-    if (currentTime < record?.endTime && record?.attended === 0) {
+    if (currentTime > record?.startTime && currentTime < record?.endTime && record?.attended === 0) {
       return (
         <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] hover:tw-bg-emerald-600 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
@@ -128,7 +131,7 @@ const AttendanceClassLessons = () => {
         </Button>
       );
     }
-    else if (currentTime < record?.endTime && record?.attended === 1) {
+    else if (currentTime > record?.startTime && currentTime < record?.endTime && record?.attended === 1) {
       return (
         <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-blue-400 hover:tw-bg-blue-500 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
@@ -157,16 +160,15 @@ const AttendanceClassLessons = () => {
           </Link>
         </Button>
       );
-
+    }
+    else if (currentTime < record?.startTime) {
+      return (
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-orange-300 hover:tw-bg-orange-400 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+          Chưa đến giờ
+        </Button>
+      );
     }
   };
-
-
-
-
-
-
-
 
   return (
     <div className='tw-w-full'>
