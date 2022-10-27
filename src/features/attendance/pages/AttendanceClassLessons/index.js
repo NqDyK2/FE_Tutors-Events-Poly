@@ -17,20 +17,12 @@ const AttendanceClassLessons = () => {
   const location = useLocation();
   const { subjectCode } = location.state;
   const { classId } = useParams();
-  const [studentsStatus, setStudentsStatus] = React.useState([]);
   const {
     data: listStudent,
     isLoading,
     error,
   } = useGetAttendanceClassLessonQuery(classId);
-  const [
-    updateStudentStatus,
-    {
-      isLoading: isUpdateLoading,
-      error: updateError,
-      isSuccess: updateSuccess,
-    },
-  ] = useUpdateAttendanceStudentStatusMutation();
+
   const columns = [
     {
       title: '#',
@@ -167,50 +159,12 @@ const AttendanceClassLessons = () => {
     }
   };
 
-  const handleSwitch = (value, record) => {
-    const newStudentsStatus = studentsStatus.map((item) => {
-      if (item.id === record.id) {
-        return {
-          ...item,
-          status: value ? 1 : 0,
-        };
-      }
-      return item;
-    });
-    setStudentsStatus(newStudentsStatus);
-  };
 
-  const handleUpdateStatus = async (studentsStatus, classId) => {
-    await updateStudentStatus({
-      data: {
-        data: studentsStatus,
-      },
-      classId: parseInt(classId),
-    });
-  };
 
-  useEffect(() => {
-    if (updateSuccess) {
-      toast.success('Đã lưu điểm danh', {
-        position: 'top-right',
-        autoClose: 2000,
-      });
-    }
-    if (updateError) {
-      toast.error('Đã có lỗi xảy ra');
-    }
-  }, [updateSuccess, updateError]);
 
-  useEffect(() => {
-    setStudentsStatus(
-      listStudent?.map((item, index) => {
-        return {
-          id: item.id,
-          status: item.status,
-        };
-      })
-    );
-  }, [listStudent]);
+
+
+
 
   return (
     <div className='tw-w-full'>
@@ -243,21 +197,7 @@ const AttendanceClassLessons = () => {
               className='attendance-table'
               scroll={{ y: 500 }}
             />
-            {/* <textarea
-              className='tw-mt-[15px] tw-w-full tw-rounded-[5px] tw-border tw-pt-[5px] '
-              placeholder='Ghi chú về buổi tutors'
-              name=''
-              rows='3'
-            />
-            <Button
-              type='primary'
-              loading={isUpdateLoading}
-              disabled={listStudent?.data?.length === 0}
-              className='tw-mt-[10px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-bg-[#0DB27F]'
-              onClick={() => handleUpdateStatus(studentsStatus, classId)}
-            >
-              Lưu điểm danh
-            </Button> */}
+
           </div>
         </>
       )}
