@@ -30,11 +30,7 @@ const AttendanceClassLessons = () => {
       dataIndex: 'lessonTime',
       key: 'lessonTime',
       width: '10%',
-      // render: (text) => (
-      //   // <p className='tw-text-center'>
-      //   //   {text}
-      //   // </p>
-      // )
+
     },
     {
       title: 'Lớp học',
@@ -61,14 +57,23 @@ const AttendanceClassLessons = () => {
       key: 'content',
       render: (_, record) => (
         <Tooltip title={
-          <div className=''>
-            Nội dung: {record.content}
+          <div className='tw-flex tw-flex-col'>
+            <div>
+              Nội dung: {record.content}
+            </div>
+            <div>
+
+              Tutor:
+              <a className='tw-text-white tw-ml-2' href={`mailto:${record.tutorEmail}`}>{record.tutorEmail}</a>
+            </div>
           </div>
 
         }
           placement="topLeft"
+          color='#0DB27F'
+          trigger={'click'}
         >
-          <div className='tw-cursor-pointer tw-text-sky-400 tw-font-medium'>
+          <div className='tw-cursor-pointer tw-text-emerald-400 tw-font-medium'>
             Thông tin
           </div>
         </Tooltip>
@@ -102,6 +107,7 @@ const AttendanceClassLessons = () => {
       status: item.status,
       note: item.note,
       content: item.content,
+      tutorEmail: item.tutor_email,
     };
   });
 
@@ -124,7 +130,7 @@ const AttendanceClassLessons = () => {
     }
     else if (currentTime < record?.endTime && record?.attended === 1) {
       return (
-        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-blue-400 hover:tw-bg-blue-500 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
             to={`/diem-danh/buoi-hoc/${record.id}`}
             state={{
