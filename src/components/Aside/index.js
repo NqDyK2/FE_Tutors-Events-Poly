@@ -137,6 +137,20 @@ const AppAside = () => {
       '/manage',
       <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
+
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+      >
+        Chuyên ngành - Môn học
+      </div>,
+      '/manage/major',
+      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
+
     getItem(
       <div
         className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
