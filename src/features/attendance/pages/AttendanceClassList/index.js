@@ -1,35 +1,31 @@
 import React from 'react';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Button, Result, Table } from 'antd';
-import { useGetAttendanceListClassQuery, useGetAttendanceListStudentQuery } from '../../../../app/api/attendanceApiSlice';
+import { Button, Table } from 'antd';
+import { useGetAttendanceListClassQuery, } from '../../../../app/api/attendanceApiSlice';
 import Spinner from '../../../../components/Spinner';
 
 const columns = [
+
   {
-    title: 'Ngày',
-    dataIndex: 'day',
-    key: 'day',
-  },
-  {
-    title: 'Lớp',
-    dataIndex: 'class',
-    key: 'class',
-  },
-  {
-    title: 'Tên môn',
+    title: 'Môn học',
     dataIndex: 'subName',
     key: 'subName',
   },
+
   {
     title: 'Mã môn',
     dataIndex: 'subCode',
     key: 'subCode',
   },
   {
-    title: 'Thời gian',
-    dataIndex: 'cahoc',
-    key: 'cahoc',
+    title: 'Buổi học',
+    dataIndex: 'lessonsCount',
+    key: 'lessonsCount',
+  },
+  {
+    title: 'Sinh viên',
+    dataIndex: 'classStudentsCount',
+    key: 'classStudentsCount',
   },
   {
     title: 'Điểm danh',
@@ -37,7 +33,7 @@ const columns = [
     render: (_, record) => (
       <Button className='tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
         <Link
-          to={`/diem-danh/${record.class}`}
+          to={`/diem-danh/lop/${record.id}`}
           state={{
             subjectCode: record.subName,
           }}
@@ -49,7 +45,7 @@ const columns = [
   },
 ];
 
-const AttendanceList = () => {
+const AttendanceClassList = () => {
   const {
     data: listData,
     isLoading,
@@ -58,14 +54,11 @@ const AttendanceList = () => {
   } = useGetAttendanceListClassQuery();
   const dataSource = listData?.data.map((item, index) => ({
     key: index + 1,
-    day: item.start_time ? moment(item.start_time).format('DD/MM/YYYY') : '',
-    class: item.id,
+    id: item.id,
     subName: item.subject_name,
     subCode: item.subject_code,
-    cahoc: item.start_time ? `${moment(item.start_time).format('HH:mm')} - ${moment(
-          item.end_time
-        ).format('HH:mm')}`
-      : '',
+    lessonsCount: item.lessons_count,
+    classStudentsCount: item.class_students_count,
   }));
   return (
     <div className='tw-w-full'>
@@ -98,4 +91,4 @@ const AttendanceList = () => {
   );
 };
 
-export default AttendanceList;
+export default AttendanceClassList;

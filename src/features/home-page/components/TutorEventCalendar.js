@@ -48,8 +48,6 @@ const TutorEventCalendar = (props) => {
       //  }}
       eventClick={(info) => {
         info.jsEvent.preventDefault();
-      }}
-      eventMouseEnter={(info) => {
         tippy(info.el, {
           content: /*html*/ `
             <div
@@ -66,14 +64,16 @@ const TutorEventCalendar = (props) => {
           `,
           allowHTML: true,
           placement: 'top-start',
-          theme: 'light',
-          trigger: 'click',
+          // theme: 'light',
+          trigger: 'focus',
+          appendTo: () => document.body,
           interactive: true,
           arrow: true,
           animation: 'shift-away',
           duration: [100, 100],
         });
       }}
+
       initialView="dayGridMonth"
       dayMaxEvents={4}
       events={props.eventsData}

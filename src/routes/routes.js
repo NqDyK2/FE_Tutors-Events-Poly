@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import CheckPoint from '../features/auth/components/CheckPoint.js';
 import RequireAuth from '../features/auth/components/RequireAuth.js';
-import AttendanceList from '../features/attendance/pages/attendanceList/index.js';
 import AuthPage from '../features/auth/pages/index.js';
 import EventsPage from '../features/events/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
@@ -11,7 +10,6 @@ import WelcomePage from '../features/welcom-page/pages/index.js';
 import AppLayout from '../layout/AppLayout.js';
 import ListStudent from '../features/list-students/pages/index.js';
 import PageNotFound from '../features/404page/pages/index.js';
-import AttendanceStudent from '../features/attendance/pages/attendanceStudent/index.js';
 import AddPost from '../features/tutors/pages/TutorPost/AddPost.js';
 import ListPost from '../features/tutors/pages/TutorPost/ListPost.js';
 import SemesterPage from '../features/semester/pages/index.js';
@@ -20,6 +18,9 @@ import ListLesson from '../features/lesson/pages/ListLesson.js';
 import TimeTable from '../features/tutors/pages/TimeTable/index.js';
 import ManageGuard from './guard/ManageGuard.js';
 import AttendanceGuard from './guard/AttendanceGuard.js';
+import AttendanceClassList from '../features/attendance/pages/AttendanceClassList/index.js';
+import AttendanceClassLessons from '../features/attendance/pages/AttendanceClassLessons/index.js';
+import AttendanceStudentList from '../features/attendance/pages/AttendanceStudentList/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -47,8 +48,9 @@ const AppRoutes = () => {
           </Route>
 
           <Route element={<AttendanceGuard />}>
-            <Route path="/diem-danh" element={<AttendanceList />} />
-            <Route path="/diem-danh/:classId" element={<AttendanceStudent />} />
+            <Route path="/diem-danh" element={<AttendanceClassList />} />
+            <Route path="/diem-danh/lop/:classId" element={<AttendanceClassLessons />} />
+            <Route path="/diem-danh/buoi-hoc/:lessonId" element={<AttendanceStudentList />} />
           </Route>
         </Route>
       </Route>

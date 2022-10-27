@@ -45,7 +45,7 @@ const SemesterPage = () => {
           {data?.map((item, index) => (
             <div
               key={index}
-              className="bg-neutral-400   tw-mx-6 tw-my-6  tw-rounded-[3px] tw-border tw-transition-all hover:tw-border-gray-400 hover:tw-opacity-[90%] dark:tw-border-gray-500 dark:hover:tw-border-white"
+              className="bg-neutral-400   tw-mx-4 tw-my-6  tw-rounded-[3px] tw-border tw-transition-all hover:tw-border-gray-400 hover:tw-opacity-[90%] dark:tw-border-gray-500 dark:hover:tw-border-white"
             >
               <div>
                 <Link
