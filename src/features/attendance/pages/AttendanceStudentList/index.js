@@ -173,7 +173,7 @@ const AttendanceStudentList = () => {
           /> */}
 
             {
-              data?.lesson?.end_time > currentTime && (
+              data?.lesson?.start_time < currentTime && data?.lesson?.end_time > currentTime && (
                 <Button
                   type='primary'
                   loading={isUpdateLoading}
