@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Modal, Tooltip, Form, Input, Radio, Button, List, Spin } from 'antd';
+import { Table, Modal, Tooltip, Form, Input, Radio, Button, List } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { toast } from 'react-toastify';
 
@@ -7,11 +7,8 @@ import { useGetAllMissingClassQuery, useGetScheduleQuery, useJoinClassMutation }
 import { timeFormat } from '../../../../utils/TimeFormat';
 import Spinner from '../../../../components/Spinner';
 
-const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
-
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isJoinAllClass, setJoinAllClass] = useState(false);
   const [joinClass, { isLoading: joinClassLoading }] = useJoinClassMutation();
   const { data: listClassMisses, isLoading: listclassPending } = useGetAllMissingClassQuery();
   const { data: listSchedule, isLoading: listSchedulePending } = useGetScheduleQuery();
@@ -32,14 +29,7 @@ const TimeTable = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  // check box
-  const plainOptions = ['Tốt', 'Trung bình', 'Chưa tốt'];
-  const onChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
-  };
+
   // table antd
   const columns = [
     {
@@ -126,7 +116,7 @@ const TimeTable = () => {
     },
   ];
 
-  let dataClass = false, dataTable;
+  let dataClass, dataTable = false;
 
   if (listClassMisses?.data) {
     if (listClassMisses.data.length > 0) {
@@ -164,7 +154,7 @@ const TimeTable = () => {
   if (listclassPending) {
     return (
       <div className='tw-mt-[110px] tw-flex tw-justify-center'>
-        <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
+        <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white tw-mt-5'>Loading</p>} />
       </div>
     )
   }
