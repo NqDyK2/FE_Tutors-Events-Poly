@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { Table, Modal, Tooltip, Form, Input, Select, Radio, Result, Button, Spin, List } from 'antd';
+import { Table, Modal, Tooltip, Form, Input, Radio, Button, List, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { SmileOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
+
+import { useGetAllMissingClassQuery, useGetScheduleQuery, useJoinClassMutation } from '../../../../app/api/studentApiSlice';
+import { timeFormat } from '../../../../utils/TimeFormat';
+import Spinner from '../../../../components/Spinner';
 
 const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isJoinClass, setJoinClass] = useState(true)
+  const [isJoinAllClass, setJoinAllClass] = useState(false);
+  const [joinClass, { isLoading: joinClassLoading }] = useJoinClassMutation();
+  const { data: listClassMisses, isLoading: listclassPending } = useGetAllMissingClassQuery();
+  const { data: listSchedule, isLoading: listSchedulePending } = useGetScheduleQuery();
+
   const [form] = Form.useForm();
   const showModal = () => {
     setIsModalOpen(true);
@@ -47,34 +54,19 @@ const TimeTable = () => {
       key: 'ngay',
     },
     {
-      title: 'Phòng',
-      dataIndex: 'phong',
-      key: 'phong',
-    },
-    {
-      title: 'Giảng đường',
-      dataIndex: 'giangduong',
-      key: 'giangduong',
+      title: 'Hình thức',
+      dataIndex: 'hinhthuc',
+      key: 'hinhthuc',
     },
     {
       title: 'Mã môn',
-      dataIndex: 'mamon',
-      key: 'mamon',
+      dataIndex: 'subjects_code',
+      key: 'subjects_code',
     },
     {
-      title: 'Lớp',
-      dataIndex: 'lop',
-      key: 'lop',
-    },
-    {
-      title: 'Giảng viên',
-      dataIndex: 'giangvien',
-      key: 'giangvien',
-    },
-    {
-      title: 'Ca',
-      dataIndex: 'ca',
-      key: 'ca',
+      title: 'Môn',
+      dataIndex: 'subjects_name',
+      key: 'subjects_name',
     },
     {
       title: 'Thời gian',
@@ -82,21 +74,39 @@ const TimeTable = () => {
       key: 'thoigian',
     },
     {
-      title: 'Link học trực tuyến',
-      dataIndex: 'link',
-      key: 'link',
-      render: (_, record) => <a href={record.link}>{record.link}</a>,
+      title: 'Phòng học',
+      dataIndex: 'phonghoc',
+      key: 'phonghoc',
+      width: '10%',
+      render: (_, record) =>
+        record.hinhthuc === 'Offline' ? (
+          <span>{record.phonghoc}</span>
+        ) : (
+          <a target="blank" href={record.phonghoc}>
+            {record.phonghoc}
+          </a>
+        ),
     },
     {
-      title: 'Chi tiết',
+      title: 'Giảng viên',
+      dataIndex: 'teacher_email',
+      key: 'teacher_email',
+    },
+    {
+      title: 'Trợ giảng',
+      dataIndex: 'tutor_email',
+      key: 'tutor_email',
+      width: '5%',
+    },
+    {
+      title: 'Nội dung',
       dataIndex: 'chitiet',
       key: 'chitiet',
       render: (_, record) => (
-        <Tooltip placement="left" title={text} color={'orange'}>
-          <span className="tw-cursor-pointer tw-text-blue-500">Chi tiết</span>
+        <Tooltip placement="left" title={record.chitiet} color={'green'}>
+          <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
         </Tooltip>
       ),
-      width: 100,
     },
     {
       title: '',
@@ -115,121 +125,67 @@ const TimeTable = () => {
       width: 150,
     },
   ];
-  const data = [
-    {
-      stt: '1',
-      key: 1,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-    },
-    {
-      stt: '2',
-      key: 2,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: '',
-    },
-    {
-      stt: '3',
-      key: 3,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-    },
-    {
-      stt: '4',
-      key: 4,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: '',
-    },
-    {
-      stt: '5',
-      key: 5,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: '',
-    },
-    {
-      stt: '6',
-      key: 6,
-      ngay: 'Thứ Ba 09/08/2022',
-      phong: 'Google Meet 2',
-      giangduong: 'Google Meet',
-      mamon: 'SYB3011',
-      mon: 'Khởi sự doanh nghiệp',
-      lop: 'WEB16305',
-      giangvien: 'datlt34',
-      ca: '4',
-      thoigian: '09:25 - 11:25',
-      link: 'https://meet.google.com/cft-atfc-ybb?pli=1&authuser=1',
-    },
-  ];
 
-  const dataClass = [
-    { key: 1, subject_name: "Nhập môn lập trình", subject_code: "COM108" },
-    { key: 2, subject_name: "Kỹ năng học tập", subject_code: "SKI1014" },
+  let dataClass = false, dataTable;
 
-  ]
+  if (listClassMisses?.data) {
+    if (listClassMisses.data.length > 0) {
+      dataClass = listClassMisses?.data.map((item, index) => ({
+        key: index,
+        id: item.id,
+        subject_name: item.name,
+        subject_code: item.code
+      }))
+    } else {
+      dataTable = listSchedule?.data.map((item, index) => ({
+        key: index,
+        stt: index + 1,
+        ngay: timeFormat(item.start_time.split(' ')[0]),
+        hinhthuc: item.type ? 'Offline' : 'Online',
+        thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]
+          }`,
+        phonghoc: item.class_location,
+        tutor_email: item.tutor_email.split('@')[0],
+        teacher_email: item.teacher_email.split('@')[0],
+        subjects_code: item.subject_code?.toUpperCase(),
+        subjects_name: item.subject_name,
+        chitiet: item.content,
+      }))
+    }
+  }
 
-  const [loadings, setLoadings] = useState([]);
-  const enterLoading = (index) => {
-    setLoadings((prevLoadings) => {
-      const newLoadings = [...prevLoadings];
-      newLoadings[index] = true;
-      return newLoadings;
-    });
-    setTimeout(() => {
-      setLoadings((prevLoadings) => {
-        const newLoadings = [...prevLoadings];
-        newLoadings[index] = false;
-        toast.success("Tham gia thành công.")
-        return newLoadings;
-      });
-    }, 4000);
+  const handleJoinClass = (id) => {
+    joinClass(id)
+      .unwrap()
+      .then(() => toast.success("Tham gia thành công."))
+      .catch((err) => toast.error("Có lỗi xả ra."))
+  }
+
+  if (listclassPending) {
+    return (
+      <div className='tw-mt-[110px] tw-flex tw-justify-center'>
+        <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
+      </div>
+    )
   }
 
   return (
     <div>
-      {isJoinClass ? (
-        <div className=''>
-          <h2 className='tw-mb-4 tw-text-lg tw-text-center'>Bạn có 2 môn học cần tham gia tutor.</h2>
+      {dataTable ? (
+        <Table
+          key={dataTable?.key}
+          columns={columns}
+          dataSource={dataTable}
+          pagination={false}
+          loading={{
+            indicator: <Spinner />,
+            spinning: listSchedulePending,
+          }}
+        />
+
+      ) : (
+        <div>
+          <h2 className='tw-mb-4 tw-text-lg tw-text-center'>Bạn có {dataClass?.length} môn học cần tham gia tutor.</h2>
           <List
             dataSource={dataClass}
             renderItem={(item, index) => (
@@ -240,8 +196,8 @@ const TimeTable = () => {
                 />
                 <div>
                   <Button
-                    loading={loadings[index]}
-                    onClick={() => enterLoading(index)}
+                    loading={joinClassLoading[index]}
+                    onClick={() => handleJoinClass(item.id)}
                     type="primary"
                     className="tw-rounded-lg hover:tw-bg-[#01988f] tw-bg-[#04b0a6] tw-border-0"
                   >
@@ -253,15 +209,8 @@ const TimeTable = () => {
           />
           <p className='tw-text-[#777] tw-text-center'>Vui lòng tham gia tất cả để theo dõi lịch học.</p>
         </div>
-      ) : (
-        <Table
-          key={data.key}
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-        />
-
       )}
+
       {/* box modal */}
       <Modal
         title="Phản hồi buổi học"
