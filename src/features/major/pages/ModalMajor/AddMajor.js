@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { EditOutlined } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 
-const AddMajors = () => {
+const AddMajor = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -23,12 +22,9 @@ const AddMajors = () => {
     };
     return (
         <div>
-            <div
-                onClick={showModal}
-                className="tw-border-none tw-text-[#1890ff] tw-flex tw-flex-row-reverse tw-mb-4 tw-cursor-pointer"
-            >
+            <a className='tw-pl-3 tw-mt-5 tw-text-sm' onClick={showModal}>
                 + Thêm chuyên ngành
-            </div>
+            </a>
             <Modal
                 title="Thêm chuyên ngành"
                 open={isModalOpen}
@@ -39,6 +35,7 @@ const AddMajors = () => {
                 <Form
                     name="basic"
                     initialValues={{
+                        nganhhoc: '',
                         chuyennganh: '',
                     }}
                     onFinish={onFinish}
@@ -47,7 +44,20 @@ const AddMajors = () => {
                     layout='vertical'
                 >
                     <Form.Item
-                        label="Tên chuyên ngành"
+                        label="Ngành học"
+                        name="kyhoc"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Chuyên ngành"
                         name="chuyennganh"
                         rules={[
                             {
@@ -64,4 +74,4 @@ const AddMajors = () => {
     )
 }
 
-export default AddMajors
+export default AddMajor

@@ -3,7 +3,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 
-const ModalEditSubject = () => {
+const AddCarrer = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -23,22 +23,23 @@ const ModalEditSubject = () => {
     };
     return (
         <div>
-            <div className='tw-cursor-pointer' onClick={showModal}>
-                <EditOutlined style={{ color: '#1890ff' }} />
+            <div
+                onClick={showModal}
+                className="tw-border-none tw-text-[#1890ff] tw-flex tw-flex-row-reverse tw-mb-4 tw-cursor-pointer"
+            >
+                + Thêm ngành học
             </div>
             <Modal
-                title="Sửa môn học"
+                title="Thêm ngành học"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                okText="Sửa"
+                okText="Thêm"
             >
                 <Form
                     name="basic"
                     initialValues={{
-                        kyhoc: '',
-                        chuyennganh: '',
-                        tenmonhoc: ''
+                        nganhhoc: '',
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -46,34 +47,8 @@ const ModalEditSubject = () => {
                     layout='vertical'
                 >
                     <Form.Item
-                        label="Kỳ học"
-                        name="kyhoc"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Required',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Chuyên ngành"
-                        name="chuyennganh"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Required',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Tên môn học"
-                        name="tenmonhoc"
+                        label="Tên ngành học"
+                        name="nganhhoc"
                         rules={[
                             {
                                 required: true,
@@ -89,4 +64,4 @@ const ModalEditSubject = () => {
     )
 }
 
-export default ModalEditSubject
+export default AddCarrer

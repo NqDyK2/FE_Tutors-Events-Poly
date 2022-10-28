@@ -2,11 +2,12 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/ic
 import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React, { useState } from 'react';
-import AddMajors from './ModalMajors/AddMajors';
-import EditMajors from './ModalMajors/EditMajors';
+import AddMajors from './ModalCarrer/AddCarrer';
+import EditCarrer from './ModalCarrer/EditCarrer';
+import EditMajor from './ModalMajor/EditMajor';
 
-import ModalAddSubject from './ModalSubject/ModalAddSubject';
-import ModalEditSubject from './ModalSubject/ModalEditSubject';
+import AddSubject from './ModalSubject/AddSubject';
+import EditSubject from './ModalSubject/EditSubject';
 
 const { Panel } = Collapse;
 const MajorPage = () => {
@@ -24,9 +25,9 @@ const MajorPage = () => {
         console.log(e);
         message.error('Click on No');
     };
-    const contentPopver = (
+    const contentPopverMajors = (
         <div>
-            <EditMajors />
+            <EditMajor />
             <div>
                 <Popconfirm
                     title="Bạn có chắc chắn muốn xóa ?"
@@ -41,9 +42,35 @@ const MajorPage = () => {
             </div>
         </div>
     )
-    const genExtra = () => (
+    const contentPopverCarrers = (
         <div>
-            <Popover placement="left" content={contentPopver} title="Actions" trigger="click">
+            <EditCarrer />
+            <div>
+                <Popconfirm
+                    title="Bạn có chắc chắn muốn xóa ?"
+                    placement='left'
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Xóa"
+                    cancelText="Không"
+                >
+                    <a className='tw-text-red-500' href="#">Xóa ngành học</a>
+                </Popconfirm>
+            </div>
+        </div>
+    )
+    const genMajor = () => (
+        <div>
+            <Popover placement="left" content={contentPopverMajors} title="Chuyên ngành" trigger="click">
+                <Button className='tw-border-none tw-bg-[#fafafa]'>
+                    <EditOutlined />
+                </Button>
+            </Popover>
+        </div>
+    );
+    const genCarrer = () => (
+        <div>
+            <Popover placement="left" content={contentPopverCarrers} title="Ngành học" trigger="click">
                 <Button className='tw-border-none tw-bg-[#fafafa]'>
                     <EditOutlined />
                 </Button>
@@ -60,16 +87,16 @@ const MajorPage = () => {
                     defaultActiveKey={['1']}
                     onChange={onChange}
                 >
-                    <Panel header="Công nghệ thông Tin" key="1" extra={genExtra()}>
+                    <Panel header="Công nghệ thông Tin" key="1" extra={genCarrer()}>
                         <Collapse
                             onChange={onChange}
                             defaultActiveKey={['web']}
                             expandIconPosition={expandIconPosition}>
-                            <Panel header="Thiết kế website" key="web" extra={genExtra()}>
+                            <Panel header="Thiết kế website" key="web" extra={genMajor()}>
                                 <div className='tw-flex tw-gap-4 tw-items-center'>
                                     <span className='tw-mt-2'>- Xây dựng trang Web</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                        <ModalEditSubject />
+                                        <EditSubject />
                                         <div>
                                             <Popconfirm
                                                 title="Bạn có chắc muốn xóa ?"
@@ -87,7 +114,7 @@ const MajorPage = () => {
                                 <div className='tw-flex tw-gap-4 tw-items-center'>
                                     <span>- JavaScript</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                        <ModalEditSubject />
+                                        <EditSubject />
                                         <div>
                                             <Popconfirm
                                                 title="Bạn có chắc muốn xóa ?"
@@ -105,7 +132,7 @@ const MajorPage = () => {
                                 <div className='tw-flex tw-gap-4 tw-items-center'>
                                     <span>- PHP</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                        <ModalEditSubject />
+                                        <EditSubject />
                                         <div>
                                             <Popconfirm
                                                 title="Bạn có chắc muốn xóa ?"
@@ -123,7 +150,7 @@ const MajorPage = () => {
                                 <div className='tw-flex tw-gap-4 tw-items-center'>
                                     <span>- ReactJs</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                        <ModalEditSubject />
+                                        <EditSubject />
                                         <div>
                                             <Popconfirm
                                                 title="Bạn có chắc muốn xóa ?"
@@ -139,11 +166,11 @@ const MajorPage = () => {
                                 </div>
                                 <br />
                                 <div>
-                                    <ModalAddSubject />
+                                    <AddSubject />
                                 </div>
                             </Panel>
-                            <Panel header="Ứng dụng phần mềm" extra={genExtra()}></Panel>
-                            <Panel header="Lập trình máy tính" extra={genExtra()}></Panel>
+                            <Panel header="Ứng dụng phần mềm" extra={genMajor()}></Panel>
+                            <Panel header="Lập trình máy tính" extra={genMajor()}></Panel>
                         </Collapse>
                     </Panel>
                 </Collapse>

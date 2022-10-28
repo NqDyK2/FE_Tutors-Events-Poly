@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { EditOutlined } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 
-const EditMajors = () => {
+const AddSubject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -23,20 +22,22 @@ const EditMajors = () => {
     };
     return (
         <div>
-            <div className='tw-cursor-pointer' onClick={showModal}>
-                Sửa chuyên ngành
-            </div>
+            <a className='tw-pl-3 tw-mt-5 tw-text-sm' onClick={showModal}>
+                + Thêm môn học...
+            </a>
             <Modal
-                title="Sửa chuyên ngành"
+                title="Thêm môn học"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                okText="Sửa"
+                okText="Thêm"
             >
                 <Form
                     name="basic"
                     initialValues={{
+                        nganhhoc: '',
                         chuyennganh: '',
+                        tenmonhoc: ''
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -44,8 +45,34 @@ const EditMajors = () => {
                     layout='vertical'
                 >
                     <Form.Item
-                        label="Tên chuyên ngành"
+                        label="Ngành học"
+                        name="nganhhoc"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Chuyên ngành"
                         name="chuyennganh"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Tên môn học"
+                        name="tenmonhoc"
                         rules={[
                             {
                                 required: true,
@@ -61,4 +88,4 @@ const EditMajors = () => {
     )
 }
 
-export default EditMajors
+export default AddSubject

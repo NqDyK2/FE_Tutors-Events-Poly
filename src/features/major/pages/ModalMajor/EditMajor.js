@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { EditOutlined } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 
-const ModalAddSubject = () => {
+const EditMajor = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -22,22 +23,21 @@ const ModalAddSubject = () => {
     };
     return (
         <div>
-            <a className='tw-pl-3 tw-mt-5 tw-text-sm' onClick={showModal}>
-                + Thêm môn học...
-            </a>
+            <div className='tw-cursor-pointer' onClick={showModal}>
+                Sửa chuyên ngành
+            </div>
             <Modal
-                title="Thêm môn học"
+                title="Sửa môn học"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                okText="Thêm"
+                okText="Sửa"
             >
                 <Form
                     name="basic"
                     initialValues={{
-                        kyhoc: '',
+                        nganhhoc: '',
                         chuyennganh: '',
-                        tenmonhoc: ''
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -45,8 +45,8 @@ const ModalAddSubject = () => {
                     layout='vertical'
                 >
                     <Form.Item
-                        label="Kỳ học"
-                        name="kyhoc"
+                        label="Ngành học"
+                        name="nganhhoc"
                         rules={[
                             {
                                 required: true,
@@ -69,23 +69,10 @@ const ModalAddSubject = () => {
                     >
                         <Input />
                     </Form.Item>
-
-                    <Form.Item
-                        label="Tên môn học"
-                        name="tenmonhoc"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Required',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
                 </Form>
             </Modal>
         </div>
     )
 }
 
-export default ModalAddSubject
+export default EditMajor
