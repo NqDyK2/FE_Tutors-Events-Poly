@@ -1,8 +1,12 @@
-import { SettingOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Collapse, Select } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Collapse, message, Popconfirm, Popover } from 'antd';
+import { Button } from 'antd/lib/radio';
 import React, { useState } from 'react';
+import AddMajors from './ModalMajors/AddMajors';
+import EditMajors from './ModalMajors/EditMajors';
 
-import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
+import ModalAddSubject from './ModalSubject/ModalAddSubject';
+import ModalEditSubject from './ModalSubject/ModalEditSubject';
 
 const { Panel } = Collapse;
 const MajorPage = () => {
@@ -11,73 +15,140 @@ const MajorPage = () => {
     const onChange = (key) => {
         console.log(key);
     };
+    // pop confirm
+    const confirm = (e) => {
+        console.log(e);
+        message.success('Click on Yes');
+    };
+    const cancel = (e) => {
+        console.log(e);
+        message.error('Click on No');
+    };
+    const contentPopver = (
+        <div>
+            <EditMajors />
+            <div>
+                <Popconfirm
+                    title="Bạn có chắc chắn muốn xóa ?"
+                    placement='left'
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Xóa"
+                    cancelText="Không"
+                >
+                    <a className='tw-text-red-500' href="#">Xóa chuyên ngành</a>
+                </Popconfirm>
+            </div>
+        </div>
+    )
     const genExtra = () => (
-        <SettingOutlined />
-        // <div className='tw-flex tw-gap-3 tw-items-center tw-mt-1'>
-        //     <AiOutlinePlusCircle />
-        //     <EditOutlined />
-        //     <ConfirmPopup
-        //         content={
-        //             <DeleteOutlined className="tw-mt-3" />
-        //         }
-        //         title={`Xác nhận xóa lớp học này?`}
-        //         placement="boRight"
-        //     />
-        // </div>
+        <div>
+            <Popover placement="left" content={contentPopver} title="Actions" trigger="click">
+                <Button className='tw-border-none tw-bg-[#fafafa]'>
+                    <EditOutlined />
+                </Button>
+            </Popover>
+        </div>
     );
     return (
         <>
-            <Collapse
-                defaultActiveKey={['1']}
-                onChange={onChange}
-                expandIconPosition={expandIconPosition}
-            >
-                <Panel header="Công nghệ thông Tin" key="1" extra={genExtra()}>
-                    <Collapse
-                        onChange={onChange}
-                        defaultActiveKey={['web']}
-                        expandIconPosition={expandIconPosition}>
-                        <Panel header="Thiết kế website" key="web" extra={genExtra()}>
-                            <div className='tw-flex tw-gap-4 tw-items-center'>
-                                <span className='tw-mt-2'>- Xây dựng trang Web</span>
-                                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                    <a><EditOutlined className='tw-w-full' /></a>
-                                    <a><DeleteOutlined className='tw-w-full tw-my-auto' /></a>
+            <>
+                <AddMajors />
+            </>
+            <>
+                <Collapse
+                    defaultActiveKey={['1']}
+                    onChange={onChange}
+                >
+                    <Panel header="Công nghệ thông Tin" key="1" extra={genExtra()}>
+                        <Collapse
+                            onChange={onChange}
+                            defaultActiveKey={['web']}
+                            expandIconPosition={expandIconPosition}>
+                            <Panel header="Thiết kế website" key="web" extra={genExtra()}>
+                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                    <span className='tw-mt-2'>- Xây dựng trang Web</span>
+                                    <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
+                                        <ModalEditSubject />
+                                        <div>
+                                            <Popconfirm
+                                                title="Bạn có chắc muốn xóa ?"
+                                                onConfirm={confirm}
+                                                onCancel={cancel}
+                                                okText="Xóa"
+                                                cancelText="Không"
+                                            >
+                                                <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                                            </Popconfirm>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div className='tw-flex tw-gap-4 tw-items-center'>
-                                <span>- JavaScript</span>
-                                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                    <a><EditOutlined className='tw-w-full' /></a>
-                                    <a><DeleteOutlined className='tw-w-full tw-my-auto' /></a>
+                                <br />
+                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                    <span>- JavaScript</span>
+                                    <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
+                                        <ModalEditSubject />
+                                        <div>
+                                            <Popconfirm
+                                                title="Bạn có chắc muốn xóa ?"
+                                                onConfirm={confirm}
+                                                onCancel={cancel}
+                                                okText="Xóa"
+                                                cancelText="Không"
+                                            >
+                                                <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                                            </Popconfirm>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div className='tw-flex tw-gap-4 tw-items-center'>
-                                <span>- PHP</span>
-                                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                    <a><EditOutlined className='tw-w-full' /></a>
-                                    <a><DeleteOutlined className='tw-w-full tw-my-auto' /></a>
+                                <br />
+                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                    <span>- PHP</span>
+                                    <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
+                                        <ModalEditSubject />
+                                        <div>
+                                            <Popconfirm
+                                                title="Bạn có chắc muốn xóa ?"
+                                                onConfirm={confirm}
+                                                onCancel={cancel}
+                                                okText="Xóa"
+                                                cancelText="Không"
+                                            >
+                                                <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                                            </Popconfirm>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div className='tw-flex tw-gap-4 tw-items-center'>
-                                <span>- ReactJs</span>
-                                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                    <a><EditOutlined className='tw-w-full' /></a>
-                                    <a><DeleteOutlined className='tw-w-full tw-my-auto' /></a>
+                                <br />
+                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                    <span>- ReactJs</span>
+                                    <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
+                                        <ModalEditSubject />
+                                        <div>
+                                            <Popconfirm
+                                                title="Bạn có chắc muốn xóa ?"
+                                                onConfirm={confirm}
+                                                onCancel={cancel}
+                                                okText="Xóa"
+                                                cancelText="Không"
+                                            >
+                                                <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                                            </Popconfirm>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <a className='tw-pl-3 tw-mt-5 tw-text-sm'>+ Thêm môn học...</a>
-                        </Panel>
-                        <Panel header="Ứng dụng phần mềm"></Panel>
-                        <Panel header="Lập trình máy tính"></Panel>
-                    </Collapse>
-                </Panel>
-            </Collapse>
+                                <br />
+                                <div>
+                                    <ModalAddSubject />
+                                </div>
+                            </Panel>
+                            <Panel header="Ứng dụng phần mềm" extra={genExtra()}></Panel>
+                            <Panel header="Lập trình máy tính" extra={genExtra()}></Panel>
+                        </Collapse>
+                    </Panel>
+                </Collapse>
 
+            </>
         </>
     )
 }
