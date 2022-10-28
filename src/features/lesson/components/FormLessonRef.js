@@ -78,7 +78,6 @@ const FormLessonRef = (props, ref) => {
 
     switch (mode) {
       case MODE.ADD:
-        console.log(dataLesson);
         addLesson(dataLesson)
           .unwrap()
           .then((res) => {

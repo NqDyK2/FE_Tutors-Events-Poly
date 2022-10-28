@@ -21,7 +21,7 @@ import AttendanceGuard from './guard/AttendanceGuard.js';
 import AttendanceClassList from '../features/attendance/pages/AttendanceClassList/index.js';
 import AttendanceClassLessons from '../features/attendance/pages/AttendanceClassLessons/index.js';
 import AttendanceStudentList from '../features/attendance/pages/AttendanceStudentList/index.js';
-import MajorPage from '../features/major/index.js';
+import MajorPage from '../features/major/pages/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
