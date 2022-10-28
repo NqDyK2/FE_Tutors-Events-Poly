@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Table, Modal, Tooltip, Form, Input, Select, Radio } from 'antd';
+import { Table, Modal, Tooltip, Form, Input, Select, Radio, Result, Button, Spin, List } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-const { Option } = Select;
+import { SmileOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 
 const text = <span>HIẾU ĐÀM YÊU BÀ XÃ RẤT NHIỀU</span>;
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isJoinClass, setJoinClass] = useState(true)
   const [form] = Form.useForm();
   const showModal = () => {
     setIsModalOpen(true);
@@ -200,14 +202,66 @@ const TimeTable = () => {
     },
   ];
 
+  const dataClass = [
+    { key: 1, subject_name: "Nhập môn lập trình", subject_code: "COM108" },
+    { key: 2, subject_name: "Kỹ năng học tập", subject_code: "SKI1014" },
+
+  ]
+
+  const [loadings, setLoadings] = useState([]);
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        toast.success("Tham gia thành công.")
+        return newLoadings;
+      });
+    }, 4000);
+  }
+
   return (
     <div>
-      <Table
-        key={data.key}
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-      />
+      {isJoinClass ? (
+        <div className=''>
+          <h2 className='tw-mb-4 tw-text-lg tw-text-center'>Bạn có 2 môn học cần tham gia tutor.</h2>
+          <List
+            dataSource={dataClass}
+            renderItem={(item, index) => (
+              <List.Item key={item.key}>
+                <List.Item.Meta
+                  title={<p className='tw-mb-0'>{item.subject_code}</p>}
+                  description={<p className='tw-text-[#555]'>{item.subject_name}</p>}
+                />
+                <div>
+                  <Button
+                    loading={loadings[index]}
+                    onClick={() => enterLoading(index)}
+                    type="primary"
+                    className="tw-rounded-lg hover:tw-bg-[#01988f] tw-bg-[#04b0a6] tw-border-0"
+                  >
+                    Tham gia
+                  </Button>
+                </div>
+              </List.Item>
+            )}
+          />
+          <p className='tw-text-[#777] tw-text-center'>Vui lòng tham gia tất cả để theo dõi lịch học.</p>
+        </div>
+      ) : (
+        <Table
+          key={data.key}
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+        />
+
+      )}
       {/* box modal */}
       <Modal
         title="Phản hồi buổi học"
