@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React, { useState } from 'react';
@@ -63,7 +63,7 @@ const MajorPage = () => {
         <div>
             <Popover placement="left" content={contentPopverMajors} title="Chuyên ngành" trigger="click">
                 <Button className='tw-border-none tw-bg-[#fafafa]'>
-                    <EditOutlined />
+                    <SettingOutlined />
                 </Button>
             </Popover>
         </div>
@@ -72,7 +72,7 @@ const MajorPage = () => {
         <div>
             <Popover placement="left" content={contentPopverCarrers} title="Ngành học" trigger="click">
                 <Button className='tw-border-none tw-bg-[#fafafa]'>
-                    <EditOutlined />
+                    <SettingOutlined />
                 </Button>
             </Popover>
         </div>
