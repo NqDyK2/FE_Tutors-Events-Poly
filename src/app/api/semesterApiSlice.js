@@ -42,6 +42,13 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Semester'],
     }),
+    deleteSemester: builder.mutation({
+      query: (id) => ({
+        url: `semester/${id}/delete`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Semester'],
+    }),
   }),
 });
 
@@ -51,4 +58,5 @@ export const {
   useAddSemesterMutation,
   useImportStudentsSemesterMutation,
   useUpdateSemesterMutation,
+  useDeleteSemesterMutation
 } = semesterApiSlice;
