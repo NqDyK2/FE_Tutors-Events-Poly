@@ -1,18 +1,47 @@
-import { Button, Typography } from 'antd';
+import { Button, Popover, Typography } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGetAllSemesterQuery } from '../../../app/api/semesterApiSlice';
-import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { useDeleteSemesterMutation, useGetAllSemesterQuery } from '../../../app/api/semesterApiSlice';
+import { EditOutlined, PlusCircleOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import Img1 from './../../../assets/images/CNDT1.png';
 import FormSemeterRef from '../components/FormSemeterRef';
 import Spinner from '../../../components/Spinner';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
-
+  const [delSemester, { isLoading: delLoading }] = useDeleteSemesterMutation()
   const modalRef = React.useRef();
+
+  const handleRemoveSemester = (item) => {
+    const confirm = window.confirm("Bạn có muốn xóa kỳ học này?")
+    if (confirm) {
+      delSemester(item.id)
+        .unwrap()
+        .then(() => toast.success("Xóa kỳ học thành công"))
+        .catch((err) => toast.error("Có lỗi xảy ra"))
+    }
+  }
+
+  const ActionContent = (item) => {
+    return (
+      <div className='tw-flex'>
+        <Button
+          onClick={() => modalRef.current.show('EDIT', item)}
+          icon={<EditOutlined className="tw-text-[20px]" />}
+          className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+        />
+        <Button
+          onClick={() => handleRemoveSemester(item)}
+          loading={delLoading}
+          icon={<DeleteOutlined className="tw-text-[20px]" />}
+          className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+        />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -64,36 +93,39 @@ const SemesterPage = () => {
                 </Link>
               </div>
               <div className="tw-flex tw-w-full tw-items-center tw-justify-between">
-                <Link
-                  state={{
-                    semesterStartTime: item.start_time,
-                    semesterEndTime: item.end_time,
-                    semesterId: item.id,
-                  }}
-                  className="tw-w-full   tw-pl-2  tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
-                  to={`/manage/sem/${item.id}`}
-                >
-                  {item.name}
-                </Link>
                 <div>
-                  <Button
-                    shape="circle"
-                    onClick={() => modalRef.current.show('EDIT', item)}
-                    icon={<EditOutlined className="tw-text-[20px]" />}
-                    className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
-                  />
+                  <Link
+                    state={{
+                      semesterStartTime: item.start_time,
+                      semesterEndTime: item.end_time,
+                      semesterId: item.id,
+                    }}
+                    className="tw-w-full   tw-pl-2  tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
+                    to={`/manage/sem/${item.id}`}
+                  >
+                    {item.name}
+                  </Link>
+                  <div className="tw-px-2">
+                    <p className="tw-mb-1 tw-text-xs tw-text-gray-600 ">
+                      {item.start_time
+                        ? moment(item.start_time).format('DD/MM/YY')
+                        : ''}{' '}
+                      -{' '}
+                      {item.end_time
+                        ? moment(item.end_time).format('DD/MM/YY')
+                        : ''}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="tw-px-2">
-                <p className="tw-mb-1 tw-text-xs tw-text-gray-600 ">
-                  {item.start_time
-                    ? moment(item.start_time).format('DD/MM/YY')
-                    : ''}{' '}
-                  -{' '}
-                  {item.end_time
-                    ? moment(item.end_time).format('DD/MM/YY')
-                    : ''}
-                </p>
+                <div>
+                  <Popover placement="bottomRight" content={ActionContent(item)} trigger="focus" >
+                    <Button
+                      className='tw-border-0 hover:tw-bg-transparent tw-shadow-none'
+                    >
+                      <SettingOutlined />
+                    </Button>
+                  </Popover>
+                </div>
               </div>
             </div>
           ))}
