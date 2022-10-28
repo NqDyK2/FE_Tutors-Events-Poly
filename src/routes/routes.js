@@ -21,6 +21,7 @@ import AttendanceGuard from './guard/AttendanceGuard.js';
 import AttendanceClassList from '../features/attendance/pages/AttendanceClassList/index.js';
 import AttendanceClassLessons from '../features/attendance/pages/AttendanceClassLessons/index.js';
 import AttendanceStudentList from '../features/attendance/pages/AttendanceStudentList/index.js';
+import MajorPage from '../features/major/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -45,6 +46,7 @@ const AppRoutes = () => {
             <Route path="/manage/sem/:id" element={<SubjectPage />} />
             <Route path="/manage/class/:id" element={<ListStudent />} />
             <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
+            <Route path="/manage/major" element={<MajorPage />} />
           </Route>
 
           <Route element={<AttendanceGuard />}>
