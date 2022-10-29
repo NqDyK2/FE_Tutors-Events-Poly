@@ -1,4 +1,4 @@
-import { Button, Popover, Typography } from 'antd';
+import { Button, Popconfirm, Popover, Typography } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDeleteSemesterMutation, useGetAllSemesterQuery } from '../../../app/api/semesterApiSlice';
@@ -9,6 +9,7 @@ import FormSemeterRef from '../components/FormSemeterRef';
 import Spinner from '../../../components/Spinner';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
@@ -16,13 +17,10 @@ const SemesterPage = () => {
   const modalRef = React.useRef();
 
   const handleRemoveSemester = (item) => {
-    const confirm = window.confirm("Bạn có muốn xóa kỳ học này?")
-    if (confirm) {
-      delSemester(item.id)
-        .unwrap()
-        .then(() => toast.success("Xóa kỳ học thành công"))
-        .catch((err) => toast.error("Có lỗi xảy ra"))
-    }
+    delSemester(item.id)
+      .unwrap()
+      .then(() => toast.success("Xóa kỳ học thành công"))
+      .catch((err) => toast.error("Có lỗi xảy ra"))
   }
 
   const ActionContent = (item) => {
@@ -33,12 +31,19 @@ const SemesterPage = () => {
           icon={<EditOutlined className="tw-text-[20px]" />}
           className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
         />
-        <Button
-          onClick={() => handleRemoveSemester(item)}
-          loading={delLoading}
-          icon={<DeleteOutlined className="tw-text-[20px]" />}
-          className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
-        />
+        <Popconfirm
+          onConfirm={() => handleRemoveSemester(item)}
+          title="Bạn có chắc chắn muốn xóa kì học này?"
+          okText="Xóa"
+          cancelText="Không"
+        >
+          <Button
+            // onClick={() => handleRemoveSemester(item)}
+            loading={delLoading}
+            icon={<DeleteOutlined className="tw-text-[20px]" />}
+            className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+          />
+        </Popconfirm>
       </div>
     )
   }
