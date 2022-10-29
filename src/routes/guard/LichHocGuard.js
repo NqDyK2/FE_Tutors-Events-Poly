@@ -1,20 +1,18 @@
-import React from 'react';
+import React from 'react'
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import {
-  selectIsTeacher,
-  selectIsTutor,
-} from '../../features/auth/authSlice';
+import { selectIsStudent, selectIsTutor } from '../../features/auth/authSlice';
 
-const AttendanceGuard = () => {
-  const isTeacher = useSelector(selectIsTeacher);
+const LichHocGuard = () => {
   const isTutor = useSelector(selectIsTutor);
+  const isStudent = useSelector(selectIsStudent)
   const location = useLocation();
-  return isTeacher || isTutor ? (
+
+  return isStudent || isTutor ? (
     <Outlet />
   ) : (
     <Navigate to='/' state={{ from: location }} />
   );
-};
+}
 
-export default AttendanceGuard;
+export default LichHocGuard
