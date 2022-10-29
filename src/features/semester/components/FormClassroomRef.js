@@ -145,7 +145,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           rules={[
             {
               required: true,
-              message: 'Vui lòng nhập sinh viên hỗ trợ',
+              message: 'Vui lòng nhập giảng viên phụ trách.',
             },
             {
               type: 'email',

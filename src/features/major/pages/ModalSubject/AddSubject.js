@@ -35,7 +35,7 @@ const AddSubject = () => {
                 <Form
                     name="basic"
                     initialValues={{
-                        nganhhoc: '',
+                        // nganhhoc: '',
                         chuyennganh: '',
                         tenmonhoc: ''
                     }}
@@ -44,7 +44,7 @@ const AddSubject = () => {
                     autoComplete="off"
                     layout='vertical'
                 >
-                    <Form.Item
+                    {/* <Form.Item
                         label="Ngành học"
                         name="nganhhoc"
                         rules={[
@@ -55,7 +55,7 @@ const AddSubject = () => {
                         ]}
                     >
                         <Input />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Form.Item
                         label="Chuyên ngành"
@@ -67,7 +67,7 @@ const AddSubject = () => {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled />
                     </Form.Item>
 
                     <Form.Item
