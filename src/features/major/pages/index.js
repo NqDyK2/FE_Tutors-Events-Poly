@@ -2,15 +2,23 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React, { useState } from 'react';
-import AddMajors from './ModalCarrer/AddCarrer';
+import { useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
+import AddCarrer from './ModalCarrer/AddCarrer';
 import EditCarrer from './ModalCarrer/EditCarrer';
+
 import EditMajor from './ModalMajor/EditMajor';
+import AddMajor from './ModalMajor/AddMajor';
 
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
 
 const { Panel } = Collapse;
 const MajorPage = () => {
+
+    const { data, isLoading, error } = useGetAllSubjectQuery();
+
+    console.log(data);
+
     const [expandIconPosition, setExpandIconPosition] = useState('start');
 
     const onChange = (key) => {
@@ -80,7 +88,7 @@ const MajorPage = () => {
     return (
         <>
             <>
-                <AddMajors />
+                <AddCarrer />
             </>
             <>
                 <Collapse
@@ -88,6 +96,9 @@ const MajorPage = () => {
                     onChange={onChange}
                 >
                     <Panel header="Công nghệ thông Tin" key="1" extra={genCarrer()}>
+                        <div>
+                            <AddMajor />
+                        </div>
                         <Collapse
                             onChange={onChange}
                             defaultActiveKey={['web']}
