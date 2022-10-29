@@ -1,6 +1,6 @@
 import { apiSlice } from './apiSlice';
 
-export const lessonApiSlice = apiSlice.injectEndpoints({
+export const subjectApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllSubject: builder.query({
       query: () => `major/get-all`,
@@ -37,4 +37,4 @@ export const {
   useGetAllSubjectQuery,
   useDeleteSubjectQuery,
   useUpdateSubjectMutation,
-} = lessonApiSlice;
+} = subjectApiSlice;
