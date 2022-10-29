@@ -93,7 +93,10 @@ const MajorPage = () => {
                             defaultActiveKey={['web']}
                             expandIconPosition={expandIconPosition}>
                             <Panel header="Thiết kế website" key="web" extra={genMajor()}>
-                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                <div>
+                                    <AddSubject />
+                                </div>
+                                <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between'>
                                     <span className='tw-mt-2'>- Xây dựng trang Web</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
                                         <EditSubject />
@@ -111,7 +114,7 @@ const MajorPage = () => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between'>
                                     <span>- JavaScript</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
                                         <EditSubject />
@@ -129,7 +132,7 @@ const MajorPage = () => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between'>
                                     <span>- PHP</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
                                         <EditSubject />
@@ -147,7 +150,7 @@ const MajorPage = () => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className='tw-flex tw-gap-4 tw-items-center'>
+                                <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between'>
                                     <span>- ReactJs</span>
                                     <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
                                         <EditSubject />
@@ -165,9 +168,7 @@ const MajorPage = () => {
                                     </div>
                                 </div>
                                 <br />
-                                <div>
-                                    <AddSubject />
-                                </div>
+
                             </Panel>
                             <Panel header="Ứng dụng phần mềm" extra={genMajor()}></Panel>
                             <Panel header="Lập trình máy tính" extra={genMajor()}></Panel>

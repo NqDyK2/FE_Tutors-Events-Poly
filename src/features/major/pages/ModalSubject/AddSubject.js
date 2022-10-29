@@ -22,7 +22,7 @@ const AddSubject = () => {
     };
     return (
         <div>
-            <a className='tw-pl-3 tw-mt-5 tw-text-sm' onClick={showModal}>
+            <a className='tw-pl-3 tw-mb-2 tw-text-sm tw-flex tw-flex-row-reverse' onClick={showModal}>
                 + Thêm môn học...
             </a>
             <Modal
