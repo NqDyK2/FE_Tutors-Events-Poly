@@ -1,6 +1,6 @@
 import { apiSlice } from './apiSlice';
 
-export const lessonApiSlice = apiSlice.injectEndpoints({
+export const subjectApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllSubject: builder.query({
       query: () => `major/get-all`,
@@ -8,24 +8,24 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
     }),
     deleteSubject: builder.query({
       query: (id) => ({
-        url: `major/${id}/delete`,
+        url: `subject/${id}/delete`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Subject'],
     }),
     addSubject: builder.mutation({
-      query: (major) => ({
-        url: 'major/store',
+      query: (subject) => ({
+        url: 'subject/store',
         method: 'POST',
-        body: major,
+        body: subject,
       }),
       invalidatesTags: ['Subject'],
     }),
     updateSubject: builder.mutation({
-      query: ({ id, ...major }) => ({
-        url: `major/${id}/update`,
+      query: ({ id, ...subject }) => ({
+        url: `subject/${id}/update`,
         method: 'PUT',
-        body: major,
+        body: subject,
       }),
       invalidatesTags: ['Subject'],
     }),
@@ -37,4 +37,4 @@ export const {
   useGetAllSubjectQuery,
   useDeleteSubjectQuery,
   useUpdateSubjectMutation,
-} = lessonApiSlice;
+} = subjectApiSlice;
