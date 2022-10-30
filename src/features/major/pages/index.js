@@ -16,7 +16,6 @@ import Spinner from '../../../components/Spinner';
 const { Panel } = Collapse;
 const MajorPage = () => {
     const { data, isLoading, error } = useGetAllSubjectQuery();
-    console.log(data);
     const onChange = (key) => {
         console.log(key);
     };
@@ -83,7 +82,9 @@ const MajorPage = () => {
     );
     return (
         <>
+            <p>111</p>
             {isLoading && (
+
                 <div className='tw-mt-[110px] tw-flex tw-justify-center'>
                     <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
                 </div>
@@ -94,7 +95,7 @@ const MajorPage = () => {
             </>
             {
                 data && data?.data?.map((item, index) => {
-                    <Collapse
+                    return <Collapse
                         defaultActiveKey={['1']}
                         onChange={onChange}
                         key={index}
@@ -107,7 +108,7 @@ const MajorPage = () => {
                                 <AddSubject />
                             </div>
                             {item.subjects?.map((subject, index) => {
-                                <>
+                                return <>
                                     <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between' key={index}>
                                         <span className='tw-mt-2'>- {subject.name}</span>
                                         <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
@@ -128,17 +129,6 @@ const MajorPage = () => {
                                     <br />
                                 </>
                             })}
-
-                            {/* <Collapse
-                            onChange={onChange}
-                            defaultActiveKey={['web']}
-                        >
-                            <Panel header="Thiết kế website" key="web" extra={genMajor()}>
-
-                            </Panel>
-                            <Panel header="Ứng dụng phần mềm" extra={genMajor()}></Panel>
-                            <Panel header="Lập trình máy tính" extra={genMajor()}></Panel>
-                        </Collapse> */}
                         </Panel>
                     </Collapse>
                 })
