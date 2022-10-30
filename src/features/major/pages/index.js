@@ -82,7 +82,6 @@ const MajorPage = () => {
     );
     return (
         <>
-            <p>111</p>
             {isLoading && (
 
                 <div className='tw-mt-[110px] tw-flex tw-justify-center'>
