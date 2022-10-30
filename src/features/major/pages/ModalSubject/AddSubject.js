@@ -1,21 +1,40 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
+import { useAddSubjectMutation } from '../../../../app/api/subjectApiSlice';
+import { toast } from 'react-toastify';
 
-const AddSubject = () => {
+const AddSubject = (props) => {
+    const [addSubject, { isLoading: subjectLoading }] = useAddSubjectMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
     const showModal = () => {
         setIsModalOpen(true);
     };
     const handleOk = () => {
-        setIsModalOpen(false);
+        form.submit();
     };
     const handleCancel = () => {
         setIsModalOpen(false);
+        form.resetFields();
     };
     // form
     const onFinish = (values) => {
-        console.log('Success:', values);
+        const data = {
+            major_id: props.data.id,
+            name: values.name,
+            code: values.code
+        }
+        addSubject(data)
+            .unwrap()
+            .then(() => {
+                setIsModalOpen(false);
+                toast.success("Thêm môn học thành công.");
+                form.resetFields();
+            })
+            .catch(() => {
+                toast.error("Thêm môn học thất bại");
+            })
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -31,22 +50,24 @@ const AddSubject = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 okText="Thêm"
+                confirmLoading={subjectLoading}
             >
                 <Form
+                    form={form}
+                    preserve={false}
                     name="basic"
                     initialValues={{
-                        // nganhhoc: '',
-                        chuyennganh: '',
-                        tenmonhoc: ''
+                        name: '',
+                        code: ''
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                     layout='vertical'
                 >
-                    {/* <Form.Item
-                        label="Ngành học"
-                        name="nganhhoc"
+                    <Form.Item
+                        label="Tên môn học"
+                        name="name"
                         rules={[
                             {
                                 required: true,
@@ -55,24 +76,11 @@ const AddSubject = () => {
                         ]}
                     >
                         <Input />
-                    </Form.Item> */}
-
-                    <Form.Item
-                        label="Chuyên ngành"
-                        name="chuyennganh"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Required',
-                            },
-                        ]}
-                    >
-                        <Input disabled />
                     </Form.Item>
 
                     <Form.Item
-                        label="Tên môn học"
-                        name="tenmonhoc"
+                        label="Mã môn"
+                        name="code"
                         rules={[
                             {
                                 required: true,
