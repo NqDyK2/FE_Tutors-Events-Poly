@@ -6,7 +6,7 @@ export const subjectApiSlice = apiSlice.injectEndpoints({
       query: () => `major/get-all`,
       providesTags: ['Subject'],
     }),
-    deleteSubject: builder.query({
+    deleteSubject: builder.mutation({
       query: (id) => ({
         url: `subject/${id}/delete`,
         method: 'DELETE',
@@ -35,6 +35,6 @@ export const subjectApiSlice = apiSlice.injectEndpoints({
 export const {
   useAddSubjectMutation,
   useGetAllSubjectQuery,
-  useDeleteSubjectQuery,
   useUpdateSubjectMutation,
+  useDeleteSubjectMutation
 } = subjectApiSlice;

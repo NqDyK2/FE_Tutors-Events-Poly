@@ -2,9 +2,10 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React, { useState } from 'react';
-import { useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
+import { useDeleteSubjectMutation, useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
 import AddCarrer from './ModalCarrer/AddCarrer';
 import EditCarrer from './ModalCarrer/EditCarrer';
+import { toast } from 'react-toastify';
 
 import EditMajor from './ModalMajor/EditMajor';
 import AddMajor from './ModalMajor/AddMajor';
@@ -16,13 +17,20 @@ import Spinner from '../../../components/Spinner';
 const { Panel } = Collapse;
 const MajorPage = () => {
     const { data, isLoading, error } = useGetAllSubjectQuery();
+    const [deleteSubject, { isLoading: deleteLoading }] = useDeleteSubjectMutation();
+
     const onChange = (key) => {
-        console.log(key);
+        // console.log(key);
     };
     // pop confirm
-    const confirm = (e) => {
-        console.log(e);
-        message.success('Click on Yes');
+    const confirm = (id) => {
+        deleteSubject(id)
+            .then(() => {
+                toast.success('Xóa môn học thành công.');
+            })
+            .catch(() => {
+                toast.error('Xóa không thành công.');
+            })
     };
     const cancel = (e) => {
         console.log(e);
@@ -95,27 +103,31 @@ const MajorPage = () => {
             {
                 data && data?.data?.map((item, index) => {
                     return <Collapse
-                        defaultActiveKey={['1']}
+
                         onChange={onChange}
                         key={index}
+
                     >
                         <Panel header={`${item.name}`} key="1" extra={genCarrer()}>
                             {/* <div>
                                 <AddMajor />
                             </div> */}
                             <div>
-                                <AddSubject />
+                                <AddSubject data={{ name: item.name, id: item.id }} />
                             </div>
                             {item.subjects?.map((subject, index) => {
                                 return <>
                                     <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between' key={index}>
-                                        <span className='tw-mt-2'>- {subject.name}</span>
+                                        <div>
+                                            <span className='tw-mt-2 tw-capitalize'>{subject.name}</span>
+                                            <span className='tw-mt-2 tw-uppercase'> - {subject.code}</span>
+                                        </div>
                                         <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                            <EditSubject />
+                                            <EditSubject data={subject} />
                                             <div>
                                                 <Popconfirm
                                                     title="Bạn có chắc muốn xóa ?"
-                                                    onConfirm={confirm}
+                                                    onConfirm={() => confirm(subject.id)}
                                                     onCancel={cancel}
                                                     okText="Xóa"
                                                     cancelText="Không"
