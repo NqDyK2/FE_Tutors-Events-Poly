@@ -109,7 +109,7 @@ const columns = [
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip title={record.chitiet} color='#FF6D28'>
+      <Tooltip title={record.chitiet} color='#FF6D28' trigger={'click'} >
         <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
       </Tooltip>
     ),
