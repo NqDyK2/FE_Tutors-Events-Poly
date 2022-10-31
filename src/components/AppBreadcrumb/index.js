@@ -1,6 +1,6 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
-import {} from '@ant-design/icons';
+import { } from '@ant-design/icons';
 import { RiHome6Line } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
@@ -38,12 +38,16 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Danh sách kỳ học',
     },
     {
-      path: `/manage/sem/${pathname.split('/')[2]}`,
+      path: `/manage/sem/${pathname.split('/')[3]}`,
       breadcrumbName: 'Danh sách lớp học',
     },
     {
       path: `/manage/class/${pathname.split('/')[2]}`,
       breadcrumbName: 'Danh sách buổi học',
+    },
+    {
+      path: `/manage/major`,
+      breadcrumbName: 'Danh sách môn học',
     },
   ];
 
