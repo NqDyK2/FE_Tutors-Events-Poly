@@ -9,6 +9,7 @@ import {
 import './styles.css';
 import Spinner from '../../../../components/Spinner';
 import moment from 'moment';
+import { timeFormat } from '../../../../utils/TimeFormat';
 const AttendanceClassLessons = () => {
   const location = useLocation();
   const { subjectCode } = location.state;
@@ -24,29 +25,43 @@ const AttendanceClassLessons = () => {
       title: '#',
       dataIndex: 'stt',
       key: 'stt',
+      width: '3%'
+    },
+    {
+      title: 'Ngày',
+      dataIndex: 'day',
+      key: 'day',
+      width: '15%'
     },
     {
       title: 'Thời gian',
       dataIndex: 'lessonTime',
       key: 'lessonTime',
-      width: '10%',
+      width: '15%',
       render: (text) => {
         return <span dangerouslySetInnerHTML={{ __html: text }}></span>
       }
 
     },
     {
-      title: 'Lớp học',
-      dataIndex: 'classLocation',
-      key: 'classLocation',
-    },
-    {
       title: 'Hình thức',
       dataIndex: 'lessonType',
       key: 'lessonType',
-      render: (text) => {
-        return text === 0 ? 'Online' : 'Offline';
-      },
+      width: '5%',
+    },
+    {
+      title: 'Phòng học',
+      dataIndex: 'classLocation',
+      key: 'classLocation',
+      render: (_, record) => record.lessonType === 'Offline' ? (
+        <span>{record.classLocation}</span>
+      ) : (
+        <div>
+          <a target="blank" href={record.classLocation}>
+            {record.classLocation}
+          </a>
+        </div>
+      )
     },
     {
       title: 'Điểm danh',
@@ -73,10 +88,10 @@ const AttendanceClassLessons = () => {
 
         }
           placement="topLeft"
-          color='#0DB27F'
+          color='#FF6D28'
           trigger={'click'}
         >
-          <div className='tw-cursor-pointer tw-text-emerald-400 tw-font-medium'>
+          <div className='tw-cursor-pointer tw-text-blue-500 '>
             Thông tin
           </div>
         </Tooltip>
@@ -95,15 +110,13 @@ const AttendanceClassLessons = () => {
     return {
       stt: index + 1,
       id: item.id,
-      lessonTime: `${moment(item.start_time).format('DD/MM/YYYY')}<br>
-        ${moment(item.start_time).format('HH:mm')} - ${moment(
-        item.end_time
-      ).format('HH:mm')}`,
+      day: timeFormat(item.start_time.split('  ')[0]),
+      lessonTime: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]}`,
       startTime: item.start_time,
       endTime: item.end_time,
       subjectCode: item.subjects_code,
       classLocation: item.class_location,
-      lessonType: item.type,
+      lessonType: item.type ? 'Offline' : 'Online',
       attended: item.attended,
       attendanceStatus: `${item.attended_count}/${item.total_student}`,
       student_name: item.user_name,
@@ -118,7 +131,7 @@ const AttendanceClassLessons = () => {
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
     if (currentTime > record?.startTime && currentTime < record?.endTime && record?.attended === 0) {
       return (
-        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] hover:tw-bg-emerald-600 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+        <Button className=' hover:tw-border-transparent tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
             to={`/diem-danh/buoi-hoc/${record.id}`}
             state={{
@@ -133,7 +146,7 @@ const AttendanceClassLessons = () => {
     }
     else if (currentTime > record?.startTime && currentTime < record?.endTime && record?.attended === 1) {
       return (
-        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-blue-400 hover:tw-bg-blue-500 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+        <Button className='hover:tw-border-transparent tw-min-w-[150px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
             to={`/diem-danh/buoi-hoc/${record.id}`}
             state={{
@@ -148,7 +161,7 @@ const AttendanceClassLessons = () => {
     }
     else if (currentTime > record?.endTime) {
       return (
-        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-orange-300 hover:tw-bg-orange-400 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-blue-500 hover:tw-border-transparent  tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           <Link
             to={`/diem-danh/buoi-hoc/${record.id}`}
             state={{
@@ -163,7 +176,7 @@ const AttendanceClassLessons = () => {
     }
     else if (currentTime < record?.startTime) {
       return (
-        <Button className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-orange-300 hover:tw-bg-orange-400 tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
+        <Button disabled className='tw-min-w-[150px] tw-rounded-[4px] tw-bg-orange-300 hover:tw-bg-orange-400 hover:tw-border-transparent	tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400'>
           Chưa đến giờ
         </Button>
       );
