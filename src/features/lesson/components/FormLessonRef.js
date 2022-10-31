@@ -207,10 +207,7 @@ const FormLessonRef = (props, ref) => {
               label="Sinh viên hỗ trợ:"
               name="tutor_email"
               rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng nhập sinh viên hỗ trợ',
-                },
+
                 {
                   type: 'email',
                   message: 'Địa chỉ email không đúng định dạng',
