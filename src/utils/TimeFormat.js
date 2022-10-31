@@ -22,5 +22,5 @@ export const getDayOfTheWeek = (time) => {
 }
 
 export const timeFormat = (time) => {
-  return getDayOfTheWeek(time) + '\n' + moment(time).format('DD/MM/YYYY')
+  return getDayOfTheWeek(time) + ' - \n' + moment(time).format('DD/MM/YYYY')
 }
