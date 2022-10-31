@@ -12,7 +12,7 @@ import {
   SolutionOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
-import { BsFillCalendarDayFill } from 'react-icons/bs';
+import { BsFillCalendarDayFill, BsDot } from 'react-icons/bs';
 import { BiCalendarStar } from 'react-icons/bi';
 import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
@@ -50,12 +50,15 @@ const AppAside = () => {
     navigate(data.key);
   };
 
+
   // navigate by key value of menu item
   const items = [
     getItem(
       <div
-        className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
-          }`}
+      // className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+      //   }`
+
+      // }
       >
         Thông báo và tin tức
       </div>,
@@ -63,24 +66,27 @@ const AppAside = () => {
       <BellOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
     studentTutorial && getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+      <div
+        className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}
+
+      >
         Lịch học
       </div>,
-      'sub1',
+      'lich',
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
       [
         getItem(
           <div className='tw-text-[#313752] dark:!tw-text-white '>Lịch học</div>,
           '/lich-hoc',
           !collapsed && (
-            <SolutionOutlined className='  tw-text-[#C4CFF9]' />
+            <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
         getItem(
           <div className='tw-text-[#313752] dark:!tw-text-white '>Lịch sử học</div>,
           '/lich-su-hoc',
           !collapsed && (
-            <FileSearchOutlined className='   tw-text-[#C4CFF9]' />
+            <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
       ]
@@ -108,7 +114,8 @@ const AppAside = () => {
       '/diem-danh',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    acceptManager && getItem(
+    // acceptManager &&
+    getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Quản lý
       </div>,
@@ -116,17 +123,17 @@ const AppAside = () => {
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
       [
         getItem(
-          <div className='tw-text-[#313752] dark:!tw-text-white '>Lịch học</div>,
+          <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
           '/manage',
           !collapsed && (
-            <SolutionOutlined className='  tw-text-[#C4CFF9]' />
+            <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
         getItem(
           <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
           '/manage/major',
           !collapsed && (
-            <FileSearchOutlined className='   tw-text-[#C4CFF9]' />
+            <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
       ]

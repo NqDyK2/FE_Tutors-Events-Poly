@@ -24,7 +24,7 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
           Accept: 'application/json',
         },
       }),
-      invalidatesTags: ['Semester'],
+      invalidatesTags: ['Classroom'],
     }),
     addSemester: builder.mutation({
       query: (semester) => ({

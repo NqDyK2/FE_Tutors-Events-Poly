@@ -1,3 +1,7 @@
+/* #active {
+  @apply !tw-border-none !tw-bg-[#5d78ff] dark:!tw-bg-slate-600;
+} */
+
 .app-sidebar .ant-menu-item a,
 .app-sidebar .ant-menu-submenu-title a,
 app-sidebar .ant-menu-item div,
@@ -20,25 +24,31 @@ app-sidebar .ant-menu-item div,
 .app-sidebar .ant-menu-item-selected,
 .app-sidebar .ant-menu-item:hover,
 .app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover {
-  @apply !tw-border-none !tw-bg-[#F6F7FD] dark:!tw-bg-slate-600;
+  @apply !tw-border-none !tw-bg-[#d3dafa] dark:!tw-bg-slate-600;
 }
 
 .ant-menu-inline .ant-menu-item-selected:after {
   @apply !tw-border-r-0;
 }
 
+.app-sidebar .ant-menu-submenu-selected .ant-menu-submenu-title {
+  @apply !tw-bg-[#d3dafa] dark:!tw-bg-slate-600;
+}
+
 .ant-menu-inline .ant-menu-item-selected *,
 .ant-menu-inline .ant-menu-item:hover *,
 .app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover *,
-.ant-menu-inline .ant-menu-submenu .ant-menu-sub .ant-menu-item:hover * {
+.ant-menu-inline .ant-menu-submenu .ant-menu-sub .ant-menu-item:hover *,
+.ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-item-icon,
+.ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-title-content div,
+.ant-menu-submenu-selected .ant-menu-submenu-title .anticon.anticon-right svg {
   @apply !tw-text-[#5d78ff];
 }
 
-.ant-menu:not(.ant-menu-horizontal) { 
-  @apply !tw-bg-white dark:!tw-bg-[#202125] ;
+.ant-menu:not(.ant-menu-horizontal) {
+  @apply !tw-bg-white dark:!tw-bg-[#202125];
 }
 
-.app-sidebar  {
-  @apply !tw-border-r-0 !tw-overflow-x-hidden;
+.app-sidebar {
+  @apply !tw-overflow-x-hidden !tw-border-r-0;
 }
-
