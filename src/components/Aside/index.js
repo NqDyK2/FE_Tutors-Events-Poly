@@ -122,14 +122,14 @@ const AppAside = () => {
       'sub1',
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
       [
-        getItem(
+        acceptManager && getItem(
           <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
           '/manage',
           !collapsed && (
             <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
-        getItem(
+        isAdmin && getItem(
           <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
           '/manage/major',
           !collapsed && (
