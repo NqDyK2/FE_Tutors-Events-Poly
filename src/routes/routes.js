@@ -23,6 +23,7 @@ import AttendanceClassLessons from '../features/attendance/pages/AttendanceClass
 import AttendanceStudentList from '../features/attendance/pages/AttendanceStudentList/index.js';
 import MajorPage from '../features/major/pages/index.js';
 import LichHocGuard from './guard/LichHocGuard.js';
+import AdminGuard from './guard/AdminGuard.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -50,6 +51,8 @@ const AppRoutes = () => {
             <Route path="/manage/sem/:id" element={<SubjectPage />} />
             <Route path="/manage/class/:id" element={<ListStudent />} />
             <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
+          </Route>
+          <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />
           </Route>
 
