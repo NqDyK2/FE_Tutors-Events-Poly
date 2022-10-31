@@ -45,13 +45,13 @@ const AppRoutes = () => {
             <Route path="/lich-hoc" element={<TimeTable />} />
           </Route>
 
-          {/* <Route element={<ManageGuard />}> */}
-          <Route path="/manage" element={<SemesterPage />} />
-          <Route path="/manage/sem/:id" element={<SubjectPage />} />
-          <Route path="/manage/class/:id" element={<ListStudent />} />
-          <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
-          <Route path="/manage/major" element={<MajorPage />} />
-          {/* </Route> */}
+          <Route element={<ManageGuard />}>
+            <Route path="/manage" element={<SemesterPage />} />
+            <Route path="/manage/sem/:id" element={<SubjectPage />} />
+            <Route path="/manage/class/:id" element={<ListStudent />} />
+            <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
+            <Route path="/manage/major" element={<MajorPage />} />
+          </Route>
 
           <Route element={<AttendanceGuard />}>
             <Route path="/diem-danh" element={<AttendanceClassList />} />

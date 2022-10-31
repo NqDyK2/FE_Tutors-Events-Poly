@@ -114,7 +114,7 @@ const AppAside = () => {
       '/diem-danh',
       <CarryOutOutlined className='tw-text-[18px]  tw-text-[#C4CFF9]' />
     ),
-    // acceptManager &&
+    acceptManager &&
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Quản lý
