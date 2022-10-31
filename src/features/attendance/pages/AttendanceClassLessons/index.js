@@ -22,13 +22,13 @@ const AttendanceClassLessons = () => {
 
   const columns = [
     {
-      title: '#',
+      title: 'STT',
       dataIndex: 'stt',
       key: 'stt',
       width: '3%'
     },
     {
-      title: 'Ngày',
+      title: 'Thứ - Ngày/Tháng',
       dataIndex: 'day',
       key: 'day',
       width: '15%'
@@ -47,7 +47,7 @@ const AttendanceClassLessons = () => {
       title: 'Hình thức',
       dataIndex: 'lessonType',
       key: 'lessonType',
-      width: '5%',
+      width: '6%',
     },
     {
       title: 'Phòng học',

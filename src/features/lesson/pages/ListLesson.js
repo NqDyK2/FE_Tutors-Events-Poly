@@ -22,13 +22,13 @@ const columns = [
     dataIndex: 'stt',
     key: 'stt',
     render: (text) => <strong>{text}</strong>,
-    width: '5%',
+    width: '3%',
   },
   {
-    title: 'Ngày',
+    title: 'Thứ - Ngày/Tháng',
     dataIndex: 'ngay',
     key: 'ngay',
-    width: '7%',
+    width: '10%',
   },
   {
     title: 'Thời gian',
@@ -64,11 +64,13 @@ const columns = [
       record.hinhthuc === 'Offline' ? (
         <span>{record.phonghoc}</span>
       ) : (
-        <div className="tw-truncate">
-          <a target="blank" href={record.phonghoc} >
-            {record.phonghoc}
-          </a>
-        </div>
+        <Tooltip color='#FF6D28' title={`${record.phonghoc}`}>
+          <div className="tw-truncate">
+            <a target="blank" href={record.phonghoc} >
+              {record.phonghoc}
+            </a>
+          </div>
+        </Tooltip>
 
       ),
   },
