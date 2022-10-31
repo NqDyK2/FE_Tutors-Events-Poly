@@ -106,7 +106,7 @@ const FormImportExcelRef = (props, ref) => {
     })
       .unwrap()
       .then((res) => {
-        toast.success('Import thành công');
+        toast.success(res.message);
         setVisible(false);
         form.resetFields();
       });
