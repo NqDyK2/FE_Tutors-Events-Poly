@@ -12,8 +12,9 @@ import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
+import { RiSpaceShipLine } from 'react-icons/ri';
 
 const columns = [
   {
@@ -27,25 +28,7 @@ const columns = [
     title: 'Ngày',
     dataIndex: 'ngay',
     key: 'ngay',
-    width: '10%',
-  },
-  {
-    title: 'Hình thức',
-    dataIndex: 'hinhthuc',
-    key: 'hinhthuc',
-    width: '8%',
-  },
-  {
-    title: 'Mã môn',
-    dataIndex: 'subjects_code',
-    key: 'subjects_code',
-    width: '5%',
-  },
-  {
-    title: 'Môn',
-    dataIndex: 'subjects_name',
-    key: 'subjects_name',
-    width: '10%',
+    width: '7%',
   },
   {
     title: 'Thời gian',
@@ -54,37 +37,79 @@ const columns = [
     width: '10%',
   },
   {
+    title: 'Môn học',
+    dataIndex: 'subjects_name',
+    key: 'subjects_name',
+    width: '10%',
+  },
+
+  {
+    title: 'Mã môn',
+    dataIndex: 'subjects_code',
+    key: 'subjects_code',
+    width: '8%',
+  },
+  {
+    title: 'Hình thức',
+    dataIndex: 'hinhthuc',
+    key: 'hinhthuc',
+    width: '5%',
+  },
+  {
     title: 'Phòng học',
     dataIndex: 'phonghoc',
     key: 'phonghoc',
-    width: '10%',
+    width: '15%',
     render: (_, record) =>
       record.hinhthuc === 'Offline' ? (
         <span>{record.phonghoc}</span>
       ) : (
-        <a target="blank" href={record.phonghoc}>
-          {record.phonghoc}
-        </a>
+        <div className="tw-truncate">
+          <a target="blank" href={record.phonghoc} >
+            {record.phonghoc}
+          </a>
+        </div>
+
       ),
   },
   {
     title: 'Giảng viên',
     dataIndex: 'teacher_email',
     key: 'teacher_email',
-    width: '5%',
+    width: '10%',
+    render: (_, record) => (
+      <Tooltip title={`${record.teacher_email}`} color='#FF6D28'  >
+        <span>{record.teacher_email.split('@')[0]}</span>
+      </Tooltip >
+    ),
   },
   {
     title: 'Trợ giảng',
     dataIndex: 'tutor_email',
     key: 'tutor_email',
-    width: '5%',
+    width: '10%',
+    _render: (_, record) => record.tutor_email === null ? (<span>Trống</span>)
+      : (<Tooltip title={`${record.tutor_email}`} color='#FF6D28'>
+        <span>{record.tutor_email.split('@')[0]}</span>
+      </Tooltip>),
+    // (
+    //   <Tooltip title={`${record.tutor_email}`} color='#FF6D28'>
+    //     <span>{record.tutor_email.split('@')[0]}</span>
+    //   </Tooltip>
+    // )
+    get render() {
+      return this._render;
+    },
+    set render(value) {
+      this._render = value;
+    },
   },
   {
     title: 'Nội dung',
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip placement="left" title={record.chitiet} color={'green'}>
+      <Tooltip title={record.chitiet} color='#FF6D28'>
         <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
       </Tooltip>
     ),
@@ -93,28 +118,33 @@ const columns = [
     title: '',
     dataIndex: 'action',
     key: 'action',
+    width: '7%',
     render: (_, record) => (
       <div className="tw-flex">
-        <Button
-          onClick={() => {
-            record.action.modalRef.current.show('EDIT', record.action.item);
-          }}
-          className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
-        >
-          <EditOutlined />
-        </Button>
-        <ConfirmPopup
-          content={
-            <Button className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
-              <DeleteOutlined />
-            </Button>
-          }
-          title={`Xác nhận xóa buổi học này?`}
-          onConfirm={() => {
-            record.action.handleRemoveLesson(record?.id);
-          }}
-          placement="topRight"
-        />
+        <Tooltip title="Sửa buổi học" color='#FF6D28' >
+          <Button
+            onClick={() => {
+              record.action.modalRef.current.show('EDIT', record.action.item);
+            }}
+            className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
+          >
+            <EditOutlined />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Xóa buổi học" color='#FF6D28' placement='topLeft'>
+          <ConfirmPopup
+            content={
+              <Button className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
+                <DeleteOutlined />
+              </Button>
+            }
+            title={`Xác nhận xóa buổi học này?`}
+            onConfirm={() => {
+              record.action.handleRemoveLesson(record?.id);
+            }}
+            placement="topRight"
+          />
+        </Tooltip>
       </div>
     ),
   },
@@ -158,13 +188,13 @@ const ListLesson = () => {
         key: index,
         stt: index + 1,
         id: item.id,
-        ngay: timeFormat(item.start_time.split(' ')[0]),
+        ngay: timeFormat(item.start_time.split('  ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
         thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]
           }`,
         phonghoc: item.class_location,
-        tutor_email: item.tutor_email.split('@')[0],
-        teacher_email: item.teacher_email.split('@')[0],
+        tutor_email: item.tutor_email,
+        teacher_email: item.teacher_email,
         subjects_code: item.subjects_code?.toUpperCase(),
         subjects_name: item.subject_name,
         chitiet: item.content,
@@ -182,11 +212,12 @@ const ListLesson = () => {
         <div className="tw-flex tw-items-center tw-gap-x-3">
           <span>
             <Button
-              type="primary"
+              type="link"
+              icon={<PlusCircleOutlined />}
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className="tw-flex tw-items-center tw-justify-center tw-border-0 tw-bg-green-400 tw-px-2 tw-shadow-sm tw-shadow-green-400 hover:tw-bg-green-500 hover:tw-text-white dark:tw-bg-transparent dark:tw-shadow-none dark:hover:tw-text-green-400"
+              className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
             >
-              <PlusOutlined className="-tw-mr-1" /> Thêm buổi học
+              Thêm buổi học
             </Button>
           </span>
           <button
@@ -208,7 +239,9 @@ const ListLesson = () => {
         )}
 
         <Table
+          size="small"
           key={data.key}
+          scroll={{ y: 380 }}
           columns={columns}
           dataSource={data}
           pagination={false}
