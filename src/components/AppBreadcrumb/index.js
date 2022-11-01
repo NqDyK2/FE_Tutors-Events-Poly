@@ -47,11 +47,11 @@ const AppBreadcrumb = () => {
     },
     {
       path: `/manage/sem/${pathname.split('/')[3]}`,
-      breadcrumbName: 'Danh sách lớp học',
+      breadcrumbName: `${currentUser.role_id === 1 ? 'Quản lý lớp học' : 'Danh sách lớp học'}`,
     },
     {
       path: `/manage/class/lesson/${pathname.split('/')[4]}`,
-      breadcrumbName: 'Danh sách buổi học',
+      breadcrumbName: 'Danh sách lịch học',
     },
     {
       path: `/manage/class/${pathname.split('/')[3]}`,
@@ -59,7 +59,7 @@ const AppBreadcrumb = () => {
     },
     {
       path: `/manage/major`,
-      breadcrumbName: 'Danh sách môn học',
+      breadcrumbName: 'Quản lý chuyên ngành / môn học',
     },
   ];
 
