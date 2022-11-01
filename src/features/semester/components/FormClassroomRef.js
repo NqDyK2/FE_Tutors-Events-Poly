@@ -66,13 +66,13 @@ const FormClassroomRef = ({ semester_id }, ref) => {
       case MODE.ADD:
         addClassroom(dataRequest)
           .unwrap()
-          .then(() => {
+          .then((res) => {
             setVisible(false);
             form.resetFields();
-            toast.success('Thêm thành công');
+            toast.success(res.message);
           })
           .catch((err) => {
-            setError(err.data);
+            setError(err);
           });
         break;
       case MODE.EDIT:
@@ -84,7 +84,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
             toast.success('Sửa thành công');
           })
           .catch((err) => {
-            setError(err.data);
+            setError(err);
           });
         break;
       default:
@@ -144,8 +144,8 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           name="default_teacher_email"
           rules={[
             {
-              required: true,
-              message: 'Vui lòng nhập giảng viên phụ trách.',
+              required: mode === MODE.ADD ? false : true,
+              message: "Vui lòng nhập email giảng viên."
             },
             {
               type: 'email',
@@ -157,7 +157,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
         </Form.Item>
       </Form>
       <div>
-        {error && <div className="tw-text-red-500">{error.message}</div>}
+        {error && <div className="tw-text-red-500">{error?.message}</div>}
       </div>
     </Modal>
   );
