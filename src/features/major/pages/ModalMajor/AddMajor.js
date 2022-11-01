@@ -2,7 +2,7 @@
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAddMajorMutation } from '../../../../app/api/MajorApiSlice';
+import { useAddMajorMutation } from '../../../../app/api/majorApiSlice';
 
 const AddMajor = () => {
     const [AddMajor, { isLoading: majorLoading }] = useAddMajorMutation();

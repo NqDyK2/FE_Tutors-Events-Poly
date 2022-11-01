@@ -2,7 +2,7 @@
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useUpdateMajorMutation } from '../../../../app/api/MajorApiSlice';
+import { useUpdateMajorMutation } from '../../../../app/api/majorApiSlice';
 
 const EditMajor = (props) => {
     const [updateMajor, { isLoading: updateLoading }] = useUpdateMajorMutation();
