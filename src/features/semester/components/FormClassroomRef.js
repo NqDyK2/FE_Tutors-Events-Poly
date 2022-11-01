@@ -143,10 +143,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           label="Giảng viên:"
           name="default_teacher_email"
           rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập email giảng viên."
-            },
+
             {
               type: 'email',
               message: 'Địa chỉ email không đúng định dạng',

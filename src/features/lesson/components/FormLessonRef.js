@@ -310,12 +310,12 @@ const FormLessonRef = (props, ref) => {
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập giảng viên',
+                  message: 'Vui lòng chọn giảng viên',
                 },
               ]}
               name="teacher_email"
             >
-              <Input disabled />
+              <Input />
             </Form.Item>
 
             <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">

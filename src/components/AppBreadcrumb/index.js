@@ -34,6 +34,10 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Điểm danh',
     },
     {
+      path: `/diem-danh/lop/${pathname.split('/')[3]}`,
+      breadcrumbName: 'Điểm danh',
+    },
+    {
       path: '/import-students',
       breadcrumbName: 'Import danh sách sinh viên',
     },
@@ -46,8 +50,12 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Danh sách lớp học',
     },
     {
-      path: `/manage/class/${pathname.split('/')[2]}`,
+      path: `/manage/class/lesson/${pathname.split('/')[4]}`,
       breadcrumbName: 'Danh sách buổi học',
+    },
+    {
+      path: `/manage/class/${pathname.split('/')[3]}`,
+      breadcrumbName: 'Danh sách sinh viên',
     },
     {
       path: `/manage/major`,
