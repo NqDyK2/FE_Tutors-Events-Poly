@@ -33,7 +33,7 @@ const AddSubject = (props) => {
                 form.resetFields();
             })
             .catch(() => {
-                toast.error("Thêm môn học thất bại");
+                toast.error("Thêm môn học thất bại.");
             })
     };
     const onFinishFailed = (errorInfo) => {

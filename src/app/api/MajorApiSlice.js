@@ -6,7 +6,7 @@ export const majorApiSlice = apiSlice.injectEndpoints({
             query: () => `major/get-all`,
             providesTags: ['Major'],
         }),
-        deleteMajor: builder.query({
+        deleteMajor: builder.mutation({
             query: (id) => ({
                 url: `major/${id}/delete`,
                 method: 'DELETE',
@@ -17,10 +17,9 @@ export const majorApiSlice = apiSlice.injectEndpoints({
             query: (major) => ({
                 url: 'major/store',
                 method: 'POST',
-
                 body: major,
             }),
-            invalidatesTags: ['Major']
+            invalidatesTags: ['Major'],
         }),
         updateMajor: builder.mutation({
             query: ({ id, ...major }) => ({
@@ -37,5 +36,5 @@ export const {
     useGetAllMajorQuery,
     useAddMajorMutation,
     useUpdateMajorMutation,
-    useDeleteMajorQuery,
+    useDeleteMajorMutation,
 } = majorApiSlice
