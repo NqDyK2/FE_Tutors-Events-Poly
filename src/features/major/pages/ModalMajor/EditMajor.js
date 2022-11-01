@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { EditOutlined } from '@ant-design/icons';
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 

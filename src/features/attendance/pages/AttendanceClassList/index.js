@@ -81,6 +81,7 @@ const AttendanceClassList = () => {
           scroll={{ y: 380 }}
           columns={columns}
           dataSource={dataSource}
+          pagination={false}
           loading={{
             indicator: <Spinner />,
             spinning: isLoading,

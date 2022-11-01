@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   useDelLessonMutation,
   useGetAllLessonQuery,
@@ -14,7 +14,6 @@ import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
-import { RiSpaceShipLine } from 'react-icons/ri';
 
 const columns = [
   {
@@ -28,7 +27,7 @@ const columns = [
     title: 'Thứ - Ngày/Tháng',
     dataIndex: 'ngay',
     key: 'ngay',
-    width: '10%',
+    width: '12%',
   },
   {
     title: 'Thời gian',
@@ -170,11 +169,11 @@ const ListLesson = () => {
   const handleRemoveLesson = (id) => {
     removeLesson(id)
       .unwrap()
-      .then((_) => {
-        toast.success('Xóa buổi học thành công.');
+      .then((res) => {
+        toast.success(res.message);
       })
-      .catch(() => {
-        toast.error(`Xóa không thành công.`);
+      .catch((err) => {
+        toast.error(err.data);
       });
   };
 

@@ -22,7 +22,7 @@ const FormSemeterRef = (props, ref) => {
   const [updateSemester, { isLoading: updateLoading }] =
     useUpdateSemesterMutation();
   const [visible, setVisible] = React.useState(false);
-  const [error, setError] = React.useState(null);
+  const [errors, setErrors] = React.useState(null);
   const [title, setTitle] = React.useState('');
   const [form] = Form.useForm();
   const [mode, setMode] = React.useState(MODE.ADD);
@@ -63,22 +63,24 @@ const FormSemeterRef = (props, ref) => {
         addSemester(data)
           .unwrap()
           .then((res) => {
+            console.log(res);
             setVisible(false);
-            toast.success('Thêm thành công');
+            toast.success(res.message);
           })
           .catch((err) => {
-            setError(err.data);
+            setErrors(err.data)
           });
         break;
       case MODE.EDIT:
         updateSemester(data)
           .unwrap()
-          .then(() => {
+          .then((res) => {
             setVisible(false);
-            toast.success('Sửa thành công');
+            toast.success(res.massage);
           })
           .catch((err) => {
-            setError(err.data || 'Có lỗi xảy ra');
+
+            setErrors(err.data);
           });
         break;
       default:
@@ -95,7 +97,7 @@ const FormSemeterRef = (props, ref) => {
       }}
       onCancel={() => {
         setVisible(false);
-        setError(null);
+        setErrors(null);
         form.resetFields();
       }}
       okText="Lưu"
@@ -120,7 +122,7 @@ const FormSemeterRef = (props, ref) => {
           layout="vertical"
           onFinish={onFinish}
           onChange={() => {
-            setError(null);
+            setErrors(null);
           }}
         >
           <Form.Item
@@ -163,23 +165,23 @@ const FormSemeterRef = (props, ref) => {
               label="test"
               format={'DD/MM/YYYY'}
               onChange={() => {
-                setError(null);
+                setErrors(null);
               }}
             />
           </Form.Item>
         </Form>
 
         <div>
-          {typeof error === 'string' ? (
+          {typeof errors === 'string' ? (
             <div className="tw-text-red-500">Có lỗi xảy ra.</div>
           ) : (
             <div className="tw-text-red-500">
               {/* {split(error?.message, '(')[0]} */}
-              {error?.errors?.name && <div>{error?.errors?.name}</div>}
-              {error?.errors?.start_time && (
-                <div>{error?.errors?.start_time}</div>
+              {errors?.errors?.name && <div>{errors?.errors?.name}</div>}
+              {errors?.errors?.start_time && (
+                <div>{errors?.errors?.start_time}</div>
               )}
-              {error?.errors?.end_time && <div>{error?.errors?.end_time}</div>}
+              {errors?.errors?.end_time && <div>{errors?.errors?.end_time}</div>}
             </div>
           )}
         </div>
