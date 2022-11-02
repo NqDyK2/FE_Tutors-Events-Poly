@@ -9,17 +9,19 @@ import FormSemeterRef from '../components/FormSemeterRef';
 import Spinner from '../../../components/Spinner';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
+import { selectCurrentUser } from '../../auth/authSlice';
+import { useSelector } from 'react-redux';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
   const [delSemester, { isLoading: delLoading }] = useDeleteSemesterMutation()
   const modalRef = React.useRef();
+  const currentUser = useSelector(selectCurrentUser);
 
   const handleRemoveSemester = (item) => {
     delSemester(item.id)
       .unwrap()
-      .then(() => toast.success("Xóa kỳ học thành công"))
+      .then((res) => toast.success(res.message))
       .catch((err) => toast.error("Có lỗi xảy ra"))
   }
 
@@ -38,7 +40,6 @@ const SemesterPage = () => {
           cancelText="Không"
         >
           <Button
-            // onClick={() => handleRemoveSemester(item)}
             loading={delLoading}
             icon={<DeleteOutlined className="tw-text-[20px]" />}
             className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
@@ -55,17 +56,24 @@ const SemesterPage = () => {
       )}
 
       <div>
-        <div className="tw-absolute tw-right-[5%] -tw-mt-4 md:tw-right-[2%] ">
-          <Button
-            className="hover:tw-bg-orange-00 tw-flex tw-items-center tw-rounded-md tw-border tw-border-transparent tw-bg-orange-400  tw-px-2 tw-text-slate-100 dark:tw-border dark:tw-border-white  dark:tw-bg-transparent  "
-            type="primary"
-            onClick={() => modalRef.current.show('ADD')}
-          >
-            <div className="tw-flex tw-items-center ">
-              <PlusCircleOutlined className="tw-mr-1" /> Thêm kỳ học
-            </div>
-          </Button>
-        </div>
+        {
+          currentUser.role_id === 1 && (
+            <>
+              <div className="tw-absolute tw-right-[5%] -tw-mt-4 md:tw-right-[2%] ">
+                <Button
+                  className="hover:tw-bg-orange-00 tw-flex tw-items-center tw-rounded-md tw-border tw-border-transparent tw-bg-orange-400  tw-px-2 tw-text-slate-100 dark:tw-border dark:tw-border-white  dark:tw-bg-transparent  "
+                  type="primary"
+                  onClick={() => modalRef.current.show('ADD')}
+                >
+                  <div className="tw-flex tw-items-center ">
+                    <PlusCircleOutlined className="tw-mr-1" /> Thêm kỳ học
+                  </div>
+                </Button>
+              </div>
+            </>
+          )
+        }
+
       </div>
       <Spinner
         loading={isLoading}
@@ -105,7 +113,7 @@ const SemesterPage = () => {
                       semesterEndTime: item.end_time,
                       semesterId: item.id,
                     }}
-                    className="tw-w-full   tw-pl-2  tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
+                    className="tw-w-full   tw-pl-2 tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
                     to={`/manage/sem/${item.id}`}
                   >
                     {item.name}
@@ -122,15 +130,20 @@ const SemesterPage = () => {
                     </p>
                   </div>
                 </div>
-                <div>
-                  <Popover placement="bottomRight" content={ActionContent(item)} trigger="focus" >
-                    <Button
-                      className='tw-border-0 hover:tw-bg-transparent tw-shadow-none'
-                    >
-                      <SettingOutlined />
-                    </Button>
-                  </Popover>
-                </div>
+                {
+                  currentUser?.role_id === 1 && (<>
+                    <div>
+                      <Popover placement="bottomRight" content={ActionContent(item)} trigger="focus" >
+                        <Button
+                          className='tw-border-0 hover:tw-bg-transparent dark:tw-text-white tw-shadow-none dark:tw-bg-[#202125] dark:hover:tw-text-blue-500'
+                        >
+                          <SettingOutlined />
+                        </Button>
+                      </Popover>
+                    </div>
+                  </>)
+                }
+
               </div>
             </div>
           ))}

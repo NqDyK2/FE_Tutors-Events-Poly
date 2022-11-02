@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { setCredentials, logOut } from '../../features/auth/authSlice';
+import { logOut } from '../../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
@@ -15,24 +15,18 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// const baseQueryWithReAuth = async (args, api, extraOptions) => {
-//   let result = await baseQuery(args, api, extraOptions);
-//   if (result?.error?.originalStatus === 403) {
-//     console.log('re-authenticating');
-//     const refreshResult = await baseQuery('auth/refresh', api, extraOptions);
-//     console.log('refreshResult', refreshResult);
-//     if (refreshResult?.data) {
-//       const user = api.getState().auth.user;
-//       api.dispatch(setCredentials({user, token: refreshResult.data.token}));
-//       result = await baseQuery(args, api, extraOptions);
-//     }else {
-//       api.dispatch(logOut());
-//     }
-//     return result;
-//   }
-// }
+const baseQueryWithReAuth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (result?.errors) {
+    if (result.errors.status === 401 || result.errors.status === 403) {
+      api.dispatch(logOut());
+    }
+  } else {
+    return result;
+  }
+}
 
 export const apiSlice = createApi({
-  baseQuery: baseQuery,
+  baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({}),
 });

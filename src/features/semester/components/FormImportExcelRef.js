@@ -1,11 +1,9 @@
-import { Button, Form, Input, Modal, Select, Spin } from 'antd';
+import { Button, Form, Input, Modal, Spin } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import XLSX from 'xlsx';
 import { useImportStudentsSemesterMutation } from '../../../app/api/semesterApiSlice';
-import { transform } from 'lodash';
-import './styles.css';
 import { useParams } from 'react-router-dom';
 import { CloseCircleFilled } from '@ant-design/icons';
 
@@ -14,7 +12,7 @@ const FormImportExcelRef = (props, ref) => {
   const { id: semesterId } = useParams();
   const [
     importStudentsSemester,
-    { isLoading: isImporting, isSuccess: isImported, error: importError },
+    { isLoading: isImporting },
   ] = useImportStudentsSemesterMutation();
   const [file, setFile] = React.useState(null);
   const [fileLoading, setFileLoading] = React.useState(false);
@@ -106,7 +104,7 @@ const FormImportExcelRef = (props, ref) => {
     })
       .unwrap()
       .then((res) => {
-        toast.success('Import thành công');
+        toast.success(res.message);
         setVisible(false);
         form.resetFields();
       });

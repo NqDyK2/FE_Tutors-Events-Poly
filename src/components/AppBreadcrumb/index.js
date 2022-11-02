@@ -1,13 +1,17 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
-import {} from '@ant-design/icons';
+import { } from '@ant-design/icons';
 import { RiHome6Line } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../features/auth/authSlice';
+
 const AppBreadcrumb = () => {
   const pathname = useLocation().pathname;
   const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
+  const currentUser = useSelector(selectCurrentUser);
   const breadcrumbData = [
     {
       path: '/',
@@ -30,20 +34,32 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Điểm danh',
     },
     {
+      path: `/diem-danh/lop/${pathname.split('/')[3]}`,
+      breadcrumbName: 'Điểm danh',
+    },
+    {
       path: '/import-students',
       breadcrumbName: 'Import danh sách sinh viên',
     },
     {
       path: '/manage',
-      breadcrumbName: 'Danh sách kỳ học',
+      breadcrumbName: `${currentUser.role_id === 1 ? ' Quản lý kỳ học ' : 'Danh sách kỳ học'}`,
     },
     {
-      path: `/manage/sem/${pathname.split('/')[2]}`,
-      breadcrumbName: 'Danh sách lớp học',
+      path: `/manage/sem/${pathname.split('/')[3]}`,
+      breadcrumbName: `${currentUser.role_id === 1 ? 'Quản lý lớp học' : 'Danh sách lớp học'}`,
     },
     {
-      path: `/manage/class/${pathname.split('/')[2]}`,
-      breadcrumbName: 'Danh sách buổi học',
+      path: `/manage/class/lesson/${pathname.split('/')[4]}`,
+      breadcrumbName: 'Danh sách lịch học',
+    },
+    {
+      path: `/manage/class/${pathname.split('/')[3]}`,
+      breadcrumbName: 'Danh sách sinh viên',
+    },
+    {
+      path: `/manage/major`,
+      breadcrumbName: 'Quản lý chuyên ngành / môn học',
     },
   ];
 

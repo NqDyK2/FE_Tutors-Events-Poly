@@ -50,7 +50,6 @@ const AttendanceClassList = () => {
     data: listData,
     isLoading,
     error,
-    isSuccess,
   } = useGetAttendanceListClassQuery();
   const dataSource = listData?.data.map((item, index) => ({
     key: index + 1,
@@ -63,7 +62,7 @@ const AttendanceClassList = () => {
   return (
     <div className='tw-w-full'>
       <div className='tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px] dark:tw-text-white'>Điểm danh</span>
+        <span className='tw-text-[15px] dark:tw-text-white'>Lớp có thể điểm danh</span>
       </div>
       {/* table antd */}
       <div className='tw-mt-6'>
@@ -81,6 +80,7 @@ const AttendanceClassList = () => {
           scroll={{ y: 380 }}
           columns={columns}
           dataSource={dataSource}
+          pagination={false}
           loading={{
             indicator: <Spinner />,
             spinning: isLoading,

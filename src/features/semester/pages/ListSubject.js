@@ -2,16 +2,17 @@ import React, { useRef } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FaEdit, FaReply } from 'react-icons/fa';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FaReply } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
+import { useDeleteClassroomMutation, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
-import { useDeleteClassroomMutation, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
-import { AiFillDelete } from 'react-icons/ai';
-import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../auth/authSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -22,16 +23,17 @@ const SubjectPage = () => {
   const modalClassroomRef = useRef();
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
+  const currentUser = useSelector(selectCurrentUser);
+
 
   const handleRemoveClassroom = (id) => {
-    removeClassroom(id).unwrap().then((_) => {
-      toast.success("Xóa lớp học thành công!!");
-    }).catch(() => {
-      toast.error('Xóa không thành công.')
+    removeClassroom(id).unwrap().then((res) => {
+      toast.success(res.message);
     })
   }
+
   // table antd
-  const columns = [
+  let columns = [
     {
       title: 'STT',
       dataIndex: 'key',
@@ -122,41 +124,50 @@ const SubjectPage = () => {
       )
     },
     {
-      title: 'Thao tác',
+      title: '',
       key: 'action',
+      dataIndex: 'action',
       render: (_, record) => (
         <div className='tw-flex tw-items-center'>
           <Tooltip title="Thay đổi giảng viên phụ trách" placement='top' color={'#FF6D28'}>
             <Space size="middle" className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
-              <FaEdit
-                className="tw-cursor-pointer dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent"
+              <Button
+                className="tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
                 onClick={() => modalClassroomRef.current.show('EDIT', record)}
-              />
+              >
+                <EditOutlined />
+              </Button>
             </Space>
           </Tooltip>
           <ConfirmPopup
             key={record.id}
             className="tw-m-0"
             content={
-              <Button className="dark:tw-text-white tw-pl-3 tw-border-none tw-bg-transparent hover:tw-bg-transparent">
-                <AiFillDelete />
-              </Button>
+              <Tooltip title="Xóa lớp học" placement='top' color={'#FF6D28'}>
+                <Button className="dark:tw-text-white tw-pl-3 tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none">
+                  <DeleteOutlined />
+                </Button>
+              </Tooltip>
             }
             title={`Xác nhận xóa lớp học này?`}
             onConfirm={() => handleRemoveClassroom(record.id)}
             placement="topRight"
           />
-        </div>
+        </div >
       ),
     },
   ];
+
+  if (currentUser?.role_id !== 1) {
+    columns = columns.filter(col => col.dataIndex !== 'action')
+  }
 
   const dataSource = data?.data?.map((item, index) => ({
     key: index + 1,
     id: item.id,
     name: item.subject_name,
     subject_code: item.subject_code,
-    default_teacher_email: item.default_teacher_email,
+    default_teacher_email: item.default_teacher_email === null ? (<span className='tw-text-red-500 tw-font-semibold'>Trống</span>) : item.default_teacher_email,
     default_tutor_email: item.default_tutor_email,
     lessons_count: item.lessons_count,
     class_students_count: item.class_students_count,
@@ -173,22 +184,26 @@ const SubjectPage = () => {
           Danh sách lớp học
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
-          <Button
-            icon={<PlusCircleOutlined />}
-            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
-            type="link"
-            onClick={() => modalClassroomRef.current.show('ADD')}
-          >
-            Thêm lớp học
-          </Button>
-          <Button
-            icon={<PlusCircleOutlined />}
-            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
-            type="text"
-            onClick={() => modalImportExcelRef.current.show()}
-          >
-            Thêm sinh viên 1/3 block
-          </Button>
+          {currentUser?.role_id === 1 &&
+            (<>
+              <Button
+                icon={<PlusCircleOutlined />}
+                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+                type="link"
+                onClick={() => modalClassroomRef.current.show('ADD')}
+              >
+                Thêm lớp học
+              </Button>
+              <Button
+                icon={<PlusCircleOutlined />}
+                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
+                type="text"
+                onClick={() => modalImportExcelRef.current.show()}
+              >
+                Thêm sinh viên 1/3 block
+              </Button>
+            </>)
+          }
           <button
             onClick={() => navigate(-1)}
             className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
