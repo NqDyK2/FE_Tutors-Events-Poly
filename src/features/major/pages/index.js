@@ -1,27 +1,24 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Collapse, message, Popconfirm, Popover } from 'antd';
+import { Collapse, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React from 'react';
-import { useDeleteSubjectMutation, useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
-import AddCarrer from './ModalCarrer/AddCarrer';
-import EditCarrer from './ModalCarrer/EditCarrer';
 import { toast } from 'react-toastify';
 import { useDeleteMajorMutation, useGetAllMajorQuery } from '../../../app/api/majorApiSlice';
 import { useDeleteSubjectMutation } from '../../../app/api/subjectApiSlice';
 import Spinner from '../../../components/Spinner';
 import AddMajor from './ModalMajor/AddMajor';
 import EditMajor from './ModalMajor/EditMajor';
+
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
-import Spinner from '../../../components/Spinner';
-
 const { Panel } = Collapse;
+
 const MajorPage = () => {
     const { data: dataSubject, isLoading, error } = useGetAllMajorQuery();
     const [deleteSubject] = useDeleteSubjectMutation();
     const [deleteMajor] = useDeleteMajorMutation();
     // pop confirm
-    const confirm = (id) => {
+    const removeSubject = (id) => {
         deleteSubject(id)
             .then((res) => {
                 toast.success(res.message);
@@ -47,26 +44,30 @@ const MajorPage = () => {
                     <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
                 </div>
             )}
-            {error && <p>Lỗi!!!</p>}
-            <>
-                <AddCarrer />
-            </>
+            <AddMajor />
+            {error && (
+                <div>
+                    <p className='tw-font-medium tw-text-red-500'>
+                        {error?.response?.data?.message ||
+                            error?.data?.message ||
+                            error?.message ||
+                            'Đã có lỗi xảy ra!'}
+                    </p>
+                </div>
+            )}
             {
                 dataSubject && dataSubject?.data?.map((major, index) => {
                     return <Collapse
                         key={index}
                         className="tw-pl-3 tw-text-sm tw-ml-4"
                     >
-                        <Panel header={`${item.name}`} key="1" extra={genCarrer()}>
-                            {/* <div>
-                                <AddMajor />
-                            </div> */}
-                            <div>
-                                <AddSubject data={{ name: item.name, id: item.id }} />
-                            </div>
-                            {item.subjects?.map((subject, index) => {
-                                return <>
-                                    <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between' key={index}>
+                        <Panel header={`${major.name}`} key="1" extra={
+                            <Popover
+                                placement="left"
+                                trigger="click"
+                                content={
+                                    <div>
+                                        <EditMajor data={{ id: major.id, name: major.name }} />
                                         <div>
                                             <Popconfirm
                                                 title="Bạn có chắc chắn muốn xóa ?"
