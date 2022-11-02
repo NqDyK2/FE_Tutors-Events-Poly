@@ -33,7 +33,7 @@ const AddSubject = (props) => {
                 form.resetFields();
             })
             .catch(() => {
-                toast.error("Thêm môn học thất bại.");
+                toast.error("Thêm môn học thất bại");
             })
     };
     const onFinishFailed = (errorInfo) => {
@@ -41,10 +41,8 @@ const AddSubject = (props) => {
     };
     return (
         <div>
-            <a className='tw-text-sm tw-p-3'>
-                <span onClick={showModal}>
-                    + Thêm môn học
-                </span>
+            <a className='tw-pl-3 tw-text-sm tw-flex tw-ml-4' onClick={showModal}>
+                + Thêm môn học
             </a>
             <Modal
                 title="Thêm môn học"

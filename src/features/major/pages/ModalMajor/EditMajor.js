@@ -1,20 +1,12 @@
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import { useUpdateMajorMutation } from '../../../../app/api/majorApiSlice';
 
-const EditMajor = (props) => {
-    const [updateMajor, { isLoading: updateLoading }] = useUpdateMajorMutation();
+const EditMajor = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [form] = Form.useForm();
     const showModal = () => {
-        form.setFieldsValue({
-            name: props.data.name
-        })
         setIsModalOpen(true);
     };
     const handleOk = () => {
-        form.submit();
         setIsModalOpen(false);
     };
     const handleCancel = () => {
@@ -39,21 +31,20 @@ const EditMajor = (props) => {
     return (
         <div>
             <div className='tw-cursor-pointer' onClick={showModal}>
-                Sửa ngành học
+                Sửa chuyên ngành
             </div>
             <Modal
-                title="Sửa tên ngành học"
+                title="Sửa môn học"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 okText="Sửa"
-                confirmLoading={updateLoading}
             >
                 <Form
-                    form={form}
                     name="basic"
                     initialValues={{
-                        name: '',
+                        nganhhoc: '',
+                        chuyennganh: '',
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -61,8 +52,21 @@ const EditMajor = (props) => {
                     layout='vertical'
                 >
                     <Form.Item
-                        label="Tên chuyên ngành"
-                        name="name"
+                        label="Ngành học"
+                        name="nganhhoc"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Required',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Chuyên ngành"
+                        name="chuyennganh"
                         rules={[
                             {
                                 required: true,
