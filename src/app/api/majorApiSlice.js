@@ -4,23 +4,22 @@ export const majorApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllMajor: builder.query({
             query: () => `major/get-all`,
-            providesTags: ['Major'],
+            providesTags: ['MajorSubject'],
         }),
-        deleteMajor: builder.query({
+        deleteMajor: builder.mutation({
             query: (id) => ({
                 url: `major/${id}/delete`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Major'],
+            invalidatesTags: ['MajorSubject'],
         }),
         AddMajor: builder.mutation({
             query: (major) => ({
                 url: 'major/store',
                 method: 'POST',
-
                 body: major,
             }),
-            invalidatesTags: ['Major']
+            invalidatesTags: ['MajorSubject'],
         }),
         updateMajor: builder.mutation({
             query: ({ id, ...major }) => ({
@@ -28,7 +27,7 @@ export const majorApiSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: major,
             }),
-            invalidatesTags: ['Major'],
+            invalidatesTags: ['MajorSubject'],
         }),
     }),
 });
@@ -37,5 +36,5 @@ export const {
     useGetAllMajorQuery,
     useAddMajorMutation,
     useUpdateMajorMutation,
-    useDeleteMajorQuery,
+    useDeleteMajorMutation,
 } = majorApiSlice
