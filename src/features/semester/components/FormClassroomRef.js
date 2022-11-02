@@ -5,7 +5,7 @@ import {
   useUpdateClassroomMutation,
 } from '../../../app/api/classroomApiSlice';
 import { toast } from 'react-toastify';
-import { useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
+import { useGetAllMajorQuery } from '../../../app/api/majorApiSlice';
 
 const MODE = {
   ADD: 'ADD',
@@ -16,7 +16,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
   const [addClassroom, { isLoading: addLoading }] = useAddClassroomMutation();
   const [updateClassroom, { isLoading: updateLoading }] =
     useUpdateClassroomMutation();
-  const { data: listSubject } = useGetAllSubjectQuery();
+  const { data: listSubject } = useGetAllMajorQuery();
 
   const dataSubject = listSubject?.data.map((item) => ({
     value: item.slug,
@@ -45,7 +45,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
         setMode(MODE.EDIT);
         form.setFieldsValue({
           id: data.id,
-          default_teacher_email: data.default_teacher_email ,
+          default_teacher_email: data.default_teacher_email,
         });
       }
     },
