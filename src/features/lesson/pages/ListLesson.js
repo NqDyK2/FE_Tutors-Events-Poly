@@ -21,7 +21,7 @@ const columns = [
     dataIndex: 'stt',
     key: 'stt',
     render: (text) => <strong>{text}</strong>,
-    width: '3%',
+    width: '5%',
   },
   {
     title: 'Thứ - Ngày/Tháng',
