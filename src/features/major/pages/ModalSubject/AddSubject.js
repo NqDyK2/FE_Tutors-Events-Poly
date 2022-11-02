@@ -27,9 +27,9 @@ const AddSubject = (props) => {
         }
         addSubject(data)
             .unwrap()
-            .then(() => {
+            .then((res) => {
                 setIsModalOpen(false);
-                toast.success("Thêm môn học thành công.");
+                toast.success(res.massage);
                 form.resetFields();
             })
             .catch(() => {
@@ -71,8 +71,16 @@ const AddSubject = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
+                                message: 'Tên môn học không được để trống.',
                             },
+                            {
+                                min: 3,
+                                message: 'Tên môn học phải lớn hơn 3 ký tự.'
+                            },
+                            {
+                                max: 100,
+                                message: 'Tên môn học phải nhỏ hơn 100 ký tự.'
+                            }
                         ]}
                     >
                         <Input />
@@ -84,8 +92,8 @@ const AddSubject = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
-                            },
+                                message: 'Mã môn học không được để trống.',
+                            }
                         ]}
                     >
                         <Input />

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 
@@ -15,7 +14,18 @@ const AddMajor = () => {
     };
     // form
     const onFinish = (values) => {
-        console.log('Success:', values);
+        const data = {
+            name: values.name
+        }
+        AddMajor(data)
+            .then((response) => {
+                setIsModalOpen(false);
+                toast.success(response.massage);
+                form.resetFields();
+            })
+            .catch(() => {
+                toast.error("Thêm ngành học thất bại.");
+            })
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -62,8 +72,16 @@ const AddMajor = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
+                                message: 'Tên chuyên ngành không được để trống.',
                             },
+                            {
+                                min: 3,
+                                message: 'Tên chuyên ngành phải lớn hơn 3 ký tự.'
+                            },
+                            {
+                                max: 100,
+                                message: 'Tên chuyên ngành phải nhỏ hơn 100 ký tự.'
+                            }
                         ]}
                     >
                         <Input />

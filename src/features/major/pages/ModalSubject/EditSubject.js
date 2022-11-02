@@ -5,7 +5,7 @@ import { useUpdateSubjectMutation } from '../../../../app/api/subjectApiSlice';
 import { toast } from 'react-toastify';
 
 const ModalEditSubject = (props) => {
-    const [updateSubject] = useUpdateSubjectMutation();
+    const [updateSubject, { isLoading: updateLoading }] = useUpdateSubjectMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     console.log('props', props.data);
@@ -32,8 +32,8 @@ const ModalEditSubject = (props) => {
             code: values.code
         }
         updateSubject({ ...data, id: props.data.id })
-            .then(() => {
-                toast.success("Sửa môn học thành công.");
+            .then((res) => {
+                toast.success(res.massage);
             })
             .catch(() => {
                 toast.error("Sửa môn học thất bại");
@@ -72,8 +72,16 @@ const ModalEditSubject = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
+                                message: 'Tên môn học không được để trống.',
                             },
+                            {
+                                min: 3,
+                                message: 'Tên môn học phải lớn hơn 3 ký tự.'
+                            },
+                            {
+                                max: 100,
+                                message: 'Tên môn học phải nhỏ hơn 100 ký tự.'
+                            }
                         ]}
                     >
                         <Input />
@@ -85,7 +93,7 @@ const ModalEditSubject = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
+                                message: 'Nã môn học không được để trống.',
                             },
                         ]}
                     >
