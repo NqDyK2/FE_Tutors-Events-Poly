@@ -2,12 +2,16 @@ import { apiSlice } from './apiSlice';
 
 export const subjectApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getAllSubject: builder.query({
+      query: () => `major/get-all`,
+      providesTags: ['Subject'],
+    }),
     deleteSubject: builder.mutation({
       query: (id) => ({
         url: `subject/${id}/delete`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['MajorSubject'],
+      invalidatesTags: ['Subject'],
     }),
     addSubject: builder.mutation({
       query: (subject) => ({
@@ -15,7 +19,7 @@ export const subjectApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: subject,
       }),
-      invalidatesTags: ['MajorSubject'],
+      invalidatesTags: ['Subject'],
     }),
     updateSubject: builder.mutation({
       query: ({ id, ...subject }) => ({
@@ -23,13 +27,14 @@ export const subjectApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: subject,
       }),
-      invalidatesTags: ['MajorSubject'],
+      invalidatesTags: ['Subject'],
     }),
   }),
 });
 
 export const {
   useAddSubjectMutation,
+  useGetAllSubjectQuery,
   useUpdateSubjectMutation,
   useDeleteSubjectMutation
 } = subjectApiSlice;
