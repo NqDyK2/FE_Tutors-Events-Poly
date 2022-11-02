@@ -10,10 +10,8 @@ import {
   BellOutlined,
   CarryOutOutlined,
   SolutionOutlined,
-  FileSearchOutlined
 } from '@ant-design/icons';
-import { BsFillCalendarDayFill, BsDot } from 'react-icons/bs';
-import { BiCalendarStar } from 'react-icons/bi';
+import { BsDot } from 'react-icons/bs';
 import { IoMdHelpCircle } from 'react-icons/io';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -54,7 +52,7 @@ const AppAside = () => {
   // navigate by key value of menu item
   const items = [
     getItem(
-      <div
+      <div className='dark:tw-text-white'
       // className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
       //   }`
 

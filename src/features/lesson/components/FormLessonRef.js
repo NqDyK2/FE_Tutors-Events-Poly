@@ -84,10 +84,10 @@ const FormLessonRef = (props, ref) => {
             setVisible(false);
             formLesson.resetFields();
             setTypeOfLesson(1);
-            toast.success('Thêm buổi học thành công');
+            toast.success(res.message);
           })
           .catch((error) => {
-            setError(error);
+            setError(error.data);
           });
         break;
       case MODE.EDIT:
@@ -97,10 +97,10 @@ const FormLessonRef = (props, ref) => {
             setVisible(false);
             formLesson.resetFields();
             setTypeOfLesson(1);
-            toast.success('Sửa học thành công');
+            toast.success(res.message);
           })
           .catch((error) => {
-            setError(error);
+            setError(error.data);
           });
         break;
       default:
@@ -310,12 +310,12 @@ const FormLessonRef = (props, ref) => {
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập giảng viên',
+                  message: 'Vui lòng chọn giảng viên',
                 },
               ]}
               name="teacher_email"
             >
-              <Input placeholder="Nhập giảng viên phụ trách môn" disabled />
+              <Input />
             </Form.Item>
 
             <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">

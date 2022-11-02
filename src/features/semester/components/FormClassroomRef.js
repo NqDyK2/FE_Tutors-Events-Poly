@@ -1,4 +1,4 @@
-import { Cascader, Form, Input, Modal, Select } from 'antd';
+import { Cascader, Form, Input, Modal } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import {
   useAddClassroomMutation,
@@ -45,7 +45,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
         setMode(MODE.EDIT);
         form.setFieldsValue({
           id: data.id,
-          default_teacher_email: data.default_teacher_email,
+          default_teacher_email: data.default_teacher_email ,
         });
       }
     },
@@ -72,19 +72,19 @@ const FormClassroomRef = ({ semester_id }, ref) => {
             toast.success(res.message);
           })
           .catch((err) => {
-            setError(err);
+            setError(err.data);
           });
         break;
       case MODE.EDIT:
         updateClassroom(values)
           .unwrap()
-          .then(() => {
+          .then((res) => {
             setVisible(false);
             form.resetFields();
-            toast.success('Sửa thành công');
+            toast.success(res.message);
           })
           .catch((err) => {
-            setError(err);
+            setError(err.data);
           });
         break;
       default:
@@ -143,17 +143,14 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           label="Giảng viên:"
           name="default_teacher_email"
           rules={[
-            {
-              required: mode === MODE.ADD ? false : true,
-              message: "Vui lòng nhập email giảng viên."
-            },
+
             {
               type: 'email',
               message: 'Địa chỉ email không đúng định dạng',
             },
           ]}
         >
-          <Input placeholder="chọn giảng viên" />
+          <Input placeholder="Chọn giảng viên phụ trách môn." />
         </Form.Item>
       </Form>
       <div>

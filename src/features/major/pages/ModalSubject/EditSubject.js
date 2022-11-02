@@ -5,7 +5,7 @@ import { useUpdateSubjectMutation } from '../../../../app/api/subjectApiSlice';
 import { toast } from 'react-toastify';
 
 const ModalEditSubject = (props) => {
-    const [updateSubject, { isLoading: updateLoading }] = useUpdateSubjectMutation();
+    const [updateSubject] = useUpdateSubjectMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     console.log('props', props.data);

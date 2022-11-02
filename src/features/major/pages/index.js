@@ -1,15 +1,11 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDeleteSubjectMutation, useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
 import AddCarrer from './ModalCarrer/AddCarrer';
 import EditCarrer from './ModalCarrer/EditCarrer';
 import { toast } from 'react-toastify';
-
-import EditMajor from './ModalMajor/EditMajor';
-import AddMajor from './ModalMajor/AddMajor';
-
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
 import Spinner from '../../../components/Spinner';
@@ -17,7 +13,7 @@ import Spinner from '../../../components/Spinner';
 const { Panel } = Collapse;
 const MajorPage = () => {
     const { data, isLoading, error } = useGetAllSubjectQuery();
-    const [deleteSubject, { isLoading: deleteLoading }] = useDeleteSubjectMutation();
+    const [deleteSubject] = useDeleteSubjectMutation();
 
     const onChange = (key) => {
         // console.log(key);
@@ -25,10 +21,10 @@ const MajorPage = () => {
     // pop confirm
     const confirm = (id) => {
         deleteSubject(id)
-            .then(() => {
+            .then((res) => {
                 toast.success('Xóa môn học thành công.');
             })
-            .catch(() => {
+            .catch((err) => {
                 toast.error('Xóa không thành công.');
             })
     };
@@ -36,23 +32,7 @@ const MajorPage = () => {
         console.log(e);
         message.error('Click on No');
     };
-    const contentPopverMajors = (
-        <div>
-            <EditMajor />
-            <div>
-                <Popconfirm
-                    title="Bạn có chắc chắn muốn xóa ?"
-                    placement='left'
-                    onConfirm={confirm}
-                    onCancel={cancel}
-                    okText="Xóa"
-                    cancelText="Không"
-                >
-                    <a className='tw-text-red-500' href="#">Xóa chuyên ngành</a>
-                </Popconfirm>
-            </div>
-        </div>
-    )
+
     const contentPopverCarrers = (
         <div>
             <EditCarrer />
@@ -65,20 +45,12 @@ const MajorPage = () => {
                     okText="Xóa"
                     cancelText="Không"
                 >
-                    <a className='tw-text-red-500' href="#">Xóa ngành học</a>
+                    <div className='tw-text-red-500 tw-cursor-pointer' href="#">Xóa ngành học</div>
                 </Popconfirm>
             </div>
         </div>
     )
-    const genMajor = () => (
-        <div>
-            <Popover placement="left" content={contentPopverMajors} title="Chuyên ngành" trigger="click">
-                <Button className='tw-border-none tw-bg-[#fafafa]'>
-                    <SettingOutlined />
-                </Button>
-            </Popover>
-        </div>
-    );
+
     const genCarrer = () => (
         <div>
             <Popover placement="left" content={contentPopverCarrers} title="Ngành học" trigger="click">
