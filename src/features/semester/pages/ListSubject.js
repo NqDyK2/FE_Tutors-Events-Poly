@@ -119,7 +119,9 @@ const SubjectPage = () => {
       width: '15%',
       render: (_, record) => (
         <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
-          <div>15</div>
+          <Link to={`/manage/feedback`}>
+            <div >15</div>
+          </Link>
         </Tooltip>
       )
     },
