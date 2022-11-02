@@ -8,7 +8,6 @@ const ModalEditSubject = (props) => {
     const [updateSubject] = useUpdateSubjectMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
-    console.log('props', props.data);
     const showModal = () => {
         form.setFieldsValue({
             id: props.data.id,
@@ -53,6 +52,7 @@ const ModalEditSubject = (props) => {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 okText="Sửa"
+                confirmLoading={updateLoading}
             >
                 <Form
                     form={form}
