@@ -1,39 +1,73 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Collapse, Popconfirm, Popover } from 'antd';
+import { Collapse, message, Table, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { useDeleteMajorMutation, useGetAllMajorQuery } from '../../../app/api/majorApiSlice';
+import { useGetAllMajorQuery, useDeleteMajorMutation } from '../../../app/api/majorApiSlice';
 import { useDeleteSubjectMutation } from '../../../app/api/subjectApiSlice';
 import Spinner from '../../../components/Spinner';
 import AddMajor from './ModalMajor/AddMajor';
 import EditMajor from './ModalMajor/EditMajor';
-
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
+
 const { Panel } = Collapse;
 
 const MajorPage = () => {
     const { data: dataSubject, isLoading, error } = useGetAllMajorQuery();
     const [deleteSubject] = useDeleteSubjectMutation();
     const [deleteMajor] = useDeleteMajorMutation();
+    // colums table
+    const columns = [
+        {
+            dataIndex: 'code',
+            key: 'code',
+            render: (subject_code, record) => (
+                <div className="tw-uppercase">{subject_code}</div>
+            ),
+        },
+        {
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            dataIndex: 'action',
+            key: 'action',
+            render: (_, record) => (
+                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1 tw-float-right'>
+                    <EditSubject data={record} />
+                    <div>
+                        <Popconfirm
+                            title="Bạn có chắc muốn xóa ?"
+                            onConfirm={() => removeSubject(record.id)}
+                            okText="Xóa"
+                            cancelText="Không"
+                        >
+                            <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                        </Popconfirm>
+                    </div>
+                </div>
+
+            ),
+        },
+    ];
     // pop confirm
     const removeSubject = (id) => {
         deleteSubject(id)
-            .then((res) => {
-                toast.success(res.message);
+            .then(() => {
+                toast.success('Xóa môn học thành công.');
             })
-            .catch((err) => {
+            .catch(() => {
                 toast.error('Xóa không thành công.');
             })
     };
     const removeMajor = (id) => {
         deleteMajor(id)
-            .then((res) => {
-                toast.success(res.message);
+            .then(() => {
+                toast.success('Xóa chuyên ngành thành công.');
             })
             .catch(() => {
-                toast.error('Xóa chuyên không thành công.');
+                toast.error('Xóa chuyên ss không thành công.');
             })
     };
     return (
@@ -56,9 +90,9 @@ const MajorPage = () => {
                 </div>
             )}
             {
-                dataSubject && dataSubject?.data?.map((major, index) => {
+                dataSubject && dataSubject?.data?.map((major) => {
                     return <Collapse
-                        key={index}
+                        key={'m' + major.id}
                         className="tw-pl-3 tw-text-sm tw-ml-4"
                     >
                         <Panel header={`${major.name}`} key="1" extra={
@@ -75,6 +109,7 @@ const MajorPage = () => {
                                                 onConfirm={() => removeMajor(major.id)}
                                                 okText="Xóa"
                                                 cancelText="Không"
+
                                             >
                                                 <a className='tw-text-red-500' href="#">Xóa chuyên ngành</a>
                                             </Popconfirm>
@@ -88,30 +123,12 @@ const MajorPage = () => {
                             </Popover>
                         }>
                             <AddSubject data={{ name: major.name, id: major.id }} />
-                            {major?.subjects?.map((subject, index) => {
-                                return <>
-                                    <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between' key={index}>
-                                        <div>
-                                            <span className='tw-mt-2 tw-capitalize'>{subject.name}</span>
-                                            <span className='tw-mt-2 tw-uppercase'> - {subject.code}</span>
-                                        </div>
-                                        <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
-                                            <EditSubject data={subject} />
-                                            <div>
-                                                <Popconfirm
-                                                    title="Bạn có chắc muốn xóa ?"
-                                                    onConfirm={() => removeSubject(subject.id)}
-                                                    okText="Xóa"
-                                                    cancelText="Không"
-                                                >
-                                                    <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
-                                                </Popconfirm>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br />
-                                </>
-                            })}
+                            <Table
+                                key={major.subjects.key}
+                                columns={columns}
+                                dataSource={major.subjects}
+                                pagination={false}
+                            />
                         </Panel>
                     </Collapse>
                 })
