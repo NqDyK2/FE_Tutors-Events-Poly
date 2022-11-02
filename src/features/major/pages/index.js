@@ -1,30 +1,25 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Collapse, message, Table, Popconfirm, Popover } from 'antd';
+import { Collapse, message, Popconfirm, Popover } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React from 'react';
+import { useDeleteSubjectMutation, useGetAllSubjectQuery } from '../../../app/api/subjectApiSlice';
+import AddCarrer from './ModalCarrer/AddCarrer';
+import EditCarrer from './ModalCarrer/EditCarrer';
 import { toast } from 'react-toastify';
-import { useGetAllMajorQuery, useDeleteMajorMutation } from '../../../app/api/majorApiSlice';
-import { useDeleteSubjectMutation } from '../../../app/api/subjectApiSlice';
-import Spinner from '../../../components/Spinner';
-import AddMajor from './ModalMajor/AddMajor';
-import EditMajor from './ModalMajor/EditMajor';
-
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
-const { Panel } = Collapse;
+import Spinner from '../../../components/Spinner';
 
+const { Panel } = Collapse;
 const MajorPage = () => {
     const { data, isLoading, error } = useGetAllSubjectQuery();
     const [deleteSubject] = useDeleteSubjectMutation();
-        ),
-    },
-];
-const MajorPage = () => {
-    const { data: dataSubject, isLoading, error } = useGetAllMajorQuery();
-    const [deleteSubject] = useDeleteSubjectMutation();
-    const [deleteMajor] = useDeleteMajorMutation();
+
+    const onChange = (key) => {
+        // console.log(key);
+    };
     // pop confirm
-    const removeSubject = (id) => {
+    const confirm = (id) => {
         deleteSubject(id)
             .then((res) => {
                 toast.success('Xóa môn học thành công.');
@@ -33,15 +28,11 @@ const MajorPage = () => {
                 toast.error('Xóa không thành công.');
             })
     };
-    const removeMajor = (id) => {
-        deleteMajor(id)
-            .then(() => {
-                toast.success('Xóa chuyên ngành thành công.');
-            })
-            .catch(() => {
-                toast.error('Xóa chuyên ss không thành công.');
-            })
+    const cancel = (e) => {
+        console.log(e);
+        message.error('Click on No');
     };
+
     const contentPopverCarrers = (
         <div>
             <EditCarrer />
@@ -77,57 +68,50 @@ const MajorPage = () => {
                     <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white'>Loading</p>} />
                 </div>
             )}
-            <AddMajor />
-            {error && (
-                <div>
-                    <p className='tw-font-medium tw-text-red-500'>
-                        {error?.response?.data?.message ||
-                            error?.data?.message ||
-                            error?.message ||
-                            'Đã có lỗi xảy ra!'}
-                    </p>
-                </div>
-            )}
+            {error && <p>Lỗi!!!</p>}
+            <>
+                <AddCarrer />
+            </>
             {
-                dataSubject && dataSubject?.data?.map((major) => {
+                data && data?.data?.map((item, index) => {
                     return <Collapse
-                        key={'m' + major.id}
-                        className="tw-pl-3 tw-text-sm tw-ml-4"
-                    >
-                        <Panel header={`${major.name}`} key="1" extra={
-                            <Popover
-                                placement="left"
-                                trigger="click"
-                                content={
-                                    <div>
-                                        <EditMajor data={{ id: major.id, name: major.name }} />
-                                        <div>
-                                            <Popconfirm
-                                                title="Bạn có chắc chắn muốn xóa ?"
-                                                placement='left'
-                                                onConfirm={() => removeMajor(major.id)}
-                                                okText="Xóa"
-                                                cancelText="Không"
 
-                                            >
-                                                <a className='tw-text-red-500' href="#">Xóa chuyên ngành</a>
-                                            </Popconfirm>
+                        onChange={onChange}
+                        key={index}
+
+                    >
+                        <Panel header={`${item.name}`} key="1" extra={genCarrer()}>
+                            {/* <div>
+                                <AddMajor />
+                            </div> */}
+                            <div>
+                                <AddSubject data={{ name: item.name, id: item.id }} />
+                            </div>
+                            {item.subjects?.map((subject, index) => {
+                                return <>
+                                    <div className='tw-flex tw-gap-4 tw-items-center tw-justify-between' key={index}>
+                                        <div>
+                                            <span className='tw-mt-2 tw-capitalize'>{subject.name}</span>
+                                            <span className='tw-mt-2 tw-uppercase'> - {subject.code}</span>
+                                        </div>
+                                        <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1'>
+                                            <EditSubject data={subject} />
+                                            <div>
+                                                <Popconfirm
+                                                    title="Bạn có chắc muốn xóa ?"
+                                                    onConfirm={() => confirm(subject.id)}
+                                                    onCancel={cancel}
+                                                    okText="Xóa"
+                                                    cancelText="Không"
+                                                >
+                                                    <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                                                </Popconfirm>
+                                            </div>
                                         </div>
                                     </div>
-                                }
-                            >
-                                <Button className='tw-border-none tw-bg-[#fafafa]'>
-                                    <SettingOutlined />
-                                </Button>
-                            </Popover>
-                        }>
-                            <AddSubject data={{ name: major.name, id: major.id }} />
-                            <Table
-                                key={major.subjects.key}
-                                columns={columns}
-                                dataSource={major.subjects}
-                                pagination={false}
-                              />
+                                    <br />
+                                </>
+                            })}
                         </Panel>
                     </Collapse>
                 })
