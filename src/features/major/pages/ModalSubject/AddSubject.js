@@ -43,7 +43,7 @@ const AddSubject = (props) => {
     };
     return (
         <div>
-            <a className='tw-text-sm tw-p-3'>
+            <a className='tw-text-base'>
                 <span onClick={showModal}>
                     + Thêm môn học
                 </span>

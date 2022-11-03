@@ -39,7 +39,7 @@ const EditMajor = (props) => {
     return (
         <div>
             <div className='tw-cursor-pointer' onClick={showModal}>
-                Sửa ngành học
+                Sửa chuyên ngành
             </div>
             <Modal
                 title="Sửa tên ngành học"
