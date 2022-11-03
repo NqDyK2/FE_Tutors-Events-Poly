@@ -17,10 +17,11 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  if (result?.errors) {
-    if (result.errors.status === 401 || result.errors.status === 403) {
+  if (result?.error) {
+    if (result.error.status === 401 || result.error.status === 403) {
       api.dispatch(logOut());
     }
+    return result?.error;
   } else {
     return result;
   }
