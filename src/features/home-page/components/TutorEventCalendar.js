@@ -3,9 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css';
+import { Popover } from 'antd';
 
 const TutorEventCalendar = (props) => {
   return (
@@ -46,34 +44,18 @@ const TutorEventCalendar = (props) => {
       //  validRange={{
       //     start: Date.now()
       //  }}
-      eventClick={(info) => {
-        info.jsEvent.preventDefault();
-        tippy(info.el, {
-          content: /*html*/ `
-            <div
-              class="tw-min-w-[200px] tw-max-w-[300px] tw-max-h-[300px] "
+      eventContent={(info) => {
+        console.log(info);
+        return (
+          <Popover content={info.event.title} trigger="click" title="Thông tin chi tiết" key={info}>
+            <div className="tw-text-sm tw-font-bold tw-text-center tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-h-6 tw-w-full tw-p-1  tw-rounded-md"
+              style={{ backgroundColor: info.backgroundColor ? info.backgroundColor : '#000' }}
             >
-              <div class="tw-text-lg tw-font-bold tw-mb-2 tw-text-center">Thông tin chi tiết</div>
-              <div class="tw-flex  tw-justify-between tw-items-center tw-mb-2">
-                <div class="tw-text-sm tw-font-bold">Tên sự kiện:</div>
-                <div class="tw-text-sm">${info.event.title}</div>
-
-              </div>
+              {info.event.title}
             </div>
-          
-          `,
-          allowHTML: true,
-          placement: 'top-start',
-          // theme: 'light',
-          trigger: 'focus',
-          appendTo: () => document.body,
-          interactive: true,
-          arrow: true,
-          animation: 'shift-away',
-          duration: [100, 100],
-        });
+          </Popover>
+        );
       }}
-
       initialView="dayGridMonth"
       dayMaxEvents={4}
       events={props.eventsData}

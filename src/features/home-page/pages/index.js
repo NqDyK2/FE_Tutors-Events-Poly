@@ -42,6 +42,7 @@ const HomePage = () => {
       title: 'event 1',
       date: moment.now(),
       description: 'Đấm bỏ mẹ thằng Đàm Minh Hiếu',
+      color: '#ff2228',
     },
   ];
 
