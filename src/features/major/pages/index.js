@@ -2,6 +2,7 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { Collapse, message, Table, Popconfirm, Popover, Tooltip } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import { useGetAllMajorQuery, useDeleteMajorMutation } from '../../../app/api/majorApiSlice';
 import { useDeleteSubjectMutation } from '../../../app/api/subjectApiSlice';
@@ -78,6 +79,9 @@ const MajorPage = () => {
     };
     return (
         <>
+            <Helmet>
+                <title>Chuyên ngành - môn học</title>
+            </Helmet>
             {isLoading && (
 
                 <div className='tw-mt-[110px] tw-flex tw-justify-center'>
