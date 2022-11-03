@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -27,11 +26,11 @@ const EditMajor = (props) => {
             name: values.name
         }
         updateMajor({ ...data, id: props.data.id })
-            .then(() => {
-                toast.success("Cập nhật chuyên ngành thành công")
+            .then((res) => {
+                toast.success(res.massage);
             })
             .catch(() => {
-                toast.error("Cập nhật chuyên ngành thất bại")
+                toast.error("Cập nhật chuyên ngành thất bại");
             })
     };
     const onFinishFailed = (errorInfo) => {
@@ -67,8 +66,16 @@ const EditMajor = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Required',
+                                message: 'Tên chuyên ngành không được để trống.',
                             },
+                            {
+                                min: 3,
+                                message: 'Tên chuyên ngành phải lớn hơn 3 ký tự.'
+                            },
+                            {
+                                max: 100,
+                                message: 'Tên chuyên ngành phải nhỏ hơn 100 ký tự.'
+                            }
                         ]}
                     >
                         <Input />

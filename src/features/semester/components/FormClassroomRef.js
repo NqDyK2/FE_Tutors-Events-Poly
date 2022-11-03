@@ -45,7 +45,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
         setMode(MODE.EDIT);
         form.setFieldsValue({
           id: data.id,
-          default_teacher_email: data.default_teacher_email ,
+          default_teacher_email: data.default_teacher_email,
         });
       }
     },

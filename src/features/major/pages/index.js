@@ -8,28 +8,56 @@ import { useDeleteSubjectMutation } from '../../../app/api/subjectApiSlice';
 import Spinner from '../../../components/Spinner';
 import AddMajor from './ModalMajor/AddMajor';
 import EditMajor from './ModalMajor/EditMajor';
-
 import AddSubject from './ModalSubject/AddSubject';
 import EditSubject from './ModalSubject/EditSubject';
+
 const { Panel } = Collapse;
 
-const MajorPage = () => {
-    const { data, isLoading, error } = useGetAllSubjectQuery();
-    const [deleteSubject] = useDeleteSubjectMutation();
-        ),
-    },
-];
 const MajorPage = () => {
     const { data: dataSubject, isLoading, error } = useGetAllMajorQuery();
     const [deleteSubject] = useDeleteSubjectMutation();
     const [deleteMajor] = useDeleteMajorMutation();
+    // colums table
+    const columns = [
+        {
+            dataIndex: 'code',
+            key: 'code',
+            render: (subject_code, record) => (
+                <div className="tw-uppercase">{subject_code}</div>
+            ),
+        },
+        {
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            dataIndex: 'action',
+            key: 'action',
+            render: (_, record) => (
+                <div className='tw-flex tw-gap-2 tw-items-center tw-mb-1 tw-float-right'>
+                    <EditSubject data={record} />
+                    <div>
+                        <Popconfirm
+                            title="Bạn có chắc muốn xóa ?"
+                            onConfirm={() => removeSubject(record.id)}
+                            okText="Xóa"
+                            cancelText="Không"
+                        >
+                            <DeleteOutlined style={{ color: 'red' }} className='tw-w-full tw-my-auto' />
+                        </Popconfirm>
+                    </div>
+                </div>
+
+            ),
+        },
+    ];
     // pop confirm
     const removeSubject = (id) => {
         deleteSubject(id)
-            .then((res) => {
+            .then(() => {
                 toast.success('Xóa môn học thành công.');
             })
-            .catch((err) => {
+            .catch(() => {
                 toast.error('Xóa không thành công.');
             })
     };
@@ -42,33 +70,6 @@ const MajorPage = () => {
                 toast.error('Xóa chuyên ss không thành công.');
             })
     };
-    const contentPopverCarrers = (
-        <div>
-            <EditCarrer />
-            <div>
-                <Popconfirm
-                    title="Bạn có chắc chắn muốn xóa ?"
-                    placement='left'
-                    onConfirm={confirm}
-                    onCancel={cancel}
-                    okText="Xóa"
-                    cancelText="Không"
-                >
-                    <div className='tw-text-red-500 tw-cursor-pointer' href="#">Xóa ngành học</div>
-                </Popconfirm>
-            </div>
-        </div>
-    )
-
-    const genCarrer = () => (
-        <div>
-            <Popover placement="left" content={contentPopverCarrers} title="Ngành học" trigger="click">
-                <Button className='tw-border-none tw-bg-[#fafafa]'>
-                    <SettingOutlined />
-                </Button>
-            </Popover>
-        </div>
-    );
     return (
         <>
             {isLoading && (
@@ -127,7 +128,7 @@ const MajorPage = () => {
                                 columns={columns}
                                 dataSource={major.subjects}
                                 pagination={false}
-                              />
+                            />
                         </Panel>
                     </Collapse>
                 })

@@ -17,9 +17,10 @@ export const majorApiSlice = apiSlice.injectEndpoints({
             query: (major) => ({
                 url: 'major/store',
                 method: 'POST',
+
                 body: major,
             }),
-            invalidatesTags: ['MajorSubject'],
+            invalidatesTags: ['MajorSubject']
         }),
         updateMajor: builder.mutation({
             query: ({ id, ...major }) => ({
