@@ -14,6 +14,7 @@ import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
+import { Helmet } from 'react-helmet-async';
 
 const columns = [
   {
@@ -206,9 +207,14 @@ const ListLesson = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          Lịch dạy
+        </title>
+      </Helmet>
       <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
         <span className="tw-text-[15px] dark:tw-text-white">
-          Lịch học - {subjectName?.toUpperCase()}
+          Lịch dạy lớp - {subjectName?.toUpperCase()}
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
           <span>

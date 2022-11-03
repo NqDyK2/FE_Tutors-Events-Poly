@@ -10,6 +10,7 @@ import './styles.css';
 import Spinner from '../../../../components/Spinner';
 import moment from 'moment';
 import { timeFormat } from '../../../../utils/TimeFormat';
+import { Helmet } from 'react-helmet-async';
 const AttendanceClassLessons = () => {
   const location = useLocation();
   const { subjectCode } = location.state;
@@ -184,41 +185,46 @@ const AttendanceClassLessons = () => {
   };
 
   return (
-    <div className='tw-w-full'>
-      <div className='tw-border-b-2'>
-        <span className='tw-text-[15px] dark:tw-text-slate-100 '>
-          Điểm danh
-        </span>
-      </div>
-      {error && (
-        <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
-          <p className='tw-text-lg tw-text-red-500'>
-            {error?.message || error?.data?.message || 'Đã có lỗi xảy ra'}
-          </p>
+    <>
+      <Helmet>
+        <title>Điểm danh</title>
+      </Helmet>
+      <div className='tw-w-full'>
+        <div className='tw-border-b-2'>
+          <span className='tw-text-[15px] dark:tw-text-slate-100 '>
+            Điểm danh
+          </span>
         </div>
-      )}
-      {!error && (
-        <>
-          <h2 className='tw-mt-2'>Môn học: {subjectCode}</h2>
-          <div className='tw-mt-6'>
-            <Table
-              loading={{
-                indicator: <Spinner />,
-                spinning: isLoading,
-              }}
-              pagination={false}
-              columns={columns}
-              dataSource={data}
-              tableLayout='auto'
-              rowKey='id'
-              className='attendance-table'
-              scroll={{ y: 500 }}
-            />
-
+        {error && (
+          <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
+            <p className='tw-text-lg tw-text-red-500'>
+              {error?.message || error?.data?.message || 'Đã có lỗi xảy ra'}
+            </p>
           </div>
-        </>
-      )}
-    </div>
+        )}
+        {!error && (
+          <>
+            <h2 className='tw-mt-2'>Môn học: {subjectCode}</h2>
+            <div className='tw-mt-6'>
+              <Table
+                loading={{
+                  indicator: <Spinner />,
+                  spinning: isLoading,
+                }}
+                pagination={false}
+                columns={columns}
+                dataSource={data}
+                tableLayout='auto'
+                rowKey='id'
+                className='attendance-table'
+                scroll={{ y: 500 }}
+              />
+
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

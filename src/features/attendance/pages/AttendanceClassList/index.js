@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Table } from 'antd';
 import { useGetAttendanceListClassQuery, } from '../../../../app/api/attendanceApiSlice';
 import Spinner from '../../../../components/Spinner';
+import { Helmet } from 'react-helmet-async';
 
 const columns = [
 
@@ -60,34 +61,39 @@ const AttendanceClassList = () => {
     classStudentsCount: item.class_students_count,
   }));
   return (
-    <div className='tw-w-full'>
-      <div className='tw-border-b-2 tw-pb-1'>
-        <span className='tw-text-[15px] dark:tw-text-white'>Lớp có thể điểm danh</span>
+    <>
+      <Helmet>
+        <title>Điểm danh</title>
+      </Helmet>
+      <div className='tw-w-full'>
+        <div className='tw-border-b-2 tw-pb-1'>
+          <span className='tw-text-[15px] dark:tw-text-white'>Lớp có thể điểm danh</span>
+        </div>
+        {/* table antd */}
+        <div className='tw-mt-6'>
+          {error && (
+            <div>
+              <p className='tw-font-medium tw-text-red-500'>
+                {error?.response?.data?.message ||
+                  error?.data?.message ||
+                  error?.message ||
+                  'Đã có lỗi xảy ra!'}
+              </p>
+            </div>
+          )}
+          <Table
+            scroll={{ y: 380 }}
+            columns={columns}
+            dataSource={dataSource}
+            pagination={false}
+            loading={{
+              indicator: <Spinner />,
+              spinning: isLoading,
+            }}
+          />
+        </div>
       </div>
-      {/* table antd */}
-      <div className='tw-mt-6'>
-        {error && (
-          <div>
-            <p className='tw-font-medium tw-text-red-500'>
-              {error?.response?.data?.message ||
-                error?.data?.message ||
-                error?.message ||
-                'Đã có lỗi xảy ra!'}
-            </p>
-          </div>
-        )}
-        <Table
-          scroll={{ y: 380 }}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          loading={{
-            indicator: <Spinner />,
-            spinning: isLoading,
-          }}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

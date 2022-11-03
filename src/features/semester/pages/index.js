@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Popover, Typography } from 'antd';
+import { Button, Popconfirm, Popover, Tooltip, Typography } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDeleteSemesterMutation, useGetAllSemesterQuery } from '../../../app/api/semesterApiSlice';
@@ -11,6 +11,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { selectCurrentUser } from '../../auth/authSlice';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 const SemesterPage = () => {
   const { data, error, isLoading } = useGetAllSemesterQuery();
@@ -28,22 +29,26 @@ const SemesterPage = () => {
   const ActionContent = (item) => {
     return (
       <div className='tw-flex'>
-        <Button
-          onClick={() => modalRef.current.show('EDIT', item)}
-          icon={<EditOutlined className="tw-text-[20px]" />}
-          className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
-        />
+        <Tooltip title="Sửa kì học" placement='bottom' color='#FF6D28' >
+          <Button
+            onClick={() => modalRef.current.show('EDIT', item)}
+            icon={<EditOutlined className="tw-text-[20px]" />}
+            className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+          />
+        </Tooltip>
         <Popconfirm
           onConfirm={() => handleRemoveSemester(item)}
           title="Bạn có chắc chắn muốn xóa kì học này?"
           okText="Xóa"
           cancelText="Không"
         >
-          <Button
-            loading={delLoading}
-            icon={<DeleteOutlined className="tw-text-[20px]" />}
-            className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
-          />
+          <Tooltip title="Xóa kì học" placement='bottom' color='#FF6D28'>
+            <Button
+              loading={delLoading}
+              icon={<DeleteOutlined className="tw-text-[20px]" />}
+              className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+            />
+          </Tooltip>
         </Popconfirm>
       </div>
     )
@@ -51,6 +56,11 @@ const SemesterPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>
+          Kỳ học
+        </title>
+      </Helmet>
       {error && (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       )}

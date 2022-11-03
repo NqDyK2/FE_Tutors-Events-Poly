@@ -1,5 +1,6 @@
 import { Table } from 'antd'
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import { FaReply } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
@@ -40,6 +41,11 @@ const ListFeedback = () => {
     ]
     return (
         <>
+            <Helmet>
+                <title>
+                    Phản hồi
+                </title>
+            </Helmet>
             <div>
                 <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
                     <span className="tw-text-[15px] dark:tw-text-white">

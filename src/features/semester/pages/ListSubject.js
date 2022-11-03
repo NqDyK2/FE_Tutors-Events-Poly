@@ -178,7 +178,7 @@ const SubjectPage = () => {
   return (
     <>
       <Helmet>
-        <title>FPoly</title>
+        <title>Lớp học</title>
       </Helmet>
 
       <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
