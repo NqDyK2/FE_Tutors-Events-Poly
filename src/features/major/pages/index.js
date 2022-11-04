@@ -1,5 +1,5 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { Collapse, message, Table, Popconfirm, Popover, Tooltip } from 'antd';
+import { Collapse, Table, Popconfirm, Popover, Tooltip } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -122,7 +122,7 @@ const MajorPage = () => {
                                                 cancelText="Không"
 
                                             >
-                                                <a className='tw-text-red-500' href="#">Xóa chuyên ngành</a>
+                                                <Button className='tw-text-red-500  tw-border-transparent'>Xóa chuyên ngành</Button>
                                             </Popconfirm>
                                         </div>
                                     </div>

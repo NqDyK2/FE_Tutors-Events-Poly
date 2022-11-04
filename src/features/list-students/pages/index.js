@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Table } from 'antd';
+import { Button, Table } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

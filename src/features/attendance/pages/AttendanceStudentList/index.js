@@ -2,12 +2,14 @@ import { Button, Input, Switch, Table } from 'antd';
 import moment from 'moment';
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useParams } from 'react-router-dom';
+import { FaReply } from 'react-icons/fa';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAttendanceLessonListStudentQuery, useUpdateAttendanceStudentStatusMutation } from '../../../../app/api/attendanceApiSlice';
 import Spinner from '../../../../components/Spinner';
 
 const AttendanceStudentList = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { subjectCode } = location.state;
   const { lessonId } = useParams();
@@ -141,10 +143,18 @@ const AttendanceStudentList = () => {
         <title>Điểm danh</title>
       </Helmet>
       <div className='tw-w-full'>
-        <div className='tw-border-b-2'>
+        <div className='tw-border-b-2 tw-flex tw-justify-between '>
           <span className='tw-text-[15px] dark:tw-text-slate-100 '>
             Điểm danh
           </span>
+          <div className="tw-pb-1">
+            <button
+              onClick={() => navigate(-1)}
+              className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
+            >
+              <FaReply className="tw-mr-1" /> Trở lại
+            </button>
+          </div>
         </div>
         {error && (
           <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
@@ -155,7 +165,7 @@ const AttendanceStudentList = () => {
         )}
         {!error && (
           <>
-            <h2 className='tw-mt-2'>Môn học: {subjectCode}</h2>
+            <h2 className='tw-mt-2 dark:tw-text-white'>Môn học: {subjectCode}</h2>
             <div className='tw-mt-6'>
               <Table
                 loading={{
@@ -183,7 +193,7 @@ const AttendanceStudentList = () => {
                     type='primary'
                     loading={isUpdateLoading}
                     disabled={data?.data?.length === 0}
-                    className='tw-mt-[15px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-bg-[#0DB27F]'
+                    className='tw-mt-[15px] tw-h-[40px] tw-w-full tw-text-white tw-border-transparent tw-rounded-[5px] tw-bg-[#0DB27F]'
                     onClick={() => handleUpdateStatus(studentsStatus, lessonId)}
                   >
                     Lưu điểm danh

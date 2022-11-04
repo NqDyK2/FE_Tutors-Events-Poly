@@ -13,30 +13,66 @@ const ListFeedback = () => {
             title: "STT",
             dataIndex: 'key',
             key: 'key',
+            width: '5%'
+        },
+        {
+            title: 'Mức độ hiểu bài',
+            dataIndex: 'levelUnderstand',
+            key: 'lelevelUnderstandvel',
             width: '10%'
         },
         {
-            title: "Nội dung",
-            dataIndex: 'content',
-            key: 'content',
-        }
+            title: 'Mức độ nhiệt tình của GV',
+            dataIndex: 'levelEnthusiasmTeacher',
+            key: 'levelEnthusiasmTeacher',
+            width: '15%',
+        },
+        {
+            title: 'Mức độ nhiệt tình của Tutor',
+            dataIndex: 'levelEnthusiasmTutor',
+            key: 'levelEnthusiasmTutor',
+            width: '15%',
+        },
+        {
+            title: 'Các vấn đề của bạn đã được giải quyết chưa?',
+            dataIndex: 'problem',
+            key: 'problem',
+        },
+        {
+            title: "Lời nhắn",
+            dataIndex: 'note',
+            key: 'note',
+        },
     ]
 
     const dataSource = [
         {
             key: '1',
             id: 1,
-            content: 'Nội dung phản hồi ở đây',
+            levelUnderstand: 'Hiểu',
+            levelEnthusiasmTeacher: 'Nhiệt tình',
+            levelEnthusiasmTutor: 'Nhiệt tình',
+            problem: "Đã được giải quyết",
+            note: 'Nội dung phản hồi ở đây',
         },
         {
             key: '2',
             id: 2,
-            content: "Góp ý ở phần này",
+            levelUnderstand: 'Hơi hơi hiểu',
+            levelEnthusiasmTeacher: 'Hơi nhơi nhiệt',
+            levelEnthusiasmTutor: 'Hơi nhơi nhiệt',
+            problem: "Chưa được giải quyết",
+            note: "Góp ý ở phần này",
         },
+
         {
             key: '3',
             id: 3,
-            content: 'UI Gvien xem phản hồi, góp ý của sinh viên tham gia học.'
+            levelUnderstand: ' Không hiểu',
+            levelEnthusiasmTeacher: 'Không nhiệt tình',
+            levelEnthusiasmTutor: 'Không nhiệt tình',
+            problem: 'Sẽ được giải quyết trong các buổi học sắp tới',
+            note: 'UI Gvien xem phản hồi, góp ý của sinh viên tham gia học.'
         }
     ]
     return (

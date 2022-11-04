@@ -1,5 +1,5 @@
 
-import { Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useAddSubjectMutation } from '../../../../app/api/subjectApiSlice';
 import { toast } from 'react-toastify';
@@ -43,11 +43,11 @@ const AddSubject = (props) => {
     };
     return (
         <div>
-            <a className='tw-text-base'>
+            <Button className='tw-text-base tw-border-transparent hover:tw-bg-white'>
                 <span onClick={showModal}>
                     + Thêm môn học
                 </span>
-            </a>
+            </Button>
             <Modal
                 title="Thêm môn học"
                 open={isModalOpen}

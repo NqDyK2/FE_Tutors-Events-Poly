@@ -1,4 +1,4 @@
-import { Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useUpdateMajorMutation } from '../../../../app/api/majorApiSlice';
@@ -38,9 +38,9 @@ const EditMajor = (props) => {
     };
     return (
         <div>
-            <div className='tw-cursor-pointer' onClick={showModal}>
+            <Button className='tw-cursor-pointer tw-border-transparent hover:tw-bg-white' onClick={showModal}>
                 Sửa chuyên ngành
-            </div>
+            </Button>
             <Modal
                 title="Sửa tên ngành học"
                 open={isModalOpen}
