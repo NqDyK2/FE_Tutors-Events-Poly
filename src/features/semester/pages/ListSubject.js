@@ -80,7 +80,10 @@ const SubjectPage = () => {
       title: 'Giảng viên',
       dataIndex: 'default_teacher_email',
       key: 'default_teacher_email',
-      width: '20%'
+      width: '20%',
+      render: (default_teacher_email, record) => (
+        default_teacher_email ? default_teacher_email : <span className='tw-text-red-500 tw-font-semibold'>Chưa có</span>
+      )
     },
     {
       title: 'Buổi học',
@@ -169,7 +172,7 @@ const SubjectPage = () => {
     id: item.id,
     name: item.subject_name,
     subject_code: item.subject_code,
-    default_teacher_email: item.default_teacher_email === null ? (<span className='tw-text-red-500 tw-font-semibold'>Chưa có</span>) : item.default_teacher_email,
+    default_teacher_email: item.default_teacher_email,
     default_tutor_email: item.default_tutor_email,
     lessons_count: item.lessons_count,
     class_students_count: item.class_students_count,
