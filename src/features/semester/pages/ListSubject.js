@@ -119,7 +119,9 @@ const SubjectPage = () => {
       width: '15%',
       render: (_, record) => (
         <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
-          <div>15</div>
+          <Link to={`/manage/feedback`}>
+            <div >15</div>
+          </Link>
         </Tooltip>
       )
     },
@@ -167,7 +169,7 @@ const SubjectPage = () => {
     id: item.id,
     name: item.subject_name,
     subject_code: item.subject_code,
-    default_teacher_email: item.default_teacher_email === null ? (<span className='tw-text-red-500 tw-font-semibold'>Trống</span>) : item.default_teacher_email,
+    default_teacher_email: item.default_teacher_email === null ? (<span className='tw-text-red-500 tw-font-semibold'>Chưa có</span>) : item.default_teacher_email,
     default_tutor_email: item.default_tutor_email,
     lessons_count: item.lessons_count,
     class_students_count: item.class_students_count,
@@ -176,7 +178,7 @@ const SubjectPage = () => {
   return (
     <>
       <Helmet>
-        <title>FPoly</title>
+        <title>Lớp học</title>
       </Helmet>
 
       <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">

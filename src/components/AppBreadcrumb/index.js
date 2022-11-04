@@ -38,6 +38,10 @@ const AppBreadcrumb = () => {
       breadcrumbName: 'Điểm danh',
     },
     {
+      path: `/diem-danh/buoi-hoc/${pathname.split('/')[5]}`,
+      breadcrumb: 'Điểm danh',
+    },
+    {
       path: '/import-students',
       breadcrumbName: 'Import danh sách sinh viên',
     },

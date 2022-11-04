@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { useUpdateSubjectMutation } from '../../../../app/api/subjectApiSlice';
 import { toast } from 'react-toastify';
@@ -43,9 +43,11 @@ const ModalEditSubject = (props) => {
     };
     return (
         <div>
-            <div className='tw-cursor-pointer' onClick={showModal}>
-                <EditOutlined style={{ color: '#1890ff' }} />
-            </div>
+            <Tooltip title="Sửa môn học" color='#FF6D28'>
+                <div className='tw-cursor-pointer' onClick={showModal}>
+                    <EditOutlined style={{ color: '#1890ff' }} />
+                </div>
+            </Tooltip>
             <Modal
                 title="Sửa môn học"
                 open={isModalOpen}

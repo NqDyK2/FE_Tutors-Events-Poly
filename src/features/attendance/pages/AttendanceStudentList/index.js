@@ -1,12 +1,15 @@
 import { Button, Input, Switch, Table } from 'antd';
 import moment from 'moment';
 import React, { useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { FaReply } from 'react-icons/fa';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAttendanceLessonListStudentQuery, useUpdateAttendanceStudentStatusMutation } from '../../../../app/api/attendanceApiSlice';
 import Spinner from '../../../../components/Spinner';
 
 const AttendanceStudentList = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { subjectCode } = location.state;
   const { lessonId } = useParams();
@@ -135,62 +138,75 @@ const AttendanceStudentList = () => {
 
 
   return (
-    <div className='tw-w-full'>
-      <div className='tw-border-b-2'>
-        <span className='tw-text-[15px] dark:tw-text-slate-100 '>
-          Điểm danh
-        </span>
-      </div>
-      {error && (
-        <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
-          <p className='tw-text-lg tw-text-red-500'>
-            {error?.message || error?.data?.message || 'Đã có lỗi xảy ra'}
-          </p>
+    <>
+      <Helmet>
+        <title>Điểm danh</title>
+      </Helmet>
+      <div className='tw-w-full'>
+        <div className='tw-border-b-2 tw-flex tw-justify-between '>
+          <span className='tw-text-[15px] dark:tw-text-slate-100 '>
+            Điểm danh
+          </span>
+          <div className="tw-pb-1">
+            <button
+              onClick={() => navigate(-1)}
+              className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
+            >
+              <FaReply className="tw-mr-1" /> Trở lại
+            </button>
+          </div>
         </div>
-      )}
-      {!error && (
-        <>
-          <h2 className='tw-mt-2'>Môn học: {subjectCode}</h2>
-          <div className='tw-mt-6'>
-            <Table
-              loading={{
-                indicator: <Spinner />,
-                spinning: isLoading,
-              }}
-              pagination={false}
-              columns={columns}
-              dataSource={dataStudent}
-              tableLayout='auto'
-              rowKey='key'
-              className='attendance-table tw-shadow'
-              scroll={{ y: 400 }}
-            />
-            {/* <textarea
+        {error && (
+          <div className='tw-mt-6 tw-flex tw-h-full tw-items-center tw-justify-center'>
+            <p className='tw-text-lg tw-text-red-500'>
+              {error?.message || error?.data?.message || 'Đã có lỗi xảy ra'}
+            </p>
+          </div>
+        )}
+        {!error && (
+          <>
+            <h2 className='tw-mt-2 dark:tw-text-white'>Môn học: {subjectCode}</h2>
+            <div className='tw-mt-6'>
+              <Table
+                loading={{
+                  indicator: <Spinner />,
+                  spinning: isLoading,
+                }}
+                pagination={false}
+                columns={columns}
+                dataSource={dataStudent}
+                tableLayout='auto'
+                rowKey='key'
+                className='attendance-table tw-shadow'
+                scroll={{ y: 400 }}
+              />
+              {/* <textarea
             className='tw-mt-[15px] tw-w-full tw-rounded-[5px] tw-border tw-pt-[5px] '
             placeholder='Ghi chú về buổi tutors'
             name=''
             rows='3'
           /> */}
 
-            {
-              data?.lesson?.start_time < currentTime && data?.lesson?.end_time > currentTime && (
-                <Button
-                  type='primary'
-                  loading={isUpdateLoading}
-                  disabled={data?.data?.length === 0}
-                  className='tw-mt-[15px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-bg-[#0DB27F]'
-                  onClick={() => handleUpdateStatus(studentsStatus, lessonId)}
-                >
-                  Lưu điểm danh
-                </Button>
-              )
-            }
+              {
+                data?.lesson?.start_time < currentTime && data?.lesson?.end_time > currentTime && (
+                  <Button
+                    type='primary'
+                    loading={isUpdateLoading}
+                    disabled={data?.data?.length === 0}
+                    className='tw-mt-[15px] tw-h-[40px] tw-w-full tw-text-white tw-border-transparent tw-rounded-[5px] tw-bg-[#0DB27F]'
+                    onClick={() => handleUpdateStatus(studentsStatus, lessonId)}
+                  >
+                    Lưu điểm danh
+                  </Button>
+                )
+              }
 
 
-          </div>
-        </>
-      )}
-    </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   )
 }
 
