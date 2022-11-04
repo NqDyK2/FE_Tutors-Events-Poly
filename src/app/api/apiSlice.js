@@ -21,10 +21,8 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
     if (result.error.status === 401 || result.error.status === 403) {
       api.dispatch(logOut());
     }
-    return result?.error;
-  } else {
-    return result;
   }
+  return result;
 }
 
 export const apiSlice = createApi({
