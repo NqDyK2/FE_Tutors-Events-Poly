@@ -31,11 +31,11 @@ const WelcomeBanner = () => {
     infinite: true,
     speed: 500,
     autoplay: true,
-    nextArrow: <BannerArrow direction='right' onClick={() => {}} />,
-    prevArrow: <BannerArrow onClick={() => {}} />,
+    nextArrow: <BannerArrow direction='right' onClick={() => { }} />,
+    prevArrow: <BannerArrow onClick={() => { }} />,
   };
   return (
-    <div className='tw-relative tw-z-0 tw-mt-16 tw-max-h-[600px]'>
+    <div className='tw-relative tw-z-0 tw-mt-[94px]'>
       <Slider {...settings}>
         {listBanner.map((item, index) => (
           <a href='#' key={index}>
