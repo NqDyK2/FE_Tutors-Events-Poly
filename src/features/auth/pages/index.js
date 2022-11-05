@@ -25,7 +25,7 @@ const AuthPage = () => {
     }
   }
 
-  useEffect(() => {}, [isAuth]);
+  useEffect(() => { }, [isAuth]);
 
   return isAuth ? (
     <Navigate to='/' />
@@ -36,24 +36,13 @@ const AuthPage = () => {
       </Helmet>
       <div>
         <div className='login-page tw-container tw-mx-auto tw-flex tw-h-screen'>
-          <div className='login-container tw-mx-auto tw-px-8 tw-pt-[6%] tw-pb-4'>
-            <div className='tw-flex tw-w-[430px] tw-flex-col tw-items-center tw-justify-center'>
+          <div className='login-container tw-flex tw-justify-center tw-w-full md:tw-mx-auto md:tw-px-8 tw-pt-20 md:tw-pt-[10%] tw-pb-4'>
+            <div className='tw-flex md:tw-w-[430px] tw-w-full tw-flex-col tw-items-center'>
               <div className='logo'>
                 <img src={Logo} alt='logo' width={200} />
               </div>
-              <div className='login-content tw-block tw-w-full tw-text-[13px] tw-font-normal'>
+              <div className='login-content tw-block tw-text-[13px] tw-mt-2 tw-font-normal'>
                 <form className='login-form'>
-                  {/* <div className="tw-flex">
-                    <select 
-                      className="tw-border-none tw-px-6 tw-mt-6 tw-focus-visible:border-none
-                      tw-mb-[15px] tw-h-[46px] tw-flex-1 tw-text-[#495057] tw-rounded
-                      tw-bg-[rgba(235,237,242,.4)]"
-                    >
-                      <option>Lựa chọn cơ sở</option>
-                      <option>FPT Polytechnic Hà Nội</option>
-                      <option>FPT Polytechnic Hà Nội</option>
-                    </select>
-                  </div> */}
                   <div className='tw-flex tw-justify-center'>
                     <ReCAPTCHA
                       sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
@@ -62,11 +51,12 @@ const AuthPage = () => {
                   </div>
                   <div>
                     {isNotVerified && !isVerified && (
-                      <p className='tw-text-center tw-text-red-500'>
+                      <p className='tw-text-center tw-text-red-500 tw-mt-2'>
                         Vui lòng xác nhận bạn không phải là robot
                       </p>
                     )}
                   </div>
+                  <div className='tw-mt-3 tw-h-[1px] tw-bg-gray-400 tw-w-full'></div>
                   <div className='tw-mt-[15px] tw-flex'>
                     <button
                       type='button'
