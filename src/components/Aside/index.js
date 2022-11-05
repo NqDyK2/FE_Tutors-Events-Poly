@@ -134,6 +134,13 @@ const AppAside = () => {
             <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
           )
         ),
+        isAdmin && getItem(
+          <div className='tw-text-[#313752] dark:!tw-text-white '> Giảng viên</div>,
+          '/manage/teacher',
+          !collapsed && (
+            <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+          )
+        )
       ]
     ),
 

@@ -65,6 +65,10 @@ const AppBreadcrumb = () => {
       path: `/manage/major`,
       breadcrumbName: 'Quản lý chuyên ngành / môn học',
     },
+    {
+      path: `/manage/teacher`,
+      breadcrumbName: 'Quản lý giảng viên',
+    }
   ];
 
   function getBreadcrumb() {

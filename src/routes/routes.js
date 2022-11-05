@@ -25,6 +25,7 @@ import MajorPage from '../features/major/pages/index.js';
 import LichHocGuard from './guard/LichHocGuard.js';
 import AdminGuard from './guard/AdminGuard.js';
 import ListFeedback from '../features/feedback/index.js';
+import TeacherPage from '../features/teachers/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -56,6 +57,7 @@ const AppRoutes = () => {
           </Route>
           <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />
+            <Route path='/manage/teacher' element={<TeacherPage />} />
           </Route>
 
           <Route element={<AttendanceGuard />}>
