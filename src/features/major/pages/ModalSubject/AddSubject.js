@@ -28,18 +28,15 @@ const AddSubject = (props) => {
         addSubject(data)
             .unwrap()
             .then((res) => {
-                console.log(res);
                 setIsModalOpen(false);
                 toast.success(res.massage);
                 form.resetFields();
             })
             .catch((err) => {
-                console.log(err);
                 toast.error("Thêm môn học thất bại");
             })
     };
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
     };
     return (
         <div>

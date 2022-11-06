@@ -39,7 +39,6 @@ const ModalEditSubject = (props) => {
             })
     };
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
     };
     return (
         <div>

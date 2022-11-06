@@ -115,19 +115,19 @@ const SubjectPage = () => {
         </Tooltip>
       ),
     },
-    {
-      title: 'Phản hồi/Góp ý',
-      dataIndex: 'feedback',
-      key: 'feedback',
-      width: '15%',
-      render: (_, record) => (
-        <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
-          <Link to={`/manage/feedback`}>
-            <div >15</div>
-          </Link>
-        </Tooltip>
-      )
-    },
+    // {
+    //   title: 'Phản hồi/Góp ý',
+    //   dataIndex: 'feedback',
+    //   key: 'feedback',
+    //   width: '15%',
+    //   render: (_, record) => (
+    //     <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
+    //       <Link to={`/manage/feedback`}>
+    //         <div >15</div>
+    //       </Link>
+    //     </Tooltip>
+    //   )
+    // },
     {
       title: '',
       key: 'action',
@@ -205,7 +205,7 @@ const SubjectPage = () => {
                 type="text"
                 onClick={() => modalImportExcelRef.current.show()}
               >
-                Thêm sinh viên 1/3 block
+                Cập nhật danh sách sinh viên
               </Button>
             </>)
           }

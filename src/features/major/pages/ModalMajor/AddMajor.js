@@ -33,7 +33,6 @@ const AddMajor = () => {
             })
     };
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
     };
     return (
         <div>
