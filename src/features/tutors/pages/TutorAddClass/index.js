@@ -24,7 +24,6 @@ const AddClassPage = () => {
   const [fileName, setFileName] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const handleFile = async (e) => {
-    console.log(e);
     setLoading(true);
     const file = e.target.files[0];
     setFileName(file.name);
@@ -39,7 +38,6 @@ const AddClassPage = () => {
       });
       return newItem;
     });
-    console.log(json);
   };
   return (
     <>

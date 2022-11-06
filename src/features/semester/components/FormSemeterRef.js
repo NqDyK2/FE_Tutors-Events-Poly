@@ -63,7 +63,6 @@ const FormSemeterRef = (props, ref) => {
         addSemester(data)
           .unwrap()
           .then((res) => {
-            console.log(res);
             setVisible(false);
             toast.success(res.message);
           })
