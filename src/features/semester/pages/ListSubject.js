@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -11,11 +11,13 @@ import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../auth/authSlice';
+import { setFlexBredcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
   const [removeClassroom] = useDeleteClassroomMutation()
@@ -24,13 +26,24 @@ const SubjectPage = () => {
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
   const currentUser = useSelector(selectCurrentUser);
-
-
+  const [detailSem, setDetailSem] = useState()
   const handleRemoveClassroom = (id) => {
     removeClassroom(id).unwrap().then((res) => {
       toast.success(res.message);
     })
   }
+
+  useEffect(() => {
+    if (!data?.tree) return;
+
+    console.log(data.tree)
+
+    dispatch(
+      setFlexBredcrumb([
+        { title: data.tree[0].name, path: `/manage/sem/${data.tree[0].id}` },
+      ])
+    )
+  }, [data])
 
   // table antd
   let columns = [
