@@ -12,6 +12,60 @@ const AppBreadcrumb = () => {
   const { flexBreadcrumb } = useSelector(state => state.breadcrumb)
   const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
   const currentUser = useSelector(selectCurrentUser);
+ // const breadcrumbData = [
+  //   {
+  //     path: '/',
+  //     breadcrumbName: 'Trang chủ',
+  //   },
+  //   {
+  //     path: '/diem-danh',
+  //     breadcrumbName: 'Điểm danh',
+  //   },
+  //   {
+  //     path: '/calendar-tutor',
+  //     breadcrumbName: 'Lịch tutor',
+  //   },
+  //   {
+  //     path: '/list-class',
+  //     breadcrumbName: 'Danh sách lớp học',
+  //   },
+  //   {
+  //     path: `/diem-danh/${pathname.split('/')[2]}`,
+  //     breadcrumbName: 'Điểm danh',
+  //   },
+  //   {
+  //     path: `/diem-danh/lop/${pathname.split('/')[3]}`,
+  //     breadcrumbName: 'Điểm danh',
+  //   },
+  //   {
+  //     path: `/diem-danh/buoi-hoc/${pathname.split('/')[5]}`,
+  //     breadcrumb: 'Điểm danh',
+  //   },
+  //   {
+  //     path: '/import-students',
+  //     breadcrumbName: 'Import danh sách sinh viên',
+  //   },
+  //   {
+  //     path: '/manage',
+  //     breadcrumbName: `${currentUser.role_id === 1 ? ' Quản lý kỳ học ' : 'Danh sách kỳ học'}`,
+  //   },
+  //   {
+  //     path: `/manage/sem/${pathname.split('/')[3]}`,
+  //     breadcrumbName: `${currentUser.role_id === 1 ? 'Quản lý lớp học' : 'Danh sách lớp học'}`,
+  //   },
+  //   {
+  //     path: `/manage/class/lesson/${pathname.split('/')[4]}`,
+  //     breadcrumbName: 'Danh sách lịch học',
+  //   },
+  //   {
+  //     path: `/manage/class/${pathname.split('/')[3]}`,
+  //     breadcrumbName: 'Danh sách sinh viên',
+  //   },
+  //   {
+  //     path: `/manage/major`,
+  //     breadcrumbName: 'Quản lý chuyên ngành / môn học',
+  //   },
+  // ];
   return (
     // <Breadcrumb
     //   key={pathname}
@@ -34,12 +88,9 @@ const AppBreadcrumb = () => {
     //       <RiHome6Line className='tw-align-text-bottom' size={18} />
     //     </Link>
     //   </Breadcrumb.Item>
-
-
     //   <Breadcrumb.Item className='tw-text-base tw-text-black tw-opacity-80 dark:tw-text-white dark:tw-opacity-100'>
     //     {breadcrumb ?? 'Trang chủ'}
     //   </Breadcrumb.Item>
-
     // </Breadcrumb>
 
 

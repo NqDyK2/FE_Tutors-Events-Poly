@@ -11,8 +11,9 @@ import {
   CarryOutOutlined,
   SolutionOutlined,
 } from '@ant-design/icons';
-import { BsDot } from 'react-icons/bs';
-import { IoMdHelpCircle } from 'react-icons/io';
+import { ImBooks } from 'react-icons/im'
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { AiFillSchedule } from 'react-icons/ai'
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -92,6 +93,29 @@ const AppAside = () => {
       </div>,
       '/lich-hoc',
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
+      // [
+      //   acceptManager && getItem(
+      //     <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
+      //     '/manage',
+      //     !collapsed && (
+      //       <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
+      //     )
+      //   ),
+      //   isAdmin && getItem(
+      //     <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
+      //     '/manage/major',
+      //     !collapsed && (
+      //       <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+      //     )
+      //   ),
+      // isAdmin && getItem(
+      //   <div className='tw-text-[#313752] dark:!tw-text-white '> Giảng viên</div>,
+      //   '/manage/teacher',
+      //   !collapsed && (
+      //     <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+      //   )
+      // )
+      // ]
     ),
 
     studentTutorial && getItem(
@@ -105,7 +129,7 @@ const AppAside = () => {
       <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
     ),
 
-    acceptManager && getItem(
+    isAdmin && getItem(
       <div
         className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
@@ -113,19 +137,35 @@ const AppAside = () => {
         Quản lý lịch học
       </div>,
       '/manage',
-      <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
+      <AiFillSchedule className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
+    ),
+    acceptAttendance && getItem(
+      <div
+        className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+      >
+        Kiểm tra lịch học
+      </div>,
+      '/manage',
+      <AiFillSchedule className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
     ),
     isAdmin && getItem(
       <div
         className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
       >
-        Quản lý Môn học
+        Quản lý môn học
       </div>,
       '/manage/major',
-      <PieChartOutlined className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
+      <ImBooks className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
     ),
-
+    isAdmin && getItem(
+      <div className='tw-text-[#313752] dark:!tw-text-white '>Quản lý giảng viên</div>,
+      '/manage/teacher',
+      !collapsed && (
+        <FaChalkboardTeacher className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+      )
+    )
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Sự kiện

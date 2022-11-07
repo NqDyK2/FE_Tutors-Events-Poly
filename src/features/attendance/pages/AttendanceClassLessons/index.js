@@ -114,7 +114,7 @@ const AttendanceClassLessons = () => {
       stt: index + 1,
       id: item.id,
       day: timeFormat(item.start_time.split('  ')[0]),
-      lessonTime: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]}`,
+      lessonTime: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10, -3)}`,
       startTime: item.start_time,
       endTime: item.end_time,
       subjectCode: item.subjects_code,
@@ -154,7 +154,6 @@ const AttendanceClassLessons = () => {
             to={`/diem-danh/buoi-hoc/${record.id}`}
             state={{
               subjectCode: record.subjectCode,
-
             }}
           >
             Chỉnh sửa
