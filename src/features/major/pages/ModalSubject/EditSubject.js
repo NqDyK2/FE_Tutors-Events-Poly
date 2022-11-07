@@ -100,7 +100,7 @@ const ModalEditSubject = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Nã môn học không được để trống.',
+                                message: 'Mã môn học không được để trống.',
                             },
                         ]}
                     >
