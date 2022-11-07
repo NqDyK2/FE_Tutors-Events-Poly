@@ -13,14 +13,14 @@ const breadcrumbSlice = createSlice({
     name: 'breadcrumb',
     initialState,
     reducers: {
-        setFlexBredcrumb: (state, action) => {
+        setFlexBreadcrumb: (state, action) => {
             state.flexBreadcrumb = [HOME_BREADCRUMB, ...action.payload]
         },
-        resetFlexBredcrumb: () => initialState,
+        resetFlexBreadcrumb: (state) => state = initialState,
     },
 });
 
-export const { setFlexBredcrumb, resetFlexBredcrumb } = breadcrumbSlice.actions;
+export const { setFlexBreadcrumb, resetFlexBreadcrumb } = breadcrumbSlice.actions;
 
 export default breadcrumbSlice.reducer;
 

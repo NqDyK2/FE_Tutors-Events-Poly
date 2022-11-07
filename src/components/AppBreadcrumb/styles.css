@@ -1,3 +1,8 @@
 .app-breadcrumb > * .ant-breadcrumb-separator {
-  @apply !tw-text-[#C4CFF0] tw-text-sm
+  @apply tw-text-sm !tw-text-[#C4CFF0];
+}
+
+.ant-breadcrumb ol li {
+  display: flex !important;
+  align-items: center !important;
 }
