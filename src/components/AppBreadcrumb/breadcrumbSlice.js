@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const HOME_BREADCRUMB = {
+    title: "Home",
+    path: '/'
+}
+
 const initialState = {
-    flexBreadcrumb: "Test"
+    flexBreadcrumb: [HOME_BREADCRUMB]
 };
 
 const breadcrumbSlice = createSlice({
@@ -9,7 +14,7 @@ const breadcrumbSlice = createSlice({
     initialState,
     reducers: {
         setFlexBredcrumb: (state, action) => {
-            state.flexBreadcrumb = action.payload
+            state.flexBreadcrumb = [HOME_BREADCRUMB, ...action.payload]
         },
         resetFlexBredcrumb: () => initialState,
     },

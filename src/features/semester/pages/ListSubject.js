@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -26,14 +26,24 @@ const SubjectPage = () => {
   const location = useLocation();
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
   const currentUser = useSelector(selectCurrentUser);
-
+  const [detailSem, setDetailSem] = useState()
   const handleRemoveClassroom = (id) => {
     removeClassroom(id).unwrap().then((res) => {
       toast.success(res.message);
     })
   }
 
-  // dispatch(setFlexBredcrumb(data?.tree?.name))
+  useEffect(() => {
+    if (!data?.tree) return;
+
+    console.log(data.tree)
+
+    dispatch(
+      setFlexBredcrumb([
+        { title: data.tree[0].name, path: `/manage/sem/${data.tree[0].id}` },
+      ])
+    )
+  }, [data])
 
   // table antd
   let columns = [
