@@ -7,11 +7,14 @@ import './styles.css';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../features/auth/authSlice';
+import { getFlexBredcrumb } from './breadcrumbSlice';
 
 const AppBreadcrumb = () => {
   const pathname = useLocation().pathname;
   const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
   const currentUser = useSelector(selectCurrentUser);
+  const flexBreadcrumb = useSelector(state => state.breadcrumb);
+  console.log(flexBreadcrumb);
   const breadcrumbData = [
     {
       path: '/',

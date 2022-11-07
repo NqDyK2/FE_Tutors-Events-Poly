@@ -11,11 +11,13 @@ import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../auth/authSlice';
+import { setFlexBredcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
   const [removeClassroom] = useDeleteClassroomMutation()
@@ -25,12 +27,13 @@ const SubjectPage = () => {
   const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
   const currentUser = useSelector(selectCurrentUser);
 
-
   const handleRemoveClassroom = (id) => {
     removeClassroom(id).unwrap().then((res) => {
       toast.success(res.message);
     })
   }
+
+  // dispatch(setFlexBredcrumb(data?.tree?.name))
 
   // table antd
   let columns = [
