@@ -31,11 +31,17 @@ const ModalEditSubject = (props) => {
             code: values.code
         }
         updateSubject({ ...data, id: props.data.id })
-            .then((res) => {
-                toast.success(res.massage);
+            .then((response) => {
+                setIsModalOpen(false);
+                if (response.data) {
+                    toast.success(response.data.message);
+                } else if (response.error) {
+                    toast.error(response.error.data.message);
+                }
+                form.resetFields();
             })
-            .catch(() => {
-                toast.error("Sửa môn học thất bại");
+            .catch((error) => {
+                console.log(error);
             })
     };
     const onFinishFailed = (errorInfo) => {

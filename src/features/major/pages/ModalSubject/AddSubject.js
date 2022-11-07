@@ -26,14 +26,17 @@ const AddSubject = (props) => {
             code: values.code
         }
         addSubject(data)
-            .unwrap()
-            .then((res) => {
+            .then((response) => {
                 setIsModalOpen(false);
-                toast.success(res.massage);
+                if (response.data) {
+                    toast.success(response.data.message);
+                } else if (response.error) {
+                    toast.error(response.error.data.message);
+                }
                 form.resetFields();
             })
             .catch((err) => {
-                toast.error("Thêm môn học thất bại");
+                console.log(err);
             })
     };
     const onFinishFailed = (errorInfo) => {
