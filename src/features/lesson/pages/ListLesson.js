@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './styles.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -15,6 +15,9 @@ import Spinner from '../../../components/Spinner';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { Helmet } from 'react-helmet-async';
+import { useDispatch } from 'react-redux';
+import { setFlexBredcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+
 
 const columns = [
   {
@@ -153,6 +156,8 @@ const columns = [
 ];
 
 const ListLesson = () => {
+
+  const dispatch = useDispatch()
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -179,13 +184,14 @@ const ListLesson = () => {
   };
 
   const {
-    data: lessonList,
+    data: response,
     error: lessonError,
     isLoading: lessonLoading,
   } = useGetAllLessonQuery(subjectId);
 
-  if (lessonList) {
-    data = lessonList.map((item, index) => {
+
+  if (response) {
+    data = response.data.map((item, index) => {
       return {
         key: index,
         stt: index + 1,
@@ -204,6 +210,18 @@ const ListLesson = () => {
       };
     });
   }
+
+  useEffect(() => {
+    console.log(response)
+    if (!response?.tree) return;
+    dispatch(
+      setFlexBredcrumb([
+        { title: 'manage', path: `/manage` },
+        { title: response.tree[0].name, path: `/manage/sem/${response.tree[0].id}` },
+        { title: response.tree[1].name, path: `#` },
+      ])
+    )
+  }, [response])
 
   return (
     <div>

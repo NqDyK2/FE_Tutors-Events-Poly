@@ -7,7 +7,7 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
         url: `classroom/${classId}/lessons`,
       }),
       transformResponse: (response) => {
-        return response.data;
+        return response;
       },
       providesTags: ['Lesson'],
     }),
