@@ -25,12 +25,13 @@ const LogoutButton = () => {
 };
 
 const DropdownOverlay = ({ currentUser }) => {
+  console.log(currentUser);
   return (
     <>
       <div className='tw-max-w-md tw-rounded-sm tw-bg-white tw-shadow-md md:tw-w-[150px] lg:tw-w-[400px]'>
         <div className='tw-flex tw-h-[75px] tw-items-center tw-rounded-t-sm tw-bg-[#2E47AE]'>
           <h4 className='tw-ml-6  tw-text-base tw-text-gray-200'>
-            {currentUser?.name}
+            {currentUser?.name} - {currentUser?.email}
           </h4>
         </div>
         <Link

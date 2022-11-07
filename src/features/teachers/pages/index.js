@@ -1,10 +1,15 @@
 import { Button, Table, Tooltip } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useRef } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async'
+// import { useNavigate } from 'react-router-dom';
+import FormTeachersRef from '../components/FormTeachersRef';
 
 const TeacherPage = () => {
+  // const navigate = useNavigate();
+  const modalTeachersRef = useRef();
+
   const colums = [
     {
       title: "STT",
@@ -36,12 +41,22 @@ const TeacherPage = () => {
       dataIndex: 'action',
       width: '7%',
       render: (_, record) => (
-        <div className='tw-justify-center tw-flex tw-gap-2 tw-items-center tw-mb-1 tw-text-center'>
+        <div className='tw-justify-center tw-flex  tw-items-center tw-mb-1 tw-text-center'>
           <Tooltip title='Sửa thông tin giảng viên' color="#FF6D28">
-            <EditOutlined />
+            <Button
+              className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
+              onClick={() => modalTeachersRef.current.show('EDIT', record)}
+
+            >
+              <EditOutlined />
+            </Button>
           </Tooltip>
           <Tooltip title="Xóa giảng viên" color='#FF6D28'>
-            <DeleteOutlined />
+            <Button
+              className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
+            >
+              <DeleteOutlined />
+            </Button>
           </Tooltip>
         </div>
       )
@@ -50,6 +65,7 @@ const TeacherPage = () => {
   const dataSource = [
     {
       id: 1,
+      key: 1,
       item: '1',
       fullName: "Lê Trọng Đạt",
       email: "datlt34@fpt.edu.vn",
@@ -57,6 +73,7 @@ const TeacherPage = () => {
     },
     {
       id: 2,
+      key: 2,
       item: '2',
       fullName: "Tân Văn Sơn",
       email: "sontv8@fpt.edu.vn",
@@ -64,6 +81,7 @@ const TeacherPage = () => {
     },
     {
       id: 3,
+      key: 3,
       item: "3",
       fullName: "Trần Hữu Thiện",
       email: "thienth@fpt.edu.vn",
@@ -80,10 +98,10 @@ const TeacherPage = () => {
           <Button
             type="link"
             icon={<PlusCircleOutlined />}
-            // onClick={() => modalRef.current.show('ADD', location.state)}
-            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+            onClick={() => modalTeachersRef.current.show('ADD')}
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700 dark:hover:tw-text-blue-300 dark:tw-text-slate-100"
           >
-            Thêm buổi học
+            Thêm giảng viên
           </Button>
         </span>
       </div>
@@ -95,6 +113,7 @@ const TeacherPage = () => {
           pagination={false}
           dataSource={dataSource}
         />
+        <FormTeachersRef ref={modalTeachersRef} />
       </div>
     </>
   )

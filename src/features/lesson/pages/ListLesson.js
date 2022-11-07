@@ -53,7 +53,7 @@ const columns = [
     title: 'Hình thức',
     dataIndex: 'hinhthuc',
     key: 'hinhthuc',
-    width: '5%',
+    width: '7%',
   },
   {
     title: 'Phòng học',
