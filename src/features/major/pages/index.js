@@ -61,20 +61,28 @@ const MajorPage = () => {
     // pop confirm
     const removeSubject = (id) => {
         deleteSubject(id)
-            .then(() => {
-                toast.success('Xóa môn học thành công.');
+            .then((response) => {
+                if (response.data) {
+                    toast.success(response.data.message);
+                } else if (response.error) {
+                    toast.error(response.error.data.message);
+                }
             })
-            .catch(() => {
-                toast.error('Xóa không thành công.');
+            .catch((error) => {
+                console.log('err', error);
             })
     };
     const removeMajor = (id) => {
         deleteMajor(id)
-            .then(() => {
-                toast.success('Xóa chuyên ngành thành công.');
+            .then((response) => {
+                if (response.data) {
+                    toast.success(response.data.message);
+                } else if (response.error) {
+                    toast.error(response.error.data.message);
+                }
             })
-            .catch(() => {
-                toast.error('Xóa chuyên ss không thành công.');
+            .catch((error) => {
+                console.log('err', error);
             })
     };
     return (

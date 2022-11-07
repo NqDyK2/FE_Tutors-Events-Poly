@@ -25,11 +25,15 @@ const AddMajor = () => {
         AddMajor(data)
             .then((response) => {
                 setIsModalOpen(false);
-                toast.success(response.massage);
+                if (response.data) {
+                    toast.success(response.data.message);
+                } else if (response.error) {
+                    toast.error(response.error.data.message);
+                }
                 form.resetFields();
             })
-            .catch(() => {
-                toast.error("Thêm ngành học thất bại.");
+            .catch((error) => {
+                console.log(error);
             })
     };
     const onFinishFailed = (errorInfo) => {
