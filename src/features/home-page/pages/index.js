@@ -53,7 +53,7 @@ const HomePage = () => {
       </Helmet>
 
       <div>
-        <TutorEventCalendar eventsData={eventsData} />
+        {/* <TutorEventCalendar eventsData={eventsData} /> */}
       </div>
     </>
   );

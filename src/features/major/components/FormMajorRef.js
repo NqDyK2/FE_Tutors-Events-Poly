@@ -45,22 +45,16 @@ const FormMajorRef = (props, ref) => {
 
     switch (mode) {
         case MODE.ADDCARRER:
-            console.log('mode add carr');
             break;
         case MODE.ADDMAJOR:
-            console.log('mode add major');
             break;
         case MODE.ADDSUBJECT:
-            console.log('mode add subje');
             break;
         case MODE.EDITCARRER:
-            console.log('mode edit carr');
             break;
         case MODE.EDITMAJOR:
-            console.log('mode edit carr');
             break;
         case MODE.EDITSUBJECT:
-            console.log('mode add carr');
             break;
     }
 

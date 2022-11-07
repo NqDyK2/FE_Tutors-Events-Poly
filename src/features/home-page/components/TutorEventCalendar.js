@@ -45,7 +45,6 @@ const TutorEventCalendar = (props) => {
       //     start: Date.now()
       //  }}
       eventContent={(info) => {
-        console.log(info);
         return (
           <Popover content={info.event.title} trigger="click" title="Thông tin chi tiết" key={info}>
             <div className="tw-text-sm tw-font-bold tw-text-center tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-h-6 tw-w-full tw-p-1  tw-rounded-md"

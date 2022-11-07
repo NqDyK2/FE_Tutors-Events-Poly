@@ -192,7 +192,7 @@ const ListLesson = () => {
         id: item.id,
         ngay: timeFormat(item.start_time.split('  ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]
+        thoigian: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10, -3)
           }`,
         phonghoc: item.class_location,
         tutor_email: item.tutor_email,

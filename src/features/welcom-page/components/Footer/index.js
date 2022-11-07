@@ -6,16 +6,18 @@ import LogoWhite from './../../../../assets/images/WhiteLogo.png';
 
 const WelcomeFooter = () => {
   return (
-    <div className='tw-h-[554px] tw-w-full tw-content-center tw-bg-[#192041]'>
-      <div className='tw-flex tw-border-t-8 tw-border-[#F7941D] tw-px-48 tw-pt-[20px]'>
+    <div className='tw-h-fit tw-w-full -tw-mt-[6px] tw-content-center tw-bg-[#192041]'>
+      <div className='tw-flex tw-gap-4 md:tw-gap-16 tw-border-t-[9px] tw-border-[#F7941D] md:tw-flex-row tw-flex-col tw-px-5 md:tw-px-16 lg:tw-px-48 tw-pt-[20px]'>
+
         {/* Logo White */}
-        <div className='tw-w-[30%]'>
+        <div>
           <Link to='#'>
-            <img className='tw-ml-12 tw-w-[200px]' src={LogoWhite} alt='' />
+            <img className='tw-min-h-[70px] tw-min-w-[200px]' width={200} height={70} src={LogoWhite} alt='' />
           </Link>
         </div>
+
         {/* Contact info */}
-        <div className='tw-w-[70%]'>
+        <div>
           <div>
             <h3 className='tw-text-[24px] tw-font-normal tw-uppercase tw-text-white'>
               thông tin liên hệ
@@ -25,8 +27,8 @@ const WelcomeFooter = () => {
               Liêm, Hà Nội
             </Link>
           </div>
-          <div className='tw-flex tw-pt-[10px]'>
-            <div className='tw-w-[50%] '>
+          <div className='tw-flex tw-gap-4 tw-pt-[10px]'>
+            <div>
               <div className='tw-pb-2 tw-text-[13px] tw-text-white'>
                 <span className='tw-text-[16px] tw-text-[#F7941D] tw-underline tw-underline-offset-1'>
                   Cơ Sở Hà Nội
@@ -67,7 +69,7 @@ const WelcomeFooter = () => {
                 <span>(0915) 431 313</span>
               </div>
             </div>
-            <div className='tw-pl-[35px]'>
+            <div>
               <div className='tw-pb-2 tw-text-[13px] tw-text-white'>
                 <span className='tw-text-[16px] tw-text-[#F7941D] tw-underline tw-underline-offset-1'>
                   Cơ Sở Hồ Chí Minh
