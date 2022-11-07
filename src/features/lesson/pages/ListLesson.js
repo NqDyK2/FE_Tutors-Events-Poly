@@ -217,8 +217,8 @@ const ListLesson = () => {
     dispatch(
       setFlexBredcrumb([
         { title: 'manage', path: `/manage` },
-        { title: response.tree[0].name, path: `/manage/sem/${response.tree[0].id}` },
-        { title: response.tree[1].name, path: `#` },
+        { title: response?.tree[0]?.name, path: `/manage/sem/${response?.tree[0]?.id}` },
+        { title: response?.tree[1]?.name, path: `#` },
       ])
     )
   }, [response])

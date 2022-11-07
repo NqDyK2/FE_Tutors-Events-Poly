@@ -36,11 +36,9 @@ const SubjectPage = () => {
   useEffect(() => {
     if (!data?.tree) return;
 
-    console.log(data.tree)
-
     dispatch(
       setFlexBredcrumb([
-        { title: data.tree[0].name, path: `/manage/sem/${data.tree[0].id}` },
+        { title: data?.tree[0]?.name, path: `/manage/sem/${data.tree[0]?.id}` },
       ])
     )
   }, [data])
