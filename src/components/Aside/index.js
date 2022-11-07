@@ -144,7 +144,7 @@ const AppAside = () => {
         className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
       >
-        Kiểm tra lịch học
+        Kiểm tra lớp học
       </div>,
       '/manage',
       <AiFillSchedule className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,

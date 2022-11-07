@@ -61,6 +61,7 @@ const AppRoutes = () => {
           </Route>
 
           <Route element={<AttendanceGuard />}>
+            <Route path='/lich-day' />
             <Route path="/diem-danh" element={<AttendanceClassList />} />
             <Route path="/diem-danh/lop/:classId" element={<AttendanceClassLessons />} />
             <Route path="/diem-danh/buoi-hoc/:lessonId" element={<AttendanceStudentList />} />
