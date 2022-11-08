@@ -84,7 +84,7 @@ const MajorPage = () => {
         }
       })
       .catch((error) => {
-        console.log('err', error);
+        toast.error(error)
       });
   };
   const removeMajor = (id) => {
@@ -97,7 +97,7 @@ const MajorPage = () => {
         }
       })
       .catch((error) => {
-        console.log('err', error);
+        toast.error(error)
       });
   };
   return (
