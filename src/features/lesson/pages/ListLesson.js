@@ -16,8 +16,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
-import { setFlexBredcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
-
+import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const columns = [
   {
@@ -67,14 +66,13 @@ const columns = [
       record.hinhthuc === 'Offline' ? (
         <span>{record.phonghoc}</span>
       ) : (
-        <Tooltip color='#FF6D28' title={`${record.phonghoc}`}>
+        <Tooltip color="#FF6D28" title={`${record.phonghoc}`}>
           <div className="tw-truncate">
-            <a target="blank" href={record.phonghoc} >
+            <a target="blank" href={record.phonghoc}>
               {record.phonghoc}
             </a>
           </div>
         </Tooltip>
-
       ),
   },
   {
@@ -83,9 +81,9 @@ const columns = [
     key: 'teacher_email',
     width: '10%',
     render: (_, record) => (
-      <Tooltip title={`${record.teacher_email}`} color='#FF6D28'  >
+      <Tooltip title={`${record.teacher_email}`} color="#FF6D28">
         <span>{record.teacher_email.split('@')[0]}</span>
-      </Tooltip >
+      </Tooltip>
     ),
   },
   {
@@ -93,10 +91,14 @@ const columns = [
     dataIndex: 'tutor_email',
     key: 'tutor_email',
     width: '10%',
-    _render: (_, record) => record.tutor_email === null ? (<span>Trống</span>)
-      : (<Tooltip title={`${record.tutor_email}`} color='#FF6D28'>
-        <span>{record.tutor_email.split('@')[0]}</span>
-      </Tooltip>),
+    _render: (_, record) =>
+      record.tutor_email === null ? (
+        <span>Trống</span>
+      ) : (
+        <Tooltip title={`${record.tutor_email}`} color="#FF6D28">
+          <span>{record.tutor_email.split('@')[0]}</span>
+        </Tooltip>
+      ),
     // (
     //   <Tooltip title={`${record.tutor_email}`} color='#FF6D28'>
     //     <span>{record.tutor_email.split('@')[0]}</span>
@@ -114,7 +116,7 @@ const columns = [
     dataIndex: 'chitiet',
     key: 'chitiet',
     render: (_, record) => (
-      <Tooltip title={record.chitiet} color='#FF6D28' trigger={'click'} >
+      <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
         <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
       </Tooltip>
     ),
@@ -126,20 +128,20 @@ const columns = [
     width: '7%',
     render: (_, record) => (
       <div className="tw-flex">
-        <Tooltip title="Sửa buổi học" color='#FF6D28' >
+        <Tooltip title="Sửa buổi học" color="#FF6D28">
           <Button
             onClick={() => {
               record.action.modalRef.current.show('EDIT', record.action.item);
             }}
-            className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent"
+            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white"
           >
             <EditOutlined />
           </Button>
         </Tooltip>
-        <Tooltip title="Xóa buổi học" color='#FF6D28' placement='topLeft'>
+        <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
           <ConfirmPopup
             content={
-              <Button className="dark:tw-text-white tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent">
+              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white">
                 <DeleteOutlined />
               </Button>
             }
@@ -156,8 +158,7 @@ const columns = [
 ];
 
 const ListLesson = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -189,7 +190,6 @@ const ListLesson = () => {
     isLoading: lessonLoading,
   } = useGetAllLessonQuery(subjectId);
 
-
   if (response) {
     data = response.data.map((item, index) => {
       return {
@@ -198,8 +198,10 @@ const ListLesson = () => {
         id: item.id,
         ngay: timeFormat(item.start_time.split('  ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10, -3)
-          }`,
+        thoigian: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
+          10,
+          -3,
+        )}`,
         phonghoc: item.class_location,
         tutor_email: item.tutor_email,
         teacher_email: item.teacher_email,
@@ -212,23 +214,24 @@ const ListLesson = () => {
   }
 
   useEffect(() => {
-    console.log(response)
+    console.log(response);
     if (!response?.tree) return;
     dispatch(
-      setFlexBredcrumb([
-        { title: 'manage', path: `/manage` },
-        { title: response?.tree[0]?.name, path: `/manage/sem/${response?.tree[0]?.id}` },
-        { title: response?.tree[1]?.name, path: `#` },
-      ])
-    )
-  }, [response])
+      setFlexBreadcrumb([
+        { title: 'Quảng lý kỳ học', path: `/manage` },
+        {
+          title: response?.tree[0]?.name,
+          path: `/manage/sem/${response?.tree[0]?.id}`,
+        },
+        { title: response?.tree[1]?.name + ' - Lịch học' },
+      ]),
+    );
+  }, [dispatch, response]);
 
   return (
     <div>
       <Helmet>
-        <title>
-          Lịch dạy
-        </title>
+        <title>Lịch dạy</title>
       </Helmet>
       <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
         <span className="tw-text-[15px] dark:tw-text-white">
@@ -247,7 +250,7 @@ const ListLesson = () => {
           </span>
           <button
             onClick={() => navigate(-1)}
-            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
+            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700"
           >
             <FaReply className="tw-mr-1" /> Trở lại
           </button>
