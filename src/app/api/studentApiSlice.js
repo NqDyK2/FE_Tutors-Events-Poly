@@ -20,11 +20,19 @@ export const studentApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Student'],
         }),
+        getScheduleTeaching: builder.query({
+            query: () => ({
+                url: `teacher-tutor/schedule`,
+                method: 'GET',
+            }),
+            invalidatesTags: ['Teaching'],
+        })
     }),
 });
 
 export const {
     useGetAllMissingClassQuery,
     useGetScheduleQuery,
-    useJoinClassMutation
+    useJoinClassMutation,
+    useGetScheduleTeachingQuery,
 } = studentApiSlice;

@@ -84,8 +84,7 @@ const FormImportExcelRef = (props, ref) => {
       return;
     }
     // const chunkData = chunk(values.data, 100);
-    // console.log(chunkData);
-    // console.log(chunkData[0]);
+
     // await Promise.all(
     //   chunkData.map((data) =>
     //     importStudentsSemester({

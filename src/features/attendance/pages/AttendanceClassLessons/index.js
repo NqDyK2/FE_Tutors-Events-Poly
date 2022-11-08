@@ -28,7 +28,7 @@ const AttendanceClassLessons = () => {
       title: 'STT',
       dataIndex: 'stt',
       key: 'stt',
-      width: '3%'
+      width: '7%'
     },
     {
       title: 'Thứ - Ngày/Tháng',
@@ -50,7 +50,7 @@ const AttendanceClassLessons = () => {
       title: 'Hình thức',
       dataIndex: 'lessonType',
       key: 'lessonType',
-      width: '6%',
+      width: '10%',
     },
     {
       title: 'Phòng học',

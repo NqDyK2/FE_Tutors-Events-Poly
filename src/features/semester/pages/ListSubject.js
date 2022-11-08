@@ -2,48 +2,57 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { EditOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  PlusCircleOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-import { useDeleteClassroomMutation, useGetAllClassInSemesterQuery } from '../../../app/api/classroomApiSlice';
+import {
+  useDeleteClassroomMutation,
+  useGetAllClassInSemesterQuery,
+} from '../../../app/api/classroomApiSlice';
 import FormImportExcelRef from '../components/FormImportExcelRef';
 import Spinner from '../../../components/Spinner';
 import FormClassroomRef from '../components/FormClassroomRef';
 import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../auth/authSlice';
-import { setFlexBredcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
-  const [removeClassroom] = useDeleteClassroomMutation()
+  const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
   const location = useLocation();
-  const { semesterStartTime, semesterEndTime, semesterId } = location.state || {};
+  const { semesterStartTime, semesterEndTime, semesterId } =
+    location.state || {};
   const currentUser = useSelector(selectCurrentUser);
-  const [detailSem, setDetailSem] = useState()
+  const [detailSem, setDetailSem] = useState();
   const handleRemoveClassroom = (id) => {
-    removeClassroom(id).unwrap().then((res) => {
-      toast.success(res.message);
-    })
-  }
+    removeClassroom(id)
+      .unwrap()
+      .then((res) => {
+        toast.success(res.message);
+      });
+  };
 
   useEffect(() => {
     if (!data?.tree) return;
 
-    console.log(data.tree)
-
     dispatch(
-      setFlexBredcrumb([
-        { title: data.tree[0].name, path: `/manage/sem/${data.tree[0].id}` },
-      ])
-    )
-  }, [data])
+      setFlexBreadcrumb([
+        { title: 'Quảng lý kỳ học', path: `/manage` },
+        { title: data?.tree[0]?.name, path: `/manage/sem/${data.tree[0]?.id}` },
+      ]),
+    );
+  }, [data, dispatch]);
 
   // table antd
   let columns = [
@@ -94,9 +103,12 @@ const SubjectPage = () => {
       dataIndex: 'default_teacher_email',
       key: 'default_teacher_email',
       width: '20%',
-      render: (default_teacher_email, record) => (
-        default_teacher_email ? default_teacher_email : <span className='tw-text-red-500 tw-font-semibold'>Chưa có</span>
-      )
+      render: (default_teacher_email, record) =>
+        default_teacher_email ? (
+          default_teacher_email
+        ) : (
+          <span className="tw-font-semibold tw-text-red-500">Chưa có</span>
+        ),
     },
     {
       title: 'Buổi học',
@@ -146,11 +158,18 @@ const SubjectPage = () => {
       key: 'action',
       dataIndex: 'action',
       render: (_, record) => (
-        <div className='tw-flex tw-items-center'>
-          <Tooltip title="Thay đổi giảng viên phụ trách" placement='top' color={'#FF6D28'}>
-            <Space size="middle" className="dark:tw-text-white tw-border-none tw-bg-transparent hover:tw-bg-transparent">
+        <div className="tw-flex tw-items-center">
+          <Tooltip
+            title="Thay đổi giảng viên phụ trách"
+            placement="top"
+            color={'#FF6D28'}
+          >
+            <Space
+              size="middle"
+              className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
+            >
               <Button
-                className="tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
+                className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white"
                 onClick={() => modalClassroomRef.current.show('EDIT', record)}
               >
                 <EditOutlined />
@@ -161,8 +180,8 @@ const SubjectPage = () => {
             key={record.id}
             className="tw-m-0"
             content={
-              <Tooltip title="Xóa lớp học" placement='top' color={'#FF6D28'}>
-                <Button className="dark:tw-text-white tw-pl-3 tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none">
+              <Tooltip title="Xóa lớp học" placement="top" color={'#FF6D28'}>
+                <Button className="tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white">
                   <DeleteOutlined />
                 </Button>
               </Tooltip>
@@ -171,13 +190,13 @@ const SubjectPage = () => {
             onConfirm={() => handleRemoveClassroom(record.id)}
             placement="topRight"
           />
-        </div >
+        </div>
       ),
     },
   ];
 
   if (currentUser?.role_id !== 1) {
-    columns = columns.filter(col => col.dataIndex !== 'action')
+    columns = columns.filter((col) => col.dataIndex !== 'action');
   }
 
   const dataSource = data?.data?.map((item, index) => ({
@@ -202,8 +221,8 @@ const SubjectPage = () => {
           Danh sách lớp học
         </span>
         <div className="tw-flex tw-items-center tw-gap-x-3">
-          {currentUser?.role_id === 1 &&
-            (<>
+          {currentUser?.role_id === 1 && (
+            <>
               <Button
                 icon={<PlusCircleOutlined />}
                 className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
@@ -220,11 +239,11 @@ const SubjectPage = () => {
               >
                 Cập nhật danh sách sinh viên
               </Button>
-            </>)
-          }
+            </>
+          )}
           <button
             onClick={() => navigate(-1)}
-            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-text-blue-700 hover:tw-bg-transparent"
+            className="tw-flex tw-items-center tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700"
           >
             <FaReply className="tw-mr-1" /> Trở lại
           </button>

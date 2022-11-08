@@ -1,8 +1,16 @@
 import { Button, Popconfirm, Popover, Tooltip, Typography } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDeleteSemesterMutation, useGetAllSemesterQuery } from '../../../app/api/semesterApiSlice';
-import { EditOutlined, PlusCircleOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  useDeleteSemesterMutation,
+  useGetAllSemesterQuery,
+} from '../../../app/api/semesterApiSlice';
+import {
+  EditOutlined,
+  PlusCircleOutlined,
+  SettingOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 
 import Img1 from './../../../assets/images/CNDT1.png';
 import FormSemeterRef from '../components/FormSemeterRef';
@@ -10,30 +18,38 @@ import Spinner from '../../../components/Spinner';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { selectCurrentUser } from '../../auth/authSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const SemesterPage = () => {
+  const dispatch = useDispatch();
   const { data, error, isLoading } = useGetAllSemesterQuery();
-  const [delSemester, { isLoading: delLoading }] = useDeleteSemesterMutation()
+  const [delSemester, { isLoading: delLoading }] = useDeleteSemesterMutation();
   const modalRef = React.useRef();
   const currentUser = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    dispatch(
+      setFlexBreadcrumb([{ title: 'Quảng lý kỳ học', path: `/manage` }]),
+    );
+  }, [dispatch]);
 
   const handleRemoveSemester = (item) => {
     delSemester(item.id)
       .unwrap()
       .then((res) => toast.success(res.message))
-      .catch((err) => toast.error("Có lỗi xảy ra"))
-  }
+      .catch((err) => toast.error('Có lỗi xảy ra'));
+  };
 
   const ActionContent = (item) => {
     return (
-      <div className='tw-flex'>
-        <Tooltip title="Sửa kì học" placement='bottom' color='#FF6D28' >
+      <div className="tw-flex">
+        <Tooltip title="Sửa kì học" placement="bottom" color="#FF6D28">
           <Button
             onClick={() => modalRef.current.show('EDIT', item)}
             icon={<EditOutlined className="tw-text-[20px]" />}
-            className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+            className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
           />
         </Tooltip>
         <Popconfirm
@@ -42,48 +58,43 @@ const SemesterPage = () => {
           okText="Xóa"
           cancelText="Không"
         >
-          <Tooltip title="Xóa kì học" placement='bottom' color='#FF6D28'>
+          <Tooltip title="Xóa kì học" placement="bottom" color="#FF6D28">
             <Button
               loading={delLoading}
               icon={<DeleteOutlined className="tw-text-[20px]" />}
-              className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500 tw-shadow-none"
+              className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
             />
           </Tooltip>
         </Popconfirm>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <>
       <Helmet>
-        <title>
-          Kỳ học
-        </title>
+        <title>Kỳ học</title>
       </Helmet>
       {error && (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       )}
 
       <div>
-        {
-          currentUser.role_id === 1 && (
-            <>
-              <div className="tw-absolute tw-right-[5%] -tw-mt-4 md:tw-right-[2%] ">
-                <Button
-                  className="hover:tw-bg-orange-00 tw-flex tw-items-center tw-rounded-md tw-border tw-border-transparent tw-bg-orange-400  tw-px-2 tw-text-slate-100 dark:tw-border dark:tw-border-white  dark:tw-bg-transparent  "
-                  type="primary"
-                  onClick={() => modalRef.current.show('ADD')}
-                >
-                  <div className="tw-flex tw-items-center ">
-                    <PlusCircleOutlined className="tw-mr-1" /> Thêm kỳ học
-                  </div>
-                </Button>
-              </div>
-            </>
-          )
-        }
-
+        {currentUser.role_id === 1 && (
+          <>
+            <div className="tw-absolute tw-right-[5%] -tw-mt-4 md:tw-right-[2%] ">
+              <Button
+                className="hover:tw-bg-orange-00 tw-flex tw-items-center tw-rounded-md tw-border tw-border-transparent tw-bg-orange-400  tw-px-2 tw-text-slate-100 dark:tw-border dark:tw-border-white  dark:tw-bg-transparent  "
+                type="primary"
+                onClick={() => modalRef.current.show('ADD')}
+              >
+                <div className="tw-flex tw-items-center ">
+                  <PlusCircleOutlined className="tw-mr-1" /> Thêm kỳ học
+                </div>
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       <Spinner
         loading={isLoading}
@@ -140,20 +151,21 @@ const SemesterPage = () => {
                     </p>
                   </div>
                 </div>
-                {
-                  currentUser?.role_id === 1 && (<>
+                {currentUser?.role_id === 1 && (
+                  <>
                     <div>
-                      <Popover placement="bottomRight" content={ActionContent(item)} trigger="focus" >
-                        <Button
-                          className='tw-border-0 hover:tw-bg-transparent dark:tw-text-white tw-shadow-none dark:tw-bg-[#202125] dark:hover:tw-text-blue-500'
-                        >
+                      <Popover
+                        placement="bottomRight"
+                        content={ActionContent(item)}
+                        trigger="focus"
+                      >
+                        <Button className="tw-border-0 tw-shadow-none hover:tw-bg-transparent dark:tw-bg-[#202125] dark:tw-text-white dark:hover:tw-text-blue-500">
                           <SettingOutlined />
                         </Button>
                       </Popover>
                     </div>
-                  </>)
-                }
-
+                  </>
+                )}
               </div>
             </div>
           ))}
