@@ -67,7 +67,7 @@ const FormSemeterRef = (props, ref) => {
             toast.success(res.message);
           })
           .catch((err) => {
-            setErrors(err.data)
+            setErrors(err.data);
           });
         break;
       case MODE.EDIT:
@@ -78,7 +78,6 @@ const FormSemeterRef = (props, ref) => {
             toast.success(res.massage);
           })
           .catch((err) => {
-
             setErrors(err.data);
           });
         break;
@@ -180,7 +179,9 @@ const FormSemeterRef = (props, ref) => {
               {errors?.errors?.start_time && (
                 <div>{errors?.errors?.start_time}</div>
               )}
-              {errors?.errors?.end_time && <div>{errors?.errors?.end_time}</div>}
+              {errors?.errors?.end_time && (
+                <div>{errors?.errors?.end_time}</div>
+              )}
             </div>
           )}
         </div>
