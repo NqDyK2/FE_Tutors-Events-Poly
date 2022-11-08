@@ -26,6 +26,7 @@ import LichHocGuard from './guard/LichHocGuard.js';
 import AdminGuard from './guard/AdminGuard.js';
 import ListFeedback from '../features/feedback/index.js';
 import TeacherPage from '../features/teachers/pages/index.js';
+import TeachingSchedule from '../features/teaching-schedule/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ const AppRoutes = () => {
           </Route>
 
           <Route element={<AttendanceGuard />}>
+            <Route path='/lich-day' element={<TeachingSchedule />} />
             <Route path="/diem-danh" element={<AttendanceClassList />} />
             <Route path="/diem-danh/lop/:classId" element={<AttendanceClassLessons />} />
             <Route path="/diem-danh/buoi-hoc/:lessonId" element={<AttendanceStudentList />} />

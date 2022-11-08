@@ -38,7 +38,6 @@ const AddSubject = (props) => {
       })
       .catch((err) => {
         setErrors(err.data);
-        console.log(err);
       });
   };
   const onFinishFailed = (errorInfo) => {};
