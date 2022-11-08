@@ -42,15 +42,6 @@ const TeacherPage = () => {
       width: '7%',
       render: (_, record) => (
         <div className='tw-justify-center tw-flex  tw-items-center tw-mb-1 tw-text-center'>
-          <Tooltip title='Sửa thông tin giảng viên' color="#FF6D28">
-            <Button
-              className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
-              onClick={() => modalTeachersRef.current.show('EDIT', record)}
-
-            >
-              <EditOutlined />
-            </Button>
-          </Tooltip>
           <Tooltip title="Xóa giảng viên" color='#FF6D28'>
             <Button
               className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
@@ -113,7 +104,7 @@ const TeacherPage = () => {
           pagination={false}
           dataSource={dataSource}
         />
-        <FormTeachersRef ref={modalTeachersRef} />
+        <FormTeachersRef ref={modalTeachersRef} /> 
       </div>
     </>
   )
