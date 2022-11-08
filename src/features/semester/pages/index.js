@@ -21,6 +21,7 @@ import { selectCurrentUser } from '../../auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 
 const SemesterPage = () => {
   const dispatch = useDispatch();
@@ -52,20 +53,17 @@ const SemesterPage = () => {
             className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
           />
         </Tooltip>
-        <Popconfirm
-          onConfirm={() => handleRemoveSemester(item)}
-          title="Bạn có chắc chắn muốn xóa kì học này?"
-          okText="Xóa"
-          cancelText="Không"
-        >
-          <Tooltip title="Xóa kì học" placement="bottom" color="#FF6D28">
-            <Button
+        <Tooltip title="Xóa kì học" placement="bottom" color="#FF6D28">
+
+        <ConfirmPopup content={<Button
               loading={delLoading}
               icon={<DeleteOutlined className="tw-text-[20px]" />}
               className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
-            />
+            />}
+          title="Bạn có chắc chắn muốn xóa kì học này?"
+          onConfirm={() => handleRemoveSemester(item)}
+         />
           </Tooltip>
-        </Popconfirm>
       </div>
     );
   };

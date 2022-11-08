@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Space } from 'antd';
+import { Button, Form, Input, Modal} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import './style.css'
@@ -91,27 +91,19 @@ const FormTeachersRef = ({ semester_id }, ref) => {
             cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
         >
             <Form
+                form={form}
                 name="dynamic_form_item" {...formItemLayoutWithOutLabel}
-            // onFinish={onFinish}
+                // onFinish={onFinish}
             >
                 <Form.List
                     name="names"
-                    rules={[
-                        {
-                            validator: async (_, names) => {
-                                if (!names || names.length < 2) {
-                                    return Promise.reject(new Error('At least 2 passengers'));
-                                }
-                            },
-                        },
-                    ]}
                 >
                     {(fields, { add, remove }, { errors }) => (
                         <>
                             {fields.map((field, index) => (
                                 <Form.Item
                                     {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                                    label={index === 0 ? 'Email giảng viên: ' : ''}
+                                    label={index === 0 ? 'Email: ' : ''}
                                     required={false}
                                     key={field.key}
                                 >
@@ -122,12 +114,17 @@ const FormTeachersRef = ({ semester_id }, ref) => {
                                             {
                                                 required: true,
                                                 whitespace: true,
-                                                message: "Please input passenger's name or delete this field.",
+                                                message: "Vui lòng nhập email của giảng viên.",
                                             },
+                                            {
+                                                type:'email',
+                                                message: 'Địa chỉ email không đúng định dạng',
+                                            }
                                         ]}
                                         noStyle
                                     >
                                         <Input
+                                            
                                             placeholder="Email"
                                             style={{
                                                 width: '60%',
@@ -147,53 +144,18 @@ const FormTeachersRef = ({ semester_id }, ref) => {
                                     type="dashed"
                                     onClick={() => add()}
                                     style={{
-                                        width: '60%',
+                                        width: '100%',
                                     }}
                                     icon={<PlusOutlined />}
                                 >
-                                    Add field
+                                        Thêm giảng viên
                                 </Button>
-                                {/* <Button
-                                    type="dashed"
-                                    onClick={() => {
-                                        add('The head item', 0);
-                                    }}
-                                    style={{
-                                        width: '60%',
-                                        marginTop: '20px',
-                                    }}
-                                    icon={<PlusOutlined />}
-                                >
-                                    Add field at head
-                                </Button> */}
                                 <Form.ErrorList errors={errors} />
                             </Form.Item>
                         </>
                     )}
                 </Form.List>
             </Form>
-
-            {/* <Form
-                form={form}
-                // onFinish={onFinish}onFinish
-                layout="vertical"
-                onChange={() => {
-                    setError(null);
-                }}
-            >
-                <Form.Item label="Họ Và Tên:">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Email:">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Số điện thoại:">
-                    <Input />
-                </Form.Item>
-            </Form>
-            <div>
-                {error && <div className='tw-text-red-500'>Chỗ này để điền message</div>}
-            </div> */}
         </Modal >
     )
 }

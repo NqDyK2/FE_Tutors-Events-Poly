@@ -15,10 +15,10 @@
 
   .dynamic-delete-button {
     position: relative;
-    top: 4px;
+    bottom: 3px;
     margin: 0 8px;
     color: #999;
-    font-size: 24px;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.3s;
   }

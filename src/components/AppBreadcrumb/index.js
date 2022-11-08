@@ -1,18 +1,16 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
-import {} from '@ant-design/icons';
 import { RiHome6Line } from 'react-icons/ri';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../features/auth/authSlice';
 
 const AppBreadcrumb = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const { flexBreadcrumb } = useSelector((state) => state.breadcrumb);
-  const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
-  const currentUser = useSelector(selectCurrentUser);
+  // const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
+  // const currentUser = useSelector(selectCurrentUser);
 
   // const breadcrumbData = [
   //   {
