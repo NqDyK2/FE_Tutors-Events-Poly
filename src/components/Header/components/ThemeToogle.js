@@ -18,7 +18,7 @@ const ThemeToogle = () => {
     <>
       <Button
         type='link'
-        className='tw-rounded-full tw-border tw-border-gray-200 tw-p-0 tw-px-[5px] tw-shadow-sm tw-transition-colors hover:tw-border-gray-500 hover:tw-bg-transparent'
+        className='tw-rounded-full tw-border tw-border-gray-200 tw-p-0 tw-px-[5px] tw-shadow-sm tw-transition-colors hover:tw-border-gray-500 dark:hover:tw-border-white hover:tw-bg-transparent'
         onClick={() => {
           const root = window.document.documentElement;
 
@@ -33,7 +33,7 @@ const ThemeToogle = () => {
         }}
       >
         {toggle ? (
-          <BsFillMoonFill className=' tw-h-5 tw-w-5 tw-text-gray-600' />
+          <BsFillMoonFill className=' tw-h-5 tw-w-5 tw-text-gray-600 dark:tw-text-white' />
         ) : (
           <BsSunFill className=' tw-h-5 tw-w-5 tw-text-orange-600' />
         )}
