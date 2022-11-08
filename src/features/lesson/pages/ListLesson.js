@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect} from 'react';
 import './styles.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -214,7 +214,6 @@ const ListLesson = () => {
   }
 
   useEffect(() => {
-    console.log(response);
     if (!response?.tree) return;
     dispatch(
       setFlexBreadcrumb([

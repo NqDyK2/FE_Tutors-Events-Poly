@@ -22,7 +22,7 @@ export const studentApiSlice = apiSlice.injectEndpoints({
         }),
         getScheduleTeaching: builder.query({
             query: () => ({
-                url: `teaching-schedule/schedule`,
+                url: `teacher-tutor/schedule`,
                 method: 'GET',
             }),
             invalidatesTags: ['Teaching'],
