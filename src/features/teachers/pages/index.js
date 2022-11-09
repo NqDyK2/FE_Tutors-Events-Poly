@@ -1,5 +1,5 @@
 import { Button, Table, Tooltip } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import React, { useEffect, useRef } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import FormTeachersRef from '../components/FormTeachersRef';
 import { useDispatch } from 'react-redux';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 
 const TeacherPage = () => {
   const dispatch = useDispatch();
@@ -27,43 +28,42 @@ const TeacherPage = () => {
       dataIndex: 'item',
       width: '5%',
     },
-    {
-      title: 'Họ và tên',
-      key: 'fullName',
-      dataIndex: 'fullName',
-      width: '10%',
-    },
+    // {
+    //   title: 'Họ và tên',
+    //   key: 'fullName',
+    //   dataIndex: 'fullName',
+    //   width: '10%',
+    // },
     {
       title: 'Email',
       key: 'email',
       dataIndex: 'email',
       width: '10%',
     },
-    {
-      title: 'Số điện thoại',
-      key: 'phone',
-      dataIndex: 'phone',
-      width: '10%',
-    },
+    // {
+    //   title: 'Số điện thoại',
+    //   key: 'phone',
+    //   dataIndex: 'phone',
+    //   width: '10%',
+    // },
     {
       title: '',
       key: 'action',
       dataIndex: 'action',
       width: '7%',
       render: (_, record) => (
-        <div className="tw-mb-1 tw-flex  tw-items-center tw-justify-center tw-text-center">
-          <Tooltip title="Sửa thông tin giảng viên" color="#FF6D28">
-            <Button
-              className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-blue-400"
-              onClick={() => modalTeachersRef.current.show('EDIT', record)}
-            >
-              <EditOutlined />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Xóa giảng viên" color="#FF6D28">
-            <Button className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-blue-400">
-              <DeleteOutlined />
-            </Button>
+        <div className='tw-justify-center tw-flex  tw-items-center tw-mb-1 tw-text-center'>
+          <Tooltip title="Xóa giảng viên" color='#FF6D28'>
+            <ConfirmPopup content={
+              <Button
+              className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
+              >
+                <DeleteOutlined />
+              </Button>
+            }
+            title="Bạn muốn xóa môn học này?"
+            onConfirm={() => console.log('Xóa')}
+            />
           </Tooltip>
         </div>
       ),
@@ -120,7 +120,7 @@ const TeacherPage = () => {
           pagination={false}
           dataSource={dataSource}
         />
-        <FormTeachersRef ref={modalTeachersRef} />
+        <FormTeachersRef ref={modalTeachersRef} /> 
       </div>
     </>
   );

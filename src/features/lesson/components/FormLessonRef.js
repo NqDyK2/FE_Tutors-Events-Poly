@@ -8,6 +8,7 @@ import {
   useUpdateLessonMutation,
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
+import { constrainPoint } from '@fullcalendar/react';
 const MODE = {
   ADD: 'ADD',
   EDIT: 'EDIT',
@@ -63,8 +64,9 @@ const FormLessonRef = (props, ref) => {
       setVisible(false);
     },
   }));
-
+  //finish
   const onFinished = (values) => {
+    
     let dataLesson = {
       teacher_email: values.teacher_email,
       classroom_id: +values.classroomId,
@@ -75,7 +77,6 @@ const FormLessonRef = (props, ref) => {
       start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
       end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
     };
-
     switch (mode) {
       case MODE.ADD:
         addLesson(dataLesson)
@@ -253,7 +254,6 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
 
             {!typeOfLesson ? (
-              <>
                 <Form.Item
                   className="tw-w-[48%]"
                   label="Link học online:"
@@ -285,7 +285,6 @@ const FormLessonRef = (props, ref) => {
                 >
                   <Input placeholder={'Nhập link học online'} />
                 </Form.Item>
-              </>
             ) : (
               <Form.Item
                 className="tw-w-[48%]"

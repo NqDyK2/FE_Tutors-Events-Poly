@@ -1,18 +1,16 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
-import {} from '@ant-design/icons';
-import { RiHome6Line } from 'react-icons/ri';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { RiHome6Line, RiHomeLine } from 'react-icons/ri';
+import { Link, useLocation} from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../features/auth/authSlice';
 
 const AppBreadcrumb = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const { flexBreadcrumb } = useSelector((state) => state.breadcrumb);
-  const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
-  const currentUser = useSelector(selectCurrentUser);
+  // const [breadcrumb, setBreadcrumb] = React.useState('Trang chủ');
+  // const currentUser = useSelector(selectCurrentUser);
 
   // const breadcrumbData = [
   //   {
@@ -72,20 +70,20 @@ const AppBreadcrumb = () => {
     <Breadcrumb
       key={pathname}
       // separator=">"
-      className="tw-flex tw-items-center tw-bg-white tw-px-4 tw-py-4 tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-bg-[#202125] dark:tw-opacity-90 dark:tw-shadow-none"
+      className="tw-flex tw-items-center tw-bg-white tw-px-4 tw-py-4 tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-bg-[#202125] dark:tw-opacity-90 dark:tw-shadow-none dark:tw-text-white"
     >
       {flexBreadcrumb?.length &&
         flexBreadcrumb.map((e) => (
-          <Breadcrumb.Item key={e.path}>
+          <Breadcrumb.Item className='dark:tw-text-white' key={e.path}>
             {e.path ? (
               <Link
                 to={e.path}
-                className="tw-text-gray-500 hover:tw-bg-transparent hover:tw-text-blue-400 dark:tw-text-slate-100"
+                className="tw-text-gray-500 hover:tw-bg-transparent hover:tw-text-blue-400 dark:tw-text-slate-100 "
               >
-                {e.title === 'Home' ? <RiHome6Line size={18} /> : e.title}
+                {e.title === 'Home' ? <RiHomeLine size={18} /> : e.title}
               </Link>
             ) : (
-              <span className="tw-text-gray-700">{e.title}</span>
+              <span className="tw-text-gray-700 dark:tw-text-white">{e.title}</span>
             )}
           </Breadcrumb.Item>
         ))}

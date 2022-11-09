@@ -41,7 +41,7 @@ const AppAside = () => {
   const isTeacher = useSelector(selectIsTeacher);
   const isTutor = useSelector(selectIsTutor);
   const isStudent = useSelector(selectIsStudent);
-  const acceptManager = isAdmin || isTeacher;
+  // const acceptManager = isAdmin || isTeacher;
   const acceptAttendance = isTeacher || isTutor;
   const studentTutorial = isStudent || isTutor;
   const location = useLocation();

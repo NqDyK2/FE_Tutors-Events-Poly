@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef} from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -34,7 +34,6 @@ const SubjectPage = () => {
   const { semesterStartTime, semesterEndTime, semesterId } =
     location.state || {};
   const currentUser = useSelector(selectCurrentUser);
-  const [detailSem, setDetailSem] = useState();
   const handleRemoveClassroom = (id) => {
     removeClassroom(id)
       .unwrap()
@@ -84,7 +83,7 @@ const SubjectPage = () => {
               semesterEndTime,
             }}
           >
-            <div className="tw-uppercase">{name}</div>
+            <div className="tw-uppercase dark:hover:tw-text-orange-500">{name}</div>
           </Link>
         </Tooltip>
       ),
@@ -135,7 +134,7 @@ const SubjectPage = () => {
               subjectId: record.id,
             }}
           >
-            <div>{class_students_count}</div>
+            <div className='dark:hover:tw-text-orange-500'>{class_students_count}</div>
           </Link>
         </Tooltip>
       ),
@@ -169,7 +168,7 @@ const SubjectPage = () => {
               className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
             >
               <Button
-                className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white"
+                className="dark:hover:tw-text-orange-500 tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white"
                 onClick={() => modalClassroomRef.current.show('EDIT', record)}
               >
                 <EditOutlined />
@@ -181,7 +180,7 @@ const SubjectPage = () => {
             className="tw-m-0"
             content={
               <Tooltip title="Xóa lớp học" placement="top" color={'#FF6D28'}>
-                <Button className="tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white">
+                <Button className="dark:hover:tw-text-orange-500 tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white">
                   <DeleteOutlined />
                 </Button>
               </Tooltip>
@@ -225,7 +224,7 @@ const SubjectPage = () => {
             <>
               <Button
                 icon={<PlusCircleOutlined />}
-                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+                className="dark:hover:tw-text-blue-500 tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
                 type="link"
                 onClick={() => modalClassroomRef.current.show('ADD')}
               >
@@ -233,7 +232,7 @@ const SubjectPage = () => {
               </Button>
               <Button
                 icon={<PlusCircleOutlined />}
-                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
+                className="dark:hover:tw-text-orange-500 tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100"
                 type="text"
                 onClick={() => modalImportExcelRef.current.show()}
               >
