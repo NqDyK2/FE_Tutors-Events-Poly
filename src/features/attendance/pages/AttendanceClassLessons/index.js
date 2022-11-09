@@ -53,6 +53,7 @@ const AttendanceClassLessons = () => {
       title: 'Phòng học',
       dataIndex: 'classLocation',
       key: 'classLocation',
+      width:"20%",
       render: (_, record) =>
         record.lessonType === 'Offline' ? (
           <span>{record.classLocation}</span>
@@ -74,6 +75,7 @@ const AttendanceClassLessons = () => {
       title: '',
       dataIndex: 'content',
       key: 'content',
+      width:'10%',
       render: (_, record) => (
         <Tooltip
           title={
@@ -104,6 +106,7 @@ const AttendanceClassLessons = () => {
       render: (_, record) => renderAttendanceStatus(record),
     },
   ];
+  console.log(listStudent);
   const data = listStudent?.map((item, index) => {
     return {
       stt: index + 1,
@@ -119,7 +122,8 @@ const AttendanceClassLessons = () => {
       classLocation: item.class_location,
       lessonType: item.type ? 'Offline' : 'Online',
       attended: item.attended,
-      attendanceStatus: `${item.attended_count}/${item.total_student}`,
+      // `${item.attended_count}/${item.total_student}`
+      attendanceStatus: item.attended_count === 0 ? "Chưa điểm danh" : `${item.attended_count}/${item.total_student}`,
       student_name: item.user_name,
       status: item.status,
       note: item.note,

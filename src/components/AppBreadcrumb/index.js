@@ -1,6 +1,6 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
-import { RiHome6Line, RiHomeLine } from 'react-icons/ri';
+import { RiHomeLine } from 'react-icons/ri';
 import { Link, useLocation} from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';

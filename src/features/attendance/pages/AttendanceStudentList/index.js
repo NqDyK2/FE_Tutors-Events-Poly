@@ -197,7 +197,6 @@ const AttendanceStudentList = () => {
                     type="primary"
                     loading={isUpdateLoading}
                     disabled={data?.data?.length === 0}
-                    className="tw-mt-[15px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-border-transparent tw-bg-[#0DB27F] tw-text-white"
                     onClick={() => handleUpdateStatus(studentsStatus, lessonId)}
                   >
                     Lưu điểm danh
