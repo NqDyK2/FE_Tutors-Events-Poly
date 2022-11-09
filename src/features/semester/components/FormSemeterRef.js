@@ -75,7 +75,7 @@ const FormSemeterRef = (props, ref) => {
           .unwrap()
           .then((res) => {
             setVisible(false);
-            toast.success(res.massage);
+            toast.success(res.message);
           })
           .catch((err) => {
             setErrors(err.data);
