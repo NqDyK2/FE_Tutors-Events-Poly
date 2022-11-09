@@ -79,7 +79,7 @@ const AppAside = () => {
             collapsed
               ? 'tw-text-white'
               : 'tw-text-[#313752] dark:!tw-text-white'
-          }`}
+          },`}
         >
           Điểm danh
         </div>,

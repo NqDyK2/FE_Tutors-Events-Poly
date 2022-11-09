@@ -65,6 +65,7 @@ const SubjectPage = () => {
       title: 'Lớp',
       dataIndex: 'name',
       key: 'name',
+      width:'10%',
       render: (name, record) => (
         <Tooltip
           title="Xem lịch giảng dạy"
@@ -114,13 +115,14 @@ const SubjectPage = () => {
       dataIndex: 'lessons_count',
       key: 'lessons_count',
       width: '10%',
+      render:(_,record) => record.lessons_count === 0 ? (<span className='tw-font-semibold tw-text-red-500'>Chưa có</span>) : record.lessons_count
     },
     {
       title: 'Sinh viên',
       dataIndex: 'class_students_count',
       key: 'class_students_count',
       width: '10%',
-      render: (class_students_count, record) => (
+      render: (class_students_count, record) => class_students_count !== 0 ? (
         <Tooltip
           title="Xem danh sách sinh viên"
           placement="topLeft"
@@ -137,7 +139,7 @@ const SubjectPage = () => {
             <div className='dark:hover:tw-text-orange-500'>{class_students_count}</div>
           </Link>
         </Tooltip>
-      ),
+      ) : (<span className='tw-font-semibold tw-text-red-500'>Chưa có sinh viên</span>),
     },
     // {
     //   title: 'Phản hồi/Góp ý',
@@ -157,7 +159,7 @@ const SubjectPage = () => {
       key: 'action',
       dataIndex: 'action',
       render: (_, record) => (
-        <div className="tw-flex tw-items-center">
+        <div className="tw-flex tw-items-center tw-justify-end">
           <Tooltip
             title="Thay đổi giảng viên phụ trách"
             placement="top"

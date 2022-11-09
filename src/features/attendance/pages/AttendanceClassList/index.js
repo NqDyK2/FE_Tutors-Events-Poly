@@ -27,6 +27,7 @@ const columns = [
     title: 'Sinh viên',
     dataIndex: 'classStudentsCount',
     key: 'classStudentsCount',
+    render:(students,record) => students === 0 ? (<span className='tw-font-semibold tw-text-red-500'>Chưa có sinh viên</span>) : (<span>{students}</span>)
   },
   {
     title: 'Điểm danh',

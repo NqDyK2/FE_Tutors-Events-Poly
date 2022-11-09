@@ -8,7 +8,6 @@ import {
   useUpdateLessonMutation,
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
-import { constrainPoint } from '@fullcalendar/react';
 const MODE = {
   ADD: 'ADD',
   EDIT: 'EDIT',
