@@ -30,7 +30,7 @@ const columns = [
     title: 'Thứ - Ngày/Tháng',
     dataIndex: 'ngay',
     key: 'ngay',
-    width: '12%',
+    width: '13%',
   },
   {
     title: 'Thời gian',
@@ -67,8 +67,8 @@ const columns = [
         <span>{record.phonghoc}</span>
       ) : (
         <Tooltip color="#FF6D28" title={`${record.phonghoc}`}>
-          <div className="tw-truncate">
-            <a target="blank" href={record.phonghoc}>
+          <div className="tw-truncate tw-text-blue-500 dark:hover:tw-text-orange-500">
+            <a  className='dark:hover:tw-text-orange-500' target="blank" href={record.phonghoc}>
               {record.phonghoc}
             </a>
           </div>
@@ -115,9 +115,10 @@ const columns = [
     title: 'Nội dung',
     dataIndex: 'chitiet',
     key: 'chitiet',
+    width:'7%',
     render: (_, record) => (
       <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
-        <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
+        <span className="tw-cursor-pointer tw-text-blue-500 dark:hover:tw-text-orange-500">Nội dung</span>
       </Tooltip>
     ),
   },
@@ -125,7 +126,7 @@ const columns = [
     title: '',
     dataIndex: 'action',
     key: 'action',
-    width: '7%',
+    width: '6%',
     render: (_, record) => (
       <div className="tw-flex">
         <Tooltip title="Sửa buổi học" color="#FF6D28">
@@ -133,7 +134,7 @@ const columns = [
             onClick={() => {
               record.action.modalRef.current.show('EDIT', record.action.item);
             }}
-            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white"
+            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500"
           >
             <EditOutlined />
           </Button>
@@ -141,7 +142,7 @@ const columns = [
         <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
           <ConfirmPopup
             content={
-              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white">
+              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500">
                 <DeleteOutlined />
               </Button>
             }
@@ -242,7 +243,7 @@ const ListLesson = () => {
               type="link"
               icon={<PlusCircleOutlined />}
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+              className="dark:hover:tw-text-orange-500 tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
             >
               Thêm buổi học
             </Button>
