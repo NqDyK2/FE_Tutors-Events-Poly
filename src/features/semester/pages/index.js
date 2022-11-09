@@ -31,9 +31,7 @@ const SemesterPage = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    dispatch(
-      setFlexBreadcrumb([{ title: 'Quảng lý kỳ học', path: `/manage` }]),
-    );
+    dispatch(setFlexBreadcrumb([{ title: 'Quản lý kỳ học', path: `/manage` }]));
   }, [dispatch]);
 
   const handleRemoveSemester = (item) => {
@@ -45,7 +43,7 @@ const SemesterPage = () => {
 
   const ActionContent = (item) => {
     return (
-      <div className="tw-flex">
+      <div className="tw-flex tw-h-[30px]">
         <Tooltip title="Sửa kì học" placement="bottom" color="#FF6D28">
           <Button
             onClick={() => modalRef.current.show('EDIT', item)}
@@ -54,16 +52,20 @@ const SemesterPage = () => {
           />
         </Tooltip>
         <Tooltip title="Xóa kì học" placement="bottom" color="#FF6D28">
-
-        <ConfirmPopup content={<Button
-              loading={delLoading}
-              icon={<DeleteOutlined className="tw-text-[20px]" />}
-              className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
-            />}
-          title="Bạn có chắc chắn muốn xóa kì học này?"
-          onConfirm={() => handleRemoveSemester(item)}
-         />
-          </Tooltip>
+          <ConfirmPopup
+            content={
+              <Button
+                loading={delLoading}
+                icon={
+                  <DeleteOutlined className="tw-text-[20px] tw-text-red-600" />
+                }
+                className="tw-border-none tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-slate-400 dark:hover:tw-text-blue-500"
+              />
+            }
+            title="Bạn có chắc chắn muốn xóa kì học này?"
+            onConfirm={() => handleRemoveSemester(item)}
+          />
+        </Tooltip>
       </div>
     );
   };
@@ -132,7 +134,7 @@ const SemesterPage = () => {
                       semesterEndTime: item.end_time,
                       semesterId: item.id,
                     }}
-                    className="tw-w-full   tw-pl-2 tw-text-[16px] tw-font-medium  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
+                    className="tw-w-full tw-pl-2 tw-text-[16px] tw-font-medium tw-capitalize  tw-text-black hover:tw-text-amber-500 dark:tw-text-slate-200 dark:hover:tw-text-[#ffa500]"
                     to={`/manage/sem/${item.id}`}
                   >
                     {item.name}

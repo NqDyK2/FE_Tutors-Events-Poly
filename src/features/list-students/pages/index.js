@@ -73,7 +73,7 @@ const ListStudent = () => {
     if (!listStudent?.tree) return;
     dispatch(
       setFlexBreadcrumb([
-        { title: 'Quảng lý kỳ học', path: `/manage` },
+        { title: 'Quản lý kỳ học', path: `/manage` },
         {
           title: listStudent?.tree[0]?.name,
           path: `/manage/sem/${listStudent?.tree[0]?.id}`,
@@ -132,7 +132,7 @@ const ListStudent = () => {
         {listStudent && (
           <div className="tw-mt-6">
             <Table
-              scroll={{ y: 400 }}
+              scroll={{ x: 400 }}
               key={list.key}
               columns={columns}
               dataSource={list}

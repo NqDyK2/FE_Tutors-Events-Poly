@@ -84,7 +84,7 @@ const MajorPage = () => {
         }
       })
       .catch((error) => {
-        toast.error(error)
+        toast.error(error);
       });
   };
   const removeMajor = (id) => {
@@ -97,7 +97,7 @@ const MajorPage = () => {
         }
       })
       .catch((error) => {
-        toast.error(error)
+        toast.error(error);
       });
   };
   return (
@@ -184,6 +184,9 @@ const MajorPage = () => {
                   columns={columns}
                   dataSource={major.subjects}
                   pagination={false}
+                  scroll={{
+                    x: 380,
+                  }}
                 />
               </Panel>
             </Collapse>

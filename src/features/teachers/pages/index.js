@@ -52,17 +52,16 @@ const TeacherPage = () => {
       dataIndex: 'action',
       width: '7%',
       render: (_, record) => (
-        <div className='tw-justify-center tw-flex  tw-items-center tw-mb-1 tw-text-center'>
-          <Tooltip title="Xóa giảng viên" color='#FF6D28'>
-            <ConfirmPopup content={
-              <Button
-              className="dark:hover:tw-text-blue-400 tw-cursor-pointer dark:tw-text-white tw-bg-transparent tw-border-0 hover:tw-bg-transparent tw-shadow-none"
-              >
-                <DeleteOutlined />
-              </Button>
-            }
-            title="Bạn muốn xóa môn học này?"
-            onConfirm={() => console.log('Xóa')}
+        <div className="tw-mb-1 tw-flex  tw-items-center tw-justify-center tw-text-center">
+          <Tooltip title="Xóa giảng viên" color="#FF6D28">
+            <ConfirmPopup
+              content={
+                <Button className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-blue-400">
+                  <DeleteOutlined />
+                </Button>
+              }
+              title="Bạn muốn xóa môn học này?"
+              onConfirm={() => console.log('Xóa')}
             />
           </Tooltip>
         </div>
@@ -115,12 +114,12 @@ const TeacherPage = () => {
       <div>
         <Table
           size="small"
-          scroll={{ y: 380 }}
+          scroll={{ x: 380 }}
           columns={colums}
           pagination={false}
           dataSource={dataSource}
         />
-        <FormTeachersRef ref={modalTeachersRef} /> 
+        <FormTeachersRef ref={modalTeachersRef} />
       </div>
     </>
   );

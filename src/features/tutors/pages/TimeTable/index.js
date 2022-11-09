@@ -3,15 +3,21 @@ import { Table, Modal, Tooltip, Form, Input, Radio, Button, List } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { toast } from 'react-toastify';
 
-import { useGetAllMissingClassQuery, useGetScheduleQuery, useJoinClassMutation } from '../../../../app/api/studentApiSlice';
+import {
+  useGetAllMissingClassQuery,
+  useGetScheduleQuery,
+  useJoinClassMutation,
+} from '../../../../app/api/studentApiSlice';
 import { timeFormat } from '../../../../utils/TimeFormat';
 import Spinner from '../../../../components/Spinner';
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [joinClass, { isLoading: joinClassLoading }] = useJoinClassMutation();
-  const { data: listClassMisses, isLoading: listclassPending } = useGetAllMissingClassQuery();
-  const { data: listSchedule, isLoading: listSchedulePending } = useGetScheduleQuery();
+  const { data: listClassMisses, isLoading: listclassPending } =
+    useGetAllMissingClassQuery();
+  const { data: listSchedule, isLoading: listSchedulePending } =
+    useGetScheduleQuery();
 
   const [form] = Form.useForm();
   const showModal = () => {
@@ -23,10 +29,8 @@ const TimeTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values) => {
-  };
-  const onFinishFailed = (errorInfo) => {
-  };
+  const onFinish = (values) => {};
+  const onFinishFailed = (errorInfo) => {};
 
   // table antd
   const columns = [
@@ -114,7 +118,8 @@ const TimeTable = () => {
     },
   ];
 
-  let dataClass, dataTable = false;
+  let dataClass,
+    dataTable = false;
 
   if (listClassMisses?.data) {
     if (listClassMisses.data.length > 0) {
@@ -122,39 +127,46 @@ const TimeTable = () => {
         key: index,
         id: item.id,
         subject_name: item.name,
-        subject_code: item.code
-      }))
+        subject_code: item.code,
+      }));
     } else {
       dataTable = listSchedule?.data.map((item, index) => ({
         key: index,
         stt: index + 1,
         ngay: timeFormat(item.start_time.split(' ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.split(' ')[1]} - ${item.end_time.split(' ')[1]
-          }`,
+        thoigian: `${item.start_time.split(' ')[1]} - ${
+          item.end_time.split(' ')[1]
+        }`,
         phonghoc: item.class_location,
         tutor_email: item.tutor_email.split('@')[0],
         teacher_email: item.teacher_email.split('@')[0],
         subjects_code: item.subject_code?.toUpperCase(),
         subjects_name: item.subject_name,
         chitiet: item.content,
-      }))
+      }));
     }
   }
 
   const handleJoinClass = (id) => {
     joinClass(id)
       .unwrap()
-      .then(() => toast.success("Tham gia thành công."))
-      .catch((err) => toast.error("Có lỗi xả ra."))
-  }
+      .then(() => toast.success('Tham gia thành công.'))
+      .catch((err) => toast.error('Có lỗi xả ra.'));
+  };
 
   if (listclassPending) {
     return (
-      <div className='tw-mt-[110px] tw-flex tw-justify-center'>
-        <Spinner tip={<p className='tw-text-orange-300 dark:tw-text-white tw-mt-5'>Loading</p>} />
+      <div className="tw-mt-[110px] tw-flex tw-justify-center">
+        <Spinner
+          tip={
+            <p className="tw-mt-5 tw-text-orange-300 dark:tw-text-white">
+              Loading
+            </p>
+          }
+        />
       </div>
-    )
+    );
   }
 
   return (
@@ -165,29 +177,35 @@ const TimeTable = () => {
           columns={columns}
           dataSource={dataTable}
           pagination={false}
+          scroll={{
+            x: 380,
+          }}
           loading={{
             indicator: <Spinner />,
             spinning: listSchedulePending,
           }}
         />
-
       ) : (
         <div>
-          <h2 className='tw-mb-4 tw-text-lg tw-text-center'>Bạn có {dataClass?.length} môn học cần tham gia tutor.</h2>
+          <h2 className="tw-mb-4 tw-text-center tw-text-lg">
+            Bạn có {dataClass?.length} môn học cần tham gia tutor.
+          </h2>
           <List
             dataSource={dataClass}
             renderItem={(item, index) => (
               <List.Item key={item.key}>
                 <List.Item.Meta
-                  title={<p className='tw-mb-0'>{item.subject_code}</p>}
-                  description={<p className='tw-text-[#555]'>{item.subject_name}</p>}
+                  title={<p className="tw-mb-0">{item.subject_code}</p>}
+                  description={
+                    <p className="tw-text-[#555]">{item.subject_name}</p>
+                  }
                 />
                 <div>
                   <Button
                     loading={joinClassLoading[index]}
                     onClick={() => handleJoinClass(item.id)}
                     type="primary"
-                    className="tw-rounded-lg hover:tw-bg-[#01988f] tw-bg-[#04b0a6] tw-border-0"
+                    className="tw-rounded-lg tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"
                   >
                     Tham gia
                   </Button>
@@ -195,7 +213,9 @@ const TimeTable = () => {
               </List.Item>
             )}
           />
-          <p className='tw-text-[#777] tw-text-center'>Vui lòng tham gia tất cả để theo dõi lịch học.</p>
+          <p className="tw-text-center tw-text-[#777]">
+            Vui lòng tham gia tất cả để theo dõi lịch học.
+          </p>
         </div>
       )}
 

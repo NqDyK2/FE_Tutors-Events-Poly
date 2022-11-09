@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import './styles.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -68,7 +68,11 @@ const columns = [
       ) : (
         <Tooltip color="#FF6D28" title={`${record.phonghoc}`}>
           <div className="tw-truncate tw-text-blue-500 dark:hover:tw-text-orange-500">
-            <a  className='dark:hover:tw-text-orange-500' target="blank" href={record.phonghoc}>
+            <a
+              className="dark:hover:tw-text-orange-500"
+              target="blank"
+              href={record.phonghoc}
+            >
               {record.phonghoc}
             </a>
           </div>
@@ -115,10 +119,12 @@ const columns = [
     title: 'Nội dung',
     dataIndex: 'chitiet',
     key: 'chitiet',
-    width:'7%',
+    width: '7%',
     render: (_, record) => (
       <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
-        <span className="tw-cursor-pointer tw-text-blue-500 dark:hover:tw-text-orange-500">Nội dung</span>
+        <span className="tw-cursor-pointer tw-text-blue-500 dark:hover:tw-text-orange-500">
+          Nội dung
+        </span>
       </Tooltip>
     ),
   },
@@ -218,7 +224,7 @@ const ListLesson = () => {
     if (!response?.tree) return;
     dispatch(
       setFlexBreadcrumb([
-        { title: 'Quảng lý kỳ học', path: `/manage` },
+        { title: 'Quản lý kỳ học', path: `/manage` },
         {
           title: response?.tree[0]?.name,
           path: `/manage/sem/${response?.tree[0]?.id}`,
@@ -243,7 +249,7 @@ const ListLesson = () => {
               type="link"
               icon={<PlusCircleOutlined />}
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className="dark:hover:tw-text-orange-500 tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100"
+              className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-orange-500"
             >
               Thêm buổi học
             </Button>
@@ -269,7 +275,7 @@ const ListLesson = () => {
         <Table
           size="small"
           key={data.key}
-          scroll={{ y: 380 }}
+          scroll={{ x: 380 }}
           columns={columns}
           dataSource={data}
           pagination={false}
