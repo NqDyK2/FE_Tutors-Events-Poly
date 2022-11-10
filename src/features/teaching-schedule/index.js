@@ -47,7 +47,7 @@ const TeachingSchedule = () => {
       title: 'Phòng học',
       dataIndex: 'class_location',
       key: 'class_location',
-      width: '15%',
+      width: '20%',
       render: (_, record) =>
         record.type === 'Offline' ? (
           <span> {record.class_location}</span>
@@ -141,7 +141,7 @@ const TeachingSchedule = () => {
       <Table
         size="small"
         key={data.key}
-        scroll={{ x: 380 }}
+        scroll={{ y: 380 }}
         columns={columns}
         dataSource={data}
         className="tw-mt-2"
