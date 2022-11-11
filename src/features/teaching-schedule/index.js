@@ -54,7 +54,7 @@ const TeachingSchedule = () => {
         ) : (
           <Tooltip color="#FF6D28" title={`${record.class_location}`}>
             <div className="tw-truncate tw-text-blue-500 ">
-              <a target="blank" href={record.class_location} className='hover:tw-text-hoverLink'>
+              <a target="blank" href={record.class_location} className='hover:tw-text-hoverLink' >
                 {record.class_location}
               </a>
             </div>
@@ -98,7 +98,7 @@ const TeachingSchedule = () => {
       key: 'content',
       render: (_, record) => (
         <Tooltip title={record.content} color="#FF6D28" trigger={'click'}>
-          <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
+          <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink">Nội dung</span>
         </Tooltip>
       ),
     },

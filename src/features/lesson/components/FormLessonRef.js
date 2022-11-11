@@ -317,7 +317,7 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
 
             <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">
-              <Input placeholder="Nội dung buổi học" />
+              <Input placeholder="Nhập nội dung tóm tắt của buổi học" />
             </Form.Item>
           </div>
 

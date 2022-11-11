@@ -84,7 +84,7 @@ const SubjectPage = () => {
               semesterEndTime,
             }}
           >
-            <div className="tw-uppercase dark:hover:tw-text-orange-500">
+            <div className="tw-uppercase dark:hover:tw-text-hoverLink">
               {name}
             </div>
           </Link>
@@ -138,7 +138,7 @@ const SubjectPage = () => {
               subjectId: record.id,
             }}
           >
-            <div className="dark:hover:tw-text-orange-500">
+            <div className="dark:hover:tw-text-hoverLink">
               {class_students_count}
             </div>
           </Link>
@@ -174,7 +174,7 @@ const SubjectPage = () => {
               className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
             >
               <Button
-                className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500"
+                className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
                 onClick={() => modalClassroomRef.current.show('EDIT', record)}
               >
                 <EditOutlined />
@@ -186,7 +186,7 @@ const SubjectPage = () => {
             className="tw-m-0"
             content={
               <Tooltip title="Xóa lớp học" placement="top" color={'#FF6D28'}>
-                <Button className="tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500">
+                <Button className="tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
                   <DeleteOutlined />
                 </Button>
               </Tooltip>
@@ -238,7 +238,7 @@ const SubjectPage = () => {
               </Button>
               <Button
                 icon={<PlusCircleOutlined />}
-                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-orange-500 hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100 dark:hover:tw-text-orange-500"
+                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-hoverLink hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100 dark:hover:tw-text-hoverLink"
                 type="text"
                 onClick={() => modalImportExcelRef.current.show()}
               >

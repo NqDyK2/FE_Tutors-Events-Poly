@@ -59,7 +59,7 @@ const AttendanceClassLessons = () => {
           <span>{record.classLocation}</span>
         ) : (
           <div>
-            <a target="blank" href={record.classLocation}>
+            <a target="blank" href={record.classLocation} className='hover:tw-text-hoverLink'>
               {record.classLocation}
             </a>
           </div>
