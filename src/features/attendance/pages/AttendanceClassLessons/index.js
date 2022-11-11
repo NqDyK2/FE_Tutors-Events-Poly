@@ -106,6 +106,7 @@ const AttendanceClassLessons = () => {
       render: (_, record) => renderAttendanceStatus(record),
     },
   ];
+  console.log(listStudent);
   const data = listStudent?.map((item, index) => {
     return {
       stt: index + 1,
