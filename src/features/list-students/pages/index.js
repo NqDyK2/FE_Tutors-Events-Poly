@@ -69,7 +69,6 @@ const ListStudent = () => {
   } = useGetListStudentInCLassQuery(id);
 
   useEffect(() => {
-    console.log(listStudent);
     if (!listStudent?.tree) return;
     dispatch(
       setFlexBreadcrumb([

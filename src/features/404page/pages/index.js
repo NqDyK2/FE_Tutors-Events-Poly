@@ -32,7 +32,7 @@ const PageNotFound = () => {
               <div>
                 <Button
                   icon={<RollbackOutlined />}
-                  className='tw-flex tw-items-center tw-rounded-2xl tw-border-none tw-bg-orange-400 tw-text-white hover:tw-bg-orange-500'
+                  className='tw-flex tw-items-center tw-rounded-2xl tw-border-none tw-bg-orange-400 tw-text-white hover:tw-bg-hoverLink'
                   onClick={goBack}
                 >
                   Quay lại

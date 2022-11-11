@@ -47,14 +47,14 @@ const TeachingSchedule = () => {
       title: 'Phòng học',
       dataIndex: 'class_location',
       key: 'class_location',
-      width: '15%',
+      width: '20%',
       render: (_, record) =>
         record.type === 'Offline' ? (
           <span> {record.class_location}</span>
         ) : (
           <Tooltip color="#FF6D28" title={`${record.class_location}`}>
-            <div className="tw-truncate">
-              <a target="blank" href={record.class_location}>
+            <div className="tw-truncate tw-text-blue-500 ">
+              <a target="blank" href={record.class_location} className='hover:tw-text-hoverLink' >
                 {record.class_location}
               </a>
             </div>
@@ -98,7 +98,7 @@ const TeachingSchedule = () => {
       key: 'content',
       render: (_, record) => (
         <Tooltip title={record.content} color="#FF6D28" trigger={'click'}>
-          <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
+          <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink">Nội dung</span>
         </Tooltip>
       ),
     },
@@ -141,7 +141,7 @@ const TeachingSchedule = () => {
       <Table
         size="small"
         key={data.key}
-        scroll={{ x: 380 }}
+        scroll={{ y: 380 }}
         columns={columns}
         dataSource={data}
         className="tw-mt-2"

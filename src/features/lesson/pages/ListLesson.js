@@ -67,11 +67,11 @@ const columns = [
         <span>{record.phonghoc}</span>
       ) : (
         <Tooltip color="#FF6D28" title={`${record.phonghoc}`}>
-          <div className="tw-truncate tw-text-blue-500 dark:hover:tw-text-orange-500">
+          <div className="tw-truncate tw-text-blue-500 dark:hover:tw-text-hoverLink">
             <a
-              className="dark:hover:tw-text-orange-500"
               target="blank"
               href={record.phonghoc}
+              className='hover:tw-text-hoverLink'
             >
               {record.phonghoc}
             </a>
@@ -122,7 +122,7 @@ const columns = [
     width: '7%',
     render: (_, record) => (
       <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
-        <span className="tw-cursor-pointer tw-text-blue-500 dark:hover:tw-text-orange-500">
+        <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink  dark:hover:tw-text-hoverLink">
           Nội dung
         </span>
       </Tooltip>
@@ -140,7 +140,7 @@ const columns = [
             onClick={() => {
               record.action.modalRef.current.show('EDIT', record.action.item);
             }}
-            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500"
+            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
           >
             <EditOutlined />
           </Button>
@@ -148,7 +148,7 @@ const columns = [
         <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
           <ConfirmPopup
             content={
-              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-orange-500">
+              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
                 <DeleteOutlined />
               </Button>
             }
@@ -249,7 +249,7 @@ const ListLesson = () => {
               type="link"
               icon={<PlusCircleOutlined />}
               onClick={() => modalRef.current.show('ADD', location.state)}
-              className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-orange-500"
+              className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-hoverLink"
             >
               Thêm buổi học
             </Button>
@@ -275,7 +275,7 @@ const ListLesson = () => {
         <Table
           size="small"
           key={data.key}
-          scroll={{ x: 380 }}
+          scroll={{ y: 380 }}
           columns={columns}
           dataSource={data}
           pagination={false}

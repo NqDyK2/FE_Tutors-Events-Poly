@@ -5,7 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 const antIcon = (
   <LoadingOutlined
     spin
-    className='tw-text-orange-500 dark:tw-text-white'
+    className='tw-text-hoverLink dark:tw-text-white'
     style={{ fontSize: 50 }}
   />
 );

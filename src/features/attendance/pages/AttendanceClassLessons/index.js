@@ -59,7 +59,7 @@ const AttendanceClassLessons = () => {
           <span>{record.classLocation}</span>
         ) : (
           <div>
-            <a target="blank" href={record.classLocation}>
+            <a target="blank" href={record.classLocation} className='hover:tw-text-hoverLink'>
               {record.classLocation}
             </a>
           </div>
@@ -122,10 +122,7 @@ const AttendanceClassLessons = () => {
       lessonType: item.type ? 'Offline' : 'Online',
       attended: item.attended,
       // `${item.attended_count}/${item.total_student}`
-      attendanceStatus:
-        item.attended_count === 0
-          ? 'Chưa điểm danh'
-          : `${item.attended_count}/${item.total_student}`,
+      attendanceStatus: item.attended_count === 0 ? (<span className='tw-font-semibold tw-text-red-500'>Chưa điểm danh</span>) : `${item.attended_count}/${item.total_student}`,
       student_name: item.user_name,
       status: item.status,
       note: item.note,

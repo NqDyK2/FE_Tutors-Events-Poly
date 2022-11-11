@@ -9,6 +9,7 @@ module.exports = {
       colors : {
         'dark-mode-primary': '#202125',
         'dark-table-primary': '#2C394B',
+        'hoverLink': '#FF6D28'
       }
     },
   },

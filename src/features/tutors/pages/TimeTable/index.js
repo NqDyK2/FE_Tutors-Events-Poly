@@ -74,7 +74,7 @@ const TimeTable = () => {
         record.hinhthuc === 'Offline' ? (
           <span>{record.phonghoc}</span>
         ) : (
-          <a target="blank" href={record.phonghoc}>
+          <a target="blank" href={record.phonghoc} className='hover:tw-text-hoverLink'>
             {record.phonghoc}
           </a>
         ),
