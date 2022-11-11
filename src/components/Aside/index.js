@@ -13,7 +13,7 @@ import {
 } from '@ant-design/icons';
 import { ImBooks } from 'react-icons/im';
 import { FaChalkboardTeacher } from 'react-icons/fa';
-import { AiFillSchedule } from 'react-icons/ai';
+import { AiFillSchedule, AiOutlineHistory } from 'react-icons/ai';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -98,7 +98,7 @@ const AppAside = () => {
           Lịch học
         </div>,
         '/lich-hoc',
-        <PieChartOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
         // [
         //   acceptManager && getItem(
         //     <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
@@ -136,7 +136,7 @@ const AppAside = () => {
           Lịch sử học
         </div>,
         '/lich-su-hoc',
-        <PieChartOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+        <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
       ),
 
     isAdmin &&

@@ -72,10 +72,23 @@ const HomePage = () => {
       description:'Tham quan F-Ville, FPT SoftWare với cơ hội việc làm tại FPT SoftWare',
     },
     {
-      title:"BAY CAO NÀO, NHẢY CAO NÀO",
+      title:"BAY CAO NÀO, NHẢY CAO NÀO - Đăng ký",
       start:"2022-11-05",
-      end:"2022-11-19",
-      color:"pink",
+      end:"2022-11-10",
+      color:"#65a30d",
+      description:"Cuộc thi nhảy Flashmob trên nền \"Nhạc chế \" về thầy cô nhằm chào mừng ngày 20/11. "
+    },
+    {
+      title:"BAY CAO NÀO, NHẢY CAO NÀO - Sơ loại",
+      start:"2022-11-15T00:00:00",
+      end:"2022-11-16T23:59:00",
+      color:"#ef4444",
+      description:"Cuộc thi nhảy Flashmob trên nền \"Nhạc chế \" về thầy cô nhằm chào mừng ngày 20/11. "
+    },
+    {
+      title:"BAY CAO NÀO, NHẢY CAO NÀO - Chung kết",
+      date:'2022-11-19',
+      color:"orangered",
       description:"Cuộc thi nhảy Flashmob trên nền \"Nhạc chế \" về thầy cô nhằm chào mừng ngày 20/11. "
     },
   ];
