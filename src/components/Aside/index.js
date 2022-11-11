@@ -34,9 +34,8 @@ function getItem(label, key, icon, children) {
   };
 }
 
-const AppAside = () => {
+const AppAside = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
   const isAdmin = useSelector(selectIsAdmin);
   const isTeacher = useSelector(selectIsTeacher);
   const isTutor = useSelector(selectIsTutor);
@@ -161,15 +160,19 @@ const AppAside = () => {
               ? 'tw-text-white'
               : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-      >
-        Kiểm tra lớp học
-      </div>,
-      '/manage',
-      <AiFillSchedule className='tw-text-[18px]  tw-text-[#C4CFF9] ' />,
-    ),
-    isAdmin && getItem(
-      <div
-        className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
+        >
+          Kiểm tra lớp học
+        </div>,
+        '/manage',
+        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+      ),
+    isAdmin &&
+      getItem(
+        <div
+          className={`${
+            collapsed
+              ? 'tw-text-white'
+              : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
         >
           Quản lý môn học
@@ -207,18 +210,21 @@ const AppAside = () => {
     // ),
   ];
 
+  const [collapsedWidth, setCollapsedWidth] = useState(0);
+
   return (
     <Sider
       trigger={null}
       collapsible
-      breakpoint="lg"
+      breakpoint="md"
       onBreakpoint={(broken) => {
         setCollapsed(broken);
+        setCollapsedWidth(broken ? 0 : 62.5);
       }}
       width={256}
-      collapsedWidth={62.5}
+      collapsedWidth={collapsedWidth}
       collapsed={collapsed}
-      className="tw-sticky tw-left-0 tw-top-0 tw-bottom-0 tw-z-50 tw-hidden tw-h-screen tw-overflow-auto tw-bg-white tw-shadow-xl tw-drop-shadow-xl dark:tw-bg-[#202125] dark:tw-shadow-md dark:tw-shadow-gray-900 dark:tw-drop-shadow-2xl md:tw-block  "
+      className=" tw-fixed tw-left-0 tw-top-0 tw-bottom-0 tw-z-50 tw-min-h-full tw-overflow-auto tw-bg-white tw-shadow-xl tw-drop-shadow-xl dark:tw-bg-[#202125] dark:tw-shadow-md dark:tw-shadow-gray-900 dark:tw-drop-shadow-2xl md:tw-sticky"
     >
       <div className="tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-px-2">
         {!collapsed && (

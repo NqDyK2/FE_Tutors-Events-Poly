@@ -53,7 +53,7 @@ const AttendanceClassLessons = () => {
       title: 'Phòng học',
       dataIndex: 'classLocation',
       key: 'classLocation',
-      width:"20%",
+      width: '20%',
       render: (_, record) =>
         record.lessonType === 'Offline' ? (
           <span>{record.classLocation}</span>
@@ -75,7 +75,7 @@ const AttendanceClassLessons = () => {
       title: '',
       dataIndex: 'content',
       key: 'content',
-      width:'10%',
+      width: '10%',
       render: (_, record) => (
         <Tooltip
           title={
@@ -106,7 +106,6 @@ const AttendanceClassLessons = () => {
       render: (_, record) => renderAttendanceStatus(record),
     },
   ];
-  console.log(listStudent);
   const data = listStudent?.map((item, index) => {
     return {
       stt: index + 1,
