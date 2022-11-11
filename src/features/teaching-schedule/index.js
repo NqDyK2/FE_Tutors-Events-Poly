@@ -53,8 +53,8 @@ const TeachingSchedule = () => {
           <span> {record.class_location}</span>
         ) : (
           <Tooltip color="#FF6D28" title={`${record.class_location}`}>
-            <div className="tw-truncate">
-              <a target="blank" href={record.class_location}>
+            <div className="tw-truncate tw-text-blue-500 ">
+              <a target="blank" href={record.class_location} className='hover:tw-text-hoverLink'>
                 {record.class_location}
               </a>
             </div>

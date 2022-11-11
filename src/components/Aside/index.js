@@ -177,16 +177,16 @@ const AppAside = () => {
         '/manage/major',
         <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
       ),
-    isAdmin &&
-      getItem(
-        <div className="tw-text-[#313752] dark:!tw-text-white ">
-          Quản lý giảng viên
-        </div>,
-        '/manage/teacher',
-        !collapsed && (
-          <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
-        ),
-      ),
+        // isAdmin &&
+        //   getItem(
+        //     <div className="tw-text-[#313752] dark:!tw-text-white ">
+        //       Quản lý giảng viên
+        //     </div>,
+        //     '/manage/teacher',
+        //     !collapsed && (
+        //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
+        //     ),
+        //   ),
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Sự kiện
