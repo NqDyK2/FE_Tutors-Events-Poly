@@ -1,7 +1,7 @@
 import { Breadcrumb } from 'antd';
 import React from 'react';
 import { RiHomeLine } from 'react-icons/ri';
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';
 
@@ -70,11 +70,11 @@ const AppBreadcrumb = () => {
     <Breadcrumb
       key={pathname}
       // separator=">"
-      className="tw-flex tw-items-center tw-bg-white tw-px-4 tw-py-4 tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-bg-[#202125] dark:tw-opacity-90 dark:tw-shadow-none dark:tw-text-white"
+      className="tw-flex tw-items-center tw-bg-white tw-px-4 tw-py-4 tw-shadow-sm tw-shadow-white tw-drop-shadow-sm dark:tw-bg-[#202125] dark:tw-text-white dark:tw-opacity-90 dark:tw-shadow-none"
     >
       {flexBreadcrumb?.length &&
         flexBreadcrumb.map((e) => (
-          <Breadcrumb.Item className='dark:tw-text-white' key={e.path}>
+          <Breadcrumb.Item className="dark:tw-text-white" key={e.title}>
             {e.path ? (
               <Link
                 to={e.path}
@@ -83,7 +83,9 @@ const AppBreadcrumb = () => {
                 {e.title === 'Home' ? <RiHomeLine size={18} /> : e.title}
               </Link>
             ) : (
-              <span className="tw-text-gray-700 dark:tw-text-white">{e.title}</span>
+              <span className="tw-text-gray-700 dark:tw-text-white">
+                {e.title}
+              </span>
             )}
           </Breadcrumb.Item>
         ))}

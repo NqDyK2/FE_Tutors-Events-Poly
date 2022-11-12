@@ -37,7 +37,7 @@ const FormLessonRef = (props, ref) => {
         setTitle('Thêm buổi học - Môn ' + data.subjectName);
         formLesson.setFieldsValue({
           classroomId: data.subjectId,
-          teacher_email: data.teacherEmail || 'No data',
+          teacher_email: data.teacherEmail,
         });
         setMode(MODE.ADD);
       } else {
@@ -65,17 +65,25 @@ const FormLessonRef = (props, ref) => {
   }));
   //finish
   const onFinished = (values) => {
-    
     let dataLesson = {
       teacher_email: values.teacher_email,
       classroom_id: +values.classroomId,
       type: +values.type,
       class_location: values.class_location,
       content: values.content,
-      tutor_email: values.tutor_email,
+      tutor_email: values.tutor_email || null,
       start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
       end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
     };
+
+    if (!values.tutor_email) {
+      delete dataLesson.tutor_email;
+    }
+
+    if (!values.content) {
+      delete dataLesson.content;
+    }
+
     switch (mode) {
       case MODE.ADD:
         addLesson(dataLesson)
@@ -83,6 +91,7 @@ const FormLessonRef = (props, ref) => {
           .then((res) => {
             setVisible(false);
             formLesson.resetFields();
+            setError(null);
             setTypeOfLesson(1);
             toast.success(res.message);
           })
@@ -96,6 +105,7 @@ const FormLessonRef = (props, ref) => {
           .then((res) => {
             setVisible(false);
             formLesson.resetFields();
+            setError(null);
             setTypeOfLesson(1);
             toast.success(res.message);
           })
@@ -128,6 +138,7 @@ const FormLessonRef = (props, ref) => {
         formLesson.submit();
       }}
       onCancel={() => {
+        setError(null);
         setVisible(false);
         setError(null);
         setTypeOfLesson(1);
@@ -207,7 +218,6 @@ const FormLessonRef = (props, ref) => {
               label="Sinh viên hỗ trợ:"
               name="tutor_email"
               rules={[
-
                 {
                   type: 'email',
                   message: 'Địa chỉ email không đúng định dạng',
@@ -216,24 +226,8 @@ const FormLessonRef = (props, ref) => {
             >
               <Input placeholder="Nhập sinh viên hỗ trợ" />
             </Form.Item>
-
           </div>
           <div className="tw-flex tw-items-center tw-justify-between">
-            {/* <Form.Item className="tw-w-[48%]"
-              placeholder="Chọn hình thức học"
-              label="Hình thức:"
-              name={'type'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng chọn hình thức học',
-                },
-              ]}>
-              <Radio.Group onChange={onChangeType}>
-                <Radio value={1}> Offline </Radio>
-                <Radio value={2}> Online </Radio>
-              </Radio.Group>
-            </Form.Item> */}
             <Form.Item
               className="tw-w-[48%]"
               placeholder="Chọn hình thức học"
@@ -253,37 +247,37 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
 
             {!typeOfLesson ? (
-                <Form.Item
-                  className="tw-w-[48%]"
-                  label="Link học online:"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui lòng nhập link học',
-                    },
-                    {
-                      pattern:
-                        // google meet regex pattern
-                        /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
-                        // zoom
-                        /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
-                        // skype
-                        /(skype:[a-z]+.*?|skype:.*)/g ||
-                        // msteams
-                        /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
+              <Form.Item
+                className="tw-w-[48%]"
+                label="Link học online:"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui lòng nhập link học',
+                  },
+                  {
+                    pattern:
+                      // google meet regex pattern
+                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
+                      // zoom
+                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
+                      // skype
+                      /(skype:[a-z]+.*?|skype:.*)/g ||
+                      // msteams
+                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
 
-                      message: 'Link học online chưa đúng định dạng',
-                    },
-                  ]}
-                  name="class_location"
-                  tooltip={{
-                    title:
-                      'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
-                    className: 'tw-text-xs',
-                  }}
-                >
-                  <Input placeholder={'Nhập link học online'} />
-                </Form.Item>
+                    message: 'Link học online chưa đúng định dạng',
+                  },
+                ]}
+                name="class_location"
+                tooltip={{
+                  title:
+                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
+                  className: 'tw-text-xs',
+                }}
+              >
+                <Input placeholder={'Nhập link học online'} />
+              </Form.Item>
             ) : (
               <Form.Item
                 className="tw-w-[48%]"
@@ -320,8 +314,6 @@ const FormLessonRef = (props, ref) => {
               <Input placeholder="Nhập nội dung tóm tắt của buổi học" />
             </Form.Item>
           </div>
-
-
         </Form>
 
         <div>
