@@ -61,7 +61,7 @@ const AttendanceStudentList = () => {
       render: (status, record) => (
         <Switch
           key={record.student_code}
-          className="tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[80px]"
+          className="tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[100px]"
           checkedChildren="Có mặt"
           unCheckedChildren="Vắng mặt"
           defaultChecked={status}

@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import CheckPoint from '../features/auth/components/CheckPoint.js';
 import RequireAuth from '../features/auth/components/RequireAuth.js';
 import AuthPage from '../features/auth/pages/index.js';
-import EventsPage from '../features/events/pages/index.js';
+import EventsPage from '../features/events/customer/pages/index.js';
 import HomePage from '../features/home-page/pages/index.js';
 import WelcomePage from '../features/welcom-page/pages/index.js';
 import AppLayout from '../layout/AppLayout.js';

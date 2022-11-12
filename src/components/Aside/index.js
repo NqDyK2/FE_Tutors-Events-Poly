@@ -2,7 +2,6 @@ import { Button, Menu } from 'antd';
 import Sider from 'antd/lib/layout/Sider';
 import React, { useState } from 'react';
 import {
-  PieChartOutlined,
   DoubleLeftOutlined,
   DoubleRightOutlined,
   RightOutlined,
@@ -12,7 +11,6 @@ import {
   SolutionOutlined,
 } from '@ant-design/icons';
 import { ImBooks } from 'react-icons/im';
-import { FaChalkboardTeacher } from 'react-icons/fa';
 import { AiFillSchedule, AiOutlineHistory } from 'react-icons/ai';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +22,7 @@ import {
   selectIsTeacher,
   selectIsTutor,
 } from '../../features/auth/authSlice';
+import { BsFillCalendar2EventFill } from 'react-icons/bs';
 
 function getItem(label, key, icon, children) {
   return {
@@ -40,7 +39,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
   const isTeacher = useSelector(selectIsTeacher);
   const isTutor = useSelector(selectIsTutor);
   const isStudent = useSelector(selectIsStudent);
-  // const acceptManager = isAdmin || isTeacher;
+  const acceptManager = isAdmin || isTeacher;
   const acceptAttendance = isTeacher || isTutor;
   const studentTutorial = isStudent || isTutor;
   const location = useLocation();
@@ -56,7 +55,13 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/',
       <BellOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
     ),
-
+    // getItem(
+    //   <div className="dark:tw-text-white">
+    //     Danh sách sự kiện
+    //   </div>,
+    //   '/events',
+    //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+    // ),
     acceptAttendance &&
       getItem(
         <div
@@ -74,11 +79,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     acceptAttendance &&
       getItem(
         <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
-          },`}
+          className='dark:tw-text-white'
         >
           Điểm danh
         </div>,
@@ -180,6 +181,17 @@ const AppAside = ({ collapsed, setCollapsed }) => {
         '/manage/major',
         <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
       ),
+      // acceptManager && getItem(
+      //     <div className={`${
+      //       collapsed
+      //         ? 'tw-text-white'
+      //         : 'tw-text-[#313752] dark:!tw-text-white'
+      //     }`}>
+      //         Quản lý sự kiện.
+      //     </div>,
+      //       '/manage/events',
+      //     <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+      // )
         // isAdmin &&
         //   getItem(
         //     <div className="tw-text-[#313752] dark:!tw-text-white ">

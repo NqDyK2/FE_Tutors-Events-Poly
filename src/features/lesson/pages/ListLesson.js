@@ -187,7 +187,7 @@ const ListLesson = () => {
         toast.success(res.message);
       })
       .catch((err) => {
-        toast.error(err.data);
+        toast.error(err.data.message);
       });
   };
 
