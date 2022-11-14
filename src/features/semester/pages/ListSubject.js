@@ -26,7 +26,12 @@ const SubjectPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id);
+  const { data, error, isLoading, refetch } = useGetAllClassInSemesterQuery(id,
+    //   {
+    //   skip: !id,
+    //   pollingInterval: 3000,
+    // }
+  );
   const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
   const modalClassroomRef = useRef();
@@ -40,6 +45,12 @@ const SubjectPage = () => {
         toast.success(res.message);
       });
   };
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!data?.tree) return;
