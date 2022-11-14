@@ -113,8 +113,6 @@ const SemesterPage = () => {
               <div>
                 <Link
                   state={{
-                    semesterStartTime: item.start_time,
-                    semesterEndTime: item.end_time,
                     semesterId: item.id,
                   }}
                   to={`/manage/sem/${item.id}`}

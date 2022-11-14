@@ -71,7 +71,7 @@ const columns = [
             <a
               target="blank"
               href={record.phonghoc}
-              className='hover:tw-text-hoverLink'
+              className="hover:tw-text-hoverLink"
             >
               {record.phonghoc}
             </a>
@@ -171,9 +171,6 @@ const ListLesson = () => {
 
   const { id: subjectId } = useParams();
 
-  const { subjectName, semesterStartTime, semesterEndTime } =
-    location.state || {};
-
   const modalRef = React.useRef();
 
   let data = [];
@@ -196,6 +193,10 @@ const ListLesson = () => {
     error: lessonError,
     isLoading: lessonLoading,
   } = useGetAllLessonQuery(subjectId);
+
+  const semesterStartTime = response?.tree[0].start_time;
+  const semesterEndTime = response?.tree[0].end_time;
+  const subjectName = response?.tree[1].name;
 
   if (response) {
     data = response.data.map((item, index) => {
