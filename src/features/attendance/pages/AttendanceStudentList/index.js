@@ -58,10 +58,11 @@ const AttendanceStudentList = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      render: (status, record) => (
+      render: (status, record) =>
+      (
         <Switch
           key={record.student_code}
-          className="tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[100px]"
+          className="tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[100px] tw-bg-[#0DB27F]"
           checkedChildren="Có mặt"
           unCheckedChildren="Vắng mặt"
           defaultChecked={status}
@@ -73,17 +74,22 @@ const AttendanceStudentList = () => {
     },
 
     {
-      title: 'Ghi chú',
-      dataIndex: 'note',
-      key: 'note',
-      render: (note, record) => (
-        <Input
-          placeholder="Ghi chú"
-          value={note}
-          size="small"
-          className="tw-rounded-md"
-        />
-      ),
+      title: 'Tình trạng',
+      dataIndex: 'join',
+      key: 'join',
+      width: '20%',
+      render: (_, record) => record.join === 0 ? (<Button onClick={() => console.log("Mời lại....")} className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
+        Mời lại.
+      </Button>) : (<span className='tw-font-medium'>Đã tham gia</span>
+      )
+      // render: (_, record) => (
+      //   <>
+      //     <Button className="tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
+      //       Mời lại.
+      //     </Button> / 
+      //     <span>Đã tham gia</span>
+      //   </>
+      // ),
     },
   ];
 
@@ -96,6 +102,7 @@ const AttendanceStudentList = () => {
       studentEmail: item.student_email,
       note: item.note,
       status: item.status,
+      join: item.is_joined,
     };
   });
 
