@@ -2,7 +2,6 @@ import { Button, Menu } from 'antd';
 import Sider from 'antd/lib/layout/Sider';
 import React, { useState } from 'react';
 import {
-  PieChartOutlined,
   DoubleLeftOutlined,
   DoubleRightOutlined,
   RightOutlined,
@@ -12,7 +11,6 @@ import {
   SolutionOutlined,
 } from '@ant-design/icons';
 import { ImBooks } from 'react-icons/im';
-import { FaChalkboardTeacher } from 'react-icons/fa';
 import { AiFillSchedule, AiOutlineHistory } from 'react-icons/ai';
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +22,7 @@ import {
   selectIsTeacher,
   selectIsTutor,
 } from '../../features/auth/authSlice';
+import { BsFillCalendar2EventFill } from 'react-icons/bs';
 
 function getItem(label, key, icon, children) {
   return {
@@ -40,7 +39,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
   const isTeacher = useSelector(selectIsTeacher);
   const isTutor = useSelector(selectIsTutor);
   const isStudent = useSelector(selectIsStudent);
-  // const acceptManager = isAdmin || isTeacher;
+  const acceptManager = isAdmin || isTeacher;
   const acceptAttendance = isTeacher || isTutor;
   const studentTutorial = isStudent || isTutor;
   const location = useLocation();
@@ -56,140 +55,148 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/',
       <BellOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
     ),
-
+    // getItem(
+    //   <div className="dark:tw-text-white">
+    //     Danh sách sự kiện
+    //   </div>,
+    //   '/events',
+    //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+    // ),
     acceptAttendance &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+            ? 'tw-text-white'
+            : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Lịch dạy
-        </div>,
-        '/lich-day',
-        <SolutionOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
-      ),
+      >
+        Lịch dạy
+      </div>,
+      '/lich-day',
+      <SolutionOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
+    ),
     acceptAttendance &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
-          },`}
-        >
-          Điểm danh
-        </div>,
-        '/diem-danh',
-        <CarryOutOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
-      ),
+    getItem(
+      <div
+        className='dark:tw-text-white'
+      >
+        Điểm danh
+      </div>,
+      '/diem-danh',
+      <CarryOutOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
+    ),
     studentTutorial &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+            ? 'tw-text-white'
+            : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Lịch học
-        </div>,
-        '/lich-hoc',
-        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-        // [
-        //   acceptManager && getItem(
-        //     <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
-        //     '/manage',
-        //     !collapsed && (
-        //       <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
-        //     )
-        //   ),
-        //   isAdmin && getItem(
-        //     <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
-        //     '/manage/major',
-        //     !collapsed && (
-        //       <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
-        //     )
-        //   ),
-        // isAdmin && getItem(
-        //   <div className='tw-text-[#313752] dark:!tw-text-white '> Giảng viên</div>,
-        //   '/manage/teacher',
-        //   !collapsed && (
-        //     <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
-        //   )
-        // )
-        // ]
-      ),
+      >
+        Lịch học
+      </div>,
+      '/lich-hoc',
+      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+      // [
+      //   acceptManager && getItem(
+      //     <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
+      //     '/manage',
+      //     !collapsed && (
+      //       <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
+      //     )
+      //   ),
+      //   isAdmin && getItem(
+      //     <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
+      //     '/manage/major',
+      //     !collapsed && (
+      //       <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+      //     )
+      //   ),
+      // isAdmin && getItem(
+      //   <div className='tw-text-[#313752] dark:!tw-text-white '> Giảng viên</div>,
+      //   '/manage/teacher',
+      //   !collapsed && (
+      //     <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
+      //   )
+      // )
+      // ]
+    ),
 
-    studentTutorial &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
-          }`}
-        >
-          Lịch sử học
-        </div>,
-        '/lich-su-hoc',
-        <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+    // studentTutorial &&
+    //   getItem(
+    //     <div
+    //       className={`${
+    //         collapsed
+    //           ? 'tw-text-white'
+    //           : 'tw-text-[#313752] dark:!tw-text-white'
+    //       }`}
+    //     >
+    //       Lịch sử học
+    //     </div>,
+    //     '/lich-su-hoc',
+    //     <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    //   ),
 
     isAdmin &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+            ? 'tw-text-white'
+            : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Quản lý lịch học
-        </div>,
-        '/manage',
-        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Quản lý lịch học
+      </div>,
+      '/manage',
+      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
     acceptAttendance &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+            ? 'tw-text-white'
+            : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Kiểm tra lớp học
-        </div>,
-        '/manage',
-        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Kiểm tra lớp học
+      </div>,
+      '/manage',
+      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
     isAdmin &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+            ? 'tw-text-white'
+            : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Quản lý môn học
-        </div>,
-        '/manage/major',
-        <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
-        // isAdmin &&
-        //   getItem(
-        //     <div className="tw-text-[#313752] dark:!tw-text-white ">
-        //       Quản lý giảng viên
-        //     </div>,
-        //     '/manage/teacher',
-        //     !collapsed && (
-        //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
-        //     ),
-        //   ),
+      >
+        Quản lý môn học
+      </div>,
+      '/manage/major',
+      <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
+    // acceptManager && getItem(
+    //     <div className={`${
+    //       collapsed
+    //         ? 'tw-text-white'
+    //         : 'tw-text-[#313752] dark:!tw-text-white'
+    //     }`}>
+    //         Quản lý sự kiện.
+    //     </div>,
+    //       '/manage/events',
+    //     <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+    // )
+    // isAdmin &&
+    //   getItem(
+    //     <div className="tw-text-[#313752] dark:!tw-text-white ">
+    //       Quản lý giảng viên
+    //     </div>,
+    //     '/manage/teacher',
+    //     !collapsed && (
+    //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
+    //     ),
+    //   ),
     // getItem(
     //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
     //     Sự kiện

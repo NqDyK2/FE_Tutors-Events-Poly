@@ -43,15 +43,14 @@ const columns = [
     width: '15%',
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'stt',
-    key: 'stt',
+    title: 'Tình trạng',
+    dataIndex: 'join',
+    key: 'join',
     width: '20%',
-    render: (_, record) => (
-      <Button className="tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
-        Mời lại.
-      </Button>
-    ),
+    render: (_, record) => record.join === 0 ? (<Button onClick={() => console.log("Mời lại....")} className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
+      Mời lại.
+    </Button>) : (<span className='tw-font-medium'>Đã tham gia</span>
+    )
   },
 ];
 
@@ -89,7 +88,7 @@ const ListStudent = () => {
     studentCode: item.code,
     studentMail: item.email,
     studentName: item.name,
-    stt: 'Đã tham gia',
+    join: item.is_joined,
   }));
 
   return (
