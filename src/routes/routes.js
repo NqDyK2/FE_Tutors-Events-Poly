@@ -24,6 +24,7 @@ import AdminGuard from './guard/AdminGuard.js';
 import ListFeedback from '../features/feedback/index.js';
 import TeacherPage from '../features/teachers/pages/index.js';
 import TeachingSchedule from '../features/teaching-schedule/index.js';
+import ManageEvent from '../features/events/manage/pages/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const AppRoutes = () => {
             <Route path="/manage/class/:id" element={<ListStudent />} />
             <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
             <Route path="/manage/feedback" element={<ListFeedback />} />
+            <Route path="/manage/events" element={<ManageEvent />} />
           </Route>
           <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />

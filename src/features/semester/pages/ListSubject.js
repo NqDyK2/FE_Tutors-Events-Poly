@@ -43,7 +43,7 @@ const SubjectPage = () => {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-      });
+      }).catch((err) => toast.error(err.data.message));
   };
 
   useEffect(() => {
