@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet-async';
 const CheckPoint = () => {
   const location = useLocation();
   const checkpoint = location.search;
-  const token = checkpoint.split('=')[1];
+  const [token, setToken] = React.useState(checkpoint.split('=')[1]);
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuthenticated);
   const navigate = useNavigate();
@@ -29,6 +29,9 @@ const CheckPoint = () => {
 
   useEffect(() => {
     if (token) {
+      if (token.includes('%7C')) {
+        setToken(token.replace('%7C', '|'));
+      }
       handleSignIn();
     } else {
       navigate('/welcome');
