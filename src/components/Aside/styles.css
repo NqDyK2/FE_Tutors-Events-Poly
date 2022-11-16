@@ -1,0 +1,54 @@
+/* #active {
+  @apply !tw-border-none !tw-bg-[#5d78ff] dark:!tw-bg-slate-600;
+} */
+
+.app-sidebar .ant-menu-item a,
+.app-sidebar .ant-menu-submenu-title a,
+app-sidebar .ant-menu-item div,
+.app-sidebar .ant-menu-submenu-title div,
+.app-sidebar .ant-menu,
+.ant-menu-sub {
+  @apply !tw-text-[#313752] dark:!tw-text-white;
+}
+
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title .anticon-right svg,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title .anticon-up svg {
+  @apply !tw-text-[#C4CFF0];
+}
+
+.app-sidebar .ant-menu-item a span,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title div span {
+  @apply tw-align-text-top;
+}
+
+.app-sidebar .ant-menu-item-selected,
+.app-sidebar .ant-menu-item:hover,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover {
+  @apply !tw-border-none !tw-bg-[#d3dafa] dark:!tw-bg-slate-600;
+}
+
+.ant-menu-inline .ant-menu-item-selected:after {
+  @apply !tw-border-r-0;
+}
+
+.app-sidebar .ant-menu-submenu-selected .ant-menu-submenu-title {
+  @apply !tw-bg-[#d3dafa] dark:!tw-bg-slate-600;
+}
+
+.ant-menu-inline .ant-menu-item-selected *,
+.ant-menu-inline .ant-menu-item:hover *,
+.app-sidebar .ant-menu-submenu .ant-menu-submenu-title:hover *,
+.ant-menu-inline .ant-menu-submenu .ant-menu-sub .ant-menu-item:hover *,
+.ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-item-icon,
+.ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-title-content div,
+.ant-menu-submenu-selected .ant-menu-submenu-title .anticon.anticon-right svg {
+  @apply !tw-text-[#5d78ff];
+}
+
+.ant-menu:not(.ant-menu-horizontal) {
+  @apply !tw-bg-white dark:!tw-bg-[#202125];
+}
+
+.app-sidebar {
+  @apply !tw-overflow-x-hidden !tw-border-r-0;
+}

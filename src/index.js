@@ -1,23 +1,30 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import { persistor, store } from './app/store';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import './index.css';
+import 'antd/dist/antd.min.css';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ConfigProvider } from 'antd';
+import locale from 'antd/es/locale/vi_VN';
+import 'moment/locale/vi';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <HelmetProvider>
+          <ConfigProvider locale={locale}>
+            <App />
+          </ConfigProvider>
+        </HelmetProvider>
+      </PersistGate>
+    </BrowserRouter>
+  </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

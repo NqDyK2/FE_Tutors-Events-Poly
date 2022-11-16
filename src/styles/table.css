@@ -1,0 +1,54 @@
+.ant-table-thead > tr > th {
+  @apply dark:!tw-bg-dark-mode-primary dark:tw-text-white;
+}
+
+.ant-table-tbody {
+  @apply dark:tw-bg-dark-mode-primary;
+}
+
+.ant-table-container table > thead > tr:first-child th:last-child {
+  /* @apply dark:tw-border-t */
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.ant-table-cell-scrollbar:not([rowspan]) {
+  @apply dark:tw-border-none dark:tw-shadow-none;
+}
+
+.ant-table-container,
+.ant-table-container table > thead > tr:first-child th:first-child {
+  @apply dark:tw-rounded-t-none;
+}
+
+.ant-table-row {
+  @apply dark:tw-text-white;
+}
+
+.ant-table-cell-row-hover {
+  @apply dark:!tw-bg-dark-mode-primary;
+}
+
+.ant-table-tbody > tr.ant-table-placeholder:hover > td {
+  @apply dark:!tw-bg-dark-table-primary;
+}
+
+/* .ant-table-content::-webkit-scrollbar-track {
+  @apply tw-rounded-lg;
+}
+
+.ant-table-content::-webkit-scrollbar {
+  @apply !tw-h-1;
+}
+
+.ant-table-content::-webkit-scrollbar-thumb {
+  @apply tw-rounded-md tw-bg-gray-300;
+}
+
+.ant-table-content::-webkit-scrollbar-thumb:hover {
+  @apply tw-bg-gray-400;
+} */
+
+.ant-table-content {
+  overflow-x: hidden !important;
+}

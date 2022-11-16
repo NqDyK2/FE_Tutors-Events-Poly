@@ -1,0 +1,47 @@
+.fc-toolbar-title {
+  @apply !tw-text-lg tw-text-white first-letter:tw-uppercase;
+}
+
+.fc-button-group {
+}
+
+.fc-button {
+  @apply !tw-rounded-none !tw-border-0 !tw-bg-slate-100 !tw-text-base !tw-text-black;
+}
+
+.fc-today-button {
+  @apply !tw-ml-3;
+}
+
+.fc-col-header-cell-cushion {
+  @apply !tw-text-gray-700 dark:!tw-text-gray-100;
+}
+.fc-button:hover {
+  @apply !tw-bg-slate-200 !tw-text-black;
+}
+.fc-button:focus {
+  @apply !tw-shadow-none;
+}
+
+.fc-button:disabled {
+  @apply !tw-bg-transparent !tw-text-gray-200;
+}
+
+.fc-today-button,
+.fc-prev-button,
+.fc-next-button {
+  @apply !tw-bg-transparent !tw-text-white;
+}
+.fc-today-button:hover,
+.fc-prev-button:hover,
+.fc-next-button:hover {
+  @apply !tw-bg-transparent !tw-text-white;
+}
+
+.fc-button-active {
+  @apply !tw-bg-gray-300 !tw-text-black;
+}
+
+.fc-header-toolbar {
+  @apply !tw-mb-0 !tw-bg-cyan-500;
+}
