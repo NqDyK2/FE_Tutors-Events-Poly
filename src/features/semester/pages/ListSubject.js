@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   EditOutlined,
   PlusCircleOutlined,
@@ -34,9 +34,9 @@ const SubjectPage = () => {
   );
   const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
+  const params = useParams();
   const modalClassroomRef = useRef();
-  const location = useLocation();
-  const { semesterId } = location.state || {};
+  const semesterId = params.id;
   const currentUser = useSelector(selectCurrentUser);
   const handleRemoveClassroom = (id) => {
     removeClassroom(id)
