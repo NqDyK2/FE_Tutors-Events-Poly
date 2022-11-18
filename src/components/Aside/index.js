@@ -177,16 +177,16 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/manage/major',
       <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     ),
-    acceptManager && getItem(
-      <div className={`${collapsed
-        ? 'tw-text-white'
-        : 'tw-text-[#313752] dark:!tw-text-white'
-        }`}>
-        Quản lý sự kiện.
-      </div>,
-      '/manage/events',
-      <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
-    ),
+    // acceptManager && getItem(
+    //   <div className={`${collapsed
+    //     ? 'tw-text-white'
+    //     : 'tw-text-[#313752] dark:!tw-text-white'
+    //     }`}>
+    //     Quản lý sự kiện.
+    //   </div>,
+    //   '/manage/events',
+    //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+    // ),
     // isAdmin &&
     //   getItem(
     //     <div className="tw-text-[#313752] dark:!tw-text-white ">
@@ -197,13 +197,13 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
     //     ),
     //   ),
-    getItem(
-      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-        Sự kiện
-      </div>,
-      '/events',
-      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    ),
+    // getItem(
+    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+    //     Sự kiện
+    //   </div>,
+    //   '/events',
+    //   <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    // ),
 
     // getItem(
     //   <div
