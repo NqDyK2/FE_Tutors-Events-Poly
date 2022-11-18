@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Table } from 'antd';
+import { Input, Table, Tooltip } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -43,14 +43,16 @@ const columns = [
     width: '15%',
   },
   {
-    title: 'Tình trạng',
-    dataIndex: 'join',
-    key: 'join',
+    title: 'Nguyên nhân',
+    dataIndex: 'reason',
+    key: 'reason',
     width: '20%',
-    render: (_, record) => record.join === 0 ? (<Button onClick={() => console.log("Mời lại....")} className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
-      Mời lại.
-    </Button>) : (<span className='tw-font-medium'>Đã tham gia</span>
-    )
+    render: (_, record) => <Input className='tw-truncate tw-text-[#292524]' value={`${record.reason}`} disabled />
+    // record.reason.length >= 55
+    //   ? (<Tooltip title={`${record.reason}`} color="#FF6D28" >
+    //     <Input className='tw-truncate' value={`${record.reason}`} disabled />
+    //   </Tooltip>)
+    //   : (<Input className='tw-truncate' value={`${record.reason}`} disabled />)
   },
 ];
 
@@ -89,8 +91,8 @@ const ListStudent = () => {
     studentMail: item.email,
     studentName: item.name,
     join: item.is_joined,
+    reason: item.reason,
   }));
-
   return (
     <>
       <Helmet>
