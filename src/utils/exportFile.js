@@ -1,10 +1,9 @@
 import XLSX from 'xlsx';
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
+import html2pdf from 'html2pdf.js';
 
 
-export const exportExcel = (tableEl, sheetName, fileName) => {
-  const table = tableEl.cloneNode(true);
+export const exportExcel = (el, sheetName, fileName) => {
+  const table = el.cloneNode(true);
   table.deleteRow(1);
   const wb = XLSX.utils.table_to_book(table, { sheet: sheetName });
   XLSX.writeFile(wb, `${fileName}.xlsx`,
@@ -20,10 +19,20 @@ export const exportExcel = (tableEl, sheetName, fileName) => {
 
 
 export const exportPdf = async (table, fileName = "products") => {
-  const canvas = await html2canvas(table, { scale: 1 });
-  const imgData = canvas.toDataURL("image/png");
-  const pdf = new jsPDF("p", "mm", "a4");
-  pdf.addImage(imgData, "JPEG", 0, 0);
-  // pdf.output('dataurlnewwindow');
-  pdf.save(`${fileName}_export_${new Date().getTime()}.pdf`);
+  const pdfPrint = html2pdf();
+  const options = {
+    filename: `${fileName}.pdf`,
+    image: {
+      type: "jpeg", quality: 1,
+    },
+    jsPDF: {
+      unit: "in", format: "a4", orientation: "portrait",
+    },
+    html2canvas: {
+      scale: 4, letterRendering: true,
+    },
+  };
+  pdfPrint.from(table).set(options).save();
+
+
 }
