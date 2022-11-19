@@ -78,7 +78,7 @@ const AttendanceStudentList = () => {
       dataIndex: 'join',
       key: 'join',
       width: '20%',
-      render: (_, record) => record.join === 0 ? (<Button onClick={() => console.log("Mời lại....")} className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
+      render: (_, record) => record.join === 0 ? (<Button className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
         Mời lại.
       </Button>) : (<span className='tw-font-medium'>Đã tham gia</span>
       )

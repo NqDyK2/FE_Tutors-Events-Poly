@@ -74,7 +74,7 @@ const UserDropDown = () => {
           className="tw-px-2 tw-text-[12px] tw-text-neutral-600 hover:tw-bg-blue-100 dark:tw-text-slate-200 dark:hover:tw-bg-[#1b1c1f] dark:hover:tw-text-white "
         >
           <span className="tw-text-blue-300">Xin chào</span>,{' '}
-          {currentUser?.name.split(' ')[0]}
+          {currentUser?.name?.split(' ')[0] ?? ''}
         </Button>
       </Dropdown>
     </>
