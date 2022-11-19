@@ -1,16 +1,17 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useGetAuthUserMutation, useGetTokenMutation } from '../../../app/api/authApiSlice'
 import Spinner from '../../../components/Spinner'
-import { setCredentials } from '../authSlice';
+import { selectIsAuthenticated, setCredentials } from '../authSlice';
 import Logo from './../../../assets/images/Logo.png';
 
 
 const CallBack = () => {
   const [state, setState] = React.useState()
   const [getToken, { error: tokenError, isLoading: getTokenLoading }] = useGetTokenMutation()
+  const isAuth = useSelector(selectIsAuthenticated)
   const [getUserInfo, { isLoading, error }] = useGetAuthUserMutation();
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -34,8 +35,16 @@ const CallBack = () => {
   };
 
   React.useEffect(() => {
+    if (isAuth) {
+      navigate('/')
+    }
+  }, [isAuth])
+
+  React.useEffect(() => {
     handleSignIn()
   }, [state])
+
+
 
   return (
     <>
