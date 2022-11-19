@@ -23,6 +23,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-to-print": "^2.14.10",
     "react-toastify": "^9.0.8",
     "redux-deep-persist": "^1.0.6",
     "redux-persist": "^6.0.0",

@@ -35,6 +35,7 @@ const SubjectPage = () => {
       pollingInterval: 2000,
     }
   );
+  const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
   const params = useParams();
@@ -281,6 +282,7 @@ const SubjectPage = () => {
                     data={data}
                     fileName="Danh sách lớp học"
                     sheetName='Danh sách lớp học'
+                    elRef={componentRef}
                   />
                 )
               }
@@ -308,6 +310,7 @@ const SubjectPage = () => {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
+          ref={componentRef}
           loading={{ indicator: <Spinner />, spinning: isLoading }}
         />
         <FormClassroomRef semester_id={semesterId} ref={modalClassroomRef} />
