@@ -20,6 +20,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
   if (result?.error) {
     if (result.error.status === 401 || result.error.status === 403) {
       api.dispatch(logOut());
+
     }
   }
   return result;
