@@ -15,6 +15,7 @@ const MODE = {
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -129,7 +130,7 @@ const FormLessonRef = (props, ref) => {
 
   return (
     <Modal
-      className="tw-w-3/5"
+      className="tw-w-full -tw-mt-[70px] md:tw-w-3/5"
       forceRender
       title={title}
       open={visible}
@@ -228,77 +229,80 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
           </div>
           <div className="tw-flex tw-items-center tw-justify-between">
-            <Form.Item
-              className="tw-w-[48%]"
-              placeholder="Chọn hình thức học"
-              label="Hình thức:"
-              name={'type'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng chọn hình thức học',
-                },
-              ]}
-            >
-              <Select onChange={onChangeType}>
-                <Option value={1}>Offline</Option>
-                <Option value={0}>Online</Option>
-              </Select>
-            </Form.Item>
-
-            {!typeOfLesson ? (
+            <div className='tw-w-[48%] tw-flex tw-items-center tw-justify-between'>
               <Form.Item
-                className="tw-w-[48%]"
-                label="Link học online:"
+                className="tw-w-[24%]"
+                placeholder="Chọn hình thức học"
+                label="Hình thức:"
+                name={'type'}
                 rules={[
                   {
                     required: true,
-                    message: 'Vui lòng nhập link học',
-                  },
-                  {
-                    pattern:
-                      // google meet regex pattern
-                      /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
-                      // zoom
-                      /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
-                      // skype
-                      /(skype:[a-z]+.*?|skype:.*)/g ||
-                      // msteams
-                      /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
-
-                    message: 'Link học online chưa đúng định dạng',
+                    message: 'Vui lòng chọn hình thức học',
                   },
                 ]}
-                name="class_location"
-                tooltip={{
-                  title:
-                    'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
-                  className: 'tw-text-xs',
-                }}
               >
-                <Input placeholder={'Nhập link học online'} />
+                <Select onChange={onChangeType}>
+                  <Option value={1}>Offline</Option>
+                  <Option value={0}>Online</Option>
+                </Select>
               </Form.Item>
-            ) : (
-              <Form.Item
-                className="tw-w-[48%]"
-                label="Vị trí lớp học: "
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui lòng nhập vị trí lớp học',
-                  },
-                ]}
-                name="class_location"
-              >
-                <Input placeholder={'Nhập vị trí lớp học'} />
-              </Form.Item>
-            )}
-          </div>
 
-          <div className="tw-flex tw-items-center tw-justify-between">
+              {!typeOfLesson ? (
+                <Form.Item
+                  className="tw-w-[72%]"
+                  label="Link học online:"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui lòng nhập link học',
+                    },
+                    {
+                      type: "url",
+                      message: "Link học online chưa đúng định dạng."
+                    }
+                    // {
+                    //   pattern:
+                    //     // google meet regex pattern
+                    //     /^((http:\/\/)|(https:\/\/))?(meet.google.com|(www.)?hangouts.google.com|(www.)?chat.google.com)\/.+$/ ||
+                    //     // zoom
+                    //     /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g ||
+                    //     // skype
+                    //     /(skype:[a-z]+.*?|skype:.*)/g ||
+                    //     // msteams
+                    //     /(teams\.microsoft\.com).*(docId|D=1-).*?/g,
+
+                    //   message: 'Link học online chưa đúng định dạng',
+                    // },
+                  ]}
+                  name="class_location"
+                  tooltip={{
+                    title:
+                      'Địa điểm học online: Đặt đường dẫn từ trình duyệt google meet / zoom / skype / msteams / …',
+                    className: 'tw-text-xs',
+                  }}
+                >
+                  <Input placeholder={'Nhập link học online'} />
+                </Form.Item>
+              ) : (
+                <Form.Item
+                  className="tw-w-[72%]"
+                  label="Phòng học: "
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui lòng nhập phòng học',
+                    },
+                  ]}
+                  name="class_location"
+                >
+                  <Input placeholder={'Nhập phòng học'} />
+                </Form.Item>
+              )}
+            </div>
             <Form.Item
               className="tw-w-[48%]"
-              label="Giảng viên"
+              label="Giảng viên: "
               rules={[
                 {
                   required: true,
@@ -309,11 +313,26 @@ const FormLessonRef = (props, ref) => {
             >
               <Input />
             </Form.Item>
-
-            <Form.Item className="tw-w-[48%]" name="content" label="Nội dung: ">
-              <Input placeholder="Nhập nội dung tóm tắt của buổi học" />
-            </Form.Item>
           </div>
+
+          <div className="tw-flex tw-items-center tw-justify-between">
+          </div>
+
+
+          <Form.Item
+            name="content"
+            label="Nội dung: "
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
+              },
+            ]} >
+            <TextArea
+              rows={6}
+              placeholder="Nhập nội dung tóm tắt của buổi học"
+            />
+          </Form.Item>
         </Form>
 
         <div>
