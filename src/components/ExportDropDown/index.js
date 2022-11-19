@@ -1,6 +1,7 @@
 import { Button, Dropdown, Menu } from 'antd';
 import moment from 'moment';
 import React from 'react'
+import { useReactToPrint } from "react-to-print";
 import { exportExcel, exportPdf } from '../../utils/exportFile';
 
 const ExportDropDown = ({
@@ -8,6 +9,7 @@ const ExportDropDown = ({
   data,
   sheetName = "Sheet",
   fileName = "",
+  elRef,
 }) => {
   const exportTableExcel = () => {
     exportExcel(tableEl, sheetName, `${fileName} ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
@@ -17,6 +19,11 @@ const ExportDropDown = ({
     const table = document.getElementsByTagName('table')[0];
     exportPdf(table, `${fileName} ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
   }
+
+  const handlePrint = useReactToPrint({
+    content: () => elRef.current,
+    documentTitle: `${fileName} ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim(),
+  });
   return (
     <Dropdown
       className='tw-hidden'
@@ -35,6 +42,14 @@ const ExportDropDown = ({
               title: 'PDF',
               label: 'PDF',
               onClick: exportTalePdf,
+            },
+            {
+              // component content
+              key: '3',
+              title: 'Print',
+              label: 'Print',
+              onClick: handlePrint,
+
             }
           ]}
         />
