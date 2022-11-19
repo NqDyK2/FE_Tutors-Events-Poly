@@ -9,6 +9,7 @@ import {
   useGetAttendanceLessonListStudentQuery,
   useUpdateAttendanceStudentStatusMutation,
 } from '../../../../app/api/attendanceApiSlice';
+import { useInViteClassMutation } from '../../../../app/api/studentApiSlice';
 import Spinner from '../../../../components/Spinner';
 
 const AttendanceStudentList = () => {
@@ -21,6 +22,8 @@ const AttendanceStudentList = () => {
 
   const { data, isLoading, error } =
     useGetAttendanceLessonListStudentQuery(lessonId);
+
+  const [inviteStudenttoClass] = useInViteClassMutation();
   const isDisabledAttendance =
     currentTime > moment(data?.lesson?.end_time).format('YYYY-MM-DD HH:mm') &&
     data?.lesson?.attended === 1;
@@ -32,6 +35,19 @@ const AttendanceStudentList = () => {
       isSuccess: updateSuccess,
     },
   ] = useUpdateAttendanceStudentStatusMutation();
+
+  const handleInviteStudent = ({ student_email }) => {
+    inviteStudenttoClass({
+      student_email,
+      lesson_id: lessonId
+    }).unwrap()
+      .then((res) => {
+        toast.success(res.message);
+      })
+      .catch((err) => {
+        toast.error(err.data?.message || "Có lỗi xảy ra.");
+      })
+  }
 
   const columns = [
     {
@@ -78,18 +94,20 @@ const AttendanceStudentList = () => {
       dataIndex: 'join',
       key: 'join',
       width: '20%',
-      render: (_, record) => record.join === 0 ? (<Button className="tw-border-transparent tw-items-center tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
-        Mời lại.
-      </Button>) : (<span className='tw-font-medium'>Đã tham gia</span>
-      )
-      // render: (_, record) => (
-      //   <>
-      //     <Button className="tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
-      //       Mời lại.
-      //     </Button> / 
-      //     <span>Đã tham gia</span>
-      //   </>
-      // ),
+      render: (_, record) => record.join === 0 ?
+        (
+          <Button
+            disabled={record.isInvited}
+            onClick={() => handleInviteStudent({ student_email: record.studentEmail, id: record.id })}
+            className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white 
+                        ${record.isInvited ? 'tw-bg-gray-700 hover:tw-bg-gray-700' : ''}
+                      dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
+          >
+            Mời lại.
+          </Button>
+        ) : (
+          <span className='tw-font-medium'>Đã tham gia</span>
+        )
     },
   ];
 
@@ -103,6 +121,7 @@ const AttendanceStudentList = () => {
       note: item.note,
       status: item.status,
       join: item.is_joined,
+      isInvited: false
     };
   });
 
