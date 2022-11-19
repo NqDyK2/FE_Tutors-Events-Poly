@@ -100,6 +100,7 @@ const MajorPage = () => {
         toast.error(error);
       });
   };
+
   return (
     <>
       <Helmet>
@@ -126,24 +127,22 @@ const MajorPage = () => {
         </div>
       )}
       {dataSubject &&
-        dataSubject?.data?.map((major) => {
+        dataSubject?.data?.map((major, index) => {
           return (
             <Collapse
-              key={'m' + major.id}
-              className="tw-ml-4 tw-border-transparent tw-pl-3 tw-text-sm dark:tw-bg-[#202125]"
+              key={index}
+              className="tw-ml-4 tw-rounded-md tw-border-transparent tw-pl-3 tw-text-sm dark:tw-bg-[#202125]"
             >
               <Panel
                 className="tw-text-lg"
-                showArrow={false}
                 header={
                   <Tooltip
                     title="Ấn để  xem môn học trong danh sách hỗ trợ"
                     color="#FF6D28"
                   >
-                    <span className="dark:tw-text-white"> {major.name} </span>
+                    <span className="dark:tw-text-white !tw-mt-1 block"> {major.name} </span>
                   </Tooltip>
                 }
-                key="1"
                 extra={
                   <Popover
                     placement="left"
@@ -180,8 +179,8 @@ const MajorPage = () => {
                 />
                 <Table
                   className="tw-mt-4"
-                  key={major.subjects.key}
                   columns={columns}
+                  rowKey="id"
                   dataSource={major.subjects}
                   pagination={false}
                   scroll={{
