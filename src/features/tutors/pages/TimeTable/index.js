@@ -13,11 +13,11 @@ import Spinner from '../../../../components/Spinner';
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [joinClass, { isLoading: joinClassLoading }] = useJoinClassMutation();
+  const [joinClass, { isLoading: joinClassPending }] = useJoinClassMutation();
   const { data: listClassMisses, isLoading: listclassPending } =
     useGetAllMissingClassQuery();
   const { data: listSchedule, isLoading: listSchedulePending } =
-    useGetScheduleQuery();
+    useGetScheduleQuery({ skip: listClassMisses?.data.length });
 
   const [form] = Form.useForm();
   const showModal = () => {
@@ -29,8 +29,8 @@ const TimeTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values) => {};
-  const onFinishFailed = (errorInfo) => {};
+  const onFinish = (values) => { };
+  const onFinishFailed = (errorInfo) => { };
 
   // table antd
   const columns = [
@@ -74,7 +74,11 @@ const TimeTable = () => {
         record.hinhthuc === 'Offline' ? (
           <span>{record.phonghoc}</span>
         ) : (
-          <a target="blank" href={record.phonghoc} className='hover:tw-text-hoverLink'>
+          <a
+            target="blank"
+            href={record.phonghoc}
+            className="hover:tw-text-hoverLink"
+          >
             {record.phonghoc}
           </a>
         ),
@@ -95,7 +99,11 @@ const TimeTable = () => {
       dataIndex: 'chitiet',
       key: 'chitiet',
       render: (_, record) => (
-        <Tooltip placement="left" title={record.chitiet} color={'green'}>
+        <Tooltip
+          title={record.chitiet}
+          placement="topLeft"
+          color="#FF6D28" trigger={'click'}
+        >
           <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
         </Tooltip>
       ),
@@ -118,44 +126,37 @@ const TimeTable = () => {
     },
   ];
 
-  let dataClass,
-    dataTable = false;
-
-  if (listClassMisses?.data) {
-    if (listClassMisses.data.length > 0) {
-      dataClass = listClassMisses?.data.map((item, index) => ({
-        key: index,
-        id: item.id,
-        subject_name: item.name,
-        subject_code: item.code,
-      }));
-    } else {
-      dataTable = listSchedule?.data.map((item, index) => ({
-        key: index,
-        stt: index + 1,
-        ngay: timeFormat(item.start_time.split(' ')[0]),
-        hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.split(' ')[1]} - ${
-          item.end_time.split(' ')[1]
-        }`,
-        phonghoc: item.class_location,
-        tutor_email: item.tutor_email.split('@')[0],
-        teacher_email: item.teacher_email.split('@')[0],
-        subjects_code: item.subject_code?.toUpperCase(),
-        subjects_name: item.subject_name,
-        chitiet: item.content,
-      }));
-    }
-  }
+  const dataClass = listClassMisses?.data.map((item, index) => ({
+    key: index,
+    id: item.id,
+    subject_name: item.name,
+    subject_code: item.code,
+  }));
+  const dataTable = listSchedule?.data.map((item, index) => ({
+    key: index,
+    stt: index + 1,
+    ngay: timeFormat(item.start_time.split(' ')[0]),
+    hinhthuc: item.type ? 'Offline' : 'Online',
+    thoigian: `${item.start_time?.split(' ')[1]} - ${item.end_time?.split(' ')[1]
+      }`,
+    phonghoc: item.class_location,
+    tutor_email: item.tutor_email?.split('@')[0],
+    teacher_email: item.teacher_email.split('@')[0],
+    subjects_code: item.subject_code?.toUpperCase(),
+    subjects_name: item.subject_name,
+    chitiet: item.content,
+  }));
 
   const handleJoinClass = (id) => {
     joinClass(id)
       .unwrap()
-      .then(() => toast.success('Tham gia thành công.'))
+      .then((res) => {
+        toast.success(res.message);
+      })
       .catch((err) => toast.error('Có lỗi xả ra.'));
   };
 
-  if (listclassPending) {
+  if (listclassPending || listSchedulePending) {
     return (
       <div className="tw-mt-[110px] tw-flex tw-justify-center">
         <Spinner
@@ -171,7 +172,7 @@ const TimeTable = () => {
 
   return (
     <div>
-      {dataTable ? (
+      {!listClassMisses?.data.length ? (
         <Table
           key={dataTable?.key}
           columns={columns}
@@ -202,7 +203,6 @@ const TimeTable = () => {
                 />
                 <div>
                   <Button
-                    loading={joinClassLoading[index]}
                     onClick={() => handleJoinClass(item.id)}
                     type="primary"
                     className="tw-rounded-lg tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"

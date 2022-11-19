@@ -20,6 +20,14 @@ export const studentApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Student'],
         }),
+        inViteClass: builder.mutation({
+            query: (body) => ({
+                url: `mail/invite-class`,
+                method: 'POST',
+                body: body
+            }),
+            invalidatesTags: ['Student'],
+        }),
         getScheduleTeaching: builder.query({
             query: () => ({
                 url: `teacher-tutor/schedule`,
@@ -34,5 +42,6 @@ export const {
     useGetAllMissingClassQuery,
     useGetScheduleQuery,
     useJoinClassMutation,
+    useInViteClassMutation,
     useGetScheduleTeachingQuery,
 } = studentApiSlice;

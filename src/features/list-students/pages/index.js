@@ -48,11 +48,6 @@ const columns = [
     key: 'reason',
     width: '20%',
     render: (_, record) => <Input className='tw-truncate tw-text-[#292524]' value={`${record.reason}`} disabled />
-    // record.reason.length >= 55
-    //   ? (<Tooltip title={`${record.reason}`} color="#FF6D28" >
-    //     <Input className='tw-truncate' value={`${record.reason}`} disabled />
-    //   </Tooltip>)
-    //   : (<Input className='tw-truncate' value={`${record.reason}`} disabled />)
   },
 ];
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import CheckPoint from '../features/auth/components/CheckPoint.js';
 import RequireAuth from '../features/auth/components/RequireAuth.js';
 import AuthPage from '../features/auth/pages/index.js';
 import EventsPage from '../features/events/customer/pages/index.js';
@@ -25,13 +24,14 @@ import ListFeedback from '../features/feedback/index.js';
 import TeacherPage from '../features/teachers/pages/index.js';
 import TeachingSchedule from '../features/teaching-schedule/index.js';
 import ManageEvent from '../features/events/manage/pages/index.js';
+import CallBack from '../features/auth/components/CallBack.js';
 
 const AppRoutes = () => {
   const location = useLocation();
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/checkpoint" element={<CheckPoint />} />
+      <Route path="/callback" element={<CallBack />} />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route element={<RequireAuth />}>
         <Route path="/" element={<AppLayout />}>

@@ -69,6 +69,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
           .then((res) => {
             setVisible(false);
             form.resetFields();
+            setError(null);
             toast.success(res.message);
           })
           .catch((err) => {
