@@ -26,13 +26,13 @@ const columns = [
     title: 'Sinh viên',
     dataIndex: 'classStudentsCount',
     key: 'classStudentsCount',
-    render:(students,record) => students === 0 ? (<span className='tw-font-semibold tw-text-red-500'>Chưa có sinh viên</span>) : (<span>{students}</span>)
+    render: (students, record) => students === 0 ? (<span className='tw-font-semibold tw-text-red-500'>Chưa có sinh viên</span>) : (<span>{students}</span>)
   },
   {
     title: 'Điểm danh',
     key: 'action',
     render: (_, record) => (
-      <Button className="tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
+      <Button className="tw-border-transparent tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400">
         <Link
           to={`/diem-danh/lop/${record.id}`}
           state={{

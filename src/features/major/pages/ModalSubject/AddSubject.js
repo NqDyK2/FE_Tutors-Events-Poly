@@ -40,10 +40,10 @@ const AddSubject = (props) => {
         setErrors(err.data);
       });
   };
-  const onFinishFailed = (errorInfo) => {};
+  const onFinishFailed = (errorInfo) => { };
   return (
     <div>
-      <Button className="tw-border-transparent tw-text-base hover:tw-bg-white">
+      <Button className="tw-border-transparent tw-text-base hover:tw-bg-white tw-shadow-none">
         <span onClick={showModal}>+ Thêm môn học</span>
       </Button>
       <Modal

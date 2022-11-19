@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, Space, Table, Tooltip } from 'antd';
+import { Button, Dropdown, Menu, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -21,6 +21,9 @@ import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../auth/authSlice';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+import { exportExcel, exportPdf } from '../../../utils/exportFile';
+import moment from 'moment';
+import ExportDropDown from '../../../components/ExportDropDown';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -32,6 +35,7 @@ const SubjectPage = () => {
       pollingInterval: 2000,
     }
   );
+  const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
   const params = useParams();
@@ -45,6 +49,18 @@ const SubjectPage = () => {
         toast.success(res.message);
       }).catch((err) => toast.error(err.data.message));
   };
+
+  const exportTableExcel = () => {
+    const table = document.getElementsByTagName('table')[0];
+    exportExcel(table, 'Danh sách lớp học', `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
+  }
+
+  const exportTalePdf = () => {
+    const table = document.getElementsByTagName('table')[0];
+    exportPdf(table, `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
+  }
+
+
 
   useEffect(() => {
     if (!data?.tree) return;
@@ -248,6 +264,7 @@ const SubjectPage = () => {
               >
                 Thêm lớp học
               </Button>
+
               <Button
                 icon={<PlusCircleOutlined />}
                 className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-hoverLink hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100 dark:hover:tw-text-hoverLink"
@@ -256,6 +273,20 @@ const SubjectPage = () => {
               >
                 Cập nhật danh sách sinh viên
               </Button>
+              {
+                data?.data?.length > 0 && (
+                  <ExportDropDown
+                    tableEl={
+                      document.getElementsByTagName('table')[0]
+                    }
+                    data={data}
+                    fileName="Danh sách lớp học"
+                    sheetName='Danh sách lớp học'
+                    elRef={componentRef}
+                  />
+                )
+              }
+
             </>
           )}
           <button
@@ -279,6 +310,7 @@ const SubjectPage = () => {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
+          ref={componentRef}
           loading={{ indicator: <Spinner />, spinning: isLoading }}
         />
         <FormClassroomRef semester_id={semesterId} ref={modalClassroomRef} />

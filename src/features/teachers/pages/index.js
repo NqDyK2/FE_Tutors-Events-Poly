@@ -61,7 +61,7 @@ const TeacherPage = () => {
                 </Button>
               }
               title="Bạn muốn xóa môn học này?"
-              onConfirm={() => console.log('Xóa')}
+              onConfirm={null}
             />
           </Tooltip>
         </div>

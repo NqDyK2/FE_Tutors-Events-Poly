@@ -4,32 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   font-family: 'Roboto', sans-serif;
 }
 
- .ant-modal-wrap {
+.ant-modal-wrap {
   overflow-x: hidden !important;
 }
 
-
-html::-webkit-scrollbar-track
-{
-  @apply tw-rounded-lg
+html::-webkit-scrollbar-track {
+  @apply tw-rounded-lg;
 }
 
-html::-webkit-scrollbar
-{
-  @apply !tw-w-2
+html::-webkit-scrollbar {
+  @apply !tw-w-2;
 }
 
-html::-webkit-scrollbar-thumb
-{
-  @apply tw-bg-gray-500 tw-rounded-md
+html::-webkit-scrollbar-thumb {
+  @apply tw-rounded-md tw-bg-gray-500;
 }
 
-html::-webkit-scrollbar-thumb:hover
-{
-  @apply tw-bg-gray-600
+html::-webkit-scrollbar-thumb:hover {
+  @apply tw-bg-gray-600;
+}
+
+.ant-collapse-header-text {
+  margin-top: 4px;
 }

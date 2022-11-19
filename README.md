@@ -29,6 +29,6 @@ To run this project, tạo một file .env set value cho biến môi trường, 
 
 `REACT_APP_API_URL`
 
-Tks for watching!!! ♥
+Tks for watching!!! ♥♥♥
 
 
