@@ -123,7 +123,7 @@ const columns = [
     width: '7%',
     render: (_, record) => (
       <Tooltip title={<div>
-        {parse(record.chitiet)}
+        {parse(record.chitiet ? record.chitiet : '')}
       </div>} color="#FF6D28" trigger={'click'}>
         <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink  dark:hover:tw-text-hoverLink">
           Nội dung
