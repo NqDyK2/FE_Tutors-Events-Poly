@@ -86,26 +86,31 @@ const StudentLessonHistoryPage = () => {
 
   return (
     <div>
-      <Select placeholder="Chọn học kỳ"
-        className='tw-w-full'
-        showSearch
-        optionFilterProp="children"
-        filterOption={(input, option) =>
-          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
-        loading={isSemesterLoad}
-        value={selectValue}
-        onChange={(value) => {
-          setSelectValue(value);
-          getHistoryData(value);
+      <div className='tw-flex tw-flex-col tw-items-start'>
+        <span>
+          Học kỳ
+        </span>
+        <Select placeholder="Chọn học kỳ"
+          className='tw-w-full'
+          showSearch
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+          loading={isSemesterLoad}
+          value={selectValue}
+          onChange={(value) => {
+            setSelectValue(value);
+            getHistoryData(value);
 
-        }} >
-        {semesterData?.map((semester) => (
-          <Select.Option key={semester.id} value={semester.id}>
-            {semester.name}
-          </Select.Option>
-        ))}
-      </Select>
+          }} >
+          {semesterData?.map((semester) => (
+            <Select.Option key={semester.id} value={semester.id}>
+              {semester.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
       <div className='tw-mt-4'>
         {
           isLoading || currentLoading ? <div className='tw-flex tw-items-center tw-justify-center tw-min-h-[30vh]'><Spinner /></div> :
@@ -113,7 +118,7 @@ const StudentLessonHistoryPage = () => {
               <>
                 {
                   historyData?.data?.length > 0 ? historyData?.data.map((item, idx) => (
-                    <div key={idx} className="tw-border tw-mb-4 tw-border-b">
+                    <div key={idx} className="tw-border tw-mb-8 tw-shadow-md tw-drop-shadow-sm ">
                       <Table
                         title={() => <span className='tw-font-semibold'>{item?.subject_name} - {item?.subject_code}</span>}
                         columns={columns} dataSource={
@@ -132,13 +137,11 @@ const StudentLessonHistoryPage = () => {
                           }))
                         }
                         pagination={false}
-                        scroll={{ x: 500 }}
+                        scroll={{ x: 400 }}
                       />
 
-
-
                     </div>
-                  )) : <div className='tw-text-center'>Không có dữ liệu</div>
+                  )) : <div className='tw-text-center tw-flex tw-items-center tw-justify-center tw-min-h-[150px]'>Không có dữ liệu</div>
                 }
               </>
 
