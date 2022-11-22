@@ -327,7 +327,17 @@ const FormLessonRef = (props, ref) => {
               {
                 required: true,
                 message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
+
               },
+
+              {
+                validator: (_, value) => {
+                  if (value.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
+                    return Promise.reject('Nội dung tóm tắt không được để trống');
+                  }
+                  return Promise.resolve();
+                }
+              }
             ]} >
             <QuillEditor setFieldsValue={
               (value) => {
