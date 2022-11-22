@@ -9,6 +9,7 @@ import {
   BellOutlined,
   CarryOutOutlined,
   SolutionOutlined,
+  HistoryOutlined
 } from '@ant-design/icons';
 import { ImBooks } from 'react-icons/im';
 import { AiFillSchedule, AiOutlineHistory } from 'react-icons/ai';
@@ -98,29 +99,19 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       </div>,
       '/lich-hoc',
       <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      // [
-      //   acceptManager && getItem(
-      //     <div className='tw-text-[#313752]  dark:!tw-text-white '>Lịch học</div>,
-      //     '/manage',
-      //     !collapsed && (
-      //       <BsDot className='  tw-text-[#C4CFF9] tw-text-[18px]' />
-      //     )
-      //   ),
-      //   isAdmin && getItem(
-      //     <div className='tw-text-[#313752] dark:!tw-text-white '>Môn học</div>,
-      //     '/manage/major',
-      //     !collapsed && (
-      //       <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
-      //     )
-      //   ),
-      // isAdmin && getItem(
-      //   <div className='tw-text-[#313752] dark:!tw-text-white '> Giảng viên</div>,
-      //   '/manage/teacher',
-      //   !collapsed && (
-      //     <BsDot className='   tw-text-[#C4CFF9] tw-text-[18px]' />
-      //   )
-      // )
-      // ]
+    ),
+    studentTutorial &&
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
+          }`}
+      >
+        Lịch sử học
+      </div>,
+      '/lich-su-hoc',
+      <HistoryOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     ),
 
     // studentTutorial &&

@@ -1,5 +1,6 @@
 import { Modal } from 'antd';
 import React, { useState } from 'react';
+import parse from 'html-react-parser';
 import 'react-quill/dist/quill.snow.css';
 
 const ContentLessonModal = ({ content }) => {
@@ -34,7 +35,7 @@ const ContentLessonModal = ({ content }) => {
                 <div
                     className="ql-editor tw-p-0"
                 >
-                    {content}
+                    {parse(content)}
                 </div>
             </Modal>
         </div>

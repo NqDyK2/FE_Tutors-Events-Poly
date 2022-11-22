@@ -10,7 +10,6 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import FormLessonRef from '../components/FormLessonRef';
 import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import parse from 'html-react-parser';
 import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -123,7 +122,7 @@ const columns = [
     key: 'chitiet',
     width: '8%',
     render: (_, record) => (
-      <ContentLessonModal content={parse(record.chitiet ? record.chitiet : '')} />
+      <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
     ),
   },
   {
