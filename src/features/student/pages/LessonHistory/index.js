@@ -2,12 +2,16 @@ import { Select, Table } from 'antd';
 import moment from 'moment';
 import React from 'react'
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useGetAllSemesterQuery } from '../../../../app/api/semesterApiSlice'
 import { useGetStudentCurrentHistoryLessonQuery, useGetStudentHistoryLessonBySemesterMutation } from '../../../../app/api/studentApiSlice';
 import Spinner from '../../../../components/Spinner';
+import ContentLessonModal from '../../../lesson/components/ContentLessonModal';
+import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const StudentLessonHistoryPage = () => {
   const { data: semesterData, isLoading: isSemesterLoad, isError: isSemesterError } = useGetAllSemesterQuery();
+  const dispatch = useDispatch()
   const [getHistoryData, { isLoading, isError, data }] = useGetStudentHistoryLessonBySemesterMutation();
   const [historyData, setHistoryData] = React.useState([]);
   const { data: currentHistoryData, isLoading: currentLoading, isError: currentError } = useGetStudentCurrentHistoryLessonQuery();
@@ -50,8 +54,21 @@ const StudentLessonHistoryPage = () => {
       title: 'Nội dung buổi học',
       dataIndex: 'lessonContent',
       key: 'lessonContent',
+      render: (text) => {
+        return <ContentLessonModal content={text} />
+      }
     },
   ];
+
+  useEffect(() => {
+    dispatch(setFlexBreadcrumb(
+      [
+        {
+          title: 'Lịch sử học',
+        },
+      ]
+    ))
+  })
 
   useEffect(() => {
     if (data) {
