@@ -1,5 +1,6 @@
 import { Modal } from 'antd';
 import React, { useState } from 'react';
+import 'react-quill/dist/quill.snow.css';
 
 const ContentLessonModal = ({ content }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +31,11 @@ const ContentLessonModal = ({ content }) => {
                 }}
                 cancelButtonProps={{ style: { display: 'none' } }}
             >
-                {content}
+                <div
+                    className="ql-editor tw-p-0"
+                >
+                    {content}
+                </div>
             </Modal>
         </div>
     );
