@@ -12,9 +12,8 @@ const QuillEditor = (props
     toolbar: [
       [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
       [{ size: [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' },
-      ]
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'link', 'image'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' },]
     ]
   }
 
@@ -22,7 +21,7 @@ const QuillEditor = (props
     'header',
     'font',
     'size',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'bold', 'italic', 'underline', 'strike', 'blockquote', 'link', 'image',
     'list', 'bullet',
   ]
 
