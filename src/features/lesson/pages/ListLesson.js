@@ -192,7 +192,11 @@ const ListLesson = () => {
     data: response,
     error: lessonError,
     isLoading: lessonLoading,
-  } = useGetAllLessonQuery(subjectId);
+  } = useGetAllLessonQuery(subjectId, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: true,
+  }
+  );
 
   const semesterStartTime = response?.tree[0].start_time;
   const semesterEndTime = response?.tree[0].end_time;
