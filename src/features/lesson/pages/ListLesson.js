@@ -10,6 +10,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import FormLessonRef from '../components/FormLessonRef';
 import { FaReply } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import parse from 'html-react-parser';
 import { timeFormat } from '../../../utils/TimeFormat';
 import Spinner from '../../../components/Spinner';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -121,7 +122,9 @@ const columns = [
     key: 'chitiet',
     width: '7%',
     render: (_, record) => (
-      <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
+      <Tooltip title={<div>
+        {parse(record.chitiet)}
+      </div>} color="#FF6D28" trigger={'click'}>
         <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink  dark:hover:tw-text-hoverLink">
           Nội dung
         </span>

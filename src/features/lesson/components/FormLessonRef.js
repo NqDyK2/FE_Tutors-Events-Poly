@@ -8,6 +8,7 @@ import {
   useUpdateLessonMutation,
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
+import QuillEditor from '../../../components/QuillEditor';
 const MODE = {
   ADD: 'ADD',
   EDIT: 'EDIT',
@@ -328,9 +329,16 @@ const FormLessonRef = (props, ref) => {
                 message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
               },
             ]} >
-            <TextArea
-              rows={6}
+            <QuillEditor setFieldsValue={
+              (value) => {
+                formLesson.setFieldsValue({
+                  content: value
+                })
+              }
+
+            }
               placeholder="Nhập nội dung tóm tắt của buổi học"
+              initialValue={formLesson.getFieldValue('content')}
             />
           </Form.Item>
         </Form>
