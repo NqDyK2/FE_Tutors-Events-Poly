@@ -34,7 +34,21 @@ export const studentApiSlice = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             invalidatesTags: ['Teaching'],
-        })
+        }),
+        getStudentHistoryLessonBySemester: builder.mutation({
+            query: (id) => ({
+                url: `student/history/${id}`,
+                method: 'GET',
+            }),
+            invalidatesTags: ['Student',],
+        }),
+        getStudentCurrentHistoryLesson: builder.query({
+            query: () => ({
+                url: `student/history`,
+                method: 'GET',
+            }),
+            invalidatesTags: ['Student',],
+        }),
     }),
 });
 
@@ -44,4 +58,6 @@ export const {
     useJoinClassMutation,
     useInViteClassMutation,
     useGetScheduleTeachingQuery,
+    useGetStudentCurrentHistoryLessonQuery,
+    useGetStudentHistoryLessonBySemesterMutation,
 } = studentApiSlice;

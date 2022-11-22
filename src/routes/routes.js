@@ -11,7 +11,6 @@ import PageNotFound from '../features/404page/pages/index.js';
 import SemesterPage from '../features/semester/pages/index.js';
 import SubjectPage from '../features/semester/pages/ListSubject.js';
 import ListLesson from '../features/lesson/pages/ListLesson.js';
-import TimeTable from '../features/tutors/pages/TimeTable/index.js';
 import ManageGuard from './guard/ManageGuard.js';
 import AttendanceGuard from './guard/AttendanceGuard.js';
 import AttendanceClassList from '../features/attendance/pages/AttendanceClassList/index.js';
@@ -25,6 +24,8 @@ import TeacherPage from '../features/teachers/pages/index.js';
 import TeachingSchedule from '../features/teaching-schedule/index.js';
 import ManageEvent from '../features/events/manage/pages/index.js';
 import CallBack from '../features/auth/components/CallBack.js';
+import StudentLessonHistoryPage from '../features/student/pages/LessonHistory/index.js';
+import TimeTable from '../features/student/pages/TimeTable/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -41,6 +42,7 @@ const AppRoutes = () => {
 
           <Route element={<LichHocGuard />}>
             <Route path="/lich-hoc" element={<TimeTable />} />
+            <Route path="/lich-su-hoc" element={<StudentLessonHistoryPage />} />
           </Route>
 
           <Route element={<ManageGuard />}>
