@@ -132,7 +132,7 @@ const StudentLessonHistoryPage = () => {
                               moment(lesson?.end_time).format('HH:mm'),
                             teacher: lesson?.teacher_email?.split('@')[0] ?? '',
                             tutor: lesson.tutor_email?.split('@')[0] ?? '',
-                            attendanceStatus: lesson?.attendances_count ? 'Vắng mặt' : 'Có mặt',
+                            attendanceStatus: lesson?.attendances_count === 0 ? 'Vắng mặt' : 'Có mặt',
                             lessonContent: lesson.content ?? '',
                           }))
                         }
