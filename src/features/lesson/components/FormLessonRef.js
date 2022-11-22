@@ -16,7 +16,6 @@ const MODE = {
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-const { TextArea } = Input;
 
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);

@@ -31,7 +31,7 @@ const QuillEditor = (props
   }
   useEffect(() => {
     setValue(props?.value)
-  }, [props?.initialValue])
+  }, [props.initialValue, props?.value])
 
   return <ReactQuill
     theme="snow" modules={modules}
