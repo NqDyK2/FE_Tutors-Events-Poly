@@ -20,12 +20,14 @@ const ContentLessonModal = ({ content }) => {
                 Nội dung
             </button>
             <Modal
-                className='tw-top-5 tw-w-[500px]'
+                className='tw-top-5'
                 title="Nội dung buổi học"
                 open={isModalOpen}
                 onOk={handleCancel}
                 onCancel={handleCancel}
+                centered
                 okText="Đóng"
+                width={750}
                 okButtonProps={{
                     className:
                         'tw-bg-gray-700 hover:tw-bg-gray-800 tw-border-none tw-rounded',

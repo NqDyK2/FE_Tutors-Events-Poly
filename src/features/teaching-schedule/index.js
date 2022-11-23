@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useGetScheduleTeachingQuery } from '../../app/api/studentApiSlice';
 import { timeFormat } from '../../utils/TimeFormat';
+import ContentLessonModal from '../lesson/components/ContentLessonModal';
 
 const TeachingSchedule = () => {
   const columns = [
@@ -97,9 +98,7 @@ const TeachingSchedule = () => {
       dataIndex: 'content',
       key: 'content',
       render: (_, record) => (
-        <Tooltip title={record.content} color="#FF6D28" trigger={'click'}>
-          <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink">Nội dung</span>
-        </Tooltip>
+        <ContentLessonModal content={record?.content} />
       ),
     },
   ];

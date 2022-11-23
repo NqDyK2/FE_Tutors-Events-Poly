@@ -331,7 +331,7 @@ const FormLessonRef = (props, ref) => {
 
               {
                 validator: (_, value) => {
-                  if (value.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
+                  if (value?.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
                     return Promise.reject('Nội dung tóm tắt không được để trống');
                   }
                   return Promise.resolve();

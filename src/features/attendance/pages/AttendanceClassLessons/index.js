@@ -10,6 +10,7 @@ import moment from 'moment';
 import { timeFormat } from '../../../../utils/TimeFormat';
 import { Helmet } from 'react-helmet-async';
 import { FaReply } from 'react-icons/fa';
+import ContentLessonModal from '../../../lesson/components/ContentLessonModal';
 const AttendanceClassLessons = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -77,27 +78,7 @@ const AttendanceClassLessons = () => {
       key: 'content',
       width: '10%',
       render: (_, record) => (
-        <Tooltip
-          title={
-            <div className="tw-flex tw-flex-col">
-              <div>Nội dung: {record.content}</div>
-              <div>
-                Tutor:
-                <a
-                  className="tw-ml-2 tw-text-white"
-                  href={`mailto:${record.tutorEmail}`}
-                >
-                  {record.tutorEmail}
-                </a>
-              </div>
-            </div>
-          }
-          placement="topLeft"
-          color="#FF6D28"
-          trigger={'click'}
-        >
-          <div className="tw-cursor-pointer tw-text-blue-500 ">Thông tin</div>
-        </Tooltip>
+        <ContentLessonModal content={record?.content} />
       ),
     },
     {
