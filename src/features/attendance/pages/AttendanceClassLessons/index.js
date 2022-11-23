@@ -20,7 +20,10 @@ const AttendanceClassLessons = () => {
     data: listStudent,
     isLoading,
     error,
-  } = useGetAttendanceClassLessonQuery(classId);
+  } = useGetAttendanceClassLessonQuery(classId, {
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   const columns = [
     {

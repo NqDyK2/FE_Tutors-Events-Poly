@@ -21,12 +21,15 @@ const AttendanceStudentList = () => {
   const currentTime = moment().format('YYYY-MM-DD HH:mm');
 
   const { data, isLoading, error } =
-    useGetAttendanceLessonListStudentQuery(lessonId);
+    useGetAttendanceLessonListStudentQuery(lessonId, {
+      refetchOnFocus: false,
+      refetchOnMountOrArgChange: true,
+    });
 
   const [inviteStudenttoClass] = useInViteClassMutation();
   const isDisabledAttendance =
     currentTime > moment(data?.lesson?.end_time).format('YYYY-MM-DD HH:mm') &&
-    data?.lesson?.attended === 1;
+    (data?.lesson?.attended === 1 || data?.lesson?.attended === 0)
   const [
     updateStatusAtendance,
     {
