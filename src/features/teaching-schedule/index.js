@@ -2,7 +2,9 @@ import { Table, Tooltip } from 'antd';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useGetScheduleTeachingQuery } from '../../app/api/studentApiSlice';
+import Spinner from '../../components/Spinner';
 import { timeFormat } from '../../utils/TimeFormat';
+import ContentLessonModal from '../lesson/components/ContentLessonModal';
 
 const TeachingSchedule = () => {
   const columns = [
@@ -97,15 +99,13 @@ const TeachingSchedule = () => {
       dataIndex: 'content',
       key: 'content',
       render: (_, record) => (
-        <Tooltip title={record.content} color="#FF6D28" trigger={'click'}>
-          <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink">Nội dung</span>
-        </Tooltip>
+        <ContentLessonModal content={record?.content} />
       ),
     },
   ];
   let data = [];
 
-  const { data: listSchedule } = useGetScheduleTeachingQuery();
+  const { data: listSchedule, isLoading, isError } = useGetScheduleTeachingQuery();
 
   if (listSchedule) {
     data = listSchedule.data.map((item, index) => {
@@ -137,16 +137,32 @@ const TeachingSchedule = () => {
       <div className="tw-border-b-2 tw-pb-1">
         <span className="tw-text-[15px] dark:tw-text-white ">Lịch dạy</span>
       </div>
+      {
+        isError ? (
+          <div className="tw-flex tw-justify-center tw-items-center tw-h-full">
+            <span className="tw-text-[15px] dark:tw-text-white">
+              Có lỗi xảy ra, vui lòng thử lại
+            </span>
+          </div>
 
-      <Table
-        size="small"
-        key={data.key}
-        scroll={{ y: 380 }}
-        columns={columns}
-        dataSource={data}
-        className="tw-mt-2"
-        pagination={false}
-      />
+        ) : (
+          <Table
+            size="small"
+            key={data.key}
+            scroll={{ y: 380 }}
+            columns={columns}
+            dataSource={data}
+            className="tw-mt-2"
+            loading={{
+              indicator: <Spinner />,
+              spinning: isLoading,
+            }
+            }
+            pagination={false}
+          />
+        )
+      }
+
     </>
   );
 };

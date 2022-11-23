@@ -17,6 +17,7 @@ import ConfirmPopup from '../../../components/Confirm/ConfirmPopup';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
+import ContentLessonModal from '../components/ContentLessonModal';
 
 const columns = [
   {
@@ -61,7 +62,7 @@ const columns = [
     title: 'Phòng học',
     dataIndex: 'phonghoc',
     key: 'phonghoc',
-    width: '15%',
+    width: '10%',
     render: (_, record) =>
       record.hinhthuc === 'Offline' ? (
         <span>{record.phonghoc}</span>
@@ -119,28 +120,23 @@ const columns = [
     title: 'Nội dung',
     dataIndex: 'chitiet',
     key: 'chitiet',
-    width: '7%',
+    width: '8%',
     render: (_, record) => (
-      <Tooltip title={record.chitiet} color="#FF6D28" trigger={'click'}>
-        <span className="tw-cursor-pointer tw-text-blue-500 hover:tw-text-hoverLink  dark:hover:tw-text-hoverLink">
-          Nội dung
-        </span>
-      </Tooltip>
+      <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
     ),
   },
   {
     title: '',
     dataIndex: 'action',
     key: 'action',
-    width: '6%',
     render: (_, record) => (
-      <div className="tw-flex">
+      <div className={`${record.attended ? 'tw-hidden' : "tw-flex"}`}>
         <Tooltip title="Sửa buổi học" color="#FF6D28">
           <Button
             onClick={() => {
               record.action.modalRef.current.show('EDIT', record.action.item);
             }}
-            className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
+            className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
           >
             <EditOutlined />
           </Button>
@@ -148,7 +144,7 @@ const columns = [
         <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
           <ConfirmPopup
             content={
-              <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
+              <Button className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
                 <DeleteOutlined />
               </Button>
             }
@@ -192,7 +188,11 @@ const ListLesson = () => {
     data: response,
     error: lessonError,
     isLoading: lessonLoading,
-  } = useGetAllLessonQuery(subjectId);
+  } = useGetAllLessonQuery(subjectId, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: true,
+  }
+  );
 
   const semesterStartTime = response?.tree[0].start_time;
   const semesterEndTime = response?.tree[0].end_time;
@@ -216,6 +216,7 @@ const ListLesson = () => {
         subjects_code: item.subjects_code?.toUpperCase(),
         subjects_name: item.subject_name,
         chitiet: item.content,
+        attended: item.attended,
         action: { modalRef, item, handleRemoveLesson },
       };
     });

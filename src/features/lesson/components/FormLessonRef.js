@@ -8,6 +8,7 @@ import {
   useUpdateLessonMutation,
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
+import QuillEditor from '../../../components/QuillEditor';
 const MODE = {
   ADD: 'ADD',
   EDIT: 'EDIT',
@@ -15,7 +16,6 @@ const MODE = {
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-const { TextArea } = Input;
 
 const FormLessonRef = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -326,11 +326,28 @@ const FormLessonRef = (props, ref) => {
               {
                 required: true,
                 message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
+
               },
+
+              {
+                validator: (_, value) => {
+                  if (value?.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
+                    return Promise.reject('Nội dung tóm tắt không được để trống');
+                  }
+                  return Promise.resolve();
+                }
+              }
             ]} >
-            <TextArea
-              rows={6}
+            <QuillEditor setFieldsValue={
+              (value) => {
+                formLesson.setFieldsValue({
+                  content: value
+                })
+              }
+
+            }
               placeholder="Nhập nội dung tóm tắt của buổi học"
+              initialValue={formLesson.getFieldValue('content')}
             />
           </Form.Item>
         </Form>
