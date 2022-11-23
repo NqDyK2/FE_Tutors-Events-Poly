@@ -130,7 +130,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //     <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     //   ),
 
-    isAdmin &&
+    acceptManager &&
     getItem(
       <div
         className={`${collapsed
