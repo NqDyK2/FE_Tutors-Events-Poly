@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Modal, Tooltip, Form, Input, Radio, Button, List } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { toast } from 'react-toastify';
@@ -10,9 +10,13 @@ import {
 } from '../../../../app/api/studentApiSlice';
 import { timeFormat } from '../../../../utils/TimeFormat';
 import Spinner from '../../../../components/Spinner';
+import ContentLessonModal from '../../../lesson/components/ContentLessonModal';
+import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
+import { useDispatch } from 'react-redux';
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch()
   const [joinClass, { isLoading: joinClassPending }] = useJoinClassMutation();
   const { data: listClassMisses, isLoading: listclassPending } =
     useGetAllMissingClassQuery();
@@ -99,13 +103,8 @@ const TimeTable = () => {
       dataIndex: 'chitiet',
       key: 'chitiet',
       render: (_, record) => (
-        <Tooltip
-          title={record.chitiet}
-          placement="topLeft"
-          color="#FF6D28" trigger={'click'}
-        >
-          <span className="tw-cursor-pointer tw-text-blue-500">Nội dung</span>
-        </Tooltip>
+        <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
+
       ),
     },
     {
@@ -156,6 +155,16 @@ const TimeTable = () => {
       .catch((err) => toast.error('Có lỗi xả ra.'));
   };
 
+  useEffect(() => {
+    dispatch(setFlexBreadcrumb(
+      [
+        {
+          title: 'Lịch học',
+        },
+      ]
+    ))
+  })
+
   if (listclassPending || listSchedulePending) {
     return (
       <div className="tw-mt-[110px] tw-flex tw-justify-center">
@@ -169,6 +178,8 @@ const TimeTable = () => {
       </div>
     );
   }
+
+
 
   return (
     <div>

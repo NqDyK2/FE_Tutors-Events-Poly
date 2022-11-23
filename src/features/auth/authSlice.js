@@ -33,10 +33,13 @@ const authSlice = createSlice({
       }
     },
     logOut: () => initialState,
+    redirect: () => {
+      window.location.href = '/';
+    },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, logOut, redirect } = authSlice.actions;
 
 export default authSlice.reducer;
 

@@ -1,4 +1,16 @@
 /* ANTD DATE PICKER */
-.ant-picker-header  button {
-  @apply hover:!tw-bg-transparent
+.ant-picker-header button {
+  @apply hover:!tw-bg-transparent;
+}
+
+/* SWITCH BG COLOR */
+.ant-switch-checked {
+  @apply !tw-bg-green-500;
+}
+.ant-switch-checked:hover {
+  @apply !tw-bg-green-500;
+}
+
+.ant-switch:not(.ant-switch-checked) {
+  @apply !tw-bg-gray-300;
 }
