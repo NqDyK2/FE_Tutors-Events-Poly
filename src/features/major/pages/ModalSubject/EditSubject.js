@@ -46,7 +46,7 @@ const ModalEditSubject = (props) => {
         setErrors(error.data);
       });
   };
-  const onFinishFailed = (errorInfo) => {};
+  const onFinishFailed = (errorInfo) => { };
   return (
     <div>
       <Tooltip title="Sửa môn học" color="#FF6D28">
