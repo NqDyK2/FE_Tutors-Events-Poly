@@ -123,7 +123,7 @@ const columns = [
     key: 'chitiet',
     width: '8%',
     render: (_, record) => (
-      <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
+      <ContentLessonModal content={record.chitiet ? record.chitiet : ''} />
     ),
   },
   {
@@ -138,10 +138,14 @@ const columns = [
           <div className="tw-flex">
             <Tooltip title="Sửa buổi học" color="#FF6D28">
               <Button
+                type="link"
                 onClick={() => {
-                  record.action.modalRef.current.show('EDIT', record.action.item);
+                  record.action.modalRef.current.show(
+                    'EDIT',
+                    record.action.item,
+                  );
                 }}
-                className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
+                className="tw-border-none tw-bg-transparent tw-p-2 tw-text-gray-700 tw-shadow-none hover:tw-bg-transparent hover:tw-text-blue-500 dark:tw-text-white dark:hover:tw-text-hoverLink"
               >
                 <EditOutlined />
               </Button>
@@ -149,7 +153,10 @@ const columns = [
             <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
               <ConfirmPopup
                 content={
-                  <Button className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
+                  <Button
+                    type="link"
+                    className="tw-border-none tw-bg-transparent tw-p-2 tw-text-gray-700 tw-shadow-none hover:tw-bg-transparent hover:tw-text-blue-500 dark:tw-text-white dark:hover:tw-text-hoverLink"
+                  >
                     <DeleteOutlined />
                   </Button>
                 }
@@ -162,7 +169,6 @@ const columns = [
             </Tooltip>
           </div>
         )}
-
       </>
     ),
   },
@@ -199,8 +205,7 @@ const ListLesson = () => {
   } = useGetAllLessonQuery(subjectId, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: true,
-  }
-  );
+  });
 
   const semesterStartTime = response?.tree[0].start_time;
   const semesterEndTime = response?.tree[0].end_time;

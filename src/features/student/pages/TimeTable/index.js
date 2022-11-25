@@ -16,8 +16,9 @@ import { useDispatch } from 'react-redux';
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [joinClass, { isLoading: joinClassPending }] = useJoinClassMutation();
+  const [joinClassLoading, setJoinClassLoading] = useState(null);
   const { data: listClassMisses, isLoading: listclassPending } =
     useGetAllMissingClassQuery();
   const { data: listSchedule, isLoading: listSchedulePending } =
@@ -33,8 +34,8 @@ const TimeTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values) => { };
-  const onFinishFailed = (errorInfo) => { };
+  const onFinish = (values) => {};
+  const onFinishFailed = (errorInfo) => {};
 
   // table antd
   const columns = [
@@ -103,8 +104,7 @@ const TimeTable = () => {
       dataIndex: 'chitiet',
       key: 'chitiet',
       render: (_, record) => (
-        <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
-
+        <ContentLessonModal content={record.chitiet ? record.chitiet : ''} />
       ),
     },
     {
@@ -136,8 +136,9 @@ const TimeTable = () => {
     stt: index + 1,
     ngay: timeFormat(item.start_time.split(' ')[0]),
     hinhthuc: item.type ? 'Offline' : 'Online',
-    thoigian: `${item.start_time?.split(' ')[1]} - ${item.end_time?.split(' ')[1]
-      }`,
+    thoigian: `${item.start_time?.split(' ')[1]} - ${
+      item.end_time?.split(' ')[1]
+    }`,
     phonghoc: item.class_location,
     tutor_email: item.tutor_email?.split('@')[0],
     teacher_email: item.teacher_email.split('@')[0],
@@ -147,23 +148,28 @@ const TimeTable = () => {
   }));
 
   const handleJoinClass = (id) => {
+    setJoinClassLoading(id);
     joinClass(id)
       .unwrap()
       .then((res) => {
+        setJoinClassLoading(null);
         toast.success(res.message);
       })
-      .catch((err) => toast.error('Có lỗi xả ra.'));
+      .catch((err) => {
+        setJoinClassLoading(null);
+        toast.error('Có lỗi xả ra.');
+      });
   };
 
   useEffect(() => {
-    dispatch(setFlexBreadcrumb(
-      [
+    dispatch(
+      setFlexBreadcrumb([
         {
           title: 'Lịch học',
         },
-      ]
-    ))
-  })
+      ]),
+    );
+  });
 
   if (listclassPending || listSchedulePending) {
     return (
@@ -178,8 +184,6 @@ const TimeTable = () => {
       </div>
     );
   }
-
-
 
   return (
     <div>
@@ -214,9 +218,10 @@ const TimeTable = () => {
                 />
                 <div>
                   <Button
+                    loading={joinClassLoading === item.id}
                     onClick={() => handleJoinClass(item.id)}
                     type="primary"
-                    className="tw-rounded-lg tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"
+                    className="tw-rounded tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"
                   >
                     Tham gia
                   </Button>
