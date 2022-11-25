@@ -1,7 +1,7 @@
-.attendance-table  .ant-table-content {
+.attendance-table .ant-table-content {
   @apply dark:tw-bg-gray-500;
 }
- 
-.attendance-table   .ant-table-cell-row-hover {
+
+.attendance-table .ant-table-cell-row-hover {
   @apply dark:!tw-bg-slate-500;
 }

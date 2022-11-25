@@ -46,13 +46,13 @@ const ModalEditSubject = (props) => {
         setErrors(error.data);
       });
   };
-  const onFinishFailed = (errorInfo) => { };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <div>
       <Tooltip title="Sửa môn học" color="#FF6D28">
-        <div className="tw-cursor-pointer" onClick={showModal}>
+        <button className="hover:tw-bg-transparent" onClick={showModal}>
           <EditOutlined style={{ color: '#1890ff' }} />
-        </div>
+        </button>
       </Tooltip>
       <Modal
         title="Sửa môn học"

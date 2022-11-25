@@ -1,4 +1,8 @@
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  SettingOutlined,
+  CaretRightOutlined,
+} from '@ant-design/icons';
 import { Collapse, Table, Popconfirm, Popover, Tooltip } from 'antd';
 import { Button } from 'antd/lib/radio';
 import React, { useEffect } from 'react';
@@ -51,19 +55,19 @@ const MajorPage = () => {
       dataIndex: 'action',
       key: 'action',
       render: (_, record) => (
-        <div className="tw-float-right tw-mb-1 tw-flex tw-items-center tw-gap-2">
+        <div className="tw-float-right tw-flex tw-items-center">
           <EditSubject data={record} />
           <div>
             <ConfirmPopup
               content={
-                <Button className="tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white">
-                  <Tooltip title="Xóa môn học" color="#FF6D28">
+                <Tooltip title="Xóa môn học" color="#FF6D28">
+                  <Button className="tw-border-none tw-bg-transparent tw-pt-2  hover:tw-bg-transparent dark:tw-text-white">
                     <DeleteOutlined
                       style={{ color: 'red' }}
                       className="tw-my-auto tw-w-full"
                     />
-                  </Tooltip>
-                </Button>
+                  </Button>
+                </Tooltip>
               }
               title="Bạn muốn xóa môn học này?"
               onConfirm={() => removeSubject(record.id)}
@@ -130,24 +134,32 @@ const MajorPage = () => {
         dataSubject?.data?.map((major, index) => {
           return (
             <Collapse
+              expandIcon={({ isActive }) => (
+                <CaretRightOutlined
+                  className="dark:tw-text-white"
+                  rotate={isActive ? 90 : 0}
+                />
+              )}
               key={index}
-              className="tw-ml-4 tw-rounded-md tw-border-transparent tw-pl-3 tw-text-sm dark:tw-bg-[#202125]"
+              className="list_major tw-ml-4 tw-border-transparent !tw-p-0 tw-pl-3 tw-text-sm dark:tw-bg-[#202125]"
             >
               <Panel
-                className="tw-text-lg"
+                className="tw-text-lg "
                 header={
                   <Tooltip
-                    title="Ấn để  xem môn học trong danh sách hỗ trợ"
+                    title="Ấn để xem môn học trong danh sách hỗ trợ"
                     color="#FF6D28"
                   >
-                    <span className="dark:tw-text-white !tw-mt-1 block"> {major.name} </span>
+                    <span className="block !tw-mt-1 dark:tw-text-white">
+                      {major.name}
+                    </span>
                   </Tooltip>
                 }
                 extra={
                   <Popover
                     placement="left"
                     trigger="click"
-                    className="dark:tw-bg-[#202125] dark:tw-text-white dark:hover:tw-text-blue-400"
+                    className="tw-bg-white tw-p-0 dark:tw-bg-[#202125] dark:tw-text-white dark:hover:tw-text-blue-400"
                     content={
                       <div>
                         <EditMajor data={{ id: major.id, name: major.name }} />
@@ -178,7 +190,7 @@ const MajorPage = () => {
                   data={{ name: major.name, id: major.id }}
                 />
                 <Table
-                  className="tw-mt-4"
+                  className="tw-mt-2 tw-border-[1px] tw-border-[#f0f0f0] dark:tw-border-white"
                   columns={columns}
                   rowKey="id"
                   dataSource={major.subjects}
