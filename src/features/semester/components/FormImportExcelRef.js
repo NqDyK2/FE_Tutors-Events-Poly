@@ -32,12 +32,12 @@ const FormImportExcelRef = (props, ref) => {
 
   const handleFile = async (e) => {
     setFile(e);
-    setFileLoading(true);
+    // setFileLoading(true);
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
     // const BMUDPM = wb.SheetNames[6];
-    const BMCNTT = wb.SheetNames[7];
+    const BMCNTT = wb.SheetNames.find((sheet) => sheet.includes('BM CNTT' || 'BM Công nghệ thông tin' || 'BMCNTT'));
     // const BMKT = wb.SheetNames[8];
     // const BMDCK = wb.SheetNames[9];
     // const BMTKDH = wb.SheetNames[10];

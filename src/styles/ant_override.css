@@ -14,3 +14,11 @@
 .ant-switch:not(.ant-switch-checked) {
   @apply !tw-bg-gray-300;
 }
+
+.lesson_history .ant-select-selector {
+  background-color: transparent !important;
+}
+
+.list_major .ant-collapse-content {
+  @apply dark:!tw-bg-transparent;
+}

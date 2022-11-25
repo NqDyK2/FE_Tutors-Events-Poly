@@ -18,6 +18,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { useSelector } from 'react-redux';
 import {
+  selectCurrentUser,
   selectIsAdmin,
   selectIsStudent,
   selectIsTeacher,
@@ -38,7 +39,7 @@ function getItem(label, key, icon, children) {
 const AppAside = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
   const isAdmin = useSelector(selectIsAdmin);
-  const isTeacher = useSelector(selectIsTeacher);
+  const isTeacher = useSelector(selectCurrentUser)?.is_teacher
   const isTutor = useSelector(selectIsTutor);
   const isStudent = useSelector(selectIsStudent);
   const acceptManager = isAdmin || isTeacher;
@@ -129,7 +130,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //     <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     //   ),
 
-    isAdmin &&
+    acceptManager &&
     getItem(
       <div
         className={`${collapsed
@@ -138,19 +139,6 @@ const AppAside = ({ collapsed, setCollapsed }) => {
           }`}
       >
         Quản lý lịch học
-      </div>,
-      '/manage',
-      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-    ),
-    acceptAttendance &&
-    getItem(
-      <div
-        className={`${collapsed
-          ? 'tw-text-white'
-          : 'tw-text-[#313752] dark:!tw-text-white'
-          }`}
-      >
-        Kiểm tra lớp học
       </div>,
       '/manage',
       <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,

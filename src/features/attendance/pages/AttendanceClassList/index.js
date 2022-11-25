@@ -47,7 +47,10 @@ const columns = [
 ];
 
 const AttendanceClassList = () => {
-  const { data: listData, isLoading, error } = useGetAttendanceListClassQuery();
+  const { data: listData, isLoading, error } = useGetAttendanceListClassQuery({
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: true,
+  });
   const dataSource = listData?.data.map((item, index) => ({
     key: index + 1,
     id: item.id,

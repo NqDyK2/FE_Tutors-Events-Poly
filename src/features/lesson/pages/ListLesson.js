@@ -18,6 +18,7 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import ContentLessonModal from '../components/ContentLessonModal';
+import ModalEditContent from '../../../components/Modal/ModalEditContent';
 
 const columns = [
   {
@@ -122,7 +123,7 @@ const columns = [
     key: 'chitiet',
     width: '8%',
     render: (_, record) => (
-      <ContentLessonModal content={(record.chitiet ? record.chitiet : '')} />
+      <ContentLessonModal content={record.chitiet ? record.chitiet : ''} />
     ),
   },
   {
@@ -130,32 +131,45 @@ const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (_, record) => (
-      <div className={`${record.attended ? 'tw-hidden' : "tw-flex"}`}>
-        <Tooltip title="Sửa buổi học" color="#FF6D28">
-          <Button
-            onClick={() => {
-              record.action.modalRef.current.show('EDIT', record.action.item);
-            }}
-            className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
-          >
-            <EditOutlined />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
-          <ConfirmPopup
-            content={
-              <Button className="tw-shadow-none tw-border-none tw-bg-transparent tw-p-2 hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
-                <DeleteOutlined />
+      <>
+        {record.attended ? (
+          <ModalEditContent data={record.action.item} />
+        ) : (
+          <div className="tw-flex">
+            <Tooltip title="Sửa buổi học" color="#FF6D28">
+              <Button
+                type="link"
+                onClick={() => {
+                  record.action.modalRef.current.show(
+                    'EDIT',
+                    record.action.item,
+                  );
+                }}
+                className="tw-border-none tw-bg-transparent tw-p-2 tw-text-gray-700 tw-shadow-none hover:tw-bg-transparent hover:tw-text-blue-500 dark:tw-text-white dark:hover:tw-text-hoverLink"
+              >
+                <EditOutlined />
               </Button>
-            }
-            title={`Xác nhận xóa buổi học này?`}
-            onConfirm={() => {
-              record.action.handleRemoveLesson(record?.id);
-            }}
-            placement="topRight"
-          />
-        </Tooltip>
-      </div>
+            </Tooltip>
+            <Tooltip title="Xóa buổi học" color="#FF6D28" placement="topLeft">
+              <ConfirmPopup
+                content={
+                  <Button
+                    type="link"
+                    className="tw-border-none tw-bg-transparent tw-p-2 tw-text-gray-700 tw-shadow-none hover:tw-bg-transparent hover:tw-text-blue-500 dark:tw-text-white dark:hover:tw-text-hoverLink"
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                }
+                title={`Xác nhận xóa buổi học này?`}
+                onConfirm={() => {
+                  record.action.handleRemoveLesson(record?.id);
+                }}
+                placement="topRight"
+              />
+            </Tooltip>
+          </div>
+        )}
+      </>
     ),
   },
 ];
@@ -191,8 +205,7 @@ const ListLesson = () => {
   } = useGetAllLessonQuery(subjectId, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: true,
-  }
-  );
+  });
 
   const semesterStartTime = response?.tree[0].start_time;
   const semesterEndTime = response?.tree[0].end_time;
