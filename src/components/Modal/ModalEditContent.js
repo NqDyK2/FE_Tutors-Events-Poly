@@ -51,8 +51,9 @@ const ModalEditContent = ({ data }) => {
     <div>
       <Tooltip title="Sửa nội dung buổi học" color="#FF6D28">
         <Button
+          type="link"
           onClick={showModal}
-          className="tw-border-none tw-bg-transparent tw-px-2 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
+          className="tw-border-none tw-bg-transparent tw-px-2 tw-text-gray-700 tw-shadow-none hover:tw-bg-transparent hover:tw-text-blue-500 dark:tw-text-white dark:hover:tw-text-hoverLink"
         >
           <EditOutlined />
         </Button>
