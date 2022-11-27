@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Input, Table, Tooltip } from 'antd';
+import { Input, Table, Tag, Tooltip } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -20,9 +20,17 @@ const columns = [
   },
   {
     title: 'Họ tên',
-    dataIndex: 'studentName',
     key: 'studentName',
     width: '15%',
+    render: (_, record) => (
+      <>
+        {record.is_warning === 0 ? (
+          <Tag color="success">{record.studentName}</Tag>
+        ) : (
+          <Tag color="error">{record.studentName}</Tag>
+        )}
+      </>
+    ),
   },
   {
     title: 'Mã sinh viên',
@@ -47,7 +55,13 @@ const columns = [
     dataIndex: 'reason',
     key: 'reason',
     width: '20%',
-    render: (_, record) => <Input className='tw-truncate tw-text-[#292524]' value={`${record.reason}`} disabled />
+    render: (_, record) => (
+      <Input
+        className="tw-truncate tw-text-[#292524]"
+        value={`${record.reason}`}
+        disabled
+      />
+    ),
   },
 ];
 
