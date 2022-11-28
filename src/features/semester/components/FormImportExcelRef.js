@@ -1,5 +1,5 @@
-import { Button, Form, Input, Modal, Spin } from 'antd';
-import React, { useImperativeHandle } from 'react';
+import { Button, Form, Input, Modal, Select, Spin } from 'antd';
+import React, { useEffect, useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
 import { toast } from 'react-toastify';
 import XLSX from 'xlsx';
@@ -9,11 +9,11 @@ import { CloseCircleFilled } from '@ant-design/icons';
 
 const FormImportExcelRef = (props, ref) => {
   const [students, setStudents] = React.useState([]);
+  const [sheets, setSheets] = React.useState([]);
+  const [selectedSheet, setSelectedSheet] = React.useState([]);
   const { id: semesterId } = useParams();
-  const [
-    importStudentsSemester,
-    { isLoading: isImporting },
-  ] = useImportStudentsSemesterMutation();
+  const [importStudentsSemester, { isLoading: isImporting }] =
+    useImportStudentsSemesterMutation();
   const [file, setFile] = React.useState(null);
   const [fileLoading, setFileLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -36,8 +36,11 @@ const FormImportExcelRef = (props, ref) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
+    setSheets(wb.SheetNames);
     // const BMUDPM = wb.SheetNames[6];
-    const BMCNTT = wb.SheetNames.find((sheet) => sheet.includes('BM CNTT' || 'BM Công nghệ thông tin' || 'BMCNTT'));
+    // const BMCNTT = wb.SheetNames.find((sheet) =>
+    //   sheet.includes('BM CNTT' || 'BM Công nghệ thông tin' || 'BMCNTT'),
+    // );
     // const BMKT = wb.SheetNames[8];
     // const BMDCK = wb.SheetNames[9];
     // const BMTKDH = wb.SheetNames[10];
@@ -45,9 +48,8 @@ const FormImportExcelRef = (props, ref) => {
     // const BMDLNHKS = wb.SheetNames[12];
     // const BMCB = wb.SheetNames[13];
 
-    const allSheet = [BMCNTT];
-
-    const rowData = allSheet.map((sheet) => {
+    // const allSheet = [BMCNTT];
+    const rowData = selectedSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
     });
@@ -72,8 +74,18 @@ const FormImportExcelRef = (props, ref) => {
     setFileLoading(false);
   };
 
+  useEffect(() => {
+    if (file) {
+      handleFile(file);
+    }
+  }, [selectedSheet, file]);
+
   const clearForm = () => {
+    setVisible(false);
+    setError(null);
     form.resetFields();
+    setSheets([]);
+    selectedSheet([]);
     setFile(null);
     setStudents([]);
   };
@@ -104,8 +116,7 @@ const FormImportExcelRef = (props, ref) => {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-        setVisible(false);
-        form.resetFields();
+        clearForm();
       });
   };
 
@@ -121,6 +132,10 @@ const FormImportExcelRef = (props, ref) => {
         setVisible(false);
         setError(null);
         form.resetFields();
+        setSheets([]);
+        selectedSheet([]);
+        setFile(null);
+        setStudents([]);
       }}
       okText="Lưu"
       confirmLoading={isImporting}
@@ -178,15 +193,32 @@ const FormImportExcelRef = (props, ref) => {
                 className=" tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none"
               />
             </Form.Item>
-            {file && !fileLoading && (
-              <Button
-                type="text"
-                icon={<CloseCircleFilled />}
-                className="tw-absolute tw-top-[30px] tw-right-0 tw-mt-1 tw-rounded-full tw-border-none  tw-text-slate-500 tw-outline-none hover:tw-bg-transparent hover:tw-text-slate-600 "
-                onClick={clearForm}
-              ></Button>
-            )}
           </div>
+
+          {sheets.length > 0 && (
+            <Form.Item
+              name="sheet"
+              label="Chọn sheet"
+              rules={[{ required: true, message: 'Không được trống' }]}
+            >
+              <Select
+                placeholder="Chọn sheet"
+                mode="multiple"
+                className="tw-rounded-xl tw-border-none tw-bg-sky-100 hover:tw-bg-sky-200"
+                onSelect={(value) => {
+                  setSelectedSheet(
+                    selectedSheet.concat(
+                      sheets.filter((item) => item === value),
+                    ),
+                  );
+                }}
+              >
+                {sheets.map((sheet) => (
+                  <Select.Option value={sheet}>{sheet}</Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          )}
         </Form>
 
         <div>
