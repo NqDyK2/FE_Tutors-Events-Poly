@@ -29,13 +29,10 @@ const SubjectPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetAllClassInSemesterQuery(
-    id,
-    // {
-    //   skip: !id,
-    //   pollingInterval: 2000,
-    // }
-  );
+  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id, {
+    skip: !id,
+    pollingInterval: 2000,
+  });
   const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
   const modalImportExcelRef = useRef();
