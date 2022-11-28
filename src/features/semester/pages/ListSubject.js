@@ -29,11 +29,12 @@ const SubjectPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id,
-    {
-      skip: !id,
-      pollingInterval: 2000,
-    }
+  const { data, error, isLoading } = useGetAllClassInSemesterQuery(
+    id,
+    // {
+    //   skip: !id,
+    //   pollingInterval: 2000,
+    // }
   );
   const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
@@ -47,20 +48,30 @@ const SubjectPage = () => {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-      }).catch((err) => toast.error(err.data.message));
+      })
+      .catch((err) => toast.error(err.data.message));
   };
 
   const exportTableExcel = () => {
     const table = document.getElementsByTagName('table')[0];
-    exportExcel(table, 'Danh sách lớp học', `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
-  }
+    exportExcel(
+      table,
+      'Danh sách lớp học',
+      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+        'DD-MM-YYYY',
+      )}`.trim(),
+    );
+  };
 
   const exportTalePdf = () => {
     const table = document.getElementsByTagName('table')[0];
-    exportPdf(table, `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
-  }
-
-
+    exportPdf(
+      table,
+      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+        'DD-MM-YYYY',
+      )}`.trim(),
+    );
+  };
 
   useEffect(() => {
     if (!data?.tree) return;
@@ -273,20 +284,15 @@ const SubjectPage = () => {
               >
                 Cập nhật danh sách sinh viên
               </Button>
-              {
-                data?.data?.length > 0 && (
-                  <ExportDropDown
-                    tableEl={
-                      document.getElementsByTagName('table')[0]
-                    }
-                    data={data}
-                    fileName="Danh sách lớp học"
-                    sheetName='Danh sách lớp học'
-                    elRef={componentRef}
-                  />
-                )
-              }
-
+              {data?.data?.length > 0 && (
+                <ExportDropDown
+                  tableEl={document.getElementsByTagName('table')[0]}
+                  data={data}
+                  fileName="Danh sách lớp học"
+                  sheetName="Danh sách lớp học"
+                  elRef={componentRef}
+                />
+              )}
             </>
           )}
           <button
