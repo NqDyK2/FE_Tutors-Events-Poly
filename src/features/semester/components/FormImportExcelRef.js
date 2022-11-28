@@ -78,7 +78,7 @@ const FormImportExcelRef = (props, ref) => {
     if (file) {
       handleFile(file);
     }
-  }, [selectedSheet]);
+  }, [selectedSheet, file]);
 
   const clearForm = () => {
     setVisible(false);
