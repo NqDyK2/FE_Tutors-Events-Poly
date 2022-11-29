@@ -29,26 +29,16 @@ const FormImportExcelRef = (props, ref) => {
       setVisible(false);
     },
   }));
-
   const handleFile = async (e) => {
-    setFile(e);
-    // setFileLoading(true);
+    setStudents([]);
     const file = e.target.files[0];
+    setFile(file);
+  };
+
+  const handleData = async (file) => {
     const data = await file.arrayBuffer();
     const wb = XLSX.read(data, { type: 'array' });
     setSheets(wb.SheetNames);
-    // const BMUDPM = wb.SheetNames[6];
-    // const BMCNTT = wb.SheetNames.find((sheet) =>
-    //   sheet.includes('BM CNTT' || 'BM Công nghệ thông tin' || 'BMCNTT'),
-    // );
-    // const BMKT = wb.SheetNames[8];
-    // const BMDCK = wb.SheetNames[9];
-    // const BMTKDH = wb.SheetNames[10];
-    // const BMTMDT = wb.SheetNames[11];
-    // const BMDLNHKS = wb.SheetNames[12];
-    // const BMCB = wb.SheetNames[13];
-
-    // const allSheet = [BMCNTT];
     const rowData = selectedSheet.map((sheet) => {
       const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
       return json;
@@ -76,16 +66,17 @@ const FormImportExcelRef = (props, ref) => {
 
   useEffect(() => {
     if (file) {
-      handleFile(file);
+      setFileLoading(true);
+      handleData(file);
     }
-  }, [selectedSheet, file]);
+  }, [file, selectedSheet]);
 
   const clearForm = () => {
     setVisible(false);
     setError(null);
     form.resetFields();
     setSheets([]);
-    selectedSheet([]);
+    setSelectedSheet([]);
     setFile(null);
     setStudents([]);
   };
@@ -129,13 +120,14 @@ const FormImportExcelRef = (props, ref) => {
         form.submit();
       }}
       onCancel={() => {
-        setVisible(false);
-        setError(null);
-        form.resetFields();
-        setSheets([]);
-        selectedSheet([]);
-        setFile(null);
-        setStudents([]);
+        // setVisible(false);
+        // setError(null);
+        // form.resetFields();
+        // setSheets([]);
+        // selectedSheet([]);
+        // setFile(null);
+        // setStudents([]);
+        clearForm();
       }}
       okText="Lưu"
       confirmLoading={isImporting}
@@ -189,6 +181,7 @@ const FormImportExcelRef = (props, ref) => {
               <Input
                 type="file"
                 onChange={handleFile}
+                disabled={fileLoading || isImporting}
                 accept=".xlsx, .xls, .csv"
                 className=" tw-cursor-pointer tw-outline-none file:tw-cursor-pointer file:tw-rounded-xl file:tw-border-none file:tw-bg-pink-500 file:tw-px-2 file:tw-py-1 file:tw-text-white hover:file:tw-bg-pink-600 active:tw-border-none"
               />
@@ -203,7 +196,13 @@ const FormImportExcelRef = (props, ref) => {
             >
               <Select
                 placeholder="Chọn sheet"
+                disabled={fileLoading || isImporting}
                 mode="multiple"
+                onDeselect={(value) => {
+                  setSelectedSheet(
+                    selectedSheet.filter((item) => item !== value),
+                  );
+                }}
                 className="tw-rounded-xl tw-border-none tw-bg-sky-100 hover:tw-bg-sky-200"
                 onSelect={(value) => {
                   setSelectedSheet(
