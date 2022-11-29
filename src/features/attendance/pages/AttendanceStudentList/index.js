@@ -1,4 +1,4 @@
-import { Button, Input, Switch, Table } from 'antd';
+import { Button, Input, Switch, Table, Tag } from 'antd';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -20,16 +20,18 @@ const AttendanceStudentList = () => {
   const [studentsStatus, setStudentsStatus] = React.useState([]);
   const currentTime = moment().format('YYYY-MM-DD HH:mm');
 
-  const { data, isLoading, error } =
-    useGetAttendanceLessonListStudentQuery(lessonId, {
+  const { data, isLoading, error } = useGetAttendanceLessonListStudentQuery(
+    lessonId,
+    {
       refetchOnFocus: false,
       refetchOnMountOrArgChange: true,
-    });
+    },
+  );
 
   const [inviteStudenttoClass] = useInViteClassMutation();
   const isDisabledAttendance =
     currentTime > moment(data?.lesson?.end_time).format('YYYY-MM-DD HH:mm') &&
-    (data?.lesson?.attended === 1 || data?.lesson?.attended === 0)
+    (data?.lesson?.attended === 1 || data?.lesson?.attended === 0);
   const [
     updateStatusAtendance,
     {
@@ -42,15 +44,16 @@ const AttendanceStudentList = () => {
   const handleInviteStudent = ({ student_email }) => {
     inviteStudenttoClass({
       student_email,
-      lesson_id: lessonId
-    }).unwrap()
+      lesson_id: lessonId,
+    })
+      .unwrap()
       .then((res) => {
         toast.success(res.message);
       })
       .catch((err) => {
-        toast.error(err.data?.message || "Có lỗi xảy ra.");
-      })
-  }
+        toast.error(err.data?.message || 'Có lỗi xảy ra.');
+      });
+  };
 
   const columns = [
     {
@@ -60,8 +63,16 @@ const AttendanceStudentList = () => {
     },
     {
       title: 'Sinh viên',
-      dataIndex: 'studentName',
       key: 'studentName',
+      render: (_, record) => (
+        <>
+          {record.is_warning === 0 ? (
+            <Tag color="success">{record.studentName}</Tag>
+          ) : (
+            <Tag color="error">{record.studentName}</Tag>
+          )}
+        </>
+      ),
     },
     {
       title: 'Mã sinh viên',
@@ -77,11 +88,10 @@ const AttendanceStudentList = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      render: (status, record) =>
-      (
+      render: (status, record) => (
         <Switch
           key={record.student_code}
-          className="tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[100px] attendance-switch"
+          className="attendance-switch tw-max-w-md tw-px-1 sm:tw-min-w-[50px] md:tw-min-w-[100px]"
           checkedChildren="Có mặt"
           unCheckedChildren="Vắng mặt"
           defaultChecked={status === 1 ? true : false}
@@ -102,7 +112,7 @@ const AttendanceStudentList = () => {
     //       // <Button
     //       //   disabled={record.isInvited}
     //       //   onClick={() => handleInviteStudent({ student_email: record.studentEmail, id: record.id })}
-    //       //   className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white 
+    //       //   className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white
     //       //               ${record.isInvited ? 'tw-bg-gray-700 hover:tw-bg-gray-700' : ''}
     //       //             dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
     //       // >
@@ -125,7 +135,8 @@ const AttendanceStudentList = () => {
       note: item.note,
       status: item.status,
       join: item.is_joined,
-      isInvited: false
+      isInvited: false,
+      is_warning: item?.is_warning,
     };
   });
 
@@ -227,7 +238,7 @@ const AttendanceStudentList = () => {
                     type="primary"
                     loading={isUpdateLoading}
                     disabled={data?.data?.length === 0}
-                    className='tw-mt-[15px] tw-h-[40px] tw-w-full tw-text-white tw-border-transparent tw-rounded-[5px] tw-bg-[#0DB27F]'
+                    className="tw-mt-[15px] tw-h-[40px] tw-w-full tw-rounded-[5px] tw-border-transparent tw-bg-[#0DB27F] tw-text-white"
                     onClick={() => handleUpdateStatus(studentsStatus, lessonId)}
                   >
                     Lưu điểm danh
