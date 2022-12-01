@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   EditOutlined,
+  SendOutlined,
   PlusCircleOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
@@ -24,19 +25,19 @@ import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbS
 import { exportExcel, exportPdf } from '../../../utils/exportFile';
 import moment from 'moment';
 import ExportDropDown from '../../../components/ExportDropDown';
+import { useSendMailStudentsMutation } from '../../../app/api/studentApiSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id,
-    {
-      skip: !id,
-      pollingInterval: 2000,
-    }
-  );
+  const { data, error, isLoading } = useGetAllClassInSemesterQuery(id, {
+    skip: !id,
+    pollingInterval: 2000,
+  });
   const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
+  const [sendMailStudents] = useSendMailStudentsMutation();
   const modalImportExcelRef = useRef();
   const params = useParams();
   const modalClassroomRef = useRef();
@@ -47,20 +48,39 @@ const SubjectPage = () => {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-      }).catch((err) => toast.error(err.data.message));
+      })
+      .catch((err) => toast.error(err.data.message));
+  };
+
+  const handleSendMailStudents = () => {
+    sendMailStudents({ semester_id: id })
+      .unwrap()
+      .then((res) => {
+        toast.success(res.message);
+      })
+      .catch((err) => toast.error(err.data.message));
   };
 
   const exportTableExcel = () => {
     const table = document.getElementsByTagName('table')[0];
-    exportExcel(table, 'Danh sách lớp học', `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
-  }
+    exportExcel(
+      table,
+      'Danh sách lớp học',
+      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+        'DD-MM-YYYY',
+      )}`.trim(),
+    );
+  };
 
   const exportTalePdf = () => {
     const table = document.getElementsByTagName('table')[0];
-    exportPdf(table, `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format('DD-MM-YYYY')}`.trim());
-  }
-
-
+    exportPdf(
+      table,
+      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+        'DD-MM-YYYY',
+      )}`.trim(),
+    );
+  };
 
   useEffect(() => {
     if (!data?.tree) return;
@@ -273,20 +293,30 @@ const SubjectPage = () => {
               >
                 Cập nhật danh sách sinh viên
               </Button>
-              {
-                data?.data?.length > 0 && (
-                  <ExportDropDown
-                    tableEl={
-                      document.getElementsByTagName('table')[0]
-                    }
-                    data={data}
-                    fileName="Danh sách lớp học"
-                    sheetName='Danh sách lớp học'
-                    elRef={componentRef}
-                  />
-                )
-              }
-
+              <ConfirmPopup
+                className="tw-m-0"
+                content={
+                  <Button
+                    icon={<SendOutlined />}
+                    className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
+                    type="text"
+                  >
+                    Gửi mail mời sinh viên
+                  </Button>
+                }
+                title={`Gửi mail tới những sinh viên Warning? Tiếp tục?`}
+                onConfirm={() => handleSendMailStudents()}
+                placement="topRight"
+              />
+              {data?.data?.length > 0 && (
+                <ExportDropDown
+                  tableEl={document.getElementsByTagName('table')[0]}
+                  data={data}
+                  fileName="Danh sách lớp học"
+                  sheetName="Danh sách lớp học"
+                  elRef={componentRef}
+                />
+              )}
             </>
           )}
           <button
