@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   EditOutlined,
+  SendOutlined,
   PlusCircleOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
@@ -24,6 +25,7 @@ import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbS
 import { exportExcel, exportPdf } from '../../../utils/exportFile';
 import moment from 'moment';
 import ExportDropDown from '../../../components/ExportDropDown';
+import { useSendMailStudentsMutation } from '../../../app/api/studentApiSlice';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -35,6 +37,7 @@ const SubjectPage = () => {
   });
   const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
+  const [sendMailStudents] = useSendMailStudentsMutation();
   const modalImportExcelRef = useRef();
   const params = useParams();
   const modalClassroomRef = useRef();
@@ -42,6 +45,15 @@ const SubjectPage = () => {
   const currentUser = useSelector(selectCurrentUser);
   const handleRemoveClassroom = (id) => {
     removeClassroom(id)
+      .unwrap()
+      .then((res) => {
+        toast.success(res.message);
+      })
+      .catch((err) => toast.error(err.data.message));
+  };
+
+  const handleSendMailStudents = () => {
+    sendMailStudents({ semester_id: id })
       .unwrap()
       .then((res) => {
         toast.success(res.message);
@@ -281,6 +293,21 @@ const SubjectPage = () => {
               >
                 Cập nhật danh sách sinh viên
               </Button>
+              <ConfirmPopup
+                className="tw-m-0"
+                content={
+                  <Button
+                    icon={<SendOutlined />}
+                    className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
+                    type="text"
+                  >
+                    Gửi mail mời sinh viên
+                  </Button>
+                }
+                title={`Gửi mail tới những sinh viên Warning? Tiếp tục?`}
+                onConfirm={() => handleSendMailStudents()}
+                placement="topRight"
+              />
               {data?.data?.length > 0 && (
                 <ExportDropDown
                   tableEl={document.getElementsByTagName('table')[0]}
