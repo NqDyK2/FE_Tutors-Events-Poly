@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { Input, Table, Tag, Tooltip } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 import Spinner from '../../../components/Spinner';
 import { Helmet } from 'react-helmet-async';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
+import UpdateStudentModal from '../components/UpdateStudentModal';
 
 const columns = [
   {
@@ -63,6 +64,16 @@ const columns = [
       />
     ),
   },
+  {
+    dataIndex: 'action',
+    key: 'action',
+    width: '5%',
+    render: (_, record) => (
+      <div className="tw-float-right tw-flex tw-items-center">
+        <UpdateStudentModal data={record} />
+      </div>
+    ),
+  },
 ];
 
 const ListStudent = () => {
@@ -95,13 +106,16 @@ const ListStudent = () => {
   let list = listStudent?.data.map((item, index) => ({
     key: index,
     index,
+    id,
     phone: item.phone_number,
     studentCode: item.code,
     studentMail: item.email,
     studentName: item.name,
     join: item.is_joined,
     reason: item.reason,
+    is_warning: item.is_warning,
   }));
+
   return (
     <>
       <Helmet>
