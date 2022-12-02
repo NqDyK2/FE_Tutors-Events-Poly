@@ -203,7 +203,7 @@ const TimeTable = () => {
         />
       ) : (
         <div>
-          <h2 className="tw-mb-4 tw-text-center tw-text-lg">
+          <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
             Bạn có {dataClass?.length} môn học cần tham gia tutor.
           </h2>
           <List
@@ -211,9 +211,15 @@ const TimeTable = () => {
             renderItem={(item, index) => (
               <List.Item key={item.key}>
                 <List.Item.Meta
-                  title={<p className="tw-mb-0">{item.subject_code}</p>}
+                  title={
+                    <p className="tw-mb-0 dark:tw-text-white">
+                      {item.subject_code}
+                    </p>
+                  }
                   description={
-                    <p className="tw-text-[#555]">{item.subject_name}</p>
+                    <p className="tw-text-[#555] dark:tw-text-gray-300">
+                      {item.subject_name}
+                    </p>
                   }
                 />
                 <div>

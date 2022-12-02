@@ -130,7 +130,7 @@ const FormLessonRef = (props, ref) => {
 
   return (
     <Modal
-      className="tw-w-full -tw-mt-[70px] md:tw-w-3/5"
+      className="-tw-mt-[70px] tw-w-full md:tw-w-3/5"
       forceRender
       title={title}
       open={visible}
@@ -193,7 +193,7 @@ const FormLessonRef = (props, ref) => {
                 defaultPickerValue={
                   moment(semesterStartTime) >= moment()
                     ? moment(semesterStartTime)
-                    : moment()
+                    : moment().add(1, 'day')
                 }
                 placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                 showTime
@@ -229,7 +229,7 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
           </div>
           <div className="tw-flex tw-items-center tw-justify-between">
-            <div className='tw-w-[48%] tw-flex tw-items-center tw-justify-between'>
+            <div className="tw-flex tw-w-[48%] tw-items-center tw-justify-between">
               <Form.Item
                 className="tw-w-[24%]"
                 placeholder="Chọn hình thức học"
@@ -258,9 +258,9 @@ const FormLessonRef = (props, ref) => {
                       message: 'Vui lòng nhập link học',
                     },
                     {
-                      type: "url",
-                      message: "Link học online chưa đúng định dạng."
-                    }
+                      type: 'url',
+                      message: 'Link học online chưa đúng định dạng.',
+                    },
                     // {
                     //   pattern:
                     //     // google meet regex pattern
@@ -315,9 +315,7 @@ const FormLessonRef = (props, ref) => {
             </Form.Item>
           </div>
 
-          <div className="tw-flex tw-items-center tw-justify-between">
-          </div>
-
+          <div className="tw-flex tw-items-center tw-justify-between"></div>
 
           <Form.Item
             name="content"
@@ -326,26 +324,26 @@ const FormLessonRef = (props, ref) => {
               {
                 required: true,
                 message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
-
               },
 
               {
                 validator: (_, value) => {
                   if (value?.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
-                    return Promise.reject('Nội dung tóm tắt không được để trống');
+                    return Promise.reject(
+                      'Nội dung tóm tắt không được để trống',
+                    );
                   }
                   return Promise.resolve();
-                }
-              }
-            ]} >
-            <QuillEditor setFieldsValue={
-              (value) => {
+                },
+              },
+            ]}
+          >
+            <QuillEditor
+              setFieldsValue={(value) => {
                 formLesson.setFieldsValue({
-                  content: value
-                })
-              }
-
-            }
+                  content: value,
+                });
+              }}
               placeholder="Nhập nội dung tóm tắt của buổi học"
               initialValue={formLesson.getFieldValue('content')}
             />
