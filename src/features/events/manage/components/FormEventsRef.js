@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, DatePicker, Upload } from 'antd'
-import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { forwardRef, useImperativeHandle } from 'react'
+import QuillEditor from '../../../../components/QuillEditor';
 
 const MODE = {
     ADD: 'ADD',
@@ -15,7 +15,6 @@ const FormEventsRef = (props, ref) => {
     const [title, setTitle] = React.useState('');
     const [mode, setMode] = React.useState(MODE.ADD);
     const { RangePicker } = DatePicker;
-    const { TextArea } = Input;
 
     useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
@@ -45,14 +44,23 @@ const FormEventsRef = (props, ref) => {
                 onCancel={() => {
                     setVisible(false);
                 }}
+                className="tw-w-full -tw-mt-[70px] md:tw-w-3/5"
                 okButtonProps={{
                     className:
-                        'tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
+                        ' tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
                 }}
                 cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
             >
                 <Form>
-                    <Form.Item label="Tên sự kiện">
+                    <Form.Item
+                        label="Tên sự kiện"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Không được để trống tên sự kiện",
+                            }
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item
@@ -78,8 +86,37 @@ const FormEventsRef = (props, ref) => {
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item label="Nội dung">
-                        <TextArea rows={4} />
+                    <Form.Item
+                        name="content"
+                        label="Nội dung: "
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập nội dung tóm tắt của buổi học.',
+
+                            },
+
+                            {
+                                validator: (_, value) => {
+                                    if (value?.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
+                                        return Promise.reject('Nội dung tóm tắt không được để trống');
+                                    }
+                                    return Promise.resolve();
+                                }
+                            }
+                        ]} >
+                        <QuillEditor
+                            // setFieldsValue={
+                            //     (value) => {
+                            //         formLesson.setFieldsValue({
+                            //             content: value
+                            //         })
+                            //     }
+
+                            // }
+                            placeholder="Nhập nội dung tóm tắt của buổi học"
+                        // initialValue={formLesson.getFieldValue('content')}
+                        />
                     </Form.Item>
                 </Form>
             </Modal>
