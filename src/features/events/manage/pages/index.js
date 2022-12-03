@@ -26,7 +26,7 @@ const ManageEvent = () => {
             title: "Tên sự kiện",
             dataIndex: "name",
             key: "name",
-            width: '20%',
+            width: '10%',
         },
         {
             title: "Thứ - Ngày/Tháng",
@@ -41,16 +41,25 @@ const ManageEvent = () => {
             width: "10%"
         },
         {
-            title: "Ảnh",
+            title: "Ảnh sự kiện",
             data: "img",
             key: "img",
-            render: (_, record) => (<Image src={record.img} />)
+            render: (_, record) => (<Image preview={false} src={record.img} />)
         },
         {
             title: "Nội dung",
             dataIndex: "content",
             key: "content",
             width: "25%",
+        },
+        {
+            title:"Số người tham gia",
+            dataIndex:"amount",
+            key:"amount",
+            width:"15%",
+            render:(_,record) => record.amount !== 0 ? (<span> {record.amount} </span>) : (<span className="tw-font-semibold tw-text-red-500">
+            Chưa có 
+          </span>)
         },
         {
             title: "",
@@ -101,6 +110,7 @@ const ManageEvent = () => {
             date: "Thứ Bảy - 19/11/2022",
             time: "00:00:00 - 23:59:00",
             img: img1,
+            amount: 10,
             content: 'Meeting văn nghệ ngày Nhà Giáo Việt Nam'
         },
         {
@@ -110,6 +120,7 @@ const ManageEvent = () => {
             date: "Thứ Bảy - 20/11/2022",
             time: "00:00:00 - 23:59:00",
             img: img2,
+            amount: 0,
             content: 'Meeting văn nghệ ngày Nhà Giáo Việt Nam dfsgfgsdrgsdfbvxvbxfgsdgresawefgsfdgsrdfbxfvsdfgdfgb'
         }
     ]
