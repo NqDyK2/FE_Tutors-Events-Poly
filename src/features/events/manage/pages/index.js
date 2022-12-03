@@ -7,10 +7,8 @@ import {
     DeleteOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
-import { useSelector } from 'react-redux';
-import img1 from "../../../../assets/images/B1.jpg";
-import img2 from "../../../../assets/images/B2.jpg";
 import FormEventsRef from '../components/FormEventsRef';
+import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -53,13 +51,13 @@ const ManageEvent = () => {
             width: "25%",
         },
         {
-            title:"Số người tham gia",
-            dataIndex:"amount",
-            key:"amount",
-            width:"15%",
-            render:(_,record) => record.amount !== 0 ? (<span> {record.amount} </span>) : (<span className="tw-font-semibold tw-text-red-500">
-            Chưa có 
-          </span>)
+            title: "Số người tham gia",
+            dataIndex: "amount",
+            key: "amount",
+            width: "15%",
+            render: (_, record) => record.amount !== 0 ? (<span> {record.amount} </span>) : (<span className="tw-font-semibold tw-text-red-500">
+                Chưa có
+            </span>)
         },
         {
             title: "",
@@ -101,29 +99,13 @@ const ManageEvent = () => {
             </div>)
         },
     ]
+    let data = []
+    const { data: res } = useGetAllEventQuery();
+    if (res) {
+        const dataSource = [
 
-    const dataSource = [
-        {
-            stt: 1,
-            key: 1,
-            name: "Sự kiện Chào mừng ngày Nhà Giáo Việt Nam.",
-            date: "Thứ Bảy - 19/11/2022",
-            time: "00:00:00 - 23:59:00",
-            img: img1,
-            amount: 10,
-            content: 'Meeting văn nghệ ngày Nhà Giáo Việt Nam'
-        },
-        {
-            stt: 2,
-            key: 2,
-            name: "Sự kiện Chào mừng ngày Nhà Giáo Việt Nam.",
-            date: "Thứ Bảy - 20/11/2022",
-            time: "00:00:00 - 23:59:00",
-            img: img2,
-            amount: 0,
-            content: 'Meeting văn nghệ ngày Nhà Giáo Việt Nam dfsgfgsdrgsdfbvxvbxfgsdgresawefgsfdgsrdfbxfvsdfgdfgb'
-        }
-    ]
+        ]
+    }
 
     // `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10,-3,)}`,
 
@@ -155,7 +137,7 @@ const ManageEvent = () => {
             <Table
                 columns={columns}
                 scroll={{ y: 350 }}
-                dataSource={dataSource}
+                // dataSource={dataSource}
                 pagination={false}
                 size={'middle'}
             />
