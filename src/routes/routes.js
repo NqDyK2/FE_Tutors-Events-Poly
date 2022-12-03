@@ -26,6 +26,7 @@ import ManageEvent from '../features/events/manage/pages/index.js';
 import CallBack from '../features/auth/components/CallBack.js';
 import StudentLessonHistoryPage from '../features/student/pages/LessonHistory/index.js';
 import TimeTable from '../features/student/pages/TimeTable/index.js';
+import StatsPage from '../features/stats/pages/index.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -55,14 +56,21 @@ const AppRoutes = () => {
           </Route>
           <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />
-            <Route path='/manage/teacher' element={<TeacherPage />} />
+            <Route path="/manage/teacher" element={<TeacherPage />} />
+            <Route path="/thong-ke" element={<StatsPage />} />
           </Route>
 
           <Route element={<AttendanceGuard />}>
-            <Route path='/lich-day' element={<TeachingSchedule />} />
+            <Route path="/lich-day" element={<TeachingSchedule />} />
             <Route path="/diem-danh" element={<AttendanceClassList />} />
-            <Route path="/diem-danh/lop/:classId" element={<AttendanceClassLessons />} />
-            <Route path="/diem-danh/buoi-hoc/:lessonId" element={<AttendanceStudentList />} />
+            <Route
+              path="/diem-danh/lop/:classId"
+              element={<AttendanceClassLessons />}
+            />
+            <Route
+              path="/diem-danh/buoi-hoc/:lessonId"
+              element={<AttendanceStudentList />}
+            />
           </Route>
         </Route>
       </Route>
