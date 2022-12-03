@@ -200,7 +200,7 @@ const FormEventsRef = (props, ref) => {
                             initialValue={form.getFieldValue('content')}
                         />
                     </Form.Item>
-                    {/* <Form.Item
+                    <Form.Item
                         name="img"
                         label="Ảnh sự kiện"
                     // valuePropName="fileList"
@@ -220,7 +220,7 @@ const FormEventsRef = (props, ref) => {
                         >
                             <Button icon={<UploadOutlined />}>Chọn hoặc kéo ảnh</Button>
                         </Upload.Dragger>
-                    </Form.Item> */}
+                    </Form.Item>
                 </Form>
             </Modal>
         </>
