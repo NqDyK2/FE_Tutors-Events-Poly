@@ -22,7 +22,7 @@ const FormEventsRef = (props, ref) => {
     const [typeOfEvent, setTypeOfLesson] = React.useState(1);
     const [title, setTitle] = React.useState('');
     const [mode, setMode] = React.useState(MODE.ADD);
-
+    console.log(ref);
     useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
             setVisible(true);
@@ -76,15 +76,19 @@ const FormEventsRef = (props, ref) => {
     return (
         <>
             <Modal
-                titte={title}
+                title={title}
                 forceRender
                 open={visible}
                 okType="default"
                 // confirmLoading={addLoading || updateLoading}
                 destroyOnClose
                 okText="Lưu"
-                onOK={() => { form.submit() }}
+                onOk={() => {
+                    form.submit();
+
+                }}
                 onCancel={() => {
+                    console.log('asdasd');
                     setVisible(false);
                     setError(null);
                     form.resetFields();
@@ -100,7 +104,10 @@ const FormEventsRef = (props, ref) => {
                 <Form
                     form={form}
                     preserve={false}
-                    onFinish={onFinished}
+                    // onFinish={() => { }}
+                    onFinishFailed={(e) => {
+                        console.log(e);
+                    }}
                     onChange={() => {
                         setError(null);
                     }}
