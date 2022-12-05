@@ -55,7 +55,7 @@ const AttendanceStudentList = () => {
       });
   };
 
-  const columns = [
+  let columns = [
     {
       title: '#',
       dataIndex: 'key',
@@ -186,6 +186,11 @@ const AttendanceStudentList = () => {
       toast.error('Điểm danh thất bại');
     }
   }, [updateSuccess, updateError]);
+
+
+  if (isDisabledAttendance) {
+    columns = columns.filter((col) => col.dataIndex !== 'join');
+  }
 
   return (
     <>
