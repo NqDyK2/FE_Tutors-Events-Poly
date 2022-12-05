@@ -22,7 +22,7 @@ const FormEventsRef = (props, ref) => {
     const [typeOfEvent, setTypeOfLesson] = React.useState(1);
     const [title, setTitle] = React.useState('');
     const [mode, setMode] = React.useState(MODE.ADD);
-    console.log(ref);
+    const [appImg, setAppImg] = React.useState(null)
     useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
             setVisible(true);
@@ -53,22 +53,43 @@ const FormEventsRef = (props, ref) => {
 
     };
     // const { eventStartTime, eventEndTime } = props.timeEvent;
+    const uploadImage = async e => {
+        const files = e.target.files[0];
+        setAppImg(files)
+        // const data = new FormData()
+        // data.append('image', files[0])
+        // data.append('upload_preset', 'darwin')
+    }
     const [AddEvent, { isLoading: eventLoading }] = useAddEventMutation()
     const onFinished = (values) => {
-        let dataEvent = {
-            name: values.name,
-            location: values.location,
-            content: values.content,
-            start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
-            end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
-            image: values.img,
-        }
-        console.log(values);
-        console.log(dataEvent);
+
+        const formData = new FormData()
+        formData.append('name', values.name)
+        formData.append('location', values.location)
+        formData.append('content', values.content)
+        formData.append('start_time', values.date[0].format('YYYY-MM-DD HH:mm:00'))
+        formData.append('end_time', values.date[1].format('YYYY-MM-DD HH:mm:00'))
+        formData.append('image', appImg)
+        // let dataEvent = {
+        //     name: values.name,
+        //     location: values.location,
+        //     content: values.content,
+        //     start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
+        //     end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
+        //     image: values.img,
+        // }
+        // console.log(values);
+        // console.log(dataEvent);
         switch (mode) {
             case MODE.ADD:
-                console.log(123);
-                console.log(values);
+                AddEvent(formData).unwrap().then((res) => {
+                    setVisible(false)
+                    form.resetFields();
+                    setError(null);
+                    toast.success(res.message);
+                }).catch((error) => {
+                    setError(error.data);
+                })
                 break;
             default:
         }
@@ -85,10 +106,9 @@ const FormEventsRef = (props, ref) => {
                 okText="Lưu"
                 onOk={() => {
                     form.submit();
-
+                    console.log(111);
                 }}
                 onCancel={() => {
-                    console.log('asdasd');
                     setVisible(false);
                     setError(null);
                     form.resetFields();
@@ -104,7 +124,7 @@ const FormEventsRef = (props, ref) => {
                 <Form
                     form={form}
                     preserve={false}
-                    // onFinish={() => { }}
+                    onFinish={onFinished}
                     onFinishFailed={(e) => {
                         console.log(e);
                     }}
@@ -112,6 +132,7 @@ const FormEventsRef = (props, ref) => {
                         setError(null);
                     }}
                     layout="vertical"
+                    encType='multipart/form-data'
                 >
                     <Form.Item
                         label="Tên sự kiện"
@@ -213,10 +234,11 @@ const FormEventsRef = (props, ref) => {
                     // valuePropName="fileList"
                     // extra="longgggggggggggggggggggggggggggggggggg"
                     >
-                        <Upload.Dragger
+                        <Input type='file' name="file" onChange={uploadImage} />
+                        {/* <Upload.Dragger
                             multiple
+                            listType="picture-card"
                             onChange={handleAnt}
-                            listType='picture'
                         // action={'http://localhost:3000/manage-events'}
                         // beforeUpload={(file) => {
                         //     console.log({ file });
@@ -226,7 +248,7 @@ const FormEventsRef = (props, ref) => {
                         // {...propsImg} 
                         >
                             <Button icon={<UploadOutlined />}>Chọn hoặc kéo ảnh</Button>
-                        </Upload.Dragger>
+                        </Upload.Dragger> */}
                     </Form.Item>
                 </Form>
             </Modal>

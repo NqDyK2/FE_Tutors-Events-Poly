@@ -18,6 +18,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
                 url: 'event/store',
                 method: 'POST',
                 body: event,
+                header: 'content-type multipart/form-data'
             }),
             invalidatesTags: ['Event']
         }),
