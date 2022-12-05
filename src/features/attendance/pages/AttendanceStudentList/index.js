@@ -55,7 +55,7 @@ const AttendanceStudentList = () => {
       });
   };
 
-  const columns = [
+  let columns = [
     {
       title: '#',
       dataIndex: 'key',
@@ -102,6 +102,22 @@ const AttendanceStudentList = () => {
       ),
     },
 
+    {
+      title: 'Tình trạng',
+      dataIndex: 'join',
+      key: 'join',
+      width: '20%',
+      render: (_, record) =>
+        <Button
+          disabled={record.isInvited}
+          onClick={() => handleInviteStudent({ student_email: record.studentEmail, id: record.id })}
+          className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white
+                        ${record.isInvited ? '!tw-bg-gray-700 hover:tw-bg-gray-700' : ''}
+                      dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
+        >
+          Mời lại.
+        </Button>
+    },
     // {
     //   title: 'Tình trạng',
     //   dataIndex: 'join',
@@ -109,15 +125,6 @@ const AttendanceStudentList = () => {
     //   width: '20%',
     //   render: (_, record) => record.join === 0 ?
     //     (
-    //       // <Button
-    //       //   disabled={record.isInvited}
-    //       //   onClick={() => handleInviteStudent({ student_email: record.studentEmail, id: record.id })}
-    //       //   className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white
-    //       //               ${record.isInvited ? 'tw-bg-gray-700 hover:tw-bg-gray-700' : ''}
-    //       //             dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
-    //       // >
-    //       //   Mời lại.
-    //       // </Button>
     //       <span className='tw-font-medium'>Chưa tham gia</span>
     //     ) : (
     //       <span className='tw-font-medium'>Đã tham gia</span>
@@ -135,7 +142,7 @@ const AttendanceStudentList = () => {
       note: item.note,
       status: item.status,
       join: item.is_joined,
-      isInvited: false,
+      isInvited: (item.is_send_mail === 1 || item.status === 1) ? true : false,
       is_warning: item?.is_warning,
     };
   });
@@ -179,6 +186,11 @@ const AttendanceStudentList = () => {
       toast.error('Điểm danh thất bại');
     }
   }, [updateSuccess, updateError]);
+
+
+  if (isDisabledAttendance) {
+    columns = columns.filter((col) => col.dataIndex !== 'join');
+  }
 
   return (
     <>
