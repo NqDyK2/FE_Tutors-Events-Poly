@@ -8,11 +8,20 @@ import {
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import FormEventsRef from '../components/FormEventsRef';
-import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
+import { useDeleteEventMutation, useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
+import { timeFormat } from '../../../../utils/TimeFormat';
+import ContentEventModal from '../components/ContentEventModal';
+import { toast } from 'react-toastify';
+import ImageEventViewModal from '../components/ImageEventViewModal';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
-
+    const [removeEvent] = useDeleteEventMutation();
+    const handleRemoveEvent = (id) => {
+        removeEvent(id).unwrap().then((res) => {
+            toast.success(res.message);
+        }).catch((err) => toast.error(err.data.messsage))
+    }
     const columns = [
         {
             title: "STT",
@@ -24,37 +33,47 @@ const ManageEvent = () => {
             title: "Tên sự kiện",
             dataIndex: "name",
             key: "name",
-            width: '10%',
+            width: '15%',
         },
         {
             title: "Thứ - Ngày/Tháng",
             dataIndex: "date",
             key: "date",
-            width: "10%",
+            width: "15%",
         },
         {
             title: "Thời gian",
             dataIndex: "time",
             key: "time",
-            width: "10%"
+            width: "10%",
+        },
+        {
+            title: "Nơi diễn ra sự kiện",
+            dataIndex: "location",
+            key: "location",
+            width: "13%",
         },
         {
             title: "Ảnh sự kiện",
             data: "img",
             key: "img",
-            render: (_, record) => (<Image preview={false} src={record.img} />)
+            width: "10%",
+            render: (_, record) => (<ImageEventViewModal content={record.img} />)
         },
         {
             title: "Nội dung",
             dataIndex: "content",
             key: "content",
-            width: "25%",
+            width: "10%",
+            render: (_, record) => (
+                <ContentEventModal content={record.content ? record.content : "Không có nội dung"} />
+            )
         },
         {
             title: "Số người tham gia",
             dataIndex: "amount",
             key: "amount",
-            width: "15%",
+            width: "13%",
             render: (_, record) => record.amount !== 0 ? (<span> {record.amount} </span>) : (<span className="tw-font-semibold tw-text-red-500">
                 Chưa có
             </span>)
@@ -63,8 +82,8 @@ const ManageEvent = () => {
             title: "",
             key: "action",
             dataIndex: "action",
-            width: "10%",
-            render: () => (<div className="tw-flex tw-items-center tw-justify-end">
+            width: "5%",
+            render: (_, record) => (<div className="tw-flex tw-items-center tw-justify-end">
                 <Tooltip
                     title="Thay đổi giảng viên phụ trách"
                     placement="top"
@@ -93,7 +112,7 @@ const ManageEvent = () => {
                         </Tooltip>
                     }
                     title={`Xác nhận xóa sự kiện học này?`}
-                    onConfirm={() => console.log("Remove")}
+                    onConfirm={() => handleRemoveEvent(record.id)}
                     placement="topRight"
                 />
             </div>)
@@ -101,10 +120,25 @@ const ManageEvent = () => {
     ]
     let data = []
     const { data: res } = useGetAllEventQuery();
+    console.log("Data API:", res);
     if (res) {
-        const dataSource = [
-
-        ]
+        data = res.data.map((item, index) => {
+            return {
+                key: index,
+                stt: index + 1,
+                id: item.id,
+                date: timeFormat(item.start_time.split('')[0]),
+                time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
+                    10,
+                    -3,
+                )}`,
+                name: item.name,
+                img: item.image,
+                content: item.content,
+                location: item.location,
+                amount: item.event_users_count,
+            }
+        })
     }
 
     // `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10,-3,)}`,
@@ -137,7 +171,7 @@ const ManageEvent = () => {
             <Table
                 columns={columns}
                 scroll={{ y: 350 }}
-                // dataSource={dataSource}
+                dataSource={data}
                 pagination={false}
                 size={'middle'}
             />
