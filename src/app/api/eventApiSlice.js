@@ -18,7 +18,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
                 url: 'event/store',
                 method: 'POST',
                 body: event,
-                header: 'content-type multipart/form-data'
+                exceptContentType: true,
             }),
             invalidatesTags: ['Event']
         }),
@@ -27,6 +27,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
                 url: `evnet/${id}/update`,
                 method: 'PUT',
                 body: event,
+                exceptContentType: true,
             }),
             invalidatesTags: ['Event'],
         }),

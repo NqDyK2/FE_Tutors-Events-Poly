@@ -67,19 +67,10 @@ const FormEventsRef = (props, ref) => {
         formData.append('name', values.name)
         formData.append('location', values.location)
         formData.append('content', values.content)
+        formData.append('type', 1)
         formData.append('start_time', values.date[0].format('YYYY-MM-DD HH:mm:00'))
         formData.append('end_time', values.date[1].format('YYYY-MM-DD HH:mm:00'))
         formData.append('image', appImg)
-        // let dataEvent = {
-        //     name: values.name,
-        //     location: values.location,
-        //     content: values.content,
-        //     start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
-        //     end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
-        //     image: values.img,
-        // }
-        // console.log(values);
-        // console.log(dataEvent);
         switch (mode) {
             case MODE.ADD:
                 AddEvent(formData).unwrap().then((res) => {
@@ -106,7 +97,6 @@ const FormEventsRef = (props, ref) => {
                 okText="Lưu"
                 onOk={() => {
                     form.submit();
-                    console.log(111);
                 }}
                 onCancel={() => {
                     setVisible(false);
