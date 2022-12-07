@@ -153,22 +153,26 @@ const StatsPage = () => {
   useEffect(() => {
     if (statsData) {
       setStatData(statsData?.data);
-      setDataSourceChart2([
-        {
-          type: 'Qua môn',
-          value: statData?.passed_students_count,
-        },
-        {
-          type: 'Thi lại',
-          value: statData?.not_passed_students_count,
-        },
-        {
-          type: 'Cấm thi',
-          value: statData?.banned_students_count,
-        },
-      ]);
+
     }
   }, [statsData]);
+
+  useEffect(() => {
+    setDataSourceChart2([
+      {
+        type: 'Qua môn',
+        value: statData?.passed_students_count,
+      },
+      {
+        type: 'Thi lại',
+        value: statData?.not_passed_students_count,
+      },
+      {
+        type: 'Cấm thi',
+        value: statData?.banned_students_count,
+      },
+    ]);
+  }, [statData]);
 
   useEffect(() => {
     if (currentStatData) {
@@ -310,16 +314,16 @@ const StatsPage = () => {
                   pass:
                     item?.passed_students_count > 0
                       ? (
-                          item?.passed_students_count /
-                          item?.total_students_count
-                        ).toFixed(2) * 100
+                        item?.passed_students_count /
+                        item?.total_students_count
+                      ).toFixed(2) * 100
                       : 0,
                   passJoin:
                     item?.passed_joinned_students_count > 0
                       ? (
-                          item?.passed_joinned_students_count /
-                          item?.joined_students_count
-                        ).toFixed(2) * 100
+                        item?.passed_joinned_students_count /
+                        item?.joined_students_count
+                      ).toFixed(2) * 100
                       : 0,
                 }),
               )}
