@@ -1,6 +1,7 @@
 import React from 'react'
 
-const DetailEventModal = () => {
+const DetailEventModal = ({content}) => {
+  
   return (
     <div>DetailEventModal</div>
   )

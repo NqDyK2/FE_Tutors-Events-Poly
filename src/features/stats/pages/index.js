@@ -211,35 +211,35 @@ const StatsPage = () => {
         <div>Có lỗi xảy ra</div>
       ) : (
         <div className="tw-p-4">
-          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-4">
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-4 ">
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5 ">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1>Lớp tutor</h1>
-                <h2 className="tw-text-lg">
+                <h1 className='dark:tw-text-white'>Lớp tutor</h1>
+                <h2 className="tw-text-lg dark:tw-text-white">
                   {statData?.classrooms_statistical?.length}
                 </h2>
               </div>
             </div>
             <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1>Sinh viên tham gia</h1>
-                <h2 className="tw-text-lg">
+                <h1 className='dark:tw-text-white dark:tw-text-white'>Sinh viên tham gia</h1>
+                <h2 className="tw-text-lg dark:tw-text-white">
                   {statData?.joined_students_count}
                 </h2>
               </div>
             </div>
             <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/4">
               <div className="tw-flex tw-flex-1 tw-flex-col tw-items-center">
-                <h1>Sv tham gia qua môn</h1>
-                <h2 className="tw-text-lg">
+                <h1 className='dark:tw-text-white '>Sv tham gia qua môn</h1>
+                <h2 className="tw-text-lg dark:tw-text-white">
                   {statData?.passed_joinned_students_count}
                 </h2>
               </div>
             </div>
             <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1>Giảng viên</h1>
-                <h2 className="tw-text-lg">{statData?.teachers_count}</h2>
+                <h1 className='dark:tw-text-white'>Giảng viên</h1>
+                <h2 className="tw-text-lg dark:tw-text-white">{statData?.teachers_count}</h2>
               </div>
             </div>
           </div>
@@ -250,14 +250,14 @@ const StatsPage = () => {
                 {...config}
               />
 
-              <p className="tw-text-center">
+              <p className="tw-text-center dark:tw-text-white">
                 Thống kê theo {statData?.total_students_count} sinh viên tham
                 gia
               </p>
             </div>
             <div className="tw-w-1/2">
               <Pie {...configChart2} />
-              <p className="tw-text-center">
+              <p className="tw-text-center dark:tw-text-white">
                 Thống kê theo tổng {statData?.total_students_count} sinh viên
                 của {statData?.classrooms_statistical?.length} môn
               </p>
@@ -265,6 +265,7 @@ const StatsPage = () => {
           </div>
           <div>
             <Table
+              pagination={false}
               columns={[
                 {
                   title: 'Môn',
@@ -310,16 +311,16 @@ const StatsPage = () => {
                   pass:
                     item?.passed_students_count > 0
                       ? (
-                          item?.passed_students_count /
-                          item?.total_students_count
-                        ).toFixed(2) * 100
+                        item?.passed_students_count /
+                        item?.total_students_count
+                      ).toFixed(2) * 100
                       : 0,
                   passJoin:
                     item?.passed_joinned_students_count > 0
                       ? (
-                          item?.passed_joinned_students_count /
-                          item?.joined_students_count
-                        ).toFixed(2) * 100
+                        item?.passed_joinned_students_count /
+                        item?.joined_students_count
+                      ).toFixed(2) * 100
                       : 0,
                 }),
               )}

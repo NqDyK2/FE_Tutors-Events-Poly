@@ -1,25 +1,6 @@
-import { Button, Image, Space, Table, Tooltip } from 'antd'
-import React, { useRef } from 'react'
-import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
-import {
-    EditOutlined,
-    PlusCircleOutlined,
-    DeleteOutlined,
-} from '@ant-design/icons';
-import {
-    BsFillTrashFill
-} from 'react-icons/bs'
-import { Helmet } from 'react-helmet-async';
-import FormEventsRef from '../components/FormEventsRef';
-import { useDeleteEventMutation, useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
-import { timeFormat } from '../../../../utils/TimeFormat';
-import ContentEventModal from '../components/ContentEventModal';
-import { toast } from 'react-toastify';
-import ImageEventViewModal from '../components/ImageEventViewModal';
+import React from 'react'
 
-const ManageEvent = () => {
-    const modalEventRef = useRef();
-    const [removeEvent] = useDeleteEventMutation();
+const Trash = () => {
     const handleRemoveEvent = (id) => {
         removeEvent(id).unwrap().then((res) => {
             toast.success(res.message);
@@ -143,51 +124,9 @@ const ManageEvent = () => {
         })
     }
 
-    // `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10,-3,)}`,
-
-
-
     return (
-        <>
-            <Helmet>
-                <title>Sự kiện</title>
-            </Helmet>
-
-            <div className="tw-flex tw-justify-between tw-border-b-2 tw-pb-1">
-                <span className="tw-text-[15px] dark:tw-text-white">
-                    Danh sách sự kiện
-                </span>
-                <div className="tw-flex tw-items-center tw-gap-x-3">
-                    <>
-                        <Button
-                            icon={<BsFillTrashFill />}
-                            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
-                            type="link"
-                            onClick={() => modalEventRef.current.show('ADD')}
-                        >
-                            Thùng rác
-                        </Button>
-                        <Button
-                            icon={<PlusCircleOutlined />}
-                            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
-                            type="link"
-                            onClick={() => modalEventRef.current.show('ADD')}
-                        >
-                            Thêm sự kiện
-                        </Button>
-                    </>
-                </div>
-            </div>
-            <Table
-                columns={columns}
-                scroll={{ y: 350 }}
-                dataSource={data}
-                pagination={false}
-                size={'middle'}
-            />
-            <FormEventsRef ref={modalEventRef} />
-        </>
+        <div>Trash</div>
     )
 }
 
-export default ManageEvent
+export default Trash

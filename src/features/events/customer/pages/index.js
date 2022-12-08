@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Button, Col, Row } from 'antd';
 import React from 'react';
+import parse from 'html-react-parser';
 
 // import image
 import img1 from '../../../../assets/images/9-fptsetochuc_CEKW 1.png';
@@ -11,27 +12,31 @@ import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
 
 const EventsPage = () => {
   const { data, isLoading, error } = useGetAllEventQuery();
-  console.log(data);
   return (
-    <div>
-      {data.data.map((item, index) => {
-        console.log(item);
-      })}
-      <Row gutter={[24, 16]}>
-        <Col span={6} className='tw-text-center'>
-          <img src={img2} className='tw-h-1/2 tw-w-full' />
-          <span className='tw-text-xl dark:tw-text-white'>- Sự kiện Hot Tháng 12 -</span>
-          <p className='dark:tw-text-white'>
-            Tổng hợp sự kiện tháng 12, trong những tháng gần đây phong trào của
-            sinh viên đang....
-          </p>
-          <Button className=' tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'>
-            Xem thêm
-          </Button>
-        </Col>
-      </Row>
-
-    </div >
+    <>
+      {data && (
+        <div>
+          <Row gutter={[24, 16]}>
+            {
+              data.data?.map((item, index) => (
+                <Col span={6} className='tw-text-center tw-w-96 truncate'>
+                  <img src={`${process.env.REACT_APP_API_URL}/${item.image}`} className='tw-w-full tw-mb-10' />
+                  <span className='tw-text-xl dark:tw-text-white'> {item.name} </span> <br />
+                  {/* <div className='tw-h-48'>
+                    <p className='dark:tw-text-white truncate tw-mb-4'>
+                      {parse(item.content)}
+                    </p>
+                  </div> */}
+                  <Button className=' tw-mt-5 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'>
+                    Xem thêm
+                  </Button>
+                </Col>
+              ))
+            }
+          </Row>
+        </div>
+      )}
+    </>
   );
 };
 
