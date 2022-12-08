@@ -10,10 +10,13 @@ import img4 from '../../../../assets/images/9-fptsetochuc_CEKW 1.png';
 import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
 
 const EventsPage = () => {
-  const { data: res } = useGetAllEventQuery();
-  console.log(res);
+  const { data, isLoading, error } = useGetAllEventQuery();
+  console.log(data);
   return (
     <div>
+      {data.data.map((item, index) => {
+        console.log(item);
+      })}
       <Row gutter={[24, 16]}>
         <Col span={6} className='tw-text-center'>
           <img src={img2} className='tw-h-1/2 tw-w-full' />
@@ -27,7 +30,8 @@ const EventsPage = () => {
           </Button>
         </Col>
       </Row>
-    </div>
+
+    </div >
   );
 };
 
