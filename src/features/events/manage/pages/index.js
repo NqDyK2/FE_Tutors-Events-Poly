@@ -1,4 +1,4 @@
-import { Button, Image, Space, Table, Tooltip } from 'antd'
+import { Button, Space, Table, Tooltip } from 'antd'
 import React, { useRef } from 'react'
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
 import {
@@ -16,6 +16,7 @@ import { timeFormat } from '../../../../utils/TimeFormat';
 import ContentEventModal from '../components/ContentEventModal';
 import { toast } from 'react-toastify';
 import ImageEventViewModal from '../components/ImageEventViewModal';
+import { Link } from 'react-router-dom';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -88,7 +89,7 @@ const ManageEvent = () => {
             width: "5%",
             render: (_, record) => (<div className="tw-flex tw-items-center tw-justify-end">
                 <Tooltip
-                    title="Thay đổi giảng viên phụ trách"
+                    title="Thay đổi sự kiện"
                     placement="top"
                     color={'#FF6D28'}
                 >
@@ -159,14 +160,15 @@ const ManageEvent = () => {
                 </span>
                 <div className="tw-flex tw-items-center tw-gap-x-3">
                     <>
-                        <Button
-                            icon={<BsFillTrashFill />}
-                            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
-                            type="link"
-                            onClick={() => modalEventRef.current.show('ADD')}
-                        >
-                            Thùng rác
-                        </Button>
+                        <Link to={"/manage/events-trash"}>
+                            <Button
+                                icon={<BsFillTrashFill />}
+                                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
+                                type="link"
+                            >
+                                Thùng rác
+                            </Button>
+                        </Link>
                         <Button
                             icon={<PlusCircleOutlined />}
                             className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"

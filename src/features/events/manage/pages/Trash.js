@@ -1,11 +1,17 @@
+import { Button, Space, Table, Tooltip } from 'antd';
 import React from 'react'
+import { FaReply } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { GiBackwardTime } from "react-icons/gi"
+import { timeFormat } from '../../../../utils/TimeFormat';
+import { useGetAllTrashEventQuery } from '../../../../app/api/eventApiSlice';
+import ContentEventModal from '../components/ContentEventModal';
+import ImageEventViewModal from '../components/ImageEventViewModal';
+import Spinner from '../../../../components/Spinner';
 
 const Trash = () => {
-    const handleRemoveEvent = (id) => {
-        removeEvent(id).unwrap().then((res) => {
-            toast.success(res.message);
-        }).catch((err) => toast.error(err.data.messsage))
-    }
+    const navigate = useNavigate();
     const columns = [
         {
             title: "STT",
@@ -66,44 +72,21 @@ const Trash = () => {
             title: "",
             key: "action",
             dataIndex: "action",
-            width: "5%",
-            render: (_, record) => (<div className="tw-flex tw-items-center tw-justify-end">
+            width: "7%",
+            render: (_, record) => (
                 <Tooltip
-                    title="Thay đổi giảng viên phụ trách"
+                    title="Khôi phục sự kiện"
                     placement="top"
                     color={'#FF6D28'}
+
                 >
-                    <Space
-                        size="middle"
-                        className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
-                    >
-                        <Button
-                            className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
-                            onClick={() => modalEventRef.current.show('EDIT')}
-                        >
-                            <EditOutlined />
-                        </Button>
-                    </Space>
+                    <GiBackwardTime className='tw-cursor-pointer tw-text-center hover:tw-text-orange-600' />
                 </Tooltip>
-                <ConfirmPopup
-                    // key={record.id}
-                    className="tw-m-0"
-                    content={
-                        <Tooltip title="Xóa lớp học" placement="top" color={'#FF6D28'}>
-                            <Button className="tw-border-0 tw-bg-transparent tw-pl-3 tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink">
-                                <DeleteOutlined />
-                            </Button>
-                        </Tooltip>
-                    }
-                    title={`Xác nhận xóa sự kiện học này?`}
-                    onConfirm={() => handleRemoveEvent(record.id)}
-                    placement="topRight"
-                />
-            </div>)
+            )
         },
     ]
     let data = []
-    const { data: res } = useGetAllEventQuery();
+    const { data: res, isLoading: eventsLoading } = useGetAllTrashEventQuery();
     if (res) {
         data = res.data.map((item, index) => {
             return {
@@ -125,7 +108,31 @@ const Trash = () => {
     }
 
     return (
-        <div>Trash</div>
+        <>
+            <div className="tw-flex tw-justify-between tw-gap-x-3">
+                <span className="tw-text-[15px] dark:tw-text-white">
+                    Thùng rác
+                </span>
+                <Button
+                    onClick={() => navigate(-1)}
+                    className="tw-flex tw-items-center tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700"
+                >
+                    <FaReply className="tw-mr-1" /> Trở lại
+                </Button>
+            </div>
+            <Table
+
+                columns={columns}
+                scroll={{ y: 350 }}
+                dataSource={data}
+                pagination={false}
+                size={'middle'}
+                loading={{
+                    indicator: <Spinner />,
+                    spinning: eventsLoading
+                }}
+            />
+        </>
     )
 }
 

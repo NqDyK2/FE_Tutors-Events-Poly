@@ -27,6 +27,7 @@ import CallBack from '../features/auth/components/CallBack.js';
 import StudentLessonHistoryPage from '../features/student/pages/LessonHistory/index.js';
 import TimeTable from '../features/student/pages/TimeTable/index.js';
 import StatsPage from '../features/stats/pages/index.js';
+import Trash from '../features/events/manage/pages/Trash.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -54,6 +55,7 @@ const AppRoutes = () => {
             <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
             <Route path="/manage/feedback" element={<ListFeedback />} />
             <Route path="/manage/events" element={<ManageEvent />} />
+            <Route path="/manage/events-trash" element={<Trash />} />
           </Route>
           <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />
