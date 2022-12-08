@@ -35,7 +35,7 @@ const ImageEventViewModal = ({ content }) => {
                 }}
                 cancelButtonProps={{ style: { display: 'none' } }}
             >
-                <Image preview={false} src={parse(content)} />
+                <Image preview={false} src={`${process.env.REACT_APP_API_URL}/${parse(content)}`} />
                 {/* <div className="ql-editor tw-p-0">{parse(content)}</div> */}
             </Modal>
         </div>

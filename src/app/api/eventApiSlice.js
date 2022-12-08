@@ -24,12 +24,18 @@ export const eventApiSlice = apiSlice.injectEndpoints({
         }),
         updateEvent: builder.mutation({
             query: ({ id, ...event }) => ({
-                url: `evnet/${id}/update`,
-                method: 'PUT',
+                url: `event/${id}/update`,
+                method: 'POST',
                 body: event,
                 exceptContentType: true,
             }),
             invalidatesTags: ['Event'],
+        }),
+        joinEvent: builder.mutation({
+            query: () => ({
+                url: 'evevt/join',
+                method: "POST",
+            })
         }),
         cancelEvent: builder.mutation({
             query: () => ({
@@ -38,6 +44,17 @@ export const eventApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Event'],
         }),
+        getAllTrashEvent: builder.query({
+            query: () => `event/in-trash`,
+            providesTags: ['Event'],
+        }),
+        retstoreEvent: builder.mutation({
+            query: ({ id }) => ({
+                url: `event/${id}/restore`,
+                method: "PUT",
+            }),
+            invalidatesTags: ['Event']
+        })
     }),
 });
 
@@ -46,5 +63,8 @@ export const {
     useCancelEventMutation,
     useDeleteEventMutation,
     useGetAllEventQuery,
-    useUpdateEventMutation
+    useUpdateEventMutation,
+    useGetAllTrashEventQuery,
+    useRetstoreEventMutation,
+    useJoinEventMutation,
 } = eventApiSlice

@@ -120,7 +120,6 @@ const ManageEvent = () => {
     ]
     let data = []
     const { data: res } = useGetAllEventQuery();
-    console.log("Data API:", res);
     if (res) {
         data = res.data.map((item, index) => {
             return {
