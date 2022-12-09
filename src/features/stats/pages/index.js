@@ -13,6 +13,7 @@ import Spinner from '../../../components/Spinner';
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
   const [selectValue, setSelectValue] = useState(null);
+  const [dataSourceChart, setDataSourceChart] = useState([]);
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
   const dispatch = useDispatch();
@@ -33,20 +34,7 @@ const StatsPage = () => {
 
   const config = {
     appendPadding: 10,
-    data: [
-      {
-        type: 'Qua môn',
-        value: 27,
-      },
-      {
-        type: 'Thi lại',
-        value: 25,
-      },
-      {
-        type: 'Cấm thi',
-        value: 18,
-      },
-    ],
+    data: dataSourceChart,
     angleField: 'value',
     colorField: 'type',
     animation: false,
@@ -158,6 +146,23 @@ const StatsPage = () => {
   }, [statsData]);
 
   useEffect(() => {
+    setDataSourceChart([
+      {
+        type: 'Qua môn',
+        value: statData?.passed_joinned_students_count,
+      },
+      {
+        type: 'Thi lại',
+        value: statData?.not_passed_joinned_students_count,
+      },
+      {
+        type: 'Cấm thi',
+        value: statData?.banned_joinned_students_count,
+      },
+    ]);
+  }, [statData]);
+
+  useEffect(() => {
     setDataSourceChart2([
       {
         type: 'Qua môn',
@@ -215,16 +220,24 @@ const StatsPage = () => {
         <div>Có lỗi xảy ra</div>
       ) : (
         <div className="tw-p-4">
-          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-4">
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-5">
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/6">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1>Lớp tutor</h1>
+                <h1>Môn tutor</h1>
                 <h2 className="tw-text-lg">
                   {statData?.classrooms_statistical?.length ?? 0}
                 </h2>
               </div>
             </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/6">
+              <div className="tw-flex tw-flex-col tw-items-center">
+                <h1>Tổng sinh viên</h1>
+                <h2 className="tw-text-lg">
+                  {statData?.total_students_count ?? 0}
+                </h2>
+              </div>
+            </div>
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/6">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1>Sinh viên tham gia</h1>
                 <h2 className="tw-text-lg">
@@ -232,18 +245,16 @@ const StatsPage = () => {
                 </h2>
               </div>
             </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/4">
-              <div className="tw-flex tw-flex-1 tw-flex-col tw-items-center">
-                <h1>Sv tham gia qua môn</h1>
-                <h2 className="tw-text-lg">
-                  {statData?.passed_joinned_students_count ?? 0}
-                </h2>
-              </div>
-            </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/6">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1>Giảng viên</h1>
-                <h2 className="tw-text-lg">{statData?.teachers_count ?? 0}</h2>
+                <h2 className="tw-text-lg">{statData?.teachers?.length ?? 0}</h2>
+              </div>
+            </div>
+            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/6">
+              <div className="tw-flex tw-flex-col tw-items-center">
+                <h1>Trợ giảng</h1>
+                <h2 className="tw-text-lg">{statData?.tutors?.length ?? 0}</h2>
               </div>
             </div>
           </div>
@@ -255,8 +266,7 @@ const StatsPage = () => {
               />
 
               <p className="tw-text-center">
-                Thống kê theo {statData?.total_students_count} sinh viên tham
-                gia
+                Thống kê theo {statData?.joined_students_count} sinh viên tham gia
               </p>
             </div>
             <div className="lg:tw-w-1/2 tw-w-full">
@@ -276,6 +286,16 @@ const StatsPage = () => {
                   key: 'subject',
                 },
                 {
+                  title: 'Buổi học',
+                  dataIndex: 'lesson',
+                  key: 'lesson',
+                },
+                {
+                  title: 'Giảng viên phụ trách',
+                  dataIndex: 'teacher',
+                  key: 'teacher',
+                },
+                {
                   title: 'Tổng sinh viên',
                   dataIndex: 'total',
                   key: 'total',
@@ -286,45 +306,47 @@ const StatsPage = () => {
                   key: 'join',
                 },
                 {
-                  title: 'Buổi học',
-                  dataIndex: 'lesson',
-                  key: 'lesson',
-                },
-                {
                   title: 'Tỉ lệ sv qua môn',
                   dataIndex: 'pass',
                   key: 'pass',
-                  render: (text) => <span>{text}%</span>,
+                  render: (text) => <span dangerouslySetInnerHTML={{ __html: text }}></span>,
                 },
                 {
                   title: 'Tỉ lệ sv tham gia qua môn',
                   dataIndex: 'passJoin',
                   key: 'passJoin',
-                  render: (text) => <span>{text}%</span>,
+                  render: (text) => <span dangerouslySetInnerHTML={{ __html: text }}></span>,
                 },
               ]}
               rowClassName="tw-font-semibold"
               dataSource={statData?.classrooms_statistical?.map(
                 (item, idx) => ({
                   key: idx,
-                  subject: item?.id,
+                  subject: item?.subject.code,
                   total: item?.total_students_count,
-                  join: item?.joined_students_count,
+                  join: item?.joined_students.length,
                   lesson: item?.lessons.length,
+                  teacher: item?.default_teacher_email.split('@')[0],
                   pass:
-                    item?.passed_students_count > 0
+                    `${item?.passed_students_count}/${item?.total_students_count}&emsp;(
+                    ${item?.total_students_count > 0
                       ? (
                         item?.passed_students_count /
                         item?.total_students_count
                       ).toFixed(2) * 100
-                      : 0,
+                      : 0
+                    }%)
+                    `,
                   passJoin:
-                    item?.passed_joinned_students_count > 0
+                    `${item?.passed_joinned_students_count}/${item?.joined_students.length}&emsp;(
+                    ${item?.joined_students.length > 0
                       ? (
                         item?.passed_joinned_students_count /
-                        item?.joined_students_count
+                        item?.joined_students.length
                       ).toFixed(2) * 100
-                      : 0,
+                      : 0
+                    }%)
+                    `,
                 }),
               )}
             />
