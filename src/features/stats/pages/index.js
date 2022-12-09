@@ -220,7 +220,7 @@ const StatsPage = () => {
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1>Lớp tutor</h1>
                 <h2 className="tw-text-lg">
-                  {statData?.classrooms_statistical?.length}
+                  {statData?.classrooms_statistical?.length ?? 0}
                 </h2>
               </div>
             </div>
@@ -228,7 +228,7 @@ const StatsPage = () => {
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1>Sinh viên tham gia</h1>
                 <h2 className="tw-text-lg">
-                  {statData?.joined_students_count}
+                  {statData?.joined_students_count ?? 0}
                 </h2>
               </div>
             </div>
@@ -236,19 +236,19 @@ const StatsPage = () => {
               <div className="tw-flex tw-flex-1 tw-flex-col tw-items-center">
                 <h1>Sv tham gia qua môn</h1>
                 <h2 className="tw-text-lg">
-                  {statData?.passed_joinned_students_count}
+                  {statData?.passed_joinned_students_count ?? 0}
                 </h2>
               </div>
             </div>
             <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1>Giảng viên</h1>
-                <h2 className="tw-text-lg">{statData?.teachers_count}</h2>
+                <h2 className="tw-text-lg">{statData?.teachers_count ?? 0}</h2>
               </div>
             </div>
           </div>
-          <div className="tw-flex tw-py-6">
-            <div className="tw-w-1/2">
+          <div className="tw-flex lg:tw-flex-row tw-flex-col tw-py-6">
+            <div className="lg:tw-w-1/2 tw-w-full">
               <Pie
                 loading={isLoading || isFetching || currentLoading}
                 {...config}
@@ -259,7 +259,7 @@ const StatsPage = () => {
                 gia
               </p>
             </div>
-            <div className="tw-w-1/2">
+            <div className="lg:tw-w-1/2 tw-w-full">
               <Pie {...configChart2} />
               <p className="tw-text-center">
                 Thống kê theo tổng {statData?.total_students_count} sinh viên
