@@ -13,11 +13,12 @@ import Spinner from '../../../../components/Spinner';
 import ContentLessonModal from '../../../lesson/components/ContentLessonModal';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
+import FeedBack from '../../components/FeedBack';
 
 const TimeTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const [joinClass, { isLoading: joinClassPending }] = useJoinClassMutation();
+  const [joinClass] = useJoinClassMutation();
   const [joinClassLoading, setJoinClassLoading] = useState(null);
   const { data: listClassMisses, isLoading: listclassPending } =
     useGetAllMissingClassQuery();
@@ -34,8 +35,8 @@ const TimeTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values) => {};
-  const onFinishFailed = (errorInfo) => {};
+  const onFinish = (values) => { };
+  const onFinishFailed = (errorInfo) => { };
 
   // table antd
   const columns = [
@@ -136,9 +137,8 @@ const TimeTable = () => {
     stt: index + 1,
     ngay: timeFormat(item.start_time.split(' ')[0]),
     hinhthuc: item.type ? 'Offline' : 'Online',
-    thoigian: `${item.start_time?.split(' ')[1]} - ${
-      item.end_time?.split(' ')[1]
-    }`,
+    thoigian: `${item.start_time?.split(' ')[1]} - ${item.end_time?.split(' ')[1]
+      }`,
     phonghoc: item.class_location,
     tutor_email: item.tutor_email?.split('@')[0],
     teacher_email: item.teacher_email.split('@')[0],
@@ -147,13 +147,20 @@ const TimeTable = () => {
     chitiet: item.content,
   }));
 
+  const needFeedback = listSchedule?.need_feedback.map((item, index) => ({
+    key: index,
+    subjectName: item.subject.name,
+    subjectCode: item.subject.code,
+    id: item.id,
+  }))
+
   const handleJoinClass = (id) => {
     setJoinClassLoading(id);
     joinClass(id)
       .unwrap()
       .then((res) => {
+        toast.success(res.data.message);
         setJoinClassLoading(null);
-        toast.success(res.message);
       })
       .catch((err) => {
         setJoinClassLoading(null);
@@ -185,61 +192,99 @@ const TimeTable = () => {
     );
   }
 
+  if (listClassMisses?.data.length) {
+    return (
+      <div>
+        <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
+          Bạn có {dataClass?.length} môn học cần tham gia tutor.
+        </h2>
+        <List
+          dataSource={dataClass}
+          renderItem={(item, index) => (
+            <List.Item key={item.key}>
+              <List.Item.Meta
+                title={
+                  <p className="tw-mb-0 dark:tw-text-white">
+                    {item.subject_code}
+                  </p>
+                }
+                description={
+                  <p className="tw-text-[#555] dark:tw-text-gray-300">
+                    {item.subject_name}
+                  </p>
+                }
+              />
+              <div>
+                <Button
+                  loading={joinClassLoading === item.id}
+                  onClick={() => handleJoinClass(item.id)}
+                  type="primary"
+                  className="tw-rounded tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"
+                >
+                  Tham gia
+                </Button>
+              </div>
+            </List.Item>
+          )}
+        />
+        <p className="tw-text-center tw-text-[#777]">
+          Vui lòng tham gia tất cả để theo dõi lịch học.
+        </p>
+      </div>
+    )
+  }
+
+  if (needFeedback?.length) {
+    return (
+      <div>
+        <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
+          Bạn có {needFeedback.length} môn học cần đánh giá.
+        </h2>
+        <List
+          dataSource={needFeedback}
+          renderItem={(item, index) => (
+            <List.Item key={item.key}>
+              <List.Item.Meta
+                title={
+                  <p className="tw-mb-0 dark:tw-text-white">
+                    {item.subjectCode}
+                  </p>
+                }
+                description={
+                  <p className="tw-text-[#555] dark:tw-text-gray-300">
+                    {item.subjectName}
+                  </p>
+                }
+              />
+              <div>
+                <FeedBack setJoinClassLoading={setJoinClassLoading} id={item.id} />
+              </div>
+            </List.Item>
+          )}
+        />
+        <p className="tw-text-center tw-text-[#777]">
+          Vui lòng đánh giá tất cả để theo dõi lịch học.
+        </p>
+      </div>
+
+    )
+  }
+
   return (
     <div>
-      {!listClassMisses?.data.length ? (
-        <Table
-          key={dataTable?.key}
-          columns={columns}
-          dataSource={dataTable}
-          pagination={false}
-          scroll={{
-            x: 380,
-          }}
-          loading={{
-            indicator: <Spinner />,
-            spinning: listSchedulePending,
-          }}
-        />
-      ) : (
-        <div>
-          <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
-            Bạn có {dataClass?.length} môn học cần tham gia tutor.
-          </h2>
-          <List
-            dataSource={dataClass}
-            renderItem={(item, index) => (
-              <List.Item key={item.key}>
-                <List.Item.Meta
-                  title={
-                    <p className="tw-mb-0 dark:tw-text-white">
-                      {item.subject_code}
-                    </p>
-                  }
-                  description={
-                    <p className="tw-text-[#555] dark:tw-text-gray-300">
-                      {item.subject_name}
-                    </p>
-                  }
-                />
-                <div>
-                  <Button
-                    loading={joinClassLoading === item.id}
-                    onClick={() => handleJoinClass(item.id)}
-                    type="primary"
-                    className="tw-rounded tw-border-0 tw-bg-[#04b0a6] hover:tw-bg-[#01988f]"
-                  >
-                    Tham gia
-                  </Button>
-                </div>
-              </List.Item>
-            )}
-          />
-          <p className="tw-text-center tw-text-[#777]">
-            Vui lòng tham gia tất cả để theo dõi lịch học.
-          </p>
-        </div>
-      )}
+      <Table
+        key={dataTable?.key}
+        columns={columns}
+        dataSource={dataTable}
+        pagination={false}
+        scroll={{
+          x: 380,
+        }}
+        loading={{
+          indicator: <Spinner />,
+          spinning: listSchedulePending,
+        }}
+      />
 
       {/* box modal */}
       <Modal
