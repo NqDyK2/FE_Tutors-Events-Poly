@@ -9,6 +9,7 @@ import {
 } from '../../../app/api/semesterApiSlice';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import Spinner from '../../../components/Spinner';
+import ListLessonModal from '../components/ListLessonModal';
 
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
@@ -16,6 +17,7 @@ const StatsPage = () => {
   const [dataSourceChart, setDataSourceChart] = useState([]);
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
+  const lessonHistoryModalRef = React.useRef(null);
   const dispatch = useDispatch();
   const {
     data: semesterData,
@@ -284,6 +286,19 @@ const StatsPage = () => {
                   title: 'Môn',
                   dataIndex: 'subject',
                   key: 'subject',
+                  render: (text, record) => {
+                    return <div className="tw-text-blue-600 tw-cursor-pointer"
+                      onClick={() => lessonHistoryModalRef.current?.show(
+                        {
+                          data: statData?.classrooms_statistical?.find(
+                            (item) => item.id === record.id
+                          )?.lessons,
+                          subject: text,
+                        }
+
+                      )}
+                    >{text}</div>
+                  },
                 },
                 {
                   title: 'Buổi học',
@@ -322,6 +337,7 @@ const StatsPage = () => {
               dataSource={statData?.classrooms_statistical?.map(
                 (item, idx) => ({
                   key: idx,
+                  id: item?.id,
                   subject: item?.subject.code,
                   total: item?.total_students_count,
                   join: item?.joined_students.length,
@@ -350,6 +366,7 @@ const StatsPage = () => {
                 }),
               )}
             />
+            <ListLessonModal ref={lessonHistoryModalRef} />
           </div>
         </div>
       )}
