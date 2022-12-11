@@ -135,15 +135,6 @@ const TimeTable = () => {
           ) : ("")}
         </>
       )
-    },
-    {
-      title: '',
-      dataIndex: 'checkin',
-      key: 'checkin',
-      render: (_, record) => {
-        console.log("start Time: ", moment(record.startTime) < moment());
-        console.log("end time: ", moment(record.endTime) > moment());
-      }
     }
   ];
 
