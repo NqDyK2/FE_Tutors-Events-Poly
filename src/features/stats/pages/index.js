@@ -338,7 +338,7 @@ const StatsPage = () => {
                 (item, idx) => ({
                   key: idx,
                   id: item?.id,
-                  subject: item?.subject.code,
+                  subject: item?.subject?.code,
                   total: item?.total_students_count,
                   join: item?.joined_students.length,
                   lesson: item?.lessons.length,
