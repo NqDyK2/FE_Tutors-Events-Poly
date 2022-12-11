@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Modal, Tooltip, Form, Input, Radio, Button, List } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import { Table, Form, Button, List } from 'antd';
 import { toast } from 'react-toastify';
 
 import {
+  useCheckInTutorMutation,
   useGetAllMissingClassQuery,
   useGetScheduleQuery,
   useJoinClassMutation,
@@ -14,30 +14,34 @@ import ContentLessonModal from '../../../lesson/components/ContentLessonModal';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
 import FeedBack from '../../components/FeedBack';
+import moment from 'moment';
 
 const TimeTable = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [joinClass] = useJoinClassMutation();
   const [joinClassLoading, setJoinClassLoading] = useState(null);
+  const [skip, setSkip] = useState(false)
+  const [checkInLoading, setCheckInLoading] = useState(null)
   const { data: listClassMisses, isLoading: listclassPending } =
     useGetAllMissingClassQuery();
   const { data: listSchedule, isLoading: listSchedulePending } =
-    useGetScheduleQuery({ skip: listClassMisses?.data.length });
+    useGetScheduleQuery({ skip });
+  const [checkInTutor] = useCheckInTutorMutation()
 
-  const [form] = Form.useForm();
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const onFinish = (values) => { };
-  const onFinishFailed = (errorInfo) => { };
-
+  const handleCheckInTutor = (id) => {
+    setCheckInLoading(id)
+    checkInTutor(id)
+      .unwrap()
+      .then((res) => {
+        setCheckInLoading(null)
+        toast.success(res.message);
+        setSkip(new Date().getTime())
+      })
+      .catch((err) => {
+        setCheckInLoading(null)
+        toast.error(err.data.message);
+      });
+  }
   // table antd
   const columns = [
     {
@@ -110,20 +114,37 @@ const TimeTable = () => {
     },
     {
       title: '',
-      dataIndex: 'phanhoi',
-      key: 'phanhoi',
+      dataIndex: 'checkin',
+      key: 'checkin',
       render: (_, record) => (
-        <span className="tw-cursor-pointer tw-text-blue-500">
-          <span
-            className="tw-cursor-pointer tw-text-blue-500"
-            onClick={() => showModal()}
-          >
-            Phản hồi về buổi học.
-          </span>
-        </span>
-      ),
-      width: 150,
+        <>
+          {(moment(record.startTime) <= moment() && moment(record.endTime) >= moment()) ? (
+            <>
+              {!record.isCheckedIn ? (
+                <Button
+                  loading={checkInLoading === record.id}
+                  onClick={() => handleCheckInTutor(record.id)}
+                  className="tw-border-transparent hover:tw-bg-green-700 tw-w-[100px] tw-rounded-[4px] tw-bg-[#0DB27F] tw-text-white dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400"
+                >
+                  Điểm danh
+                </Button >
+              ) : (
+                <p className='tw-p-0 tw-m-0'>Đã diểm danh</p>
+              )}
+            </>
+          ) : ("")}
+        </>
+      )
     },
+    {
+      title: '',
+      dataIndex: 'checkin',
+      key: 'checkin',
+      render: (_, record) => {
+        console.log("start Time: ", moment(record.startTime) < moment());
+        console.log("end time: ", moment(record.endTime) > moment());
+      }
+    }
   ];
 
   const dataClass = listClassMisses?.data.map((item, index) => ({
@@ -134,6 +155,7 @@ const TimeTable = () => {
   }));
   const dataTable = listSchedule?.data.map((item, index) => ({
     key: index,
+    id: item.id,
     stt: index + 1,
     ngay: timeFormat(item.start_time.split(' ')[0]),
     hinhthuc: item.type ? 'Offline' : 'Online',
@@ -145,6 +167,9 @@ const TimeTable = () => {
     subjects_code: item.subject_code?.toUpperCase(),
     subjects_name: item.subject_name,
     chitiet: item.content,
+    startTime: item.start_time,
+    endTime: item.end_time,
+    isCheckedIn: item.is_checked_in,
   }));
 
   const needFeedback = listSchedule?.need_feedback.map((item, index) => ({
@@ -159,12 +184,13 @@ const TimeTable = () => {
     joinClass(id)
       .unwrap()
       .then((res) => {
-        toast.success(res.data.message);
+        setSkip(listClassMisses?.data.length)
         setJoinClassLoading(null);
+        toast.success(res.message);
       })
       .catch((err) => {
         setJoinClassLoading(null);
-        toast.error('Có lỗi xả ra.');
+        toast.error(err.data.message);
       });
   };
 
@@ -257,7 +283,7 @@ const TimeTable = () => {
                 }
               />
               <div>
-                <FeedBack setJoinClassLoading={setJoinClassLoading} id={item.id} />
+                <FeedBack setSkip={setSkip} id={item.id} />
               </div>
             </List.Item>
           )}
@@ -271,105 +297,19 @@ const TimeTable = () => {
   }
 
   return (
-    <div>
-      <Table
-        key={dataTable?.key}
-        columns={columns}
-        dataSource={dataTable}
-        pagination={false}
-        scroll={{
-          x: 380,
-        }}
-        loading={{
-          indicator: <Spinner />,
-          spinning: listSchedulePending,
-        }}
-      />
-
-      {/* box modal */}
-      <Modal
-        title="Phản hồi buổi học"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        okText="Gửi phản hồi"
-      >
-        <div>
-          <Form
-            form={form}
-            initialValues={{
-              phanhoigv: '',
-              phanhoitutor: '',
-              chatluongbuoihoc: '',
-              muondamDamMinhHieuKhong: '',
-              ykiendonggop: '',
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            layout="vertical"
-          >
-            <Form.Item
-              required
-              name="qualitylesson"
-              label="Bạn thấy chất lượng buổi học như thế nào?"
-            >
-              <Radio.Group>
-                <Radio value="good"> Tốt </Radio>
-                <Radio value="medium"> Trung bình </Radio>
-                <Radio value="bad"> Yếu </Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item
-              required
-              name="qualityteacher"
-              label="Giảng viên hỗ trợ môn tốt không?"
-            >
-              <Radio.Group>
-                <Radio value="lgood"> Tốt </Radio>
-                <Radio value="lmedium"> Trung bình </Radio>
-                <Radio value="lbad"> Yếu </Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item
-              required
-              name="qualitytutor"
-              label="Người hỗ trợ buổi học có nhiệt tình không"
-            >
-              <Radio.Group>
-                <Radio value="tugood"> Tốt </Radio>
-                <Radio value="tumedium"> Trung bình </Radio>
-                <Radio value="tubad"> Yếu </Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item
-              required
-              name="knowledgeDễ"
-              label="Mức độ hiểu bài của bạn."
-            >
-              <Radio.Group>
-                <Radio value="kgood"> 100% </Radio>
-                <Radio value="kgood_medium"> 75% </Radio>
-                <Radio value="kmedium"> 50% </Radio>
-                <Radio value="kmedium_bad"> 25% </Radio>
-                <Radio value="kbad"> 0% </Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item
-              name="question"
-              label="Bạn có câu hỏi gì giành cho buổi học sau không?"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="note"
-              label="Bạn muốn nhắn nhủ thêm điều gì không?"
-            >
-              <TextArea rows={4} />
-            </Form.Item>
-          </Form>
-        </div>
-      </Modal>
-    </div>
+    <Table
+      key={dataTable?.key}
+      columns={columns}
+      dataSource={dataTable}
+      pagination={false}
+      scroll={{
+        x: 380,
+      }}
+      loading={{
+        indicator: <Spinner />,
+        spinning: listSchedulePending,
+      }}
+    />
   );
 };
 

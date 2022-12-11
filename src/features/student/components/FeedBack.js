@@ -34,13 +34,16 @@ const FeedBack = (props) => {
         feedbackTutor(feedbackData)
             .unwrap()
             .then((res) => {
-                toast.success(res.data.message);
+                toast.success(res.message);
                 setIsModalOpen(false);
                 form.resetFields();
-                props.setJoinClassLoading("")
+                props.setSkip(new Date().getTime())
+                props.setJoinClassLoading(new Date().getTime())
             })
             .catch((error) => {
                 setErrors(error);
+                props.setSkip(new Date().getTime())
+                props.setJoinClassLoading(new Date().getTime())
             });
     };
     return (
