@@ -5,13 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { GiBackwardTime } from "react-icons/gi"
 import { timeFormat } from '../../../../utils/TimeFormat';
-import { useGetAllTrashEventQuery } from '../../../../app/api/eventApiSlice';
+import { useGetAllTrashEventQuery, useRetstoreEventMutation } from '../../../../app/api/eventApiSlice';
 import ContentEventModal from '../components/ContentEventModal';
 import ImageEventViewModal from '../components/ImageEventViewModal';
 import Spinner from '../../../../components/Spinner';
+import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup';
 
 const Trash = () => {
     const navigate = useNavigate();
+    const [restoreEvent, { isLoading: restoreLoading }] = useRetstoreEventMutation()
+    const restoreEve = (idEve) => {
+        restoreEvent({ id: idEve })
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message)
+            }).catch((err) => {
+                toast.error(err.data)
+            })
+    }
     const columns = [
         {
             title: "STT",
@@ -74,14 +85,20 @@ const Trash = () => {
             dataIndex: "action",
             width: "7%",
             render: (_, record) => (
-                <Tooltip
-                    title="Khôi phục sự kiện"
-                    placement="top"
-                    color={'#FF6D28'}
-
-                >
-                    <GiBackwardTime className='tw-cursor-pointer tw-text-center hover:tw-text-orange-600' />
-                </Tooltip>
+                <ConfirmPopup
+                    className="tw-m-0"
+                    content={
+                        <Tooltip
+                            title="Khôi phục sự kiện"
+                            placement="top"
+                            color={'#FF6D28'}
+                        >
+                            <GiBackwardTime className='tw-cursor-pointer tw-text-center hover:tw-text-orange-600' />
+                        </Tooltip>
+                    }
+                    title={"Bạn muốn khôi phục sự kiện này?"}
+                    onConfirm={() => restoreEve(record.id)}
+                />
             )
         },
     ]
@@ -115,7 +132,7 @@ const Trash = () => {
                 </span>
                 <Button
                     onClick={() => navigate(-1)}
-                    className="tw-flex tw-items-center tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700"
+                    className="tw-border-transparent tw-flex tw-items-center tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-700"
                 >
                     <FaReply className="tw-mr-1" /> Trở lại
                 </Button>

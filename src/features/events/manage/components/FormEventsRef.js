@@ -3,7 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import React, { forwardRef, useImperativeHandle } from 'react'
 import QuillEditor from '../../../../components/QuillEditor';
 import { toast } from 'react-toastify';
-import { useAddEventMutation } from '../../../../app/api/eventApiSlice';
+import { useAddEventMutation, useUpdateEventMutation } from '../../../../app/api/eventApiSlice';
 
 
 
@@ -38,6 +38,7 @@ const FormEventsRef = (props, ref) => {
                     start_time: data.date[0].format('YYYY-MM-DD HH:mm:00'),
                     end_time: data.date[1].format('YYYY-MM-DD HH:mm:00'),
                     image: data.img,
+                    eventId: data.id,
                 }
                 form.setFieldsValue(newData)
                 setMode(MODE.EDIT);
@@ -60,6 +61,7 @@ const FormEventsRef = (props, ref) => {
         // data.append('image', files[0])
         // data.append('upload_preset', 'darwin')
     }
+    const [UpdateEvent, { isLoading: Loading }] = useUpdateEventMutation();
     const [AddEvent, { isLoading: eventLoading }] = useAddEventMutation()
     const onFinished = (values) => {
 
@@ -81,6 +83,19 @@ const FormEventsRef = (props, ref) => {
                 }).catch((error) => {
                     setError(error.data);
                 })
+                break;
+            case MODE.EDIT:
+                UpdateEvent({ ...formData, id: values.eventId })
+                    .unwrap().then((res) => {
+                        setVisible(false);
+                        form.resetFields();
+                        setError(null);
+                        toast.success(res.message);
+                    })
+                    .catch((err) => {
+                        setError(err.data)
+                        toast.error("Sửa không thành công.");
+                    });
                 break;
             default:
         }
@@ -124,6 +139,9 @@ const FormEventsRef = (props, ref) => {
                     layout="vertical"
                     encType='multipart/form-data'
                 >
+                    <Form.Item className="tw-hidden" name="EventId">
+                        <Input hidden />
+                    </Form.Item>
                     <Form.Item
                         label="Tên sự kiện"
                         name="name"

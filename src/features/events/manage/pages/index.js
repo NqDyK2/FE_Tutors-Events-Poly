@@ -99,7 +99,7 @@ const ManageEvent = () => {
                     >
                         <Button
                             className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
-                            onClick={() => modalEventRef.current.show('EDIT')}
+                            onClick={() => modalEventRef.current.show('EDIT', console.log("record:", record))}
                         >
                             <EditOutlined />
                         </Button>
@@ -119,7 +119,7 @@ const ManageEvent = () => {
                     onConfirm={() => handleRemoveEvent(record.id)}
                     placement="topRight"
                 />
-            </div>)
+            </div >)
         },
     ]
     let data = []
