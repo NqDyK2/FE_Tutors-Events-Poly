@@ -61,6 +61,17 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       query: (id) => `statistics`,
       providesTags: ['Semester'],
     }),
+    importResultSemester: builder.mutation({
+      query: (body) => ({
+        url: `semester/${body.semesterId}/import-all-result`,
+        body: body.data,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      }),
+      invalidatesTags: ['Classroom'],
+    }),
   }),
 });
 
@@ -73,4 +84,5 @@ export const {
   useDeleteSemesterMutation,
   useGetSemesterStatsMutation,
   useGetCurrentSemesterStatsQuery,
+  useImportResultSemesterMutation,
 } = semesterApiSlice;
