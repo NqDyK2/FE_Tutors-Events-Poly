@@ -26,6 +26,7 @@ import { exportExcel, exportPdf } from '../../../utils/exportFile';
 import moment from 'moment';
 import ExportDropDown from '../../../components/ExportDropDown';
 import { useSendMailStudentsMutation } from '../../../app/api/studentApiSlice';
+import FormImportResultRef from '../components/FormImportResultRef';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -39,6 +40,7 @@ const SubjectPage = () => {
   const [removeClassroom] = useDeleteClassroomMutation();
   const [sendMailStudents] = useSendMailStudentsMutation();
   const modalImportExcelRef = useRef();
+  const modalImportResultRef = useRef();
   const params = useParams();
   const modalClassroomRef = useRef();
   const semesterId = params.id;
@@ -291,6 +293,14 @@ const SubjectPage = () => {
                 type="text"
                 onClick={() => modalImportExcelRef.current.show()}
               >
+                Thêm sinh viên 1/3 block
+              </Button>
+              <Button
+                icon={<PlusCircleOutlined />}
+                className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-hoverLink hover:tw-bg-transparent hover:tw-text-orange-600 dark:tw-text-slate-100 dark:hover:tw-text-hoverLink"
+                type="text"
+                onClick={() => modalImportResultRef.current.show()}
+              >
                 Cập nhật danh sách sinh viên
               </Button>
               <ConfirmPopup
@@ -345,6 +355,7 @@ const SubjectPage = () => {
         />
         <FormClassroomRef semester_id={semesterId} ref={modalClassroomRef} />
         <FormImportExcelRef ref={modalImportExcelRef} />
+        <FormImportResultRef ref={modalImportResultRef} />
       </div>
     </>
   );

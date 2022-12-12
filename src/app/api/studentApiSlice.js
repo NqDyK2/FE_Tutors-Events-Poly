@@ -44,6 +44,21 @@ export const studentApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Student'],
     }),
+    feedbackTutor: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `student/feedback/${id}`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Student'],
+    }),
+    checkInTutor: builder.mutation({
+      query: (id) => ({
+        url: `student/check-in/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Student'],
+    }),
     getScheduleTeaching: builder.query({
       query: () => ({
         url: `teacher-tutor/schedule`,
@@ -78,4 +93,6 @@ export const {
   useUpdateStudentMutation,
   useGetStudentCurrentHistoryLessonQuery,
   useGetStudentHistoryLessonBySemesterMutation,
+  useFeedbackTutorMutation,
+  useCheckInTutorMutation
 } = studentApiSlice;

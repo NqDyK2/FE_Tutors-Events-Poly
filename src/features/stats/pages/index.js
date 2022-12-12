@@ -9,12 +9,15 @@ import {
 } from '../../../app/api/semesterApiSlice';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import Spinner from '../../../components/Spinner';
+import ListLessonModal from '../components/ListLessonModal';
 
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
   const [selectValue, setSelectValue] = useState(null);
+  const [dataSourceChart, setDataSourceChart] = useState([]);
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
+  const lessonHistoryModalRef = React.useRef(null);
   const dispatch = useDispatch();
   const {
     data: semesterData,
@@ -33,20 +36,7 @@ const StatsPage = () => {
 
   const config = {
     appendPadding: 10,
-    data: [
-      {
-        type: 'Qua môn',
-        value: 27,
-      },
-      {
-        type: 'Thi lại',
-        value: 25,
-      },
-      {
-        type: 'Cấm thi',
-        value: 18,
-      },
-    ],
+    data: dataSourceChart,
     angleField: 'value',
     colorField: 'type',
     animation: false,
@@ -153,22 +143,43 @@ const StatsPage = () => {
   useEffect(() => {
     if (statsData) {
       setStatData(statsData?.data);
-      setDataSourceChart2([
-        {
-          type: 'Qua môn',
-          value: statData?.passed_students_count,
-        },
-        {
-          type: 'Thi lại',
-          value: statData?.not_passed_students_count,
-        },
-        {
-          type: 'Cấm thi',
-          value: statData?.banned_students_count,
-        },
-      ]);
+
     }
   }, [statsData]);
+
+  useEffect(() => {
+    setDataSourceChart([
+      {
+        type: 'Qua môn',
+        value: statData?.passed_joinned_students_count,
+      },
+      {
+        type: 'Thi lại',
+        value: statData?.not_passed_joinned_students_count,
+      },
+      {
+        type: 'Cấm thi',
+        value: statData?.banned_joinned_students_count,
+      },
+    ]);
+  }, [statData]);
+
+  useEffect(() => {
+    setDataSourceChart2([
+      {
+        type: 'Qua môn',
+        value: statData?.passed_students_count,
+      },
+      {
+        type: 'Thi lại',
+        value: statData?.not_passed_students_count,
+      },
+      {
+        type: 'Cấm thi',
+        value: statData?.banned_students_count,
+      },
+    ]);
+  }, [statData]);
 
   useEffect(() => {
     if (currentStatData) {
@@ -211,55 +222,60 @@ const StatsPage = () => {
         <div>Có lỗi xảy ra</div>
       ) : (
         <div className="tw-p-4">
-          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-4 ">
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5 ">
+          <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-5">
+            <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1 className='dark:tw-text-white'>Lớp tutor</h1>
+                <h1 className='dark:tw-text-white'>Môn tutor</h1>
                 <h2 className="tw-text-lg dark:tw-text-white">
-                  {statData?.classrooms_statistical?.length}
+                  {statData?.classrooms_statistical?.length ?? 0}
                 </h2>
               </div>
             </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+            <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
               <div className="tw-flex tw-flex-col tw-items-center">
-                <h1 className='dark:tw-text-white dark:tw-text-white'>Sinh viên tham gia</h1>
+                <h1 className='dark:tw-text-white'>Tổng sinh viên</h1>
                 <h2 className="tw-text-lg dark:tw-text-white">
-                  {statData?.joined_students_count}
+                  {statData?.total_students_count ?? 0}
                 </h2>
               </div>
             </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/4">
-              <div className="tw-flex tw-flex-1 tw-flex-col tw-items-center">
-                <h1 className='dark:tw-text-white '>Sv tham gia qua môn</h1>
+            <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
+              <div className="tw-flex tw-flex-col tw-items-center">
+                <h1 className='dark:tw-text-white'>Sinh viên tham gia</h1>
                 <h2 className="tw-text-lg dark:tw-text-white">
-                  {statData?.passed_joinned_students_count}
+                  {statData?.joined_students_count ?? 0}
                 </h2>
               </div>
             </div>
-            <div className="tw-w-full tw-border-2 tw-border-gray-700 tw-py-4 lg:tw-w-1/5">
+            <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1 className='dark:tw-text-white'>Giảng viên</h1>
-                <h2 className="tw-text-lg dark:tw-text-white">{statData?.teachers_count}</h2>
+                <h2 className="tw-text-lg dark:tw-text-white">{statData?.teachers?.length ?? 0}</h2>
+              </div>
+            </div>
+            <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
+              <div className="tw-flex tw-flex-col tw-items-center">
+                <h1 className='dark:tw-text-white'>Trợ giảng</h1>
+                <h2 className="tw-text-lg dark:tw-text-white">{statData?.tutors?.length ?? 0}</h2>
               </div>
             </div>
           </div>
-          <div className="tw-flex tw-py-6">
-            <div className="tw-w-1/2">
+          <div className="tw-flex lg:tw-flex-row tw-flex-col tw-py-6">
+            <div className="lg:tw-w-1/2 tw-w-full">
+              <Pie {...configChart2} />
+              <p className="tw-text-center dark:tw-text-white">
+                Thống kê theo tổng {statData?.total_students_count} sinh viên
+                của {statData?.classrooms_statistical?.length} môn
+              </p>
+            </div>
+            <div className="lg:tw-w-1/2 tw-w-full">
               <Pie
                 loading={isLoading || isFetching || currentLoading}
                 {...config}
               />
 
               <p className="tw-text-center dark:tw-text-white">
-                Thống kê theo {statData?.total_students_count} sinh viên tham
-                gia
-              </p>
-            </div>
-            <div className="tw-w-1/2">
-              <Pie {...configChart2} />
-              <p className="tw-text-center dark:tw-text-white">
-                Thống kê theo tổng {statData?.total_students_count} sinh viên
-                của {statData?.classrooms_statistical?.length} môn
+                Thống kê theo {statData?.joined_students_count} sinh viên tham gia
               </p>
             </div>
           </div>
@@ -271,6 +287,29 @@ const StatsPage = () => {
                   title: 'Môn',
                   dataIndex: 'subject',
                   key: 'subject',
+                  render: (text, record) => {
+                    return <div className="tw-text-blue-600 tw-cursor-pointer"
+                      onClick={() => lessonHistoryModalRef.current?.show(
+                        {
+                          data: statData?.classrooms_statistical?.find(
+                            (item) => item.id === record.id
+                          )?.lessons,
+                          subject: text,
+                        }
+
+                      )}
+                    >{text}</div>
+                  },
+                },
+                {
+                  title: 'Buổi học',
+                  dataIndex: 'lesson',
+                  key: 'lesson',
+                },
+                {
+                  title: 'Giảng viên phụ trách',
+                  dataIndex: 'teacher',
+                  key: 'teacher',
                 },
                 {
                   title: 'Tổng sinh viên',
@@ -283,48 +322,52 @@ const StatsPage = () => {
                   key: 'join',
                 },
                 {
-                  title: 'Buổi học',
-                  dataIndex: 'lesson',
-                  key: 'lesson',
-                },
-                {
                   title: 'Tỉ lệ sv qua môn',
                   dataIndex: 'pass',
                   key: 'pass',
-                  render: (text) => <span>{text}%</span>,
+                  render: (text) => <span dangerouslySetInnerHTML={{ __html: text }}></span>,
                 },
                 {
                   title: 'Tỉ lệ sv tham gia qua môn',
                   dataIndex: 'passJoin',
                   key: 'passJoin',
-                  render: (text) => <span>{text}%</span>,
+                  render: (text) => <span dangerouslySetInnerHTML={{ __html: text }}></span>,
                 },
               ]}
               rowClassName="tw-font-semibold"
               dataSource={statData?.classrooms_statistical?.map(
                 (item, idx) => ({
                   key: idx,
-                  subject: item?.id,
+                  id: item?.id,
+                  subject: item?.subject?.code,
                   total: item?.total_students_count,
-                  join: item?.joined_students_count,
+                  join: item?.joined_students.length,
                   lesson: item?.lessons.length,
+                  teacher: item?.default_teacher_email.split('@')[0],
                   pass:
-                    item?.passed_students_count > 0
+                    `${item?.passed_students_count}/${item?.total_students_count}&emsp;(
+                    ${item?.total_students_count > 0
                       ? (
                         item?.passed_students_count /
                         item?.total_students_count
                       ).toFixed(2) * 100
-                      : 0,
+                      : 0
+                    }%)
+                    `,
                   passJoin:
-                    item?.passed_joinned_students_count > 0
+                    `${item?.passed_joinned_students_count}/${item?.joined_students.length}&emsp;(
+                    ${item?.joined_students.length > 0
                       ? (
                         item?.passed_joinned_students_count /
-                        item?.joined_students_count
+                        item?.joined_students.length
                       ).toFixed(2) * 100
-                      : 0,
+                      : 0
+                    }%)
+                    `,
                 }),
               )}
             />
+            <ListLessonModal ref={lessonHistoryModalRef} />
           </div>
         </div>
       )}
