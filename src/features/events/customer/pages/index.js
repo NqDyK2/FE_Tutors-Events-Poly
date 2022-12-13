@@ -4,11 +4,8 @@ import React from 'react';
 import parse from 'html-react-parser';
 
 // import image
-import img1 from '../../../../assets/images/9-fptsetochuc_CEKW 1.png';
-import img2 from '../../../../assets/images/Anh-bia-Top-10 1.png';
-import img3 from '../../../../assets/images/su-kien-cong-nghe-lon-nhat-cua-fpt-sap-dien-ra-1573035901 1.png';
-import img4 from '../../../../assets/images/9-fptsetochuc_CEKW 1.png';
 import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
+import DetailEventModal from '../components/DetailEventModal';
 
 const EventsPage = () => {
   const { data, isLoading, error } = useGetAllEventQuery();
@@ -27,9 +24,13 @@ const EventsPage = () => {
                       {parse(item.content)}
                     </p>
                   </div> */}
-                  <Button className=' tw-mt-5 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'>
+                  <span className='tw-mt-5'>
+                    23:59:59
+                  </span> <br />
+                  <DetailEventModal content={item} />
+                  {/* <Button className=' tw-mt-5 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'>
                     Xem thêm
-                  </Button>
+                  </Button> */}
                 </Col>
               ))
             }
