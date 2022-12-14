@@ -13,7 +13,7 @@ const ContentLessonModal = ({ content }) => {
   };
   return (
     <div>
-      <Tooltip title="Xem dung buổi học" color="#FF6D28">
+      <Tooltip title="Xem nội dung buổi học" color="#FF6D28">
         <button
           onClick={showModal}
           className="tw-flex tw-cursor-pointer tw-border-none tw-text-[#1890ff] hover:tw-bg-transparent"
