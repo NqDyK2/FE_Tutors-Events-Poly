@@ -1,6 +1,8 @@
 import { Image, Modal } from 'antd';
 import React, { useState } from 'react'
 import parse from 'html-react-parser';
+import { useJoinEventMutation } from '../../../../app/api/eventApiSlice';
+import { toast } from 'react-toastify';
 
 const DetailEventModal = ({ content }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,22 +12,33 @@ const DetailEventModal = ({ content }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   }
-  console.log(content);
+  const [joinEvent, { isLoading: loading }] = useJoinEventMutation();
+  const submit = (id) => {
+    joinEvent(id).unwrap().then((res) => {
+      toast.success(res)
+      console.log(res);
+    }).catch((err) => {
+      toast.error(err)
+    })
+  }
   return (
     <>
       <Modal
         className="!tw-top-[40px]"
         // title="Ảnh sự kiện"
         open={isModalOpen}
-        onOk={handleCancel}
+        onOk={() => submit(content.id)}
         onCancel={handleCancel}
-        okText="Đóng"
+        okText="Đăng ký tham gia"
+        okType="default"
+        cancelText="Đóng"
         width={750}
         okButtonProps={{
           className:
-            'tw-bg-gray-700 hover:tw-bg-gray-800 tw-border-none tw-rounded',
+            ' tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
         }}
-        cancelButtonProps={{ style: { display: 'none' } }}
+        cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
+
       >
         <Image preview={false} src={`${process.env.REACT_APP_API_URL}/${parse(content.image)}`} width="100%" />
         {/* <div className="ql-editor tw-p-0">{parse(content)}</div> */}

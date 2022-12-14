@@ -28,7 +28,6 @@ const baseQueryWithoutContentType = fetchBaseQuery({
 });
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
-  console.log(args.exceptContentType)
   let result = await args.exceptContentType ? baseQueryWithoutContentType(args, api, extraOptions) : baseQuery(args, api, extraOptions);
 
   if (result?.error) {

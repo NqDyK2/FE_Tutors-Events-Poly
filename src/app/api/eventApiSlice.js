@@ -32,10 +32,11 @@ export const eventApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Event'],
         }),
         joinEvent: builder.mutation({
-            query: () => ({
-                url: 'evevt/join',
+            query: (id) => ({
+                url: `event/${id}/join`,
                 method: "POST",
-            })
+            }),
+            invalidatesTags: ['Event']
         }),
         cancelEvent: builder.mutation({
             query: () => ({
