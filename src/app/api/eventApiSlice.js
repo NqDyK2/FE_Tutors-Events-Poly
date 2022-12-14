@@ -39,8 +39,8 @@ export const eventApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Event']
         }),
         cancelEvent: builder.mutation({
-            query: () => ({
-                url: `event/cancel`,
+            query: (id) => ({
+                url: `event/${id}/cancel`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Event'],

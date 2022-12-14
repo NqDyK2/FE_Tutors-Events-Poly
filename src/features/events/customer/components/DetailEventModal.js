@@ -1,7 +1,7 @@
 import { Image, Modal } from 'antd';
 import React, { useState } from 'react'
 import parse from 'html-react-parser';
-import { useJoinEventMutation } from '../../../../app/api/eventApiSlice';
+import { useCancelEventMutation, useJoinEventMutation } from '../../../../app/api/eventApiSlice';
 import { toast } from 'react-toastify';
 
 const DetailEventModal = ({ content }) => {
@@ -13,12 +13,21 @@ const DetailEventModal = ({ content }) => {
     setIsModalOpen(false);
   }
   const [joinEvent, { isLoading: loading }] = useJoinEventMutation();
-  const submit = (id) => {
+  const [cancelEvent, { isLoading: load }] = useCancelEventMutation()
+  const joinEve = (id) => {
     joinEvent(id).unwrap().then((res) => {
-      toast.success(res)
-      console.log(res);
+      toast.success(res.data.message)
+      handleCancel()
     }).catch((err) => {
-      toast.error(err)
+      toast.error(err.data.message)
+    })
+  }
+  const cancelEve = (id) => {
+    cancelEvent(id).unwrap().then((res) => {
+      toast.success(res.data.message)
+      handleCancel()
+    }).catch((err) => {
+      toast.error(err.data.message)
     })
   }
   return (
@@ -27,16 +36,16 @@ const DetailEventModal = ({ content }) => {
         className="!tw-top-[40px]"
         // title="Ảnh sự kiện"
         open={isModalOpen}
-        onOk={() => submit(content.id)}
+        onOk={content.registered === 0 ? () => joinEve(content.id) : () => cancelEve(content.id)}
+        okText={content.registered === 0 ? "Đăng ký tham gia" : "Huỷ đăng ký"}
         onCancel={handleCancel}
-        okText="Đăng ký tham gia"
         okType="default"
         cancelText="Đóng"
         width={750}
-        okButtonProps={{
+        okButtonProps={content.registered === 0 ? {
           className:
             ' tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',
-        }}
+        } : { className: 'tw-bg-red-500 hover:tw-bg-red-600 tw-text-slate-100 tw-border-none' }}
         cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
 
       >
