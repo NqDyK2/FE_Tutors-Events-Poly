@@ -281,6 +281,7 @@ const StatsPage = () => {
           </div>
           <div>
             <Table
+              pagination={false}
               columns={[
                 {
                   title: 'Môn',
