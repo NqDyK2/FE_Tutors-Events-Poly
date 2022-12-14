@@ -138,13 +138,13 @@ const TimeTable = () => {
     }
   ];
 
-  const dataClass = listClassMisses?.data.map((item, index) => ({
+  const dataClass = listClassMisses?.data?.map((item, index) => ({
     key: index,
     id: item.id,
     subject_name: item.name,
     subject_code: item.code,
   }));
-  const dataTable = listSchedule?.data.map((item, index) => ({
+  const dataTable = listSchedule?.data?.map((item, index) => ({
     key: index,
     id: item.id,
     stt: index + 1,
@@ -163,7 +163,7 @@ const TimeTable = () => {
     isCheckedIn: item.is_checked_in,
   }));
 
-  const needFeedback = listSchedule?.need_feedback.map((item, index) => ({
+  const needFeedback = listSchedule?.need_feedback?.map((item, index) => ({
     key: index,
     subjectName: item.subject.name,
     subjectCode: item.subject.code,
@@ -175,7 +175,7 @@ const TimeTable = () => {
     joinClass(id)
       .unwrap()
       .then((res) => {
-        setSkip(listClassMisses?.data.length)
+        setSkip(listClassMisses?.data?.length)
         setJoinClassLoading(null);
         toast.success(res.message);
       })
@@ -209,7 +209,7 @@ const TimeTable = () => {
     );
   }
 
-  if (listClassMisses?.data.length) {
+  if (listClassMisses?.data?.length) {
     return (
       <div>
         <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
@@ -255,7 +255,7 @@ const TimeTable = () => {
     return (
       <div>
         <h2 className="tw-mb-4 tw-text-center tw-text-lg dark:tw-text-white">
-          Bạn có {needFeedback.length} môn học cần đánh giá.
+          Bạn có {needFeedback?.length} môn học cần đánh giá.
         </h2>
         <List
           dataSource={needFeedback}
