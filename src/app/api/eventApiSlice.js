@@ -39,8 +39,8 @@ export const eventApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Event']
         }),
         cancelEvent: builder.mutation({
-            query: () => ({
-                url: `event/cancel`,
+            query: (id) => ({
+                url: `event/${id}/cancel`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Event'],
@@ -55,6 +55,14 @@ export const eventApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
             }),
             invalidatesTags: ['Event']
+        }),
+        feedbackEvent: builder.mutation({
+            query: ({ id, fb }) => ({
+                url: `event/${id}/feedback`,
+                body: fb,
+                method: "POST",
+            }),
+            invalidatesTags: ['Event'],
         })
     }),
 });
