@@ -55,6 +55,14 @@ export const eventApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
             }),
             invalidatesTags: ['Event']
+        }),
+        feedbackEvent: builder.mutation({
+            query: ({ id, fb }) => ({
+                url: `event/${id}/feedback`,
+                body: fb,
+                method: "POST",
+            }),
+            invalidatesTags: ['Event'],
         })
     }),
 });

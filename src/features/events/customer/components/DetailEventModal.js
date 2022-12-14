@@ -16,7 +16,7 @@ const DetailEventModal = ({ content }) => {
   const [cancelEvent, { isLoading: load }] = useCancelEventMutation()
   const joinEve = (id) => {
     joinEvent(id).unwrap().then((res) => {
-      toast.success(res.data.message)
+      toast.success(res.message)
       handleCancel()
     }).catch((err) => {
       toast.error(err.data.message)
@@ -24,7 +24,7 @@ const DetailEventModal = ({ content }) => {
   }
   const cancelEve = (id) => {
     cancelEvent(id).unwrap().then((res) => {
-      toast.success(res.data.message)
+      toast.success(res.message)
       handleCancel()
     }).catch((err) => {
       toast.error(err.data.message)
