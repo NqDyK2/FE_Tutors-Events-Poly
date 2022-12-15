@@ -22,3 +22,8 @@
 .list_major .ant-collapse-content {
   @apply dark:!tw-bg-transparent;
 }
+
+.ant-table-row-expand-icon:hover,
+.ant-table-row-expand-icon-collapsed:hover {
+  @apply !tw-bg-white;
+}
