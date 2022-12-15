@@ -1,17 +1,19 @@
 import { G2, Pie } from '@ant-design/charts';
-import { Select, Table } from 'antd';
+import { Select, Table, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   useGetAllSemesterQuery,
   useGetCurrentSemesterStatsQuery,
   useGetSemesterStatsMutation,
+  useGetSemesterExportDataMutation,
 } from '../../../app/api/semesterApiSlice';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import Spinner from '../../../components/Spinner';
 import ListLessonModal from '../components/ListLessonModal';
 import TeacherStatModal from '../components/TeacherStatModal';
 import TutorStatModal from '../components/TutorStatModal';
+import XLSX from 'xlsx';
 
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
@@ -19,6 +21,7 @@ const StatsPage = () => {
   const [dataSourceChart, setDataSourceChart] = useState([]);
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
+  const [dataExport, setDataExport] = React.useState([]);
   const lessonHistoryModalRef = React.useRef(null);
   const teachersHistoryModalRef = React.useRef(null);
   const tutorHistoryModalRef = React.useRef(null);
@@ -30,6 +33,9 @@ const StatsPage = () => {
   } = useGetAllSemesterQuery();
   const [getStatData, { isLoading, isError, data: statsData, isFetching }] =
     useGetSemesterStatsMutation();
+  const [getDataExport, { isLoadingDataExport, isErrorDataExport, data: dataExportResponse, isFetchingDataExport }] =
+    useGetSemesterExportDataMutation();
+
   const {
     data: currentStatData,
     isLoading: currentLoading,
@@ -152,6 +158,12 @@ const StatsPage = () => {
   }, [statsData]);
 
   useEffect(() => {
+    if (dataExportResponse) {
+      setDataExport(dataExportResponse?.data);
+    }
+  }, [dataExportResponse]);
+
+  useEffect(() => {
     setDataSourceChart([
       {
         type: 'Qua môn',
@@ -191,6 +203,25 @@ const StatsPage = () => {
       setSelectValue(currentStatData?.data?.id);
     }
   }, [currentStatData]);
+
+  const exportXlsx = (async (semesterId, name) => {
+    await getDataExport(semesterId)
+
+    if (!dataExport?.students?.length) return;
+
+    let wb = {
+      SheetNames: ["sinh_vien", "giang_vien"],
+      Sheets: {
+        sinh_vien: XLSX.utils.json_to_sheet(dataExport.students),
+        giang_vien: XLSX.utils.json_to_sheet([])
+      }
+    }
+    let ws = XLSX.utils.json_to_sheet([]);
+
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet");
+
+    return XLSX.writeFile(wb, name + "-tutor.xlsx");
+  });
 
   return (
     <div>
@@ -307,6 +338,13 @@ const StatsPage = () => {
               </p>
             </div>
           </div>
+          <Button
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
+            type="link"
+            onClick={() => exportXlsx(statData.id, statData.name)}
+          >
+            TẢI XUỐNG THỐNG KÊ CHO KỲ HIỆN TẠI
+          </Button>
           <div>
             <Table
               pagination={false}
