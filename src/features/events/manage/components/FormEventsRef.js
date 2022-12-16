@@ -61,7 +61,7 @@ const FormEventsRef = (props, ref) => {
         // data.append('upload_preset', 'darwin')
     }
     const [UpdateEvent, { isLoading: Loading }] = useUpdateEventMutation();
-    const [AddEvent, { isLoading: eventLoading }] = useAddEventMutation()
+    const [AddEvent, { isLoading: eventLoading, error: eventError }] = useAddEventMutation()
     const onFinished = (values) => {
 
         const formData = new FormData()
@@ -106,7 +106,7 @@ const FormEventsRef = (props, ref) => {
                 forceRender
                 open={visible}
                 okType="default"
-                // confirmLoading={addLoading || updateLoading}
+                confirmLoading={Loading || eventLoading}
                 destroyOnClose
                 okText="Lưu"
                 onOk={() => {
@@ -241,22 +241,17 @@ const FormEventsRef = (props, ref) => {
                     // extra="longgggggggggggggggggggggggggggggggggg"
                     >
                         <Input type='file' name="file" onChange={uploadImage} />
-                        {/* <Upload.Dragger
-                            multiple
-                            listType="picture-card"
-                            onChange={handleAnt}
-                        // action={'http://localhost:3000/manage-events'}
-                        // beforeUpload={(file) => {
-                        //     console.log({ file });
-
-                        //     return false
-                        // }}
-                        // {...propsImg} 
-                        >
-                            <Button icon={<UploadOutlined />}>Chọn hoặc kéo ảnh</Button>
-                        </Upload.Dragger> */}
                     </Form.Item>
                 </Form>
+                <div>
+                    {error && (
+                        <p>
+                            <span className="tw-text-red-500 tw-font-semibold tw-mr-2">
+                                {error.message || error.data.message || error.data || 'Lỗi không xác định'}
+                            </span>
+                        </p>
+                    )}
+                </div>
             </Modal>
         </>
     )
