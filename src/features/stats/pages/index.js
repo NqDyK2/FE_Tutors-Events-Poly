@@ -14,6 +14,7 @@ import ListLessonModal from '../components/ListLessonModal';
 import TeacherStatModal from '../components/TeacherStatModal';
 import TutorStatModal from '../components/TutorStatModal';
 import XLSX from 'xlsx';
+import { toast } from 'react-toastify';
 
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
@@ -21,7 +22,6 @@ const StatsPage = () => {
   const [dataSourceChart, setDataSourceChart] = useState([]);
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
-  const [dataExport, setDataExport] = React.useState([]);
   const lessonHistoryModalRef = React.useRef(null);
   const teachersHistoryModalRef = React.useRef(null);
   const tutorHistoryModalRef = React.useRef(null);
@@ -35,6 +35,31 @@ const StatsPage = () => {
     useGetSemesterStatsMutation();
   const [getDataExport, { isLoadingDataExport, isErrorDataExport, data: dataExportResponse, isFetchingDataExport }] =
     useGetSemesterExportDataMutation();
+
+
+  const exportXlsx = (async (semesterId, name) => {
+    await getDataExport(semesterId).unwrap().then(({ data }) => {
+      console.log(data);
+      if (!data?.students?.length) return;
+
+      let wb = {
+        SheetNames: ["sinh_vien", "giang_vien"],
+        Sheets: {
+          sinh_vien: XLSX.utils.json_to_sheet(data.students),
+          giang_vien: XLSX.utils.json_to_sheet([])
+        }
+      }
+      let ws = XLSX.utils.json_to_sheet([]);
+
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet");
+
+      return XLSX.writeFile(wb, name + "-tutor.xlsx");
+    }).catch((err) => {
+      toast.error(err.message)
+    })
+
+
+  });
 
   const {
     data: currentStatData,
@@ -158,12 +183,6 @@ const StatsPage = () => {
   }, [statsData]);
 
   useEffect(() => {
-    if (dataExportResponse) {
-      setDataExport(dataExportResponse?.data);
-    }
-  }, [dataExportResponse]);
-
-  useEffect(() => {
     setDataSourceChart([
       {
         type: 'Qua môn',
@@ -204,24 +223,6 @@ const StatsPage = () => {
     }
   }, [currentStatData]);
 
-  const exportXlsx = (async (semesterId, name) => {
-    await getDataExport(semesterId)
-
-    if (!dataExport?.students?.length) return;
-
-    let wb = {
-      SheetNames: ["sinh_vien", "giang_vien"],
-      Sheets: {
-        sinh_vien: XLSX.utils.json_to_sheet(dataExport.students),
-        giang_vien: XLSX.utils.json_to_sheet([])
-      }
-    }
-    let ws = XLSX.utils.json_to_sheet([]);
-
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet");
-
-    return XLSX.writeFile(wb, name + "-tutor.xlsx");
-  });
 
   return (
     <div>
