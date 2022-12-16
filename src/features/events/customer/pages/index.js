@@ -42,7 +42,7 @@ const EventsPage = () => {
           <div className='tw-grid-cols-1 md:tw-gap-6 tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-4' >
             {
               data?.data?.map((item, index) => (
-                <div className='tw-text-center tw-w-full truncate tw-flex tw-flex-col'>
+                <div key={index} className='tw-text-center tw-w-full truncate tw-flex tw-flex-col'>
                   <div className='tw-w-full  tw-max-h-[150px] tw-mb-2 '>
 
                     <img src={`${process.env.REACT_APP_API_URL}/${item.image}`} className=' tw-h-full tw-w-full tw-object-cover' />
