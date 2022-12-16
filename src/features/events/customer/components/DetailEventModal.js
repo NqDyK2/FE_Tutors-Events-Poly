@@ -41,7 +41,7 @@ const DetailEventModal = ({ content }) => {
         onCancel={handleCancel}
         okType="default"
         cancelText="Đóng"
-        width={'full'}
+        width={700}
         okButtonProps={content.registered === 0 ? {
           className:
             ' tw-bg-sky-400 tw-text-slate-100 hover:tw-bg-sky-500 tw-border-none',

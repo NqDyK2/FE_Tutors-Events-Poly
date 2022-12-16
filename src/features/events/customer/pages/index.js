@@ -39,12 +39,6 @@ const EventsPage = () => {
                   {/* <Button className=' tw-mt-5 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'>
                     Xem thêm
                   </Button> */}
-                  {
-                    item.registered !== 0 ?
-                      <Button>
-                        Đánh giá sự kiện
-                      </Button> : ""
-                  }
                 </Col>
               ))
             }
