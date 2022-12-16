@@ -3,12 +3,15 @@ import React, { useState } from 'react'
 import parse from 'html-react-parser';
 import { useCancelEventMutation, useJoinEventMutation } from '../../../../app/api/eventApiSlice';
 import { toast } from 'react-toastify';
+import CountdownTimer from '../../../../components/CountDownTimer';
 
 const DetailEventModal = ({ content }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   }
+
+  console.log(content);
   const handleCancel = () => {
     setIsModalOpen(false);
   }
@@ -57,6 +60,7 @@ const DetailEventModal = ({ content }) => {
         <span>
           {parse(content.content)}
         </span>
+        <CountdownTimer targetDate={content.start_time} />
       </Modal>
       <button
         onClick={showModal}
