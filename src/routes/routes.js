@@ -64,15 +64,11 @@ const AppRoutes = () => {
 
           <Route element={<AttendanceGuard />}>
             <Route path="/lich-day" element={<TeachingSchedule />} />
-            <Route path="/diem-danh" element={<AttendanceClassList />} />
-            <Route
+            {/* <Route path="/diem-danh" element={<AttendanceClassList />} /> */}
+            {/* <Route
               path="/diem-danh/lop/:classId"
               element={<AttendanceClassLessons />}
-            />
-            <Route
-              path="/diem-danh/buoi-hoc/:lessonId"
-              element={<AttendanceStudentList />}
-            />
+            /> */}
           </Route>
         </Route>
       </Route>

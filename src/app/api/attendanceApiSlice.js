@@ -13,9 +13,14 @@ export const attendanceApiSlice = apiSlice.injectEndpoints({
         return response.data;
       },
     }),
-    getAttendanceLessonListStudent: builder.query({
-      query: (lessonId) => `attendance/lesson/${lessonId}`,
-      providesTags: ['Attendance'],
+    getAttendanceLessonListStudent: builder.mutation({
+      // query: (lessonId) => `attendance/lesson/${lessonId}`,
+      query: (lessonId) => ({
+        url: `attendance/lesson/${lessonId}`,
+        method: 'GET',
+
+      }),
+      invalidatesTags: ['Attendance'],
 
     }),
     updateAttendanceStudentStatus: builder.mutation({
@@ -33,5 +38,5 @@ export const {
   useGetAttendanceListClassQuery,
   useGetAttendanceClassLessonQuery,
   useUpdateAttendanceStudentStatusMutation,
-  useGetAttendanceLessonListStudentQuery,
+  useGetAttendanceLessonListStudentMutation,
 } = attendanceApiSlice;

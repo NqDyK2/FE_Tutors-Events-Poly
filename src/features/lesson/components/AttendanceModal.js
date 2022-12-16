@@ -1,11 +1,11 @@
 import { Button, Modal, Table, Tag, Tooltip } from 'antd';
 import React, { useState } from 'react';
-import parse from 'html-react-parser';
 import 'react-quill/dist/quill.snow.css';
-import { useGetAttendanceLessonListStudentQuery } from '../../../app/api/attendanceApiSlice';
+import { useGetAttendanceLessonListStudentMutation } from '../../../app/api/attendanceApiSlice';
 import { useInViteClassMutation } from '../../../app/api/studentApiSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../../../components/Spinner';
+import { useEffect } from 'react';
 
 const AttendanceModal = ({ content, lessonId, subjectName }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,9 +17,7 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
         setIsModalOpen(false);
     };
     const [inviteStudenttoClass] = useInViteClassMutation();
-    const { data, isLoading, error } = useGetAttendanceLessonListStudentQuery(
-        lessonId
-    );
+    const [getData, { data, isLoading, error }] = useGetAttendanceLessonListStudentMutation()
     const handleInviteStudent = ({ student_email }) => {
         inviteStudenttoClass({
             student_email,
@@ -108,6 +106,12 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
     });
 
 
+    useEffect(() => {
+        if (lessonId && isModalOpen) {
+            getData(lessonId)
+        }
+    }, [lessonId, isModalOpen])
+
     return (
         <div>
             <Tooltip title="Xem danh sách sinh viên tham gia" color="#FF6D28">
@@ -130,6 +134,9 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
                         'tw-bg-gray-700 hover:tw-bg-gray-800 tw-border-none tw-rounded',
                 }}
                 cancelButtonProps={{ style: { display: 'none' } }}
+                destroyOnClose
+                // only render modal when it's visible to avoid unmounting after close
+                forceRender
             >
                 <>
                     <h2 className="tw-mt- dark:tw-text-white">

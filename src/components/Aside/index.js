@@ -85,12 +85,6 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/lich-day',
       <SolutionOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
     ),
-    // acceptAttendance &&
-    // getItem(
-    //   <div className="dark:tw-text-white">Điểm danh</div>,
-    //   '/diem-danh',
-    //   <CarryOutOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
-    // ),
     studentTutorial &&
     getItem(
       <div
