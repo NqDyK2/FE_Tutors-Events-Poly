@@ -1,5 +1,5 @@
 import { Button, Space, Table, Tooltip } from 'antd'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
 import {
     EditOutlined,
@@ -18,9 +18,12 @@ import { toast } from 'react-toastify';
 import ImageEventViewModal from '../components/ImageEventViewModal';
 import { Link } from 'react-router-dom';
 import moment from 'moment/moment';
+import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
+import { useDispatch } from 'react-redux';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
+    const dispatch = useDispatch();
     const [removeEvent] = useDeleteEventMutation();
     const handleRemoveEvent = (id) => {
         removeEvent(id).unwrap().then((res) => {
@@ -130,7 +133,15 @@ const ManageEvent = () => {
 
     // `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10,-3,)}`,
 
-
+    useEffect(() => {
+        dispatch(
+            setFlexBreadcrumb([
+                {
+                    title: 'Quản lý sự kiện',
+                },
+            ]),
+        );
+    });
 
     return (
         <>

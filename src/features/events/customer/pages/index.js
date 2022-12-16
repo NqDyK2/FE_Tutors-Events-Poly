@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Button, Col, Row } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 
 // import image
 import { useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
 import DetailEventModal from '../components/DetailEventModal';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 
 const EventsPage = () => {
   const { data, isLoading, error } = useGetAllEventQuery();
+  const dispatch = useDispatch();
 
   const compareDate = (startTime, endTime) => {
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
@@ -20,6 +23,17 @@ const EventsPage = () => {
     }
     return "Đang diễn ra"
   }
+
+  useEffect(() => {
+    dispatch(
+      setFlexBreadcrumb([
+        {
+          title: 'Sự kiện',
+        },
+      ]),
+    );
+  });
+
   return (
     <>
       {data && (

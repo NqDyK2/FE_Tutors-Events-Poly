@@ -14,6 +14,7 @@ const HomePage = () => {
   }, [dispatch])
 
   const eventsData = [
+
   ];
 
   return (
