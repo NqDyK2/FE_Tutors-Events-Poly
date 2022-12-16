@@ -57,6 +57,13 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Semester'],
     }),
+    getSemesterExportData: builder.mutation({
+      query: (id) => ({
+        url: `statistics/${id}/export-data`,
+        method: 'GET',
+      }),
+      invalidatesTags: ['SemesterExport'],
+    }),
     getCurrentSemesterStats: builder.query({
       query: (id) => `statistics`,
       providesTags: ['Semester'],
@@ -83,6 +90,7 @@ export const {
   useUpdateSemesterMutation,
   useDeleteSemesterMutation,
   useGetSemesterStatsMutation,
+  useGetSemesterExportDataMutation,
   useGetCurrentSemesterStatsQuery,
   useImportResultSemesterMutation,
 } = semesterApiSlice;

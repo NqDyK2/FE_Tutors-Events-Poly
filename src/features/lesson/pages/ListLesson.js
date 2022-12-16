@@ -19,51 +19,47 @@ import { useDispatch } from 'react-redux';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import ContentLessonModal from '../components/ContentLessonModal';
 import ModalEditContent from '../../../components/Modal/ModalEditContent';
+import AttendanceModal from '../components/AttendanceModal';
 
 const columns = [
   {
     title: 'STT',
     dataIndex: 'stt',
     key: 'stt',
+    width: 50,
     render: (text) => <strong>{text}</strong>,
-    width: '5%',
   },
   {
     title: 'Thứ - Ngày/Tháng',
     dataIndex: 'ngay',
     key: 'ngay',
-    width: '13%',
   },
   {
     title: 'Thời gian',
     dataIndex: 'thoigian',
     key: 'thoigian',
-    width: '10%',
   },
   {
     title: 'Môn học',
     dataIndex: 'subjects_name',
     key: 'subjects_name',
-    width: '10%',
   },
 
   {
     title: 'Mã môn',
     dataIndex: 'subjects_code',
     key: 'subjects_code',
-    width: '8%',
   },
   {
     title: 'Hình thức',
     dataIndex: 'hinhthuc',
     key: 'hinhthuc',
-    width: '7%',
   },
   {
     title: 'Phòng học',
     dataIndex: 'phonghoc',
     key: 'phonghoc',
-    width: '10%',
+    width: 150,
     render: (_, record) =>
       record.hinhthuc === 'Offline' ? (
         <span>{record.phonghoc}</span>
@@ -85,7 +81,6 @@ const columns = [
     title: 'Giảng viên',
     dataIndex: 'teacher_email',
     key: 'teacher_email',
-    width: '10%',
     render: (_, record) => (
       <Tooltip title={`${record.teacher_email}`} color="#FF6D28">
         <span>{record.teacher_email.split('@')[0]}</span>
@@ -96,7 +91,6 @@ const columns = [
     title: 'Trợ giảng',
     dataIndex: 'tutor_email',
     key: 'tutor_email',
-    width: '10%',
     _render: (_, record) =>
       record.tutor_email === null ? (
         <span>Trống</span>
@@ -118,10 +112,17 @@ const columns = [
     },
   },
   {
+    title: 'Sinh viên tham gia',
+    dataIndex: 'attended_count',
+    key: 'attended_count',
+    render: (_, record) => (
+      <AttendanceModal subjectName={record.subjects_name} lessonId={record.id} content={record.attended_count} />
+    ),
+  },
+  {
     title: 'Nội dung',
     dataIndex: 'chitiet',
     key: 'chitiet',
-    width: '8%',
     render: (_, record) => (
       <ContentLessonModal content={record.chitiet ? record.chitiet : ''} />
     ),
@@ -219,10 +220,10 @@ const ListLesson = () => {
         id: item.id,
         ngay: timeFormat(item.start_time.split('  ')[0]),
         hinhthuc: item.type ? 'Offline' : 'Online',
-        thoigian: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
+        thoigian: `${item.start_time.slice(10, -3)}:00 - ${item.end_time.slice(
           10,
           -3,
-        )}`,
+        )}:00`,
         phonghoc: item.class_location,
         tutor_email: item.tutor_email,
         teacher_email: item.teacher_email,
@@ -231,6 +232,7 @@ const ListLesson = () => {
         chitiet: item.content,
         attended: item.attended,
         action: { modalRef, item, handleRemoveLesson },
+        attended_count: item.attended_count + " / " + item.total_student,
       };
     });
   }
