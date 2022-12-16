@@ -39,7 +39,6 @@ const StatsPage = () => {
 
   const exportXlsx = (async (semesterId, name) => {
     await getDataExport(semesterId).unwrap().then(({ data }) => {
-      console.log(data);
       if (!data?.students?.length) return;
 
       let wb = {
