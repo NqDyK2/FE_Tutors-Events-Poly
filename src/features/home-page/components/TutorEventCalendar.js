@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Popover } from 'antd';
+import moment from 'moment';
 
 const TutorEventCalendar = (props) => {
   const [events, setEvents] = React.useState([]);
@@ -60,10 +61,13 @@ const TutorEventCalendar = (props) => {
                     <div className="tw-text-sm">{info.event.title}</div>
 
                     <div className="tw-text-sm tw-font-bold">Ngày bắt đầu:</div>
-                    <div className="tw-text-sm">{info.event.start.toLocaleString()}</div>
+                    <div className="tw-text-sm">{
+                      moment(info.event.start).format('DD/MM/YYYY HH:mm')
+                    }</div>
 
                     <div className="tw-text-sm tw-font-bold">Ngày kết thúc:</div>
-                    <div className="tw-text-sm">{info.event.end.toLocaleString()}</div>
+                    <div className="tw-text-sm">{moment(info.event.end).format('DD/MM/YYYY HH:mm')
+                    }</div>
 
                     <div className="tw-text-sm tw-font-bold">Địa điểm:</div>
                     <div className="tw-text-sm">{info.event.extendedProps.location}</div>
