@@ -49,7 +49,6 @@ const FormEventsRef = (props, ref) => {
         }
     }))
     const handleAnt = e => {
-        console.log(e.file.originFileObj.name);
         setAntPics(e.file.originFileObj);
 
     };
@@ -131,7 +130,6 @@ const FormEventsRef = (props, ref) => {
                     preserve={false}
                     onFinish={onFinished}
                     onFinishFailed={(e) => {
-                        console.log(e);
                     }}
                     onChange={() => {
                         setError(null);

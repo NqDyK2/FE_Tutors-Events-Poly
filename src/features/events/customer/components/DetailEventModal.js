@@ -11,7 +11,6 @@ const DetailEventModal = ({ content }) => {
     setIsModalOpen(true);
   }
 
-  console.log(content);
   const handleCancel = () => {
     setIsModalOpen(false);
   }
