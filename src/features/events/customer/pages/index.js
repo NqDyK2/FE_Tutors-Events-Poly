@@ -28,11 +28,11 @@ const EventsPage = () => {
             {
               data.data?.map((item, index) => (
                 <Col key={index} span={6} className='tw-text-center tw-w-96 truncate tw-flex tw-flex-col'>
-                  <div className='tw-w-full tw-h-full tw-mb-2 '>
+                  <div className='tw-w-full  tw-max-h-[150px] tw-mb-2 '>
 
-                    <img src={`${process.env.REACT_APP_API_URL}/${item.image}`} className='  tw-object-cover' />
+                    <img src={`${process.env.REACT_APP_API_URL}/${item.image}`} className=' tw-h-full tw-object-cover' />
                   </div>
-                  <div className=' tw-flex-1 '>
+                  <div className='tw-flex-1 '>
                     <span className='tw-text-xl dark:tw-text-white'> {item.name} </span> <br />
                   </div>
                   <span className=''>
