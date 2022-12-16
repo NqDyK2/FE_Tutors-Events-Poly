@@ -50,7 +50,7 @@ const TutorEventCalendar = (props) => {
         return (
           <Popover content={() => {
             return (
-              <div>
+              <div className='!tw-min-w-[250px]'>
                 <div className="tw-flex tw-flex-col tw-gap-y-2">
                   <div className="tw-flex tw-flex-col tw-gap-x-2">
                     <div>
