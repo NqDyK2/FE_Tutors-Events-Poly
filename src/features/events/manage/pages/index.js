@@ -116,7 +116,8 @@ const ManageEvent = () => {
                 key: index,
                 stt: index + 1,
                 id: item.id,
-                date: moment(item.start_time).format('dddd, DD/MM/YYYY',),
+                date: moment(item.start_time).format('dddd, DD/MM/YYYY')
+                    .replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
                     10,
                     -3,
@@ -129,8 +130,6 @@ const ManageEvent = () => {
             }
         })
     }
-
-    // `${item.start_time.slice(10, -3)} - ${item.end_time.slice(10,-3,)}`,
 
     useEffect(() => {
         dispatch(
@@ -177,7 +176,7 @@ const ManageEvent = () => {
             <Table
                 columns={columns}
                 scroll={{ y: 350 }}
-                dataSource={data}
+                dataSource={data ? data : []}
                 pagination={false}
                 size={'middle'}
                 loading={{ indicator: <Spinner />, spinning: isLoading }}

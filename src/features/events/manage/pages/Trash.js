@@ -4,12 +4,12 @@ import { FaReply } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { GiBackwardTime } from "react-icons/gi"
-import { timeFormat } from '../../../../utils/TimeFormat';
 import { useGetAllTrashEventQuery, useRetstoreEventMutation } from '../../../../app/api/eventApiSlice';
 import ContentEventModal from '../components/ContentEventModal';
 import ImageEventViewModal from '../components/ImageEventViewModal';
 import Spinner from '../../../../components/Spinner';
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup';
+import moment from 'moment/moment';
 
 const Trash = () => {
     const navigate = useNavigate();
@@ -110,7 +110,9 @@ const Trash = () => {
                 key: index,
                 stt: index + 1,
                 id: item.id,
-                date: timeFormat(item.start_time.split('')[0]),
+                date: moment(item.start_time).format('dddd, DD/MM/YYYY')
+                    .replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
+                ,
                 time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
                     10,
                     -3,
