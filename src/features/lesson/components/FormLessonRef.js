@@ -118,8 +118,6 @@ const FormLessonRef = (props, ref) => {
     }
   };
 
-  console.log(ref);
-
   const onChangeType = (values) => {
     setTypeOfLesson(values);
   };

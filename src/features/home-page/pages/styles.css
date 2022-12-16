@@ -45,3 +45,22 @@
 .fc-header-toolbar {
   @apply !tw-mb-0 !tw-bg-cyan-500;
 }
+
+/* responsive calendar */
+@media (max-width: 640px) {
+  .fc-toolbar-title {
+    @apply !tw-text-base;
+  }
+  .fc-button {
+    @apply !tw-text-sm;
+  }
+}
+
+@media (max-width: 480px) {
+  .fc-toolbar-title {
+    @apply !tw-text-sm;
+  }
+  .fc-button {
+    @apply !tw-text-xs;
+  }
+}
