@@ -17,6 +17,7 @@ import ContentEventModal from '../components/ContentEventModal';
 import { toast } from 'react-toastify';
 import ImageEventViewModal from '../components/ImageEventViewModal';
 import { Link } from 'react-router-dom';
+import moment from 'moment/moment';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -113,7 +114,7 @@ const ManageEvent = () => {
                 key: index,
                 stt: index + 1,
                 id: item.id,
-                date: timeFormat(item.start_time.split('')[0]),
+                date: moment(item.start_time).format('dddd, DD/MM/YYYY',),
                 time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
                     10,
                     -3,
