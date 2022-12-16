@@ -6,6 +6,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { Popover } from 'antd';
 
 const TutorEventCalendar = (props) => {
+  const [events, setEvents] = React.useState([]);
+  React.useEffect(() => {
+    setEvents(props.eventsData);
+  }, [props.eventsData]);
+
   return (
     <FullCalendar
       schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
@@ -41,12 +46,33 @@ const TutorEventCalendar = (props) => {
         minute: '2-digit',
       }}
       nowIndicator={true}
-      //  validRange={{
-      //     start: Date.now()
-      //  }}
       eventContent={(info) => {
         return (
-          <Popover content={info.event.title} trigger="click" title="Thông tin chi tiết" key={info}>
+          <Popover content={() => {
+            return (
+              <div>
+                <div className="tw-flex tw-flex-col tw-gap-y-2">
+                  <div className="tw-flex tw-flex-col tw-gap-x-2">
+                    <div>
+                      <img src={`${process.env.REACT_APP_API_URL}/${info.event.extendedProps.image}`} alt="avatar" className="tw-w-full tw-h-[100px]  tw-object-cover" />
+                    </div>
+                    <div className="tw-text-sm tw-font-bold">Tiêu đề:</div>
+                    <div className="tw-text-sm">{info.event.title}</div>
+
+                    <div className="tw-text-sm tw-font-bold">Ngày bắt đầu:</div>
+                    <div className="tw-text-sm">{info.event.start.toLocaleString()}</div>
+
+                    <div className="tw-text-sm tw-font-bold">Ngày kết thúc:</div>
+                    <div className="tw-text-sm">{info.event.end.toLocaleString()}</div>
+
+                    <div className="tw-text-sm tw-font-bold">Địa điểm:</div>
+                    <div className="tw-text-sm">{info.event.extendedProps.location}</div>
+
+                  </div>
+                </div>
+              </div>
+            )
+          }} trigger="click" title="Thông tin chi tiết" key={info}>
             <div className="tw-text-sm tw-font-bold tw-text-center tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-h-6 tw-w-full tw-p-1  tw-rounded-md"
               style={{ backgroundColor: info.backgroundColor ? info.backgroundColor : '#000' }}
             >
@@ -57,7 +83,7 @@ const TutorEventCalendar = (props) => {
       }}
       initialView="dayGridMonth"
       dayMaxEvents={4}
-      events={props.eventsData}
+      events={events ? events : []}
     />
   );
 };
