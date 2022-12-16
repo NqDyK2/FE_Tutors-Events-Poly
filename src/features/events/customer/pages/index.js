@@ -9,9 +9,10 @@ import DetailEventModal from '../components/DetailEventModal';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
+import Spinner from '../../../../components/Spinner';
 
 const EventsPage = () => {
-  const { data, isLoading, error } = useGetAllEventQuery();
+  const { data, isLoading, error, isSuccess } = useGetAllEventQuery();
   const dispatch = useDispatch();
 
   const compareDate = (startTime, endTime) => {
@@ -36,11 +37,11 @@ const EventsPage = () => {
 
   return (
     <>
-      {data && (
+      {isSuccess && (
         <div>
           <div className='tw-grid-cols-1 md:tw-gap-6 tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-4' >
             {
-              data.data?.map((item, index) => (
+              data?.data?.map((item, index) => (
                 <div className='tw-text-center tw-w-full truncate tw-flex tw-flex-col'>
                   <div className='tw-w-full  tw-max-h-[150px] tw-mb-2 '>
 
@@ -62,6 +63,11 @@ const EventsPage = () => {
               ))
             }
           </div>
+        </div>
+      )}
+      {isLoading && (
+        <div className='tw-flex tw-items-center tw-justify-center tw-min-h-[45vh]'>
+          <Spinner />
         </div>
       )}
     </>
