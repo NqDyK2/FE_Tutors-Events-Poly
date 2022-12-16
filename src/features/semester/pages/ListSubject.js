@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, Dropdown, Menu, Space, Table, Tooltip } from 'antd';
+import { Button, Space, Table, Tooltip } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -63,26 +63,26 @@ const SubjectPage = () => {
       .catch((err) => toast.error(err.data.message));
   };
 
-  const exportTableExcel = () => {
-    const table = document.getElementsByTagName('table')[0];
-    exportExcel(
-      table,
-      'Danh sách lớp học',
-      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
-        'DD-MM-YYYY',
-      )}`.trim(),
-    );
-  };
+  // const exportTableExcel = () => {
+  //   const table = document.getElementsByTagName('table')[0];
+  //   exportExcel(
+  //     table,
+  //     'Danh sách lớp học',
+  //     `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+  //       'DD-MM-YYYY',
+  //     )}`.trim(),
+  //   );
+  // };
 
-  const exportTalePdf = () => {
-    const table = document.getElementsByTagName('table')[0];
-    exportPdf(
-      table,
-      `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
-        'DD-MM-YYYY',
-      )}`.trim(),
-    );
-  };
+  // const exportTalePdf = () => {
+  //   const table = document.getElementsByTagName('table')[0];
+  //   exportPdf(
+  //     table,
+  //     `Danh sách lớp học ${data?.tree[0]?.name} ${moment(new Date()).format(
+  //       'DD-MM-YYYY',
+  //     )}`.trim(),
+  //   );
+  // };
 
   useEffect(() => {
     if (!data?.tree) return;

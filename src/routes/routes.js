@@ -41,7 +41,6 @@ const AppRoutes = () => {
           <Route index element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/manage-events" element={<ManageEvent />} />
 
           <Route element={<LichHocGuard />}>
             <Route path="/lich-hoc" element={<TimeTable />} />

@@ -1,8 +1,7 @@
-import { Button, Space, Table, Tooltip } from 'antd'
+import { Button, Table, Tooltip } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
 import {
-    EditOutlined,
     PlusCircleOutlined,
     DeleteOutlined,
 } from '@ant-design/icons';
@@ -12,7 +11,6 @@ import {
 import { Helmet } from 'react-helmet-async';
 import FormEventsRef from '../components/FormEventsRef';
 import { useDeleteEventMutation, useGetAllEventQuery } from '../../../../app/api/eventApiSlice';
-import { timeFormat } from '../../../../utils/TimeFormat';
 import ContentEventModal from '../components/ContentEventModal';
 import { toast } from 'react-toastify';
 import ImageEventViewModal from '../components/ImageEventViewModal';
@@ -20,6 +18,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment/moment';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
+import Spinner from '../../../../components/Spinner';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -110,7 +109,7 @@ const ManageEvent = () => {
         },
     ]
     let data = []
-    const { data: res } = useGetAllEventQuery();
+    const { data: res, isLoading, error } = useGetAllEventQuery();
     if (res) {
         data = res.data.map((item, index) => {
             return {
@@ -181,7 +180,11 @@ const ManageEvent = () => {
                 dataSource={data}
                 pagination={false}
                 size={'middle'}
+                loading={{ indicator: <Spinner />, spinning: isLoading }}
             />
+            {
+                error && <div className="tw-text-center tw-text-red-500 tw-text-lg tw-mt-5">Không thể lấy dữ liệu</div>
+            }
             <FormEventsRef ref={modalEventRef} />
         </>
     )
