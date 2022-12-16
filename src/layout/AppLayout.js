@@ -8,15 +8,6 @@ import AppBreadcrumb from '../components/AppBreadcrumb';
 import AppFooter from '../components/Footer';
 
 const AppLayout = () => {
-  // const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/welcome');
-  //   }
-  // }, [isAuthenticated]);
   const [collapsed, setCollapsed] = useState(false);
 
   return (

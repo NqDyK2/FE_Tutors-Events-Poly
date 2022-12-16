@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { selectCurrentUser, selectIsAdmin, selectIsTeacher } from '../../features/auth/authSlice'
+import { selectCurrentUser, selectIsAdmin } from '../../features/auth/authSlice'
 
 const ManageGuard = () => {
   const isAdmin = useSelector(selectIsAdmin)
