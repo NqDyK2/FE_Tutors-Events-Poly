@@ -73,7 +73,7 @@ const TutorEventCalendar = (props) => {
               </div>
             )
           }} trigger="click" title="Thông tin chi tiết" key={info}>
-            <div className="tw-text-sm tw-font-bold tw-text-center tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-h-6 tw-w-full tw-p-1  tw-rounded-md"
+            <div className="tw-text-sm tw-font-bold tw-text-center tw-text-white tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap tw-h-6 tw-w-full tw-p-1  tw-rounded-md"
               style={{ backgroundColor: info.backgroundColor ? info.backgroundColor : '#000' }}
             >
               {info.event.title}
