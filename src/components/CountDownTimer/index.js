@@ -1,32 +1,56 @@
 import React from 'react'
 import { useCountdown } from '../../utils/timer-hook'
 
-const CountdownTimer = ({ targetDate }) => {
+const CountdownTimer = ({ targetDate, colorText = 'sky-400', size = "default" }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate)
 
   if (days + hours + minutes + seconds <= 0) {
     return ''
   } else {
-    return (
-      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-gap-2">
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
-          <div className="tw-text-2xl tw-font-bold tw-text-sky-400">{days}</div>
-          <div className="tw-text-sm tw-font-bold tw-text-sky-400">Ngày</div>
+    if (size === "small") {
+      return (
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-gap-2">
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>{days}</div>
+            <div className={`tw-text-xs tw-font-bold tw-text-${colorText}`}>Ngày</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>{hours}</div>
+            <div className={`tw-text-xs tw-font-bold tw-text-${colorText}`}>Giờ</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>{minutes}</div>
+            <div className={`tw-text-xs tw-font-bold tw-text-${colorText}`}>Phút</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>{seconds}</div>
+            <div className={`tw-text-xs tw-font-bold tw-text-${colorText}`}>Giây</div>
+          </div>
         </div>
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
-          <div className="tw-text-2xl tw-font-bold tw-text-sky-400">{hours}</div>
-          <div className="tw-text-sm tw-font-bold tw-text-sky-400">Giờ</div>
+      )
+
+    } else {
+      return (
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-gap-2">
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-2xl tw-font-bold tw-text-${colorText}`}>{days}</div>
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>Ngày</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-2xl tw-font-bold tw-text-${colorText}`}>{hours}</div>
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>Giờ</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-2xl tw-font-bold tw-text-${colorText}`}>{minutes}</div>
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>Phút</div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
+            <div className={`tw-text-2xl tw-font-bold tw-text-${colorText}`}>{seconds}</div>
+            <div className={`tw-text-sm tw-font-bold tw-text-${colorText}`}>Giây</div>
+          </div>
         </div>
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
-          <div className="tw-text-2xl tw-font-bold tw-text-sky-400">{minutes}</div>
-          <div className="tw-text-sm tw-font-bold tw-text-sky-400">Phút</div>
-        </div>
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
-          <div className="tw-text-2xl tw-font-bold tw-text-sky-400">{seconds}</div>
-          <div className="tw-text-sm tw-font-bold tw-text-sky-400">Giây</div>
-        </div>
-      </div>
-    )
+      )
+    }
   }
 }
 

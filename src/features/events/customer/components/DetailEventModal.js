@@ -33,7 +33,7 @@ const DetailEventModal = ({ content }) => {
     })
   }
   return (
-    <>
+    <div >
       <Modal
         className="!tw-top-[40px]"
         // title="Ảnh sự kiện"
@@ -51,7 +51,13 @@ const DetailEventModal = ({ content }) => {
         cancelButtonProps={{ className: 'hover:tw-bg-transparent' }}
 
       >
-        <Image preview={false} src={`${process.env.REACT_APP_API_URL}/${parse(content.image)}`} width="100%" />
+        <div className='tw-relative'>
+
+          <Image preview={false} src={`${process.env.REACT_APP_API_URL}/${parse(content.image)}`} width="100%" />
+          <div className='tw-absolute tw-top-1 tw-left-1  tw-flex tw-justify-center tw-items-center'>
+            <CountdownTimer targetDate={content?.start_time} colorText="white" size='small' />
+          </div>
+        </div>
         {/* <div className="ql-editor tw-p-0">{parse(content)}</div> */}
         <h2 className='tw-text-center tw-text-2xl tw-mt-3'>
           {content.name}
@@ -67,7 +73,7 @@ const DetailEventModal = ({ content }) => {
       >
         Xem chi tiết
       </button>
-    </>
+    </div>
   )
 }
 
