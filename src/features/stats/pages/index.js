@@ -1,15 +1,20 @@
 import { G2, Pie } from '@ant-design/charts';
-import { Select, Table } from 'antd';
+import { Select, Table, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   useGetAllSemesterQuery,
   useGetCurrentSemesterStatsQuery,
   useGetSemesterStatsMutation,
+  useGetSemesterExportDataMutation,
 } from '../../../app/api/semesterApiSlice';
 import { setFlexBreadcrumb } from '../../../components/AppBreadcrumb/breadcrumbSlice';
 import Spinner from '../../../components/Spinner';
 import ListLessonModal from '../components/ListLessonModal';
+import TeacherStatModal from '../components/TeacherStatModal';
+import TutorStatModal from '../components/TutorStatModal';
+import XLSX from 'xlsx';
+import { toast } from 'react-toastify';
 
 const StatsPage = () => {
   const G = G2.getEngine('canvas');
@@ -18,6 +23,8 @@ const StatsPage = () => {
   const [dataSourceChart2, setDataSourceChart2] = useState([]);
   const [statData, setStatData] = React.useState([]);
   const lessonHistoryModalRef = React.useRef(null);
+  const teachersHistoryModalRef = React.useRef(null);
+  const tutorHistoryModalRef = React.useRef(null);
   const dispatch = useDispatch();
   const {
     data: semesterData,
@@ -26,6 +33,33 @@ const StatsPage = () => {
   } = useGetAllSemesterQuery();
   const [getStatData, { isLoading, isError, data: statsData, isFetching }] =
     useGetSemesterStatsMutation();
+  const [getDataExport, { isLoadingDataExport, isErrorDataExport, data: dataExportResponse, isFetchingDataExport }] =
+    useGetSemesterExportDataMutation();
+
+
+  const exportXlsx = (async (semesterId, name) => {
+    await getDataExport(semesterId).unwrap().then(({ data }) => {
+      if (!data?.students?.length) return;
+
+      let wb = {
+        SheetNames: ["sinh_vien", "giang_vien"],
+        Sheets: {
+          sinh_vien: XLSX.utils.json_to_sheet(data.students),
+          giang_vien: XLSX.utils.json_to_sheet([])
+        }
+      }
+      let ws = XLSX.utils.json_to_sheet([]);
+
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet");
+
+      return XLSX.writeFile(wb, name + "-tutor.xlsx");
+    }).catch((err) => {
+      toast.error(err.message)
+    })
+
+
+  });
+
   const {
     data: currentStatData,
     isLoading: currentLoading,
@@ -188,6 +222,7 @@ const StatsPage = () => {
     }
   }, [currentStatData]);
 
+
   return (
     <div>
       <div className="tw-flex tw-flex-col tw-items-start dark:tw-text-white">
@@ -250,13 +285,37 @@ const StatsPage = () => {
             <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1 className='dark:tw-text-white'>Giảng viên</h1>
-                <h2 className="tw-text-lg dark:tw-text-white">{statData?.teachers?.length ?? 0}</h2>
+                {
+                  statData?.teachers?.length > 0 ? (
+                    <h2 className="tw-text-lg dark:tw-text-blue-500 tw-text-blue-500 tw-cursor-pointer"
+                      onClick={() => {
+                        teachersHistoryModalRef.current?.show(statData?.teachers)
+                      }}
+
+                    >{statData?.teachers?.length ?? 0}</h2>
+
+                  ) : (
+                    <h2 className="tw-text-lg dark:tw-text-white">{statData?.teachers?.length ?? 0}</h2>
+                  )
+                }
               </div>
             </div>
             <div className="tw-w-full tw-border tw-border-gray-700 tw-py-4 lg:tw-w-1/6 dark:tw-border-gray-300">
               <div className="tw-flex tw-flex-col tw-items-center">
                 <h1 className='dark:tw-text-white'>Trợ giảng</h1>
-                <h2 className="tw-text-lg dark:tw-text-white">{statData?.tutors?.length ?? 0}</h2>
+                {
+                  statData?.tutors?.length > 0 ? (
+                    <h2 className="tw-text-lg dark:tw-text-blue-500 tw-text-blue-500 tw-cursor-pointer"
+                      onClick={() => {
+                        tutorHistoryModalRef.current?.show(statData?.tutors)
+                      }}
+
+                    >{statData?.tutors?.length ?? 0}</h2>
+
+                  ) : (
+                    <h2 className="tw-text-lg dark:tw-text-white">{statData?.tutors?.length ?? 0}</h2>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -279,8 +338,16 @@ const StatsPage = () => {
               </p>
             </div>
           </div>
+          <Button
+            className="tw-flex tw-items-center tw-rounded-md tw-border-2 tw-px-2 tw-text-blue-500 hover:tw-bg-transparent hover:tw-text-blue-600 dark:tw-text-slate-100 dark:hover:tw-text-blue-500"
+            type="link"
+            onClick={() => exportXlsx(statData.id, statData.name)}
+          >
+            TẢI XUỐNG THỐNG KÊ CHO KỲ HIỆN TẠI
+          </Button>
           <div>
             <Table
+              pagination={false}
               columns={[
                 {
                   title: 'Môn',
@@ -367,6 +434,8 @@ const StatsPage = () => {
               )}
             />
             <ListLessonModal ref={lessonHistoryModalRef} />
+            <TeacherStatModal ref={teachersHistoryModalRef} />
+            <TutorStatModal ref={tutorHistoryModalRef} />
           </div>
         </div>
       )}

@@ -14,6 +14,8 @@ import {
 } from '@ant-design/icons';
 import { ImBooks } from 'react-icons/im';
 import { AiFillSchedule } from 'react-icons/ai';
+import { BsFillCalendar2EventFill } from 'react-icons/bs'
+import { BiCalendarStar } from 'react-icons/bi'
 import Logo from './../../assets/images/Logo.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './styles.css';
@@ -63,54 +65,52 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //   '/events',
     //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
     // ),
+    getItem(
+      <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
+        Sự kiện
+      </div>,
+      '/events',
+      <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
+    ),
     acceptAttendance &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Lịch dạy
-        </div>,
-        '/lich-day',
-        <SolutionOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
-      ),
-    acceptAttendance &&
-      getItem(
-        <div className="dark:tw-text-white">Điểm danh</div>,
-        '/diem-danh',
-        <CarryOutOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
-      ),
+      >
+        Lịch dạy
+      </div>,
+      '/lich-day',
+      <SolutionOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
+    ),
     studentTutorial &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Lịch học
-        </div>,
-        '/lich-hoc',
-        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Lịch học
+      </div>,
+      '/lich-hoc',
+      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
     studentTutorial &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Lịch sử học
-        </div>,
-        '/lich-su-hoc',
-        <HistoryOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Lịch sử học
+      </div>,
+      '/lich-su-hoc',
+      <HistoryOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
 
     // studentTutorial &&
     //   getItem(
@@ -128,57 +128,55 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //   ),
 
     acceptManager &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Quản lý lịch học
-        </div>,
-        '/manage',
-        <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Quản lý lịch học
+      </div>,
+      '/manage',
+      <AiFillSchedule className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
     isAdmin &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Quản lý môn học
-        </div>,
-        '/manage/major',
-        <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
+      >
+        Quản lý môn học
+      </div>,
+      '/manage/major',
+      <ImBooks className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
+
+    isAdmin && getItem(
+      <div className={`${collapsed
+        ? 'tw-text-white'
+        : 'tw-text-[#313752] dark:!tw-text-white'
+        }`}>
+        Quản lý sự kiện.
+      </div>,
+      '/manage/events',
+      <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
+    ),
     isAdmin &&
-      getItem(
-        <div
-          className={`${
-            collapsed
-              ? 'tw-text-white'
-              : 'tw-text-[#313752] dark:!tw-text-white'
+    getItem(
+      <div
+        className={`${collapsed
+          ? 'tw-text-white'
+          : 'tw-text-[#313752] dark:!tw-text-white'
           }`}
-        >
-          Thống kê
-        </div>,
-        '/thong-ke',
-        <PieChartOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-      ),
-    // acceptManager && getItem(
-    //   <div className={`${collapsed
-    //     ? 'tw-text-white'
-    //     : 'tw-text-[#313752] dark:!tw-text-white'
-    //     }`}>
-    //     Quản lý sự kiện.
-    //   </div>,
-    //   '/manage/events',
-    //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
-    // ),
+      >
+        Thống kê
+      </div>,
+      '/thong-ke',
+      <PieChartOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
+    ),
     // isAdmin &&
     //   getItem(
     //     <div className="tw-text-[#313752] dark:!tw-text-white ">
@@ -189,13 +187,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
     //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
     //     ),
     //   ),
-    // getItem(
-    //   <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
-    //     Sự kiện
-    //   </div>,
-    //   '/events',
-    //   <BiCalendarStar className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
+
 
     // getItem(
     //   <div

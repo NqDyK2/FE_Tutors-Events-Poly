@@ -27,6 +27,7 @@ import CallBack from '../features/auth/components/CallBack.js';
 import StudentLessonHistoryPage from '../features/student/pages/LessonHistory/index.js';
 import TimeTable from '../features/student/pages/TimeTable/index.js';
 import StatsPage from '../features/stats/pages/index.js';
+import Trash from '../features/events/manage/pages/Trash.js';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -40,7 +41,6 @@ const AppRoutes = () => {
           <Route index element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/manage-events" element={<ManageEvent />} />
 
           <Route element={<LichHocGuard />}>
             <Route path="/lich-hoc" element={<TimeTable />} />
@@ -54,6 +54,7 @@ const AppRoutes = () => {
             <Route path="/manage/class/lesson/:id" element={<ListLesson />} />
             <Route path="/manage/feedback" element={<ListFeedback />} />
             <Route path="/manage/events" element={<ManageEvent />} />
+            <Route path="/manage/events-trash" element={<Trash />} />
           </Route>
           <Route element={<AdminGuard />}>
             <Route path="/manage/major" element={<MajorPage />} />
@@ -63,15 +64,11 @@ const AppRoutes = () => {
 
           <Route element={<AttendanceGuard />}>
             <Route path="/lich-day" element={<TeachingSchedule />} />
-            <Route path="/diem-danh" element={<AttendanceClassList />} />
-            <Route
+            {/* <Route path="/diem-danh" element={<AttendanceClassList />} /> */}
+            {/* <Route
               path="/diem-danh/lop/:classId"
               element={<AttendanceClassLessons />}
-            />
-            <Route
-              path="/diem-danh/buoi-hoc/:lessonId"
-              element={<AttendanceStudentList />}
-            />
+            /> */}
           </Route>
         </Route>
       </Route>

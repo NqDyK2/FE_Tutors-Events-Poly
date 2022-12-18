@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Input, Table, Tag, Tooltip } from 'antd';
+import { Input, Table, Tag } from 'antd';
 import './style.css';
 import { FaReply } from 'react-icons/fa';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGetListStudentInCLassQuery } from '../../../app/api/semesterApiSlice';
 import Spinner from '../../../components/Spinner';
 import { Helmet } from 'react-helmet-async';
