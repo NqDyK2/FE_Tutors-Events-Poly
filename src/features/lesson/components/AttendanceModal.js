@@ -73,7 +73,7 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
             ),
         },
         {
-            title: 'Tình trạng',
+            title: '',
             dataIndex: 'join',
             key: 'join',
             width: '20%',

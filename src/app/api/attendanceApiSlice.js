@@ -16,7 +16,7 @@ export const attendanceApiSlice = apiSlice.injectEndpoints({
     getAttendanceLessonListStudent: builder.mutation({
       // query: (lessonId) => `attendance/lesson/${lessonId}`,
       query: (lessonId) => ({
-        url: `attendance/lesson/${lessonId}`,
+        url: `lesson/${lessonId}/students-checked-in`,
         method: 'GET',
 
       }),
