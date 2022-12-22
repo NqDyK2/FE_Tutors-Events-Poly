@@ -28,8 +28,7 @@ const baseQueryWithoutContentType = fetchBaseQuery({
 });
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
-  let result = await args.exceptContentType ? baseQueryWithoutContentType(args, api, extraOptions) : baseQuery(args, api, extraOptions);
-
+  let result = await args.exceptContentType ? await baseQueryWithoutContentType(args, api, extraOptions) : await baseQuery(args, api, extraOptions);
   if (result?.error) {
     if (result.error.status === 401) {
       api.dispatch(logOut());

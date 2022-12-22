@@ -48,6 +48,7 @@ const TutorStatModal = (props, ref) => {
         <Table
           scroll={{ y: 600 }}
           columns={[
+            Table.EXPAND_COLUMN,
             {
               title: 'STT',
               dataIndex: 'key',
@@ -58,7 +59,6 @@ const TutorStatModal = (props, ref) => {
               dataIndex: 'email',
               key: 'email',
             },
-            Table.EXPAND_COLUMN,
             {
               title: 'Buổi học',
               dataIndex: 'lessons_count',

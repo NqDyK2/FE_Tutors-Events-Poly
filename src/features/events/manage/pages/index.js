@@ -101,7 +101,7 @@ const ManageEvent = () => {
                             </Button>
                         </Tooltip>
                     }
-                    title={`Xác nhận xóa sự kiện học này?`}
+                    title={`Chuyển sự kiện vào thùng rác?`}
                     onConfirm={() => handleRemoveEvent(record.id)}
                     placement="topRight"
                 />
