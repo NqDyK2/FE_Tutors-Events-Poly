@@ -1,9 +1,10 @@
-import { Button, Table, Tooltip } from 'antd'
+import { Button, Space, Table, Tooltip } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
 import {
     PlusCircleOutlined,
     DeleteOutlined,
+    EditOutlined
 } from '@ant-design/icons';
 import {
     BsFillTrashFill

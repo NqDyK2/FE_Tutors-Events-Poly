@@ -80,6 +80,7 @@ const FormEventsRef = (props, ref) => {
                 })
                 break;
             case MODE.EDIT:
+                console.log(values);
                 UpdateEvent({ id: values.eventId, ...formData })
                     .unwrap().then((res) => {
                         setVisible(false);
