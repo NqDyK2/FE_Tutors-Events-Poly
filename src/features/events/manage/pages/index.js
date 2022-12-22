@@ -92,6 +92,23 @@ const ManageEvent = () => {
             dataIndex: "action",
             width: "5%",
             render: (_, record) => (<div className="tw-flex tw-items-center tw-justify-end">
+                <Tooltip
+                    title="Sửa sự kiện"
+                    placement="top"
+                    color={'#FF6D28'}
+                >
+                    <Space
+                        size="middle"
+                        className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
+                    >
+                        <Button
+                            className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
+                            onClick={() => modalEventRef.current.show('EDIT', record)}
+                        >
+                            <EditOutlined />
+                        </Button>
+                    </Space>
+                </Tooltip>
                 <ConfirmPopup
                     // key={record.id}
                     className="tw-m-0"
