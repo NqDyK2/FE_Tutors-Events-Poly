@@ -43,7 +43,7 @@ const FormImportResultRef = (props, ref) => {
         student_code: item['Mã sinh viên'],
         subject: item['Mã môn'],
         final_score: item['Điểm thi đi'],
-        final_result: item['__rowNum__']
+        final_result: item[Object.keys(item)[Object.keys(item).length - 1]],
       };
 
       return student;
