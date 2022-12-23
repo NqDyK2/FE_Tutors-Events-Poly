@@ -19,7 +19,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
   const { data: listSubject } = useGetAllMajorQuery();
 
   const dataSubject = listSubject?.data.map((item) => ({
-    value: item.slug,
+    value: item.id,
     label: item.name,
     children: item.subjects.map((subject) => ({
       value: subject.id,
