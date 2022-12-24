@@ -159,7 +159,6 @@ const ListStudent = () => {
               key={list.key}
               columns={columns}
               dataSource={list}
-              pagination={false}
             />
             {/* <TextArea placeholder="Ghi chú lớp" rows={4} className="tw-mt-5 tw-rounded-md" maxLength={6} /> */}
           </div>
