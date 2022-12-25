@@ -107,13 +107,13 @@ const ListStudent = () => {
     key: index,
     index,
     id,
-    phone: item.phone_number,
-    studentCode: item.code,
-    studentMail: item.email,
-    studentName: item.name,
-    join: item.is_joined,
-    reason: item.reason,
-    is_warning: item.is_warning,
+    phone: item?.phone_number,
+    studentCode: item?.code,
+    studentMail: item?.email,
+    studentName: item?.name,
+    join: item?.is_joined,
+    reason: item?.reason ?? '',
+    is_warning: item?.is_warning,
   }));
 
   return (
