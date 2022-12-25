@@ -2,6 +2,12 @@ import { apiSlice } from './apiSlice';
 
 export const semesterApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getAllFeedBack: builder.query({
+      query: (id) => ({
+        url: `classroom/${id}/list-feedback`
+      }),
+      providesTags: ['FeedBack']
+    }),
     getAllSemester: builder.query({
       query: () => ({
         url: 'semester/get-all',
@@ -83,6 +89,7 @@ export const semesterApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetAllFeedBackQuery,
   useGetAllSemesterQuery,
   useGetListStudentInCLassQuery,
   useAddSemesterMutation,
