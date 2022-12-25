@@ -1,6 +1,7 @@
 import { Modal, Table } from 'antd';
 import moment from 'moment';
 import React, { forwardRef, useImperativeHandle } from 'react'
+import { timeFormat } from '../../../utils/TimeFormat';
 
 const TeacherStatModal = (prop, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -49,11 +50,6 @@ const TeacherStatModal = (prop, ref) => {
           columns={[
             Table.EXPAND_COLUMN,
             {
-              title: 'STT',
-              dataIndex: 'key',
-              key: 'key',
-            },
-            {
               title: 'Giảng viên',
               dataIndex: 'email',
               key: 'email',
@@ -94,6 +90,11 @@ const TeacherStatModal = (prop, ref) => {
                     },
                     {
                       title: 'Ngày',
+                      dataIndex: 'date',
+                      key: 'date',
+                    },
+                    {
+                      title: 'Thời gian',
                       dataIndex: 'time',
                       key: 'time',
                     },
@@ -102,7 +103,7 @@ const TeacherStatModal = (prop, ref) => {
                       dataIndex: 'subject',
                       key: 'subject',
                       render: (value) => {
-                        return `${value?.name} - ${value?.code}`
+                        return `${value?.code} - ${value?.name}`
                       }
                     },
                     {
@@ -121,8 +122,10 @@ const TeacherStatModal = (prop, ref) => {
                   record?.lesons?.map((item, index) => ({
                     ...item,
                     key: index + 1,
+                    date: timeFormat(item.start_time.split('  ')[0]),
                     time: `
-              ${moment(item?.start_time).format('DD/MM/YYYY HH:mm')} -  ${moment(item?.end_time).format('DD/MM/YYYY HH:mm')}`
+                      ${item.start_time.slice(10, -3)} - ${item.end_time.slice(10, -3)}
+                      `
                   }))
                 }
                 pagination={false}

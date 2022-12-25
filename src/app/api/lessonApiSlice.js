@@ -31,6 +31,13 @@ export const lessonApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Lesson'],
     }),
+    startLesson: builder.mutation({
+      query: (id) => ({
+        url: `lesson/${id}/start`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Lesson'],
+    }),
     delLesson: builder.mutation({
       query: (id) => ({
         url: `lesson/${id}/delete`,
@@ -46,5 +53,6 @@ export const {
   useGetOneLessonQuery,
   useAddLessonMutation,
   useUpdateLessonMutation,
+  useStartLessonMutation,
   useDelLessonMutation,
 } = lessonApiSlice;

@@ -9,7 +9,7 @@ import ContentLessonModal from '../lesson/components/ContentLessonModal';
 const TeachingSchedule = () => {
   const columns = [
     {
-      title: 'STT',
+      title: 'STT', 
       dataIndex: 'stt',
       key: 'stt',
       render: (text) => <strong>{text}</strong>,
