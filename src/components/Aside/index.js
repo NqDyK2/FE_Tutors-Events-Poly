@@ -159,7 +159,7 @@ const AppAside = ({ collapsed, setCollapsed }) => {
         ? 'tw-text-white'
         : 'tw-text-[#313752] dark:!tw-text-white'
         }`}>
-        Quản lý sự kiện.
+        Quản lý sự kiện
       </div>,
       '/manage/events',
       <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />

@@ -119,9 +119,13 @@ const ModalEditContent = ({ data }) => {
             />
           </Form.Item>
         </Form>
-        {!!errors && (
-          <div className="tw-text-red-500">{errors?.data?.message}</div>
-        )}
+        <div>
+          {errors && (
+            <div className="tw-text-red-500">
+              {errors?.message || errors?.data?.message}
+            </div>
+          )}
+        </div>
       </Modal>
     </div>
   );

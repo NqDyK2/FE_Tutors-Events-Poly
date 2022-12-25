@@ -6,9 +6,11 @@ import { useInViteClassMutation } from '../../../app/api/studentApiSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../../../components/Spinner';
 import { useEffect } from 'react';
+import moment from 'moment/moment';
 
-const AttendanceModal = ({ content, lessonId, subjectName }) => {
+const AttendanceModal = ({ content, lessonId, subjectName, lesson }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showStudentNotCheckin, setShowStudentNotCheckin] = useState(false);
     const [skip, setSkip] = useState(false)
     const showModal = () => {
         setIsModalOpen(true);
@@ -54,12 +56,6 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
             ),
         },
         {
-            title: 'Mã sinh viên',
-            dataIndex: 'studentCode',
-            width: 200,
-            key: 'studentCode',
-        },
-        {
             title: 'Email',
             dataIndex: 'studentEmail',
             key: 'studentEmail',
@@ -79,10 +75,10 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
             width: '20%',
             render: (_, record) =>
                 <Button
-                    disabled={record.isInvited}
-                    onClick={() => handleInviteStudent({ student_email: record.studentEmail, id: record.id })}
+                    disabled={record.isInvited || !lesson.isHappenning}
+                    onClick={() => handleInviteStudent({ student_email: record.studentEmail, student: record.id })}
                     className={`tw-border-transparent tw-w-[100px] tw-rounded-md tw-bg-[#0DB27F] tw-text-white
-                        ${record.isInvited ? '!tw-bg-gray-700 hover:tw-bg-gray-700 tw-opacity-0' : ''}
+                        ${record.isInvited || !lesson.isHappenning ? '!tw-bg-gray-700 tw-opacity-0' : ''}
                       dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
                 >
                     Mời lại.
@@ -105,6 +101,12 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
         };
     });
 
+
+    const getListShow = (flag = false) => {
+        return dataStudent.filter((item) => {
+            return (flag && !item.status) || (!flag && item.status)
+        })
+    };
 
     useEffect(() => {
         if (lessonId && isModalOpen) {
@@ -142,6 +144,23 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
                     <h2 className="tw-mt- dark:tw-text-white">
                         Môn học: {subjectName}
                     </h2>
+                    <Button
+                        onClick={() => setShowStudentNotCheckin(false)}
+                        className={`tw-border-transparent tw-rounded-md tw-bg-[#0DB27F] tw-text-white
+                        ${showStudentNotCheckin ? '!tw-bg-gray-400' : ''}
+                        dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400 tw-mr-2`}
+                    >
+                        Sinh viên có mặt: {getListShow(false)?.length}
+                    </Button>
+                    <Button
+                        onClick={() => setShowStudentNotCheckin(true)}
+                        className={`tw-border-transparent tw-rounded-md tw-bg-[#0DB27F] tw-text-white
+                        ${!showStudentNotCheckin ? '!tw-bg-gray-400' : ''}
+                        dark:tw-border-white dark:tw-bg-[#202125] dark:hover:tw-bg-blue-400`}
+                    >
+                        Sinh viên 1/3 vắng mặt: {getListShow(true)?.length}
+                    </Button>
+
                     <div className="tw-mt-4">
                         <Table
                             loading={{
@@ -150,7 +169,7 @@ const AttendanceModal = ({ content, lessonId, subjectName }) => {
                             }}
                             pagination={false}
                             columns={columns}
-                            dataSource={dataStudent}
+                            dataSource={getListShow(showStudentNotCheckin)}
                             tableLayout="auto"
                             rowKey="key"
                             className="attendance-table tw-border-[1px] tw-border-[#f0f0f0] tw-border-b-0"

@@ -34,12 +34,6 @@ const columns = [
     ),
   },
   {
-    title: 'Mã sinh viên',
-    dataIndex: 'studentCode',
-    key: 'studentCode',
-    width: '10%',
-  },
-  {
     title: 'Email',
     dataIndex: 'studentMail',
     key: 'studentMail',
