@@ -253,7 +253,7 @@ const SubjectPage = () => {
   ];
 
   if (currentUser?.role_id !== 1) {
-    columns = columns.filter((col) => col.dataIndex !== 'action');
+    columns = columns.filter((col) => col.dataIndex !== 'action' && col.dataIndex !== 'feedback');
   }
 
   const dataSource = data?.data?.map((item, index) => ({
