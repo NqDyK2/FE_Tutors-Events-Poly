@@ -183,7 +183,7 @@ const ListLesson = () => {
                       placement="topRight"
                     />
                   </Tooltip>
-                  {!record.isHappenning ? (
+                  {record.isHappenning ? (
                     <>
                       <Button
                         loading={isStarting}
