@@ -52,7 +52,7 @@ const StatsPage = () => {
 
       XLSX.utils.book_append_sheet(wb, ws, "Sheet");
 
-      return XLSX.writeFile(wb, name + "-tutor.xlsx");
+      return XLSX.writeFile(wb, "Thong_ke-" + name + "-tutor.xlsx");
     }).catch((err) => {
       toast.error(err.message)
     })
