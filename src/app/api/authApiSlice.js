@@ -20,7 +20,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       }),
     }),
+    getAuthSetting: builder.query({
+      query: () => `/auth/setting`,
+      providesTags: ['Auth'],
+    }),
+    updateAuthSetting: builder.mutation({
+      query: (body) => ({
+        url: `/auth/setting`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['Auth'],
+    }),
   })
 })
 
-export const { useGetAuthUserMutation, useGetLoginUrlQuery, useGetTokenMutation } = authApiSlice;
+export const { useGetAuthUserMutation, useGetLoginUrlQuery, useGetTokenMutation, useGetAuthSettingQuery, useUpdateAuthSettingMutation } = authApiSlice;
