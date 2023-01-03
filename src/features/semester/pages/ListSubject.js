@@ -27,6 +27,7 @@ import moment from 'moment';
 import ExportDropDown from '../../../components/ExportDropDown';
 import { useSendMailStudentsMutation } from '../../../app/api/studentApiSlice';
 import FormImportResultRef from '../components/FormImportResultRef';
+import ModalViewFB from '../components/ModalViewFB';
 
 const SubjectPage = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const SubjectPage = () => {
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllClassInSemesterQuery(id, {
     skip: !id,
-    pollingInterval: 2000,
+    pollingInterval: 2000000,
   });
   const componentRef = useRef();
   const [removeClassroom] = useDeleteClassroomMutation();
@@ -195,19 +196,20 @@ const SubjectPage = () => {
           </span>
         ),
     },
-    // {
-    //   title: 'Phản hồi/Góp ý',
-    //   dataIndex: 'feedback',
-    //   key: 'feedback',
-    //   width: '15%',
-    //   render: (_, record) => (
-    //     <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
-    //       <Link to={`/manage/feedback`}>
-    //         <div >15</div>
-    //       </Link>
-    //     </Tooltip>
-    //   )
-    // },
+    {
+      title: 'Phản hồi/Góp ý',
+      dataIndex: 'feedback',
+      key: 'feedback',
+      width: '15%',
+      render: (_, record) => <ModalViewFB id={record} />
+      // (
+      //   <Tooltip title="Xem phản hồi/góp ý của lớp" placement='topLeft' color={'#FF6D28'} >
+      //     <Link to={`/manage/feedback`}>
+      //       <div>Xem phản hồi</div>
+      //     </Link>
+      //   </Tooltip>
+      // )
+    },
     {
       title: '',
       key: 'action',
@@ -251,7 +253,7 @@ const SubjectPage = () => {
   ];
 
   if (currentUser?.role_id !== 1) {
-    columns = columns.filter((col) => col.dataIndex !== 'action');
+    columns = columns.filter((col) => col.dataIndex !== 'action' && col.dataIndex !== 'feedback');
   }
 
   const dataSource = data?.data?.map((item, index) => ({

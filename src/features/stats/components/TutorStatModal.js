@@ -1,6 +1,7 @@
 import { Modal, Table } from 'antd';
 import moment from 'moment';
 import React, { forwardRef, useImperativeHandle } from 'react'
+import { timeFormat } from '../../../utils/TimeFormat';
 
 const TutorStatModal = (props, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -50,11 +51,6 @@ const TutorStatModal = (props, ref) => {
           columns={[
             Table.EXPAND_COLUMN,
             {
-              title: 'STT',
-              dataIndex: 'key',
-              key: 'key',
-            },
-            {
               title: 'Trợ giảng',
               dataIndex: 'email',
               key: 'email',
@@ -95,6 +91,11 @@ const TutorStatModal = (props, ref) => {
                     },
                     {
                       title: 'Ngày',
+                      dataIndex: 'date',
+                      key: 'date',
+                    },
+                    {
+                      title: 'Thời gian',
                       dataIndex: 'time',
                       key: 'time',
                     },
@@ -103,7 +104,7 @@ const TutorStatModal = (props, ref) => {
                       dataIndex: 'subject',
                       key: 'subject',
                       render: (value) => {
-                        return `${value?.name} - ${value?.code}`
+                        return `${value?.code} - ${value?.name}`
                       }
                     },
                     {
@@ -111,14 +112,21 @@ const TutorStatModal = (props, ref) => {
                       dataIndex: 'joinned_students_count',
                       key: 'joinned_students_count',
                     },
+                    {
+                      title: 'Giảng viên',
+                      dataIndex: 'teacher_email',
+                      key: 'teacher_email',
+                    }
                   ]
                 }
                 dataSource={
                   record?.lesons?.map((item, index) => ({
                     ...item,
                     key: index + 1,
+                    date: timeFormat(item.start_time.split('  ')[0]),
                     time: `
-              ${moment(item?.start_time).format('DD/MM/YYYY HH:mm')} -  ${moment(item?.end_time).format('DD/MM/YYYY HH:mm')}`
+                      ${item.start_time.slice(10, -3)} - ${item.end_time.slice(10, -3)}
+                      `
                   }))
                 }
                 pagination={false}

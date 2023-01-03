@@ -191,9 +191,12 @@ const FormLessonRef = (props, ref) => {
               <RangePicker
                 className="tw-w-full"
                 defaultPickerValue={
-                  moment(semesterStartTime) >= moment()
-                    ? moment(semesterStartTime)
-                    : moment().add(1, 'day')
+                  [
+                    moment(semesterStartTime) >= moment()
+                      ? moment(semesterStartTime)
+                      : moment().add(1, 'days').startOf('day'),
+                    moment(semesterEndTime)
+                  ]
                 }
                 placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                 showTime
@@ -206,9 +209,10 @@ const FormLessonRef = (props, ref) => {
                     current &&
                     (current < startDate ||
                       current > endDate ||
-                      current < moment())
+                      current < moment().add(1, 'days').startOf('day'))
                   );
                 }}
+
                 showSecond={false}
                 order={true}
               />

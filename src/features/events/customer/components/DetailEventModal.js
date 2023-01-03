@@ -65,11 +65,22 @@ const DetailEventModal = ({ content }) => {
         <span>
           {parse(content.content)}
         </span>
+        {
+          content.registered !== 0 ? (<div className='tw-px-auto tw-text-center tw-my-4'>
+            <button
+              className='tw-h-9 hover:tw-bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'
+            >
+              <a className='tw-text-white tw-hover:tw-text-red-500' href='https://docs.google.com/forms/d/e/1FAIpQLSd_7SqedgD0YEYNegBkXtLHANN9oU5PS4BhXH03ngxi2CfTLg/viewform' target="_blank">Góp ý / Phản hồi
+              </a>
+            </button>
+          </div>) : ""
+        }
+
         <CountdownTimer targetDate={content.start_time} />
       </Modal>
       <button
         onClick={showModal}
-        className='tw-h-9 tw-hover:bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'
+        className='tw-h-9 hover:tw-bg-gradient-to-bl tw-focus:ring-4 tw-focus:outline-none tw-focus:ring-cyan-300 tw-dark:focus:ring-cyan-800 tw-mr-2 tw-mb-2 tw-w-32 tw-rounded-lg tw-bg-gradient-to-r tw-from-cyan-500 tw-border-transparent tw-to-blue-500 tw-text-center  tw-text-sm tw-font-medium tw-text-white'
       >
         Xem chi tiết
       </button>

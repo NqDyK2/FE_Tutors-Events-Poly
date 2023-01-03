@@ -57,6 +57,8 @@ const StudentLessonHistoryPage = () => {
       render: (text) => {
         if (text === 'Có mặt') {
           return <span className="tw-text-green-500">{text}</span>;
+        } else if (text === 'Chưa học') {
+          return <span className="">{text}</span>;
         } else {
           return <span className="tw-text-red-500">{text}</span>;
         }
@@ -155,7 +157,7 @@ const StudentLessonHistoryPage = () => {
                       teacher: lesson?.teacher_email?.split('@')[0] ?? '',
                       tutor: lesson.tutor_email?.split('@')[0] ?? '',
                       attendanceStatus:
-                        lesson?.attendances_count === 0 ? 'Vắng mặt' : 'Có mặt',
+                        lesson?.attendances_count === 1 ? 'Có mặt' : (moment().isBefore(lesson?.start_time) ? 'Chưa học' : 'Vắng mặt'),
                       lessonContent: lesson.content ?? '',
                     }))}
                     pagination={false}
