@@ -58,13 +58,6 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/',
       <BellOutlined className="tw-text-[18px]  tw-text-[#C4CFF9]" />,
     ),
-    // getItem(
-    //   <div className="dark:tw-text-white">
-    //     Danh sách sự kiện
-    //   </div>,
-    //   '/events',
-    //   <BsFillCalendar2EventFill className="tw-text-[17px]  tw-text-[#C4CFF9] " />
-    // ),
     getItem(
       <div className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'}`}>
         Sự kiện
@@ -111,22 +104,6 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/lich-su-hoc',
       <HistoryOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     ),
-
-    // studentTutorial &&
-    //   getItem(
-    //     <div
-    //       className={`${
-    //         collapsed
-    //           ? 'tw-text-white'
-    //           : 'tw-text-[#313752] dark:!tw-text-white'
-    //       }`}
-    //     >
-    //       Lịch sử học
-    //     </div>,
-    //     '/lich-su-hoc',
-    //     <AiOutlineHistory className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
-    //   ),
-
     acceptManager &&
     getItem(
       <div
@@ -177,28 +154,6 @@ const AppAside = ({ collapsed, setCollapsed }) => {
       '/thong-ke',
       <PieChartOutlined className="tw-text-[18px]  tw-text-[#C4CFF9] " />,
     ),
-    // isAdmin &&
-    //   getItem(
-    //     <div className="tw-text-[#313752] dark:!tw-text-white ">
-    //       Quản lý giảng viên
-    //     </div>,
-    //     '/manage/teacher',
-    //     !collapsed && (
-    //       <FaChalkboardTeacher className="   tw-text-[18px] tw-text-[#C4CFF9]" />
-    //     ),
-    //   ),
-
-
-    // getItem(
-    //   <div
-    //     className={`${collapsed ? 'tw-text-white' : 'tw-text-[#313752] dark:!tw-text-white'
-    //       }`}
-    //   >
-    //     Hỗ trợ
-    //   </div>,
-    //   '',
-    //   <IoMdHelpCircle className='tw-text-[18px]  tw-text-[#C4CFF9]' />
-    // ),
   ];
 
   const [collapsedWidth, setCollapsedWidth] = useState(0);
