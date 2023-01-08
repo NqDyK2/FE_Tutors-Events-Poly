@@ -4,6 +4,7 @@ import React, { forwardRef, useImperativeHandle } from 'react'
 import QuillEditor from '../../../../components/QuillEditor';
 import { toast } from 'react-toastify';
 import { useAddEventMutation, useUpdateEventMutation } from '../../../../app/api/eventApiSlice';
+import moment from 'moment';
 
 
 
@@ -29,11 +30,13 @@ const FormEventsRef = (props, ref) => {
                 setTitle('Thêm sự kiện');
                 setMode(MODE.ADD);
             } else {
+                console.log("data:", data);
                 setTitle('Sửa sự kiện');
                 let newData = {
                     name: data.name,
                     location: data.location,
                     content: data.content,
+                    date: [moment(data.start_time), moment(data.end_time)],
                     // start_time: data.date[0].format('YYYY-MM-DD HH:mm:00'),
                     // end_time: data.date[1].format('YYYY-MM-DD HH:mm:00'),
                     image: data.img,
@@ -81,7 +84,7 @@ const FormEventsRef = (props, ref) => {
                 break;
             case MODE.EDIT:
                 console.log(values);
-                UpdateEvent({ id: values.eventId, ...formData })
+                UpdateEvent([values.eventId, formData])
                     .unwrap().then((res) => {
                         setVisible(false);
                         form.resetFields();

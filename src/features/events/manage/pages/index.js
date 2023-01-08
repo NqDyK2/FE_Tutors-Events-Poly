@@ -20,6 +20,7 @@ import moment from 'moment/moment';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
 import Spinner from '../../../../components/Spinner';
+import { timeFormat } from '../../../../utils/TimeFormat';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -134,8 +135,7 @@ const ManageEvent = () => {
                 key: index,
                 stt: index + 1,
                 id: item.id,
-                date: moment(item.start_time).format('dddd, DD/MM/YYYY')
-                    .replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                date: `${timeFormat(item.start_time.split('  ')[0])}`,
                 time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
                     10,
                     -3,
