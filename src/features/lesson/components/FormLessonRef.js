@@ -9,6 +9,7 @@ import {
 } from '../../../app/api/lessonApiSlice';
 import './styles.css';
 import QuillEditor from '../../../components/QuillEditor';
+import { StudyShift } from '../../../utils/study_shift';
 const MODE = {
   ADD: 'ADD',
   EDIT: 'EDIT',
@@ -42,16 +43,18 @@ const FormLessonRef = (props, ref) => {
         });
         setMode(MODE.ADD);
       } else {
+        console.log();
         let newData = {
           teacher_email: data.teacher_email,
           classroomId: data.classroom_id,
           class_location: data.class_location,
           type: data.type,
           tutor_email: data.tutor_email,
-          date: [moment(data.start_time), moment(data.end_time)],
+          date: moment(data.start_time),
           teacher: data.teacher,
           lessonId: data.id,
           content: data.content,
+          lesson_number: StudyShift(data.start_time.slice(11, 20))
         };
         formLesson.setFieldsValue(newData);
         setTypeOfLesson(data.type);
@@ -66,6 +69,7 @@ const FormLessonRef = (props, ref) => {
   }));
   //finish
   const onFinished = (values) => {
+
     let dataLesson = {
       teacher_email: values.teacher_email,
       classroom_id: +values.classroomId,
@@ -73,8 +77,10 @@ const FormLessonRef = (props, ref) => {
       class_location: values.class_location,
       content: values.content,
       tutor_email: values.tutor_email || null,
-      start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
-      end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
+      // start_time: values.date[0].format('YYYY-MM-DD HH:mm:00'),
+      // end_time: values.date[1].format('YYYY-MM-DD HH:mm:00'),
+      lesson_number: values.lesson_number,
+      date: values.date.format('YYYY-MM-DD')
     };
 
     if (!values.tutor_email) {
@@ -177,46 +183,67 @@ const FormLessonRef = (props, ref) => {
           </Form.Item>
 
           <div className="tw-flex tw-items-center tw-justify-between">
-            <Form.Item
-              className="tw-w-[48%]"
-              label="Thời gian:"
-              name={'date'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng nhập thời gian',
-                },
-              ]}
-            >
-              <RangePicker
-                className="tw-w-full"
-                defaultPickerValue={
-                  [
+            <div className="tw-flex tw-w-[48%] tw-items-center tw-justify-between">
+              <Form.Item
+                className="tw-w-[40%]"
+                label="Ngày:"
+                name={'date'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ngày học',
+                  },
+                ]}
+              >
+                <DatePicker
+                  className="tw-w-full"
+                  defaultPickerValue={
                     moment(semesterStartTime) >= moment()
                       ? moment(semesterStartTime)
-                      : moment().add(1, 'days').startOf('day'),
-                    moment(semesterEndTime)
-                  ]
-                }
-                placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
-                showTime
-                allowClear
-                format={'DD/MM/YYYY HH:mm'}
-                disabledDate={(current) => {
-                  const startDate = moment(semesterStartTime);
-                  const endDate = moment(semesterEndTime);
-                  return (
-                    current &&
-                    (current < startDate ||
-                      current > endDate ||
-                      current < moment().add(1, 'days').startOf('day'))
-                  );
-                }}
+                      : moment().add(1, 'days').startOf('day')
+                  }
+                  placeholder={['Chọn ngày']}
+                  allowClear
+                  showToday={false}
+                  format={'DD/MM/YYYY'}
+                  disabledDate={(current) => {
+                    const startDate = moment(semesterStartTime);
+                    const endDate = moment(semesterEndTime);
+                    return (
+                      current &&
+                      (current < startDate ||
+                        current > endDate ||
+                        current < moment().add(1, 'days').startOf('day'))
+                    );
+                  }}
 
-                showSecond={false}
-                order={true}
-              />
-            </Form.Item>
+                  showSecond={false}
+                  order={true}
+                />
+              </Form.Item>
+
+              <Form.Item
+                className="tw-w-[58%]"
+                label="Ca học:"
+                name={'lesson_number'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn hình thức học',
+                  },
+                ]}
+              >
+                <Select placeholder="Chọn ca học">
+                  <Option value={1}>Ca 1 (07:15:00 - 09:15:00)</Option>
+                  <Option value={2}>Ca 2 (09:25:00 - 11:25:00)</Option>
+                  <Option value={3}>Ca 3 (12:00:00 - 14:00:00)</Option>
+                  <Option value={4}>Ca 4 (14:10:00 - 16:10:00)</Option>
+                  <Option value={5}>Ca 5 (16:20:00 - 18:20:00)</Option>
+                  <Option value={6}>Ca 6 (18:30:00 - 20:30:00)</Option>
+                </Select>
+              </Form.Item>
+
+            </div>
 
             <Form.Item
               className="tw-w-[48%]"
@@ -232,6 +259,7 @@ const FormLessonRef = (props, ref) => {
               <Input placeholder="Nhập sinh viên hỗ trợ" />
             </Form.Item>
           </div>
+
           <div className="tw-flex tw-items-center tw-justify-between">
             <div className="tw-flex tw-w-[48%] tw-items-center tw-justify-between">
               <Form.Item
@@ -318,8 +346,6 @@ const FormLessonRef = (props, ref) => {
               <Input />
             </Form.Item>
           </div>
-
-          <div className="tw-flex tw-items-center tw-justify-between"></div>
 
           <Form.Item
             name="content"

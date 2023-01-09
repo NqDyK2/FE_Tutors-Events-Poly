@@ -19,33 +19,33 @@ const HomePage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      // dont't take event that is expired 
-      const eventsData = data?.data?.filter(event => moment(event.start_time).isAfter(moment())).map((event, index) => {
-        {
-          return {
-            id: event.id,
-            title: event.name,
-            start: moment(event.start_time).toDate(),
-            image: event.image,
-            end: moment(event.end_time).toDate(),
-            allDay: false,
-            resource: event.location,
-            color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-            description: event.description,
-            location: event.location,
-          }
-        }
-      })
+      const eventsData = data?.data?.map((event, index) => ({
+        id: event.id,
+        title:
+          moment(event.end_time).isBefore(moment())
+            ? `${event.name} (Hết hạn)`
+            : event.name
+        ,
+        start: moment(event.start_time).toDate(),
+        image: event.image,
+        end: moment(event.end_time).toDate(),
+        allDay: false,
+        resource: event.location,
+        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+        description: event.description,
+        location: event.location,
+      }))
 
 
       setEventsData(eventsData)
     }
-  }, [data])
+  }, [data, isSuccess])
 
   return (
     <>
       <Helmet>
         <title>Trang chủ | FPOLY</title>
+        <meta name='description' content='Trang chủ' />
       </Helmet>
 
       <div>

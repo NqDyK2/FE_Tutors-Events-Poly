@@ -23,7 +23,7 @@ const FormClassroomRef = ({ semester_id }, ref) => {
     label: item.name,
     children: item.subjects.map((subject) => ({
       value: subject.id,
-      label: subject.name,
+      label: `${subject.name} - ${subject.code}`,
     })),
   }));
 
