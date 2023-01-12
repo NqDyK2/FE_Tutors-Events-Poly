@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetAllSemesterQuery } from '../../../../app/api/semesterApiSlice';
 import {
+  useGetAllMissingClassQuery,
   useGetStudentCurrentHistoryLessonQuery,
   useGetStudentHistoryLessonBySemesterMutation,
 } from '../../../../app/api/studentApiSlice';
@@ -21,6 +22,9 @@ const StudentLessonHistoryPage = () => {
   const dispatch = useDispatch();
   const [getHistoryData, { isLoading, isError, data }] =
     useGetStudentHistoryLessonBySemesterMutation();
+  const { data: listClassMisses, isLoading: listclassPending } =
+    useGetAllMissingClassQuery();
+  const [classMissed, setClassMissed] = React.useState([]);
   const [historyData, setHistoryData] = React.useState([]);
   const {
     data: currentHistoryData,
@@ -85,6 +89,12 @@ const StudentLessonHistoryPage = () => {
   });
 
   useEffect(() => {
+    if (listClassMisses) {
+      setClassMissed(listClassMisses?.data.reduce((a, b) => { return [...a, b.code] }, []));
+    }
+  }, [listClassMisses]);
+
+  useEffect(() => {
     if (data) {
       setHistoryData(data);
     }
@@ -133,38 +143,43 @@ const StudentLessonHistoryPage = () => {
         ) : (
           <>
             {historyData?.data?.length > 0 ? (
-              historyData?.data.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="tw-mb-8 tw-border tw-shadow-md tw-drop-shadow-sm "
-                >
-                  <Table
-                    title={() => (
-                      <span className="tw-font-semibold">
-                        {item?.subject_name} - {item?.subject_code}
-                      </span>
-                    )}
-                    columns={columns}
-                    dataSource={item?.lessons?.map((lesson, index) => ({
-                      key: index,
-                      stt: index + 1,
-                      date:
-                        moment(lesson?.start_time).format('DD/MM/YYYY') +
-                        ' - ' +
-                        moment(lesson?.start_time).format('HH:mm') +
-                        ' - ' +
-                        moment(lesson?.end_time).format('HH:mm'),
-                      teacher: lesson?.teacher_email?.split('@')[0] ?? '',
-                      tutor: lesson.tutor_email?.split('@')[0] ?? '',
-                      attendanceStatus:
-                        lesson?.attendances_count === 1 ? 'Có mặt' : (moment().isBefore(lesson?.start_time) ? 'Chưa học' : 'Vắng mặt'),
-                      lessonContent: lesson.content ?? '',
-                    }))}
-                    pagination={false}
-                    scroll={{ x: 400 }}
-                  />
-                </div>
-              ))
+              historyData?.data.map((item, idx) => {
+                if (!classMissed.some(x => x === item?.subject_code)) {
+                  return (
+                    <div
+                      key={idx}
+                      className="tw-mb-8 tw-border tw-shadow-md tw-drop-shadow-sm "
+                    >
+                      <Table
+                        title={() => (
+                          <span className="tw-font-semibold">
+                            {item?.subject_name} - {item?.subject_code}
+                          </span>
+                        )}
+                        columns={columns}
+                        dataSource={item?.lessons?.map((lesson, index) => ({
+                          key: index,
+                          stt: index + 1,
+                          date:
+                            moment(lesson?.start_time).format('DD/MM/YYYY') +
+                            ' - ' +
+                            moment(lesson?.start_time).format('HH:mm') +
+                            ' - ' +
+                            moment(lesson?.end_time).format('HH:mm'),
+                          teacher: lesson?.teacher_email?.split('@')[0] ?? '',
+                          tutor: lesson.tutor_email?.split('@')[0] ?? '',
+                          attendanceStatus:
+                            lesson?.attendances_count === 1 ? 'Có mặt' : (moment().isBefore(lesson?.start_time) ? 'Chưa học' : 'Vắng mặt'),
+                          lessonContent: lesson.content ?? '',
+                        }))}
+                        pagination={false}
+                        scroll={{ x: 400 }}
+                      />
+                    </div>
+                  )
+                }
+                return "";
+              })
             ) : (
               <div className="tw-flex tw-min-h-[150px] tw-items-center tw-justify-center tw-text-center">
                 Không có dữ liệu
