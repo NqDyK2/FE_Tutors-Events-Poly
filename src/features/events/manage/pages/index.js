@@ -145,6 +145,8 @@ const ManageEvent = () => {
                 content: item.content,
                 location: item.location,
                 amount: item.event_users_count,
+                start_time: item.start_time,
+                end_time: item.end_time
             }
         })
     }

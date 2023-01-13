@@ -16,13 +16,14 @@ const { RangePicker } = DatePicker;
 
 const FormEventsRef = (props, ref) => {
 
+
     const [form] = Form.useForm();
     const [visible, setVisible] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [typeOfEvent, setTypeOfLesson] = React.useState(1);
     const [title, setTitle] = React.useState('');
     const [mode, setMode] = React.useState(MODE.ADD);
-    const [appImg, setAppImg] = React.useState(null)
+    const [appImg, setAppImg] = React.useState(null);
     useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
             setVisible(true);
@@ -30,13 +31,14 @@ const FormEventsRef = (props, ref) => {
                 setTitle('Thêm sự kiện');
                 setMode(MODE.ADD);
             } else {
-                console.log("data:", data);
                 setTitle('Sửa sự kiện');
                 let newData = {
                     name: data.name,
                     location: data.location,
                     content: data.content,
                     date: [moment(data.start_time), moment(data.end_time)],
+                    start_time: data.start_time,
+                    end_time: data.end_time,
                     // start_time: data.date[0].format('YYYY-MM-DD HH:mm:00'),
                     // end_time: data.date[1].format('YYYY-MM-DD HH:mm:00'),
                     image: data.img,
@@ -83,7 +85,6 @@ const FormEventsRef = (props, ref) => {
                 })
                 break;
             case MODE.EDIT:
-                console.log(values);
                 UpdateEvent([values.eventId, formData])
                     .unwrap().then((res) => {
                         setVisible(false);
@@ -187,6 +188,7 @@ const FormEventsRef = (props, ref) => {
                                 placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                                 showTime
                                 allowClear
+                                // defaultPickerValue={}
                                 format={'DD/MM/YYYY HH:mm'}
                                 // disabledDate={(current) => {
                                 //     const startDate = moment(eventStartTime);
