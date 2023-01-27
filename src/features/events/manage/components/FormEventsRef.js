@@ -4,6 +4,7 @@ import React, { forwardRef, useImperativeHandle } from 'react'
 import QuillEditor from '../../../../components/QuillEditor';
 import { toast } from 'react-toastify';
 import { useAddEventMutation, useUpdateEventMutation } from '../../../../app/api/eventApiSlice';
+import moment from 'moment';
 
 
 
@@ -15,14 +16,14 @@ const { RangePicker } = DatePicker;
 
 const FormEventsRef = (props, ref) => {
 
+
     const [form] = Form.useForm();
-    const [antPics, setAntPics] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [typeOfEvent, setTypeOfLesson] = React.useState(1);
     const [title, setTitle] = React.useState('');
     const [mode, setMode] = React.useState(MODE.ADD);
-    const [appImg, setAppImg] = React.useState(null)
+    const [appImg, setAppImg] = React.useState(null);
     useImperativeHandle(ref, () => ({
         show: (caseForm, data) => {
             setVisible(true);
@@ -35,8 +36,11 @@ const FormEventsRef = (props, ref) => {
                     name: data.name,
                     location: data.location,
                     content: data.content,
-                    start_time: data.date[0].format('YYYY-MM-DD HH:mm:00'),
-                    end_time: data.date[1].format('YYYY-MM-DD HH:mm:00'),
+                    date: [moment(data.start_time), moment(data.end_time)],
+                    start_time: data.start_time,
+                    end_time: data.end_time,
+                    // start_time: data.date[0].format('YYYY-MM-DD HH:mm:00'),
+                    // end_time: data.date[1].format('YYYY-MM-DD HH:mm:00'),
                     image: data.img,
                     eventId: data.id,
                 }
@@ -48,10 +52,7 @@ const FormEventsRef = (props, ref) => {
             setVisible(false);
         }
     }))
-    const handleAnt = e => {
-        setAntPics(e.file.originFileObj);
 
-    };
     // const { eventStartTime, eventEndTime } = props.timeEvent;
     const uploadImage = async e => {
         const files = e.target.files[0];
@@ -84,7 +85,7 @@ const FormEventsRef = (props, ref) => {
                 })
                 break;
             case MODE.EDIT:
-                UpdateEvent({ ...formData, id: values.eventId })
+                UpdateEvent([values.eventId, formData])
                     .unwrap().then((res) => {
                         setVisible(false);
                         form.resetFields();
@@ -93,7 +94,6 @@ const FormEventsRef = (props, ref) => {
                     })
                     .catch((err) => {
                         setError(err.data)
-                        toast.error("Sửa không thành công.");
                     });
                 break;
             default:
@@ -137,7 +137,7 @@ const FormEventsRef = (props, ref) => {
                     layout="vertical"
                     encType='multipart/form-data'
                 >
-                    <Form.Item className="tw-hidden" name="EventId">
+                    <Form.Item className="tw-hidden" name="eventId">
                         <Input hidden />
                     </Form.Item>
                     <Form.Item
@@ -188,6 +188,7 @@ const FormEventsRef = (props, ref) => {
                                 placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                                 showTime
                                 allowClear
+                                // defaultPickerValue={}
                                 format={'DD/MM/YYYY HH:mm'}
                                 // disabledDate={(current) => {
                                 //     const startDate = moment(eventStartTime);

@@ -1,9 +1,10 @@
-import { Button, Table, Tooltip } from 'antd'
+import { Button, Space, Table, Tooltip } from 'antd'
 import React, { useEffect, useRef } from 'react'
 import ConfirmPopup from '../../../../components/Confirm/ConfirmPopup'
 import {
     PlusCircleOutlined,
     DeleteOutlined,
+    EditOutlined
 } from '@ant-design/icons';
 import {
     BsFillTrashFill
@@ -19,6 +20,7 @@ import moment from 'moment/moment';
 import { setFlexBreadcrumb } from '../../../../components/AppBreadcrumb/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
 import Spinner from '../../../../components/Spinner';
+import { timeFormat } from '../../../../utils/TimeFormat';
 
 const ManageEvent = () => {
     const modalEventRef = useRef();
@@ -91,6 +93,23 @@ const ManageEvent = () => {
             dataIndex: "action",
             width: "5%",
             render: (_, record) => (<div className="tw-flex tw-items-center tw-justify-end">
+                <Tooltip
+                    title="Sửa sự kiện"
+                    placement="top"
+                    color={'#FF6D28'}
+                >
+                    <Space
+                        size="middle"
+                        className="tw-border-none tw-bg-transparent hover:tw-bg-transparent dark:tw-text-white"
+                    >
+                        <Button
+                            className="tw-cursor-pointer tw-border-0 tw-bg-transparent tw-shadow-none hover:tw-bg-transparent dark:tw-text-white dark:hover:tw-text-hoverLink"
+                            onClick={() => modalEventRef.current.show('EDIT', record)}
+                        >
+                            <EditOutlined />
+                        </Button>
+                    </Space>
+                </Tooltip>
                 <ConfirmPopup
                     // key={record.id}
                     className="tw-m-0"
@@ -116,8 +135,7 @@ const ManageEvent = () => {
                 key: index,
                 stt: index + 1,
                 id: item.id,
-                date: moment(item.start_time).format('dddd, DD/MM/YYYY')
-                    .replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                date: `${timeFormat(item.start_time.split('  ')[0])}`,
                 time: `${item.start_time.slice(10, -3)} - ${item.end_time.slice(
                     10,
                     -3,
@@ -127,6 +145,8 @@ const ManageEvent = () => {
                 content: item.content,
                 location: item.location,
                 amount: item.event_users_count,
+                start_time: item.start_time,
+                end_time: item.end_time
             }
         })
     }

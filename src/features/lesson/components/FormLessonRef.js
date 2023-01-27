@@ -43,7 +43,6 @@ const FormLessonRef = (props, ref) => {
         });
         setMode(MODE.ADD);
       } else {
-        console.log();
         let newData = {
           teacher_email: data.teacher_email,
           classroomId: data.classroom_id,
